@@ -6,61 +6,92 @@
 	<dict>
 		<key>Pods-AFNetworking.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
 		<key>Pods-ASIHTTPRequest.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>13</integer>
 		</dict>
 		<key>Pods-CocoaAsyncSocket.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
 		<key>Pods-CocoaLumberjack.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
 		<key>Pods-FMDB.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
 		<key>Pods-JSONKit.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>6</integer>
 		</dict>
 		<key>Pods-MTStatusBarOverlay.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>7</integer>
 		</dict>
 		<key>Pods-Reachability.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>8</integer>
 		</dict>
+		<key>Pods-SSZipArchive.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
 		<key>Pods-SVProgressHUD.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>9</integer>
 		</dict>
 		<key>Pods-XMPPFramework.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>10</integer>
 		</dict>
 		<key>Pods-ZXingObjC.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>11</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>12</integer>
 		</dict>
@@ -73,6 +104,16 @@
 			<true/>
 		</dict>
 		<key>1BCAD488098C442CB060044E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1EDB51097C564C34B3E950BF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1F9017645CD443ECAAA5BA42</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,7 +133,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>4E14028E464D4B9A855CCC6F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>4FABB00E02E6485CA7665FAA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>533FA19DA1634B3BA1717AE7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,12 +163,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>5F7DEB85A7144BF0973128EF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6101E035E58C49CCA81C6317</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>6A6459B2274141E6B23DE63D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>6BDE2DEFCD1248888F535D0B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6FF9BDDB324C42CEB1CE3A65</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -142,6 +208,16 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>8F53AFD1A3064882BCEA3ADB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>96500D016AA84F239CE8C787</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>97089AD8903E4F90B1CCBCCC</key>
 		<dict>
 			<key>primary</key>
@@ -162,12 +238,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>C637FDE444E94B76B35FCDFC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D6D900986E004895909E9F0F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>DB326D3E84A147B986982BDE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>DBEC9459831847DB938090FD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DF47D97B846944EDBA276966</key>
 		<dict>
 			<key>primary</key>
 			<true/>

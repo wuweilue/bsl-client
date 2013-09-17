@@ -55,8 +55,8 @@ SwipeViewAlignment;
 
 @interface SwipeView : UIView
 
-@property (nonatomic, weak_delegate) IBOutlet id<SwipeViewDataSource> dataSource;
-@property (nonatomic, weak_delegate) IBOutlet id<SwipeViewDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id<SwipeViewDataSource> dataSource;
+@property (nonatomic, weak) IBOutlet id<SwipeViewDelegate> delegate;
 @property (nonatomic, readonly) NSInteger numberOfItems;
 @property (nonatomic, readonly) NSInteger numberOfPages;
 @property (nonatomic, readonly) CGSize itemSize;

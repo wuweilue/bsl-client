@@ -45,13 +45,13 @@
 	[xmppStream removeDelegate:self];
     [xmppRoster removeDelegate:self];
     [xmppMUC removeDelegate:self];
-
+    
     
     [xmppReconnect         deactivate];
     [xmppRoster            deactivate];
     [xmppvCardTempModule deactivate];
     [xmppMUC deactivate];
-
+    
 	[xmppStream disconnect];
     
     
@@ -132,11 +132,11 @@
         xmppReconnect = [[XMPPReconnect alloc] init];
         [xmppReconnect activate:xmppStream];
     }
-
+    
     xmppMUC =[[XMPPMUC alloc]initWithDispatchQueue:dispatch_get_current_queue()];
     [xmppMUC activate:xmppStream];
     [xmppMUC addDelegate:self delegateQueue:dispatch_get_main_queue()];
-
+    
     
     [self connect];
     [xmppReconnect setAutoReconnect:YES];
@@ -590,7 +590,7 @@
     else
         number=0;
     rectangleChat.noReadMsgNumber=[NSNumber numberWithInt:number];
-
+    
 }
 
 -(void)newRectangleMessage:(NSString*)receiverJid name:(NSString*)name content:(NSString*)content contentType:(RectangleChatContentType)contentType isGroup:(BOOL)isGroup{
@@ -632,7 +632,7 @@
     
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     NSManagedObjectContext* context=[appDelegate xmpp].managedObjectContext;
-
+    
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"GroupRoomUserEntity"];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"roomId = \"%@\" && jid=\"%@\"",roomId,memberId]];
@@ -640,7 +640,7 @@
     
     NSArray *fetchResult=[context executeFetchRequest:fetchRequest error:&error];
     if([fetchResult count]>0)return;
-
+    
     
     
     GroupRoomUserEntity *users  = (GroupRoomUserEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"GroupRoomUserEntity" inManagedObjectContext:context];
@@ -649,7 +649,7 @@
     [users setValue:sex forKey:@"sex"];
     [users setValue:status forKey:@"statue"];
     [users setValue:username forKey:@"username"];
-
+    
 }
 
 
@@ -676,7 +676,7 @@
     //消息类型
     [iq addAttributeWithName:@"type" stringValue:@"get"];
     NSString *userId = [[[self xmppStream] myJID] bare];
-//    u[serId =[userId stringByAppendingFormat:@"@snda-192-168-2-32"];
+    //    u[serId =[userId stringByAppendingFormat:@"@snda-192-168-2-32"];
     [iq addAttributeWithName:@"from" stringValue:userId];
     
     NSXMLElement *query = [NSXMLElement elementWithName:@"query"];
@@ -721,8 +721,8 @@
             //发送通知列表可以刷新了
             [[NSNotificationCenter defaultCenter] postNotificationName:@"STARTRREFRESHTABLEVIEW" object:nil];
         }else{
-
-            //remove by fanty 
+            
+            //remove by fanty
             //[SVProgressHUD showErrorWithStatus:@"没有好友" ];
             
         }
@@ -778,7 +778,7 @@
         
         
     }else{
-    
+        
     }
     return YES;
     
@@ -937,7 +937,7 @@
     NSUserDefaults * userDefaluts = [NSUserDefaults standardUserDefaults];
     
     NSString* version =  [userDefaluts objectForKey:@"XMPPDataVersion"];
-     NSString* loginUser = [userDefaluts objectForKey:@"LoginUser"];
+    NSString* loginUser = [userDefaluts objectForKey:@"LoginUser"];
     
     //oldLoginUser 用来判断数据切换的用户是否相同
     if (_persistentStoreCoordinator != nil && [oldLoginUser  isEqualToString:loginUser]) {
@@ -1018,7 +1018,7 @@
     
     
     NSXMLElement* element=[message elementForName:@"x"];
-    element=[element elementForName:@"invite"];    
+    element=[element elementForName:@"invite"];
     NSArray* attributes=[element attributes];
     for(id attribute in attributes){
         NSString* invoteFromeJid=[attribute stringValue];

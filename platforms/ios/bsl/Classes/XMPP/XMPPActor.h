@@ -1,42 +1,34 @@
 //
-//  XMPPActor.h
-//  Cube-iOS
+//  XMPPIMActor.h
+//  cube-ios
 //
-//  Created by Mr Right on 12-12-8.
+//  Created by 东 on 13-3-5.
 //
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
-#import"XMPPPubSub.h"
-#import "XMPPFramework.h"
-//#import "Reachability.h"
-#import "GCDAsyncSocket.h"
+
+#import "MessageEntity.h"
+#import "UserInfo.h"
+
 #import "XMPP.h"
+#import "XMPPRoster.h"
 #import "XMPPReconnect.h"
-#import "XMPPCapabilitiesCoreDataStorage.h"
 #import "XMPPRosterCoreDataStorage.h"
+#import "ChatDelegate.h"
+
 #import "XMPPvCardAvatarModule.h"
+#import "XMPPvCardTempModule.h"
 #import "XMPPvCardCoreDataStorage.h"
-#import "ConfigManager.h"
-#import "RosterTableViewController.h"
-#import "XMPPSearchModule.h"
 
-#import "DDLog.h"
-#import "DDTTYLogger.h"
+#import "RectangleChat.h"
 
-#import <CFNetwork/CFNetwork.h>
-#import<AudioToolbox/AudioToolbox.h>
-#import "GRAlertView.h"
+#import "XMPPRoom.h"
+#import "XMPPRoomCoreDataStorage.h"
 #import "XMPPMUC.h"
-#import "RoomChatViewController.h"
-#import"UIViewController+YKPopViewController.h"
 
-@class RosterTableViewController;
-@class ChatViewController;
-@class AppDatabase;
 
-@protocol XmppActorDelegate <NSObject>
+@protocol XMPPIMActorDelegate <NSObject>
 
 -(void)setupXmppSucces;
 -(void)setupUnsucces;
@@ -44,72 +36,92 @@
 
 @end
 
-@interface XMPPActor : NSObject <  XMPPRosterDelegate,UIAlertViewDelegate>
 
-
-{
+@interface XMPPIMActor : NSObject<XMPPStreamDelegate,UIAlertViewDelegate>{
+    id<ChatDelegate> charDelegate;
+    
     XMPPStream *xmppStream;
-	XMPPReconnect *xmppReconnect;
+    XMPPReconnect *xmppReconnect;
     XMPPRoster *xmppRoster;
-	XMPPRosterCoreDataStorage *xmppRosterStorage;
+    XMPPRosterCoreDataStorage *xmppRosterStorage;
+    XMPPvCardTempModule *xmppvCardTempModule;
+    
     XMPPvCardCoreDataStorage *xmppvCardStorage;
-	XMPPvCardTempModule *xmppvCardTempModule;
-	XMPPvCardAvatarModule *xmppvCardAvatarModule;
-	XMPPCapabilities *xmppCapabilities;
-	XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
-    XMPPSearchModule *xmppSearchModule;
+    
     XMPPMUC *xmppMUC;
+    
+    NSString *passWord;
+    BOOL isOpen;
+    BOOL isLoginOperation;
+    
     
     BOOL allowSelfSignedCertificates;
 	BOOL allowSSLHostNameMismatch;
 	
 	BOOL isXmppConnected;
     BOOL isRegister;
-
-    NSString *password;
-//    Reachability* hostReach;
     
+    
+    BOOL islogin;
+    NSString* loginUserStr;
+    
+    NSString* oldLoginUser;
+    
+    NSMutableArray*turnSockets;
 }
+@property (nonatomic,weak ) id<ChatDelegate> chatDelegate;
 
-
-
-@property (nonatomic,strong,readonly ) XMPPPubSub *pubSub;
-@property (nonatomic, strong, readonly) XMPPStream *xmppStream;
+@property (nonatomic,assign ) BOOL islogin;
+@property (nonatomic,strong ) NSString* loginUserStr;
+@property (nonatomic,readonly) XMPPStream* xmppStream;
 @property (nonatomic, strong, readonly) XMPPReconnect *xmppReconnect;
 @property (nonatomic, strong, readonly) XMPPRoster *xmppRoster;
 @property (nonatomic, strong, readonly) XMPPRosterCoreDataStorage *xmppRosterStorage;
-@property (nonatomic, strong, readwrite) XMPPvCardCoreDataStorage *xmppvCardStorage;
 @property (nonatomic, strong, readonly) XMPPvCardTempModule *xmppvCardTempModule;
-@property (nonatomic, strong, readonly) XMPPvCardAvatarModule *xmppvCardAvatarModule;
-@property (nonatomic, strong, readonly) XMPPCapabilities *xmppCapabilities;
-@property (nonatomic, strong, readonly) XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
-@property (nonatomic,strong,readonly)  XMPPSearchModule *xmppSearchModule;
+
+@property (nonatomic, strong, readonly) XMPPvCardCoreDataStorage *xmppvCardStorage;
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
 @property(nonatomic,strong,readonly) XMPPMUC *xmppMUC;
-@property (nonatomic) BOOL allowSelfSignedCertificates;
-@property (nonatomic) BOOL allowSSLHostNameMismatch;
-@property (nonatomic, strong) AppDatabase *database;
-@property (nonatomic, strong) NSString *password;
-@property (nonatomic,copy)void (^searchUserBlock)(NSArray*);
 
-//@property (nonatomic,strong) Reachability *internetReachable;
-@property (strong, nonatomic) RosterTableViewController *rosterTableViewController;
+@property(nonatomic,weak) id<XMPPIMActorDelegate> delegate;
 
-- (NSManagedObjectContext *)managedObjectContext_roster;
-- (NSManagedObjectContext *)managedObjectContext_capabilities;
+-(id)initWithDelegate:(id<XMPPIMActorDelegate>) delegate;
 
-- (BOOL)connect;
-- (void)disconnect;
-- (void)setupXmppStream;
-- (void)teardownStream;
+- (void)saveContext;
+- (NSURL *)applicationDocumentsDirectory;
 
-- (void)goOnline;
-- (void)goOffline;
--(void)userSearch:(NSString*)value;
--(void)askForFiled;
--(void)showTheNewChatMsg:(NSString*)Msg;
+
+
+-(BOOL)connect;
+
+-(void)disConnect;
+
 -(BOOL)isConnected;
 
-@property(nonatomic,assign) id<XmppActorDelegate> delegate;
+-(void)setupXmppStream;
 
--(id)initWithDelegate:(id<XmppActorDelegate>) delegate;
+-(void)goOnline;
+
+-(void)goOffLine;
+
+-(void)addFrindFromUsers:(NSString*)jid;
+
+
+-(void)findFriendsList;
+
+-(RectangleChat*)fetchRectangleChatFromJid:(NSString*)userJid isGroup:(BOOL)isGroup;
+
+-(void)newRectangleMessageNumberAdd:(NSString*)receiverJid addOrResetZero:(BOOL)addOrResetZero isGroup:(BOOL)isGroup;
+
+-(void)newRectangleMessage:(NSString*)receiverJid name:(NSString*)name content:(NSString*)content contentType:(RectangleChatContentType)contentType isGroup:(BOOL)isGroup;
+
+-(void)addGroupRoomMember:(NSString*)roomId memberId:(NSString*)memberId sex:(NSString*)sex status:(NSString*)status username:(NSString*)username;
+
+-(UserInfo*)fetchUserFromJid:(NSString*)userJid;
+
+-(void)newvCard;
+
 @end

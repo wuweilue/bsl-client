@@ -21,6 +21,7 @@ PODS:
   - JSONKit (1.5pre)
   - MTStatusBarOverlay (0.9.1)
   - Reachability (3.0.0)
+  - SSZipArchive (0.3.1)
   - SVProgressHUD (0.9)
   - XMPPFramework (3.6.1):
     - XMPPFramework/Authentication
@@ -160,6 +161,7 @@ DEPENDENCIES:
   - JSONKit (~> 1.5pre)
   - MTStatusBarOverlay (~> 0.9.1)
   - Reachability (~> 3.0.0)
+  - SSZipArchive (~> 0.3.1)
   - SVProgressHUD (~> 0.9)
   - XMPPFramework (~> 3.6.1)
 
@@ -172,6 +174,7 @@ SPEC CHECKSUMS:
   JSONKit: 409734ab3407fce90ef7eaa95d7168f38d9a6601
   MTStatusBarOverlay: 2cee705996e4e307191d423bf49e583b9b2c14ac
   Reachability: 500bd76bf6cd8ff2c6fb715fc5f44ef6e4c024f2
+  SSZipArchive: 47d0589a15452311749a4eeecb97e12800d127de
   SVProgressHUD: 03d4845ec8e64591726428a08236c6a5489d45f8
   XMPPFramework: c2acbcf47ddf53238aac8252a6b7d9a50b82d0d8
 

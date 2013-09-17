@@ -103,7 +103,8 @@
 }
 
 -(NSString* )getJsonFromDictioary:(NSMutableDictionary*)moduleCategoryDictionary  showHide:(Boolean)hide{
-  NSString* jsonString =@"";
+  NSString* jsonString=@"";
+    
     @autoreleasepool {
         //根据category来循环写入json数据
         NSMutableDictionary*  Json = [[NSMutableDictionary alloc]init];
@@ -121,9 +122,10 @@
             //组合 cateGory 数据
             [Json setObject:mudoleArray forKey:category];
         }
-        jsonString =Json.JSONString;
+        jsonString=Json.JSONString ;
     }
-   
+  
+
     return  jsonString;
 }
 

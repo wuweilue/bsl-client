@@ -497,7 +497,7 @@
     }else{
         [self.backContentView addSubview:_itemsTableContainer];
         self.itemsTableContainer.tableHeaderView = nil;  //不知为啥,要先设成nil再设view才可以成功显示
-     }
+            }
     [self.view addSubview:_backContentView];
     
 }
@@ -622,12 +622,13 @@
         
         [self.backContentView addSubview:_itemsTableContainer];
         self.itemsTableContainer.tableHeaderView = nil;  //不知为啥,要先设成nil再设view才可以成功显示
+       
         [_itemsContainer removeFromSuperview];
 		
     } else {
         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.backContentView cache:YES];
         [self.backContentView addSubview:_itemsContainer];
-        [_itemsTableContainer removeFromSuperview];
+         [_itemsTableContainer removeFromSuperview];
 		// update the reflection image for the new view
     }
 	[UIView commitAnimations];
@@ -1001,7 +1002,7 @@
         }
     }
     if(desktopIconEnable){
-       }else{
+     }else{
         [self.itemsTableContainer reloadData];
     }
     if(dicSource != nil && [dicSource count] > 0){
