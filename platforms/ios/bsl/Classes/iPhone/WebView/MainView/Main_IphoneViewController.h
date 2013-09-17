@@ -12,7 +12,7 @@
 @class CubeWebViewController;
 
 @interface Main_IphoneViewController : UIViewController{
-     __block CubeWebViewController *aCubeWebViewController;
+    CubeWebViewController *aCubeWebViewController;
 }
 
 @property (strong, nonatomic) NSString *selectedModule;

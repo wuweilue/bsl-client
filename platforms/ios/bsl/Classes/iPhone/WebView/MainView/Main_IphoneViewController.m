@@ -327,7 +327,7 @@
     frame.size.width =CGRectGetHeight(self.view.frame)/2+2;
     frame.size.height= CGRectGetWidth(self.view.frame);
     
-    __weak CubeWebViewController *bCubeWebViewController  = [[CubeWebViewController alloc] init];
+    CubeWebViewController *bCubeWebViewController  = [[CubeWebViewController alloc] init];
     //记录html5模块点击begin
     [OperateLog recordOperateLog:module];
     //end
