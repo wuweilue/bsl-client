@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/cubesec/!svn/ver/2959/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0115/CoreDataStorage
+END
+XMPPCapsCoreDataStorageObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/cubesec/!svn/ver/2956/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0115/CoreDataStorage/XMPPCapsCoreDataStorageObject.h
+END
+XMPPCapsResourceCoreDataStorageObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/cubesec/!svn/ver/2956/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0115/CoreDataStorage/XMPPCapsResourceCoreDataStorageObject.h
+END
+XMPPCapabilitiesCoreDataStorage.h
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/cubesec/!svn/ver/2956/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0115/CoreDataStorage/XMPPCapabilitiesCoreDataStorage.h
+END

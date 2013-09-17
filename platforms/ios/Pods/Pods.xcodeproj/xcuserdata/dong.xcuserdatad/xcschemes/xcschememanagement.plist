@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>Pods-ASIHTTPRequest.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
+		</dict>
 		<key>Pods-CocoaAsyncSocket.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -62,6 +67,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>191C61F99F3447C9A3CE130D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1BCAD488098C442CB060044E</key>
 		<dict>
 			<key>primary</key>
@@ -82,12 +92,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>4FABB00E02E6485CA7665FAA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>568075C1231C4A768359A523</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>5C9DABEC228A41229C4A958B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5ED49A5F24014065917903DC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -102,12 +122,52 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>736BD48B360349F1815181F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>773AD31267EE4D62B5C4F7DF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7B89BA2E1D874301889EE28C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>871382CE662C4D818A502177</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>97089AD8903E4F90B1CCBCCC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B25197D9676C44AEA600AAA4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B78E6337FF0A4D8B92D334DC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>B9E7EA73879941D6B71260AC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D6D900986E004895909E9F0F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DBEC9459831847DB938090FD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
