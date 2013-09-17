@@ -49,7 +49,7 @@
     XMPPvCardCoreDataStorage *xmppvCardStorage;
     
     XMPPMUC *xmppMUC;
-
+    
     NSString *passWord;
     BOOL isOpen;
     BOOL isLoginOperation;

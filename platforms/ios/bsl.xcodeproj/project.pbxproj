@@ -46,7 +46,6 @@
 		F54D82A517E8BFBB0067A023 /* CubeDownloadCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FA817E8BFB90067A023 /* CubeDownloadCommandHandler.m */; };
 		F54D82A617E8BFBB0067A023 /* CubeMessageCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAA17E8BFB90067A023 /* CubeMessageCommandHandler.m */; };
 		F54D82A717E8BFBB0067A023 /* CubeResetHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAC17E8BFB90067A023 /* CubeResetHandler.m */; };
-		F54D82A917E8BFBB0067A023 /* Config-foss.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAE17E8BFB90067A023 /* Config-foss.m */; };
 		F54D82AD17E8BFBB0067A023 /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FB317E8BFB90067A023 /* cube.xcdatamodeld */; };
 		F54D82AE17E8BFBB0067A023 /* CubeApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBC17E8BFBA0067A023 /* CubeApplication.m */; };
 		F54D82AF17E8BFBB0067A023 /* CubeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBE17E8BFBA0067A023 /* CubeModule.m */; };
@@ -191,8 +190,6 @@
 		F54D833C17E8BFBB0067A023 /* UIScrollView+SpiralPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80BC17E8BFBA0067A023 /* UIScrollView+SpiralPullToRefresh.m */; };
 		F54D833D17E8BFBB0067A023 /* XMPPFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80BE17E8BFBA0067A023 /* XMPPFriendsViewController.m */; };
 		F54D833E17E8BFBB0067A023 /* XMPPFriendsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D80BF17E8BFBA0067A023 /* XMPPFriendsViewController.xib */; };
-		F54D833F17E8BFBB0067A023 /* XMPPFriendsViewController_bak.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80C117E8BFBA0067A023 /* XMPPFriendsViewController_bak.m */; };
-		F54D834017E8BFBB0067A023 /* XMPPFriendsViewController_bak.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D80C217E8BFBA0067A023 /* XMPPFriendsViewController_bak.xib */; };
 		F54D834117E8BFBB0067A023 /* XMPPFriendsViewController_iphone_retina.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D80C317E8BFBA0067A023 /* XMPPFriendsViewController_iphone_retina.xib */; };
 		F54D834217E8BFBB0067A023 /* XMPPShowImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80C517E8BFBA0067A023 /* XMPPShowImageViewController.m */; };
 		F54D834317E8BFBB0067A023 /* XMPPShowImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D80C617E8BFBA0067A023 /* XMPPShowImageViewController.xib */; };
@@ -287,9 +284,6 @@
 		F54D839D17E8BFBB0067A023 /* UIColor+expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D817917E8BFBB0067A023 /* UIColor+expanded.m */; };
 		F54D839E17E8BFBB0067A023 /* UIView+CG.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D817B17E8BFBB0067A023 /* UIView+CG.m */; };
 		F54D839F17E8BFBB0067A023 /* AFAppDotNetAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D817E17E8BFBB0067A023 /* AFAppDotNetAPIClient.m */; };
-		F54D83A017E8BFBB0067A023 /* AFAppDotNetAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D818117E8BFBB0067A023 /* AFAppDotNetAPIClient.m */; };
-		F54D83A117E8BFBB0067A023 /* libAFNet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54D818B17E8BFBB0067A023 /* libAFNet.a */; };
-		F54D83A217E8BFBB0067A023 /* libAFNet.a.zip in Resources */ = {isa = PBXBuildFile; fileRef = F54D818C17E8BFBB0067A023 /* libAFNet.a.zip */; };
 		F54D83A317E8BFBB0067A023 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D819717E8BFBB0067A023 /* Base64.m */; };
 		F54D83A417E8BFBB0067A023 /* GMGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D819E17E8BFBB0067A023 /* GMGridView.m */; };
 		F54D83A517E8BFBB0067A023 /* GMGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81A117E8BFBB0067A023 /* GMGridViewCell.m */; };
@@ -320,11 +314,11 @@
 		F54D83C617E8BFBC0067A023 /* RectangleChat.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D828D17E8BFBB0067A023 /* RectangleChat.m */; };
 		F54D83C717E8BFBC0067A023 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D828F17E8BFBB0067A023 /* UserInfo.m */; };
 		F54D83C817E8BFBC0067A023 /* XMPP_Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F54D829017E8BFBB0067A023 /* XMPP_Model.xcdatamodeld */; };
-		F54D83C917E8BFBC0067A023 /* XMPPActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829717E8BFBB0067A023 /* XMPPActor.m */; };
 		F54D83CA17E8BFBC0067A023 /* XMPPIM_Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = F54D829817E8BFBB0067A023 /* XMPPIM_Model.xcdatamodel */; };
 		F54D83CB17E8BFBC0067A023 /* XMPPIMActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829A17E8BFBB0067A023 /* XMPPIMActor.m */; };
 		F54D83CC17E8BFBC0067A023 /* XMPPPustActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829C17E8BFBB0067A023 /* XMPPPustActor.m */; };
 		F54D83CD17E8BFBC0067A023 /* XMPPSqlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829E17E8BFBB0067A023 /* XMPPSqlManager.m */; };
+		F54D83CE17E8C5840067A023 /* Config-foss-test.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAD17E8BFB90067A023 /* Config-foss-test.m */; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 /* End PBXBuildFile section */
 
@@ -626,9 +620,6 @@
 		F54D80BD17E8BFBA0067A023 /* XMPPFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPFriendsViewController.h; sourceTree = "<group>"; };
 		F54D80BE17E8BFBA0067A023 /* XMPPFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPFriendsViewController.m; sourceTree = "<group>"; };
 		F54D80BF17E8BFBA0067A023 /* XMPPFriendsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XMPPFriendsViewController.xib; sourceTree = "<group>"; };
-		F54D80C017E8BFBA0067A023 /* XMPPFriendsViewController_bak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPFriendsViewController_bak.h; sourceTree = "<group>"; };
-		F54D80C117E8BFBA0067A023 /* XMPPFriendsViewController_bak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPFriendsViewController_bak.m; sourceTree = "<group>"; };
-		F54D80C217E8BFBA0067A023 /* XMPPFriendsViewController_bak.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XMPPFriendsViewController_bak.xib; sourceTree = "<group>"; };
 		F54D80C317E8BFBA0067A023 /* XMPPFriendsViewController_iphone_retina.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XMPPFriendsViewController_iphone_retina.xib; sourceTree = "<group>"; };
 		F54D80C417E8BFBA0067A023 /* XMPPShowImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPShowImageViewController.h; sourceTree = "<group>"; };
 		F54D80C517E8BFBA0067A023 /* XMPPShowImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPShowImageViewController.m; sourceTree = "<group>"; };
@@ -786,20 +777,6 @@
 		F54D817B17E8BFBB0067A023 /* UIView+CG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CG.m"; sourceTree = "<group>"; };
 		F54D817D17E8BFBB0067A023 /* AFAppDotNetAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFAppDotNetAPIClient.h; sourceTree = "<group>"; };
 		F54D817E17E8BFBB0067A023 /* AFAppDotNetAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFAppDotNetAPIClient.m; sourceTree = "<group>"; };
-		F54D818017E8BFBB0067A023 /* AFAppDotNetAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFAppDotNetAPIClient.h; sourceTree = "<group>"; };
-		F54D818117E8BFBB0067A023 /* AFAppDotNetAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFAppDotNetAPIClient.m; sourceTree = "<group>"; };
-		F54D818217E8BFBB0067A023 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
-		F54D818317E8BFBB0067A023 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
-		F54D818417E8BFBB0067A023 /* AFImageRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFImageRequestOperation.h; sourceTree = "<group>"; };
-		F54D818517E8BFBB0067A023 /* AFJSONRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFJSONRequestOperation.h; sourceTree = "<group>"; };
-		F54D818617E8BFBB0067A023 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
-		F54D818717E8BFBB0067A023 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
-		F54D818817E8BFBB0067A023 /* AFPropertyListRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPropertyListRequestOperation.h; sourceTree = "<group>"; };
-		F54D818917E8BFBB0067A023 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
-		F54D818A17E8BFBB0067A023 /* AFXMLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFXMLRequestOperation.h; sourceTree = "<group>"; };
-		F54D818B17E8BFBB0067A023 /* libAFNet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAFNet.a; sourceTree = "<group>"; };
-		F54D818C17E8BFBB0067A023 /* libAFNet.a.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = libAFNet.a.zip; sourceTree = "<group>"; };
-		F54D818D17E8BFBB0067A023 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		F54D819617E8BFBB0067A023 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
 		F54D819717E8BFBB0067A023 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		F54D819817E8BFBB0067A023 /* Base64Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Defines.h; sourceTree = "<group>"; };
@@ -867,8 +844,6 @@
 		F54D829317E8BFBB0067A023 /* XMPP_Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XMPP_Model.xcdatamodel; sourceTree = "<group>"; };
 		F54D829417E8BFBB0067A023 /* XMPP_Model1308.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XMPP_Model1308.xcdatamodel; sourceTree = "<group>"; };
 		F54D829517E8BFBB0067A023 /* XMPP_Model1309.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XMPP_Model1309.xcdatamodel; sourceTree = "<group>"; };
-		F54D829617E8BFBB0067A023 /* XMPPActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPActor.h; sourceTree = "<group>"; };
-		F54D829717E8BFBB0067A023 /* XMPPActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPActor.m; sourceTree = "<group>"; };
 		F54D829817E8BFBB0067A023 /* XMPPIM_Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XMPPIM_Model.xcdatamodel; sourceTree = "<group>"; };
 		F54D829917E8BFBB0067A023 /* XMPPIMActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPIMActor.h; sourceTree = "<group>"; };
 		F54D829A17E8BFBB0067A023 /* XMPPIMActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPIMActor.m; sourceTree = "<group>"; };
@@ -904,7 +879,6 @@
 				30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */,
 				5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */,
 				D5CB34F865E944C1B7C14CA1 /* libPods.a in Frameworks */,
-				F54D83A117E8BFBB0067A023 /* libAFNet.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1438,9 +1412,6 @@
 				F54D80BD17E8BFBA0067A023 /* XMPPFriendsViewController.h */,
 				F54D80BE17E8BFBA0067A023 /* XMPPFriendsViewController.m */,
 				F54D80BF17E8BFBA0067A023 /* XMPPFriendsViewController.xib */,
-				F54D80C017E8BFBA0067A023 /* XMPPFriendsViewController_bak.h */,
-				F54D80C117E8BFBA0067A023 /* XMPPFriendsViewController_bak.m */,
-				F54D80C217E8BFBA0067A023 /* XMPPFriendsViewController_bak.xib */,
 				F54D80C317E8BFBA0067A023 /* XMPPFriendsViewController_iphone_retina.xib */,
 				F54D80C417E8BFBA0067A023 /* XMPPShowImageViewController.h */,
 				F54D80C517E8BFBA0067A023 /* XMPPShowImageViewController.m */,
@@ -2099,7 +2070,6 @@
 			children = (
 				F54D817D17E8BFBB0067A023 /* AFAppDotNetAPIClient.h */,
 				F54D817E17E8BFBB0067A023 /* AFAppDotNetAPIClient.m */,
-				F54D817F17E8BFBB0067A023 /* AFNetworking */,
 				F54D818E17E8BFBB0067A023 /* AFNetworking_class */,
 				F54D818F17E8BFBB0067A023 /* ASIHTTPRequest */,
 				F54D819417E8BFBB0067A023 /* AsyncSocket */,
@@ -2114,27 +2084,6 @@
 				F54D81CD17E8BFBB0067A023 /* ViewDeck */,
 			);
 			path = Vendor;
-			sourceTree = "<group>";
-		};
-		F54D817F17E8BFBB0067A023 /* AFNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				F54D818017E8BFBB0067A023 /* AFAppDotNetAPIClient.h */,
-				F54D818117E8BFBB0067A023 /* AFAppDotNetAPIClient.m */,
-				F54D818217E8BFBB0067A023 /* AFHTTPClient.h */,
-				F54D818317E8BFBB0067A023 /* AFHTTPRequestOperation.h */,
-				F54D818417E8BFBB0067A023 /* AFImageRequestOperation.h */,
-				F54D818517E8BFBB0067A023 /* AFJSONRequestOperation.h */,
-				F54D818617E8BFBB0067A023 /* AFNetworkActivityIndicatorManager.h */,
-				F54D818717E8BFBB0067A023 /* AFNetworking.h */,
-				F54D818817E8BFBB0067A023 /* AFPropertyListRequestOperation.h */,
-				F54D818917E8BFBB0067A023 /* AFURLConnectionOperation.h */,
-				F54D818A17E8BFBB0067A023 /* AFXMLRequestOperation.h */,
-				F54D818B17E8BFBB0067A023 /* libAFNet.a */,
-				F54D818C17E8BFBB0067A023 /* libAFNet.a.zip */,
-				F54D818D17E8BFBB0067A023 /* UIImageView+AFNetworking.h */,
-			);
-			path = AFNetworking;
 			sourceTree = "<group>";
 		};
 		F54D818E17E8BFBB0067A023 /* AFNetworking_class */ = {
@@ -2327,8 +2276,6 @@
 				F54D828E17E8BFBB0067A023 /* UserInfo.h */,
 				F54D828F17E8BFBB0067A023 /* UserInfo.m */,
 				F54D829017E8BFBB0067A023 /* XMPP_Model.xcdatamodeld */,
-				F54D829617E8BFBB0067A023 /* XMPPActor.h */,
-				F54D829717E8BFBB0067A023 /* XMPPActor.m */,
 				F54D829817E8BFBB0067A023 /* XMPPIM_Model.xcdatamodel */,
 				F54D829917E8BFBB0067A023 /* XMPPIMActor.h */,
 				F54D829A17E8BFBB0067A023 /* XMPPIMActor.m */,
@@ -2507,7 +2454,6 @@
 				F54D833117E8BFBB0067A023 /* VOIPSenderVoiceNodeBkgHL@2x.png in Resources */,
 				F54D833A17E8BFBB0067A023 /* GroupManagerControllerViewController.xib in Resources */,
 				F54D833E17E8BFBB0067A023 /* XMPPFriendsViewController.xib in Resources */,
-				F54D834017E8BFBB0067A023 /* XMPPFriendsViewController_bak.xib in Resources */,
 				F54D834117E8BFBB0067A023 /* XMPPFriendsViewController_iphone_retina.xib in Resources */,
 				F54D834317E8BFBB0067A023 /* XMPPShowImageViewController.xib in Resources */,
 				F54D834517E8BFBB0067A023 /* XMPPTalkViewController_iphone.xib in Resources */,
@@ -2540,7 +2486,6 @@
 				F54D838717E8BFBB0067A023 /* MainNewWindow.xib in Resources */,
 				F54D838917E8BFBB0067A023 /* MainViewController.xib in Resources */,
 				F54D838A17E8BFBB0067A023 /* MainWindow.xib in Resources */,
-				F54D83A217E8BFBB0067A023 /* libAFNet.a.zip in Resources */,
 				F54D83B217E8BFBC0067A023 /* MoreIconButton.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2608,7 +2553,6 @@
 				F54D82A517E8BFBB0067A023 /* CubeDownloadCommandHandler.m in Sources */,
 				F54D82A617E8BFBB0067A023 /* CubeMessageCommandHandler.m in Sources */,
 				F54D82A717E8BFBB0067A023 /* CubeResetHandler.m in Sources */,
-				F54D82A917E8BFBB0067A023 /* Config-foss.m in Sources */,
 				F54D82AD17E8BFBB0067A023 /* cube.xcdatamodeld in Sources */,
 				F54D82AE17E8BFBB0067A023 /* CubeApplication.m in Sources */,
 				F54D82AF17E8BFBB0067A023 /* CubeModule.m in Sources */,
@@ -2680,7 +2624,6 @@
 				F54D833B17E8BFBB0067A023 /* NSMutableArray+Additions.m in Sources */,
 				F54D833C17E8BFBB0067A023 /* UIScrollView+SpiralPullToRefresh.m in Sources */,
 				F54D833D17E8BFBB0067A023 /* XMPPFriendsViewController.m in Sources */,
-				F54D833F17E8BFBB0067A023 /* XMPPFriendsViewController_bak.m in Sources */,
 				F54D834217E8BFBB0067A023 /* XMPPShowImageViewController.m in Sources */,
 				F54D834417E8BFBB0067A023 /* XMPPTalkViewController.m in Sources */,
 				F54D834617E8BFBB0067A023 /* ChatRoomMessage.m in Sources */,
@@ -2743,7 +2686,6 @@
 				F54D839D17E8BFBB0067A023 /* UIColor+expanded.m in Sources */,
 				F54D839E17E8BFBB0067A023 /* UIView+CG.m in Sources */,
 				F54D839F17E8BFBB0067A023 /* AFAppDotNetAPIClient.m in Sources */,
-				F54D83A017E8BFBB0067A023 /* AFAppDotNetAPIClient.m in Sources */,
 				F54D83A317E8BFBB0067A023 /* Base64.m in Sources */,
 				F54D83A417E8BFBB0067A023 /* GMGridView.m in Sources */,
 				F54D83A517E8BFBB0067A023 /* GMGridViewCell.m in Sources */,
@@ -2773,11 +2715,11 @@
 				F54D83C617E8BFBC0067A023 /* RectangleChat.m in Sources */,
 				F54D83C717E8BFBC0067A023 /* UserInfo.m in Sources */,
 				F54D83C817E8BFBC0067A023 /* XMPP_Model.xcdatamodeld in Sources */,
-				F54D83C917E8BFBC0067A023 /* XMPPActor.m in Sources */,
 				F54D83CA17E8BFBC0067A023 /* XMPPIM_Model.xcdatamodel in Sources */,
 				F54D83CB17E8BFBC0067A023 /* XMPPIMActor.m in Sources */,
 				F54D83CC17E8BFBC0067A023 /* XMPPPustActor.m in Sources */,
 				F54D83CD17E8BFBC0067A023 /* XMPPSqlManager.m in Sources */,
+				F54D83CE17E8C5840067A023 /* Config-foss-test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
