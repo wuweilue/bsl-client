@@ -44,6 +44,7 @@
 		5AA0E66F1729F460000DC89A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA0E66E1729F460000DC89A /* ImageIO.framework */; };
 		5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
+		D07B8A7A17E5D0B300AFA518 /* BSLModuleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D07B8A7917E5D0B300AFA518 /* BSLModuleManager.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		D5CB34F865E944C1B7C14CA1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C023708B9AC24DB48757A8FC /* libPods.a */; };
 		F54BB5C617E2B13E00E1EFC4 /* BSLModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F54BB5C517E2B13E00E1EFC4 /* BSLModule.m */; };
@@ -113,6 +114,8 @@
 		852A7A3106EE4B9F83CDB03D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* bsl-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "bsl-Info.plist"; path = "../bsl-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		C023708B9AC24DB48757A8FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D07B8A7817E5D0B300AFA518 /* BSLModuleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLModuleManager.h; sourceTree = "<group>"; };
+		D07B8A7917E5D0B300AFA518 /* BSLModuleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLModuleManager.m; sourceTree = "<group>"; };
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		F54BB5C417E2B13E00E1EFC4 /* BSLModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLModule.h; sourceTree = "<group>"; };
 		F54BB5C517E2B13E00E1EFC4 /* BSLModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLModule.m; sourceTree = "<group>"; };
@@ -318,6 +321,8 @@
 			children = (
 				F54BB5C417E2B13E00E1EFC4 /* BSLModule.h */,
 				F54BB5C517E2B13E00E1EFC4 /* BSLModule.m */,
+				D07B8A7817E5D0B300AFA518 /* BSLModuleManager.h */,
+				D07B8A7917E5D0B300AFA518 /* BSLModuleManager.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -476,6 +481,7 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				F54BB5C617E2B13E00E1EFC4 /* BSLModule.m in Sources */,
+				D07B8A7A17E5D0B300AFA518 /* BSLModuleManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
