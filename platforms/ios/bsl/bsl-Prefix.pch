@@ -17,10 +17,33 @@
  under the License.
  */
 //
-// Prefix header for all source files of the 'bsl' target in the 'bsl' project
+// Prefix header for all source files of the 'Cube-iOS' target in the 'Cube-iOS' project
 //
 
 #ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+
+#import"ConfigManager.h"
+#import"AppDelegate.h"
+
+#import "Config.h"
+#define ShareAppDelegate (AppDelegate*)[[UIApplication sharedApplication] delegate]
+
+//---------------Iphone5 适配------------------------------------
+#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+//---------------动态获取设备高度------------------------------------
+#define IPHONE_HEIGHT [UIScreen mainScreen].bounds.size.height
+
+#define currentDeviceIsIphone (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone)
+#define KNOTIFICATION_DETIALPAGE_DELETESUCCESS @"DETIALPAGE_DELETESUCCESS"
+#define KNOTIFICATION_DETIALPAGE_DELETEFAILED @"DETIALPAGE_DELETEFAILED"
+#define KNOTIFICATION_DETIALPAGE_INSTALLSUCCESS @"DETIALPAGE_INSTALLSUCCESS"
+#define KNOTIFICATION_DETIALPAGE_INSTALLFAILED @"DETIALPAGE_INSTALLFAILED"
+#define KNOTIFICATION_DETIALPAGE_SYNSUCCESS @"DETIALPAGE_SYNSUCCESS"
+#define KNOTIFICATION_DETIALPAGE_SYNFAILED @"DETIALPAGE_SYNFAILED"
+
+#define kAlert(_S_)     [[[UIAlertView alloc] initWithTitle:@"提示" message:_S_ delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil] show]
+
 #endif

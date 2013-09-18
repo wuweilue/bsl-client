@@ -6,9 +6,9 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
-
+ 
  http://www.apache.org/licenses/LICENSE-2.0
-
+ 
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,17 +18,34 @@
  */
 //
 //  main.m
-//  bsl
+//  cube-ios
 //
 //  Created by ___FULLUSERNAME___ on ___DATE___.
 //  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "objc/runtime.h"
+#import "objc/message.h"
+
+
+void swizzle(Class c, SEL old, SEL new)
+{
+    Method oldMethod = class_getInstanceMethod(c, old);
+    Method newMethod = class_getInstanceMethod(c, new);
+    
+    if (class_addMethod(c, old, method_getImplementation(newMethod), method_getTypeEncoding(newMethod))) {
+        class_replaceMethod(c, new, method_getImplementation(oldMethod), method_getTypeEncoding(oldMethod));
+    }else {
+        method_exchangeImplementations(oldMethod, newMethod);
+    }
+}
+//
 
 int main(int argc, char* argv[])
 {
     @autoreleasepool {
+        swizzleAllUIViewController();
         int retVal = UIApplicationMain(argc, argv, nil, @"AppDelegate");
         return retVal;
     }

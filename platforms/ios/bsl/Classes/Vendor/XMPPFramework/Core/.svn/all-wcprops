@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core
+END
+XMPPMessage.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPMessage.h
+END
+XMPPPresence.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPPresence.h
+END
+XMPPModule.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPModule.h
+END
+XMPPJID.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPJID.h
+END
+XMPPLogging.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPLogging.h
+END
+XMPPElement.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPElement.h
+END
+XMPPIQ.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPIQ.h
+END
+XMPPStream.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPStream.h
+END
+XMPPInternal.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPInternal.h
+END
+XMPPParser.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPParser.h
+END
+XMPPFramework.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPPFramework.h
+END
+XMPP.h
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/cubesec/!svn/ver/2950/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Core/XMPP.h
+END

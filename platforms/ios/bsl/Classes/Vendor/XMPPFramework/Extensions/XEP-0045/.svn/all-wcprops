@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/cubesec/!svn/ver/3031/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045
+END
+XMPPMUC.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/cubesec/!svn/ver/2954/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045/XMPPMUC.h
+END
+XMPPMessage+XEP0045.h
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/cubesec/!svn/ver/2954/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045/XMPPMessage+XEP0045.h
+END
+XMPPRoomPrivate.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/cubesec/!svn/ver/2954/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045/XMPPRoomPrivate.h
+END
+XMPPRoomOccupant.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/cubesec/!svn/ver/2954/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045/XMPPRoomOccupant.h
+END
+XMPPRoom.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/cubesec/!svn/ver/2954/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045/XMPPRoom.h
+END
+XMPPRoomMessage.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/cubesec/!svn/ver/2954/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045/XMPPRoomMessage.h
+END
