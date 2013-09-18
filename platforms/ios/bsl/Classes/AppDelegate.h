@@ -19,7 +19,7 @@
 
 //
 //  AppDelegate.h
-//  bsl
+//  cube-ios
 //
 //  Created by ___FULLUSERNAME___ on ___DATE___.
 //  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
@@ -27,16 +27,48 @@
 
 #import <UIKit/UIKit.h>
 
-#import <Cordova/CDVViewController.h>
+#import "AnimateNavigationController.h"
 
-@interface AppDelegate : NSObject <UIApplicationDelegate>{}
+#import <Cordova/CDVViewController.h>
+#import "XMPPIMActor.h"
+
+#import "UpdateChecker.h"
+
+#import "RootViewController.h"
+#import "DownQueueActor.h"
+
+@class DDMenuController;
+@class XMPPIMActor;
+@class XMPPPustActor;
+
+
+
+@interface AppDelegate : NSObject <UIApplicationDelegate,XMPPIMActorDelegate,UIAlertViewDelegate>{
+   
+}
 
 // invoke string is passed to your app on launch, this is only valid if you
-// edit bsl-Info.plist to add a protocol
+// edit cube-ios-Info.plist to add a protocol
 // a simple tutorial can be found here :
 // http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
 
 @property (nonatomic, strong) IBOutlet UIWindow* window;
+@property(nonatomic, strong) UIViewController* mainViewController;
 @property (nonatomic, strong) IBOutlet CDVViewController* viewController;
+//@property (retain, nonatomic) IBOutlet AnimateNavigationController *navControl;
 
+//@property (nonatomic, strong) DDMenuController* ddmenuController;
+
+@property (nonatomic,strong)XMPPPustActor *xmppPustActor;
+@property (nonatomic,strong)XMPPIMActor *xmpp;
+@property (nonatomic,assign) bool isBackLunch;
+
+@property (nonatomic,strong)DownQueueActor *downQueueActor;
+//记录各个模块消息收到的时间
+@property (nonatomic,strong) NSMutableDictionary *moduleReceiveMsg;
+
+-(void)didLogin;
+-(void)showLoginView;
+-(void)showExit;
+-(void)ativatePushSound;
 @end

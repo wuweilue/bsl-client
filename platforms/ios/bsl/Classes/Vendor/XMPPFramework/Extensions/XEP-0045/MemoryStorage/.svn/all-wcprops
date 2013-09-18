@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/cubesec/!svn/ver/2954/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045/MemoryStorage
+END
+XMPPRoomMessageMemoryStorageObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/cubesec/!svn/ver/2954/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045/MemoryStorage/XMPPRoomMessageMemoryStorageObject.h
+END
+XMPPRoomMemoryStorage.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/cubesec/!svn/ver/2954/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045/MemoryStorage/XMPPRoomMemoryStorage.h
+END
+XMPPRoomOccupantMemoryStorageObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/cubesec/!svn/ver/2954/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Extensions/XEP-0045/MemoryStorage/XMPPRoomOccupantMemoryStorageObject.h
+END

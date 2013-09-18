@@ -19,7 +19,7 @@
 
 //
 //  MainViewController.h
-//  bsl
+//  cube
 //
 //  Created by ___FULLUSERNAME___ on ___DATE___.
 //  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
@@ -29,19 +29,19 @@
 
 @implementation MainViewController
 
+
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Uncomment to override the CDVCommandDelegateImpl used
-        // _commandDelegate = [[MainCommandDelegate alloc] initWithViewController:self];
-        // Uncomment to override the CDVCommandQueue used
-        // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
+        
     }
     return self;
 }
 
+
 - (id)init
+
 {
     self = [super init];
     if (self) {
@@ -65,8 +65,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
-    // you can do so here.
+   
 
     [super viewWillAppear:animated];
 }
@@ -82,6 +81,8 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -170,5 +171,8 @@
 {
     return [super execute:command];
 }
+
+
+
 
 @end

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/cubesec/!svn/ver/2955/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Vendor/CocoaLumberjack
+END
+DDLog.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/cubesec/!svn/ver/2955/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Vendor/CocoaLumberjack/DDLog.h
+END
+DDAbstractDatabaseLogger.h
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/cubesec/!svn/ver/2955/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Vendor/CocoaLumberjack/DDAbstractDatabaseLogger.h
+END
+DDASLLogger.h
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/cubesec/!svn/ver/2955/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Vendor/CocoaLumberjack/DDASLLogger.h
+END
+DDFileLogger.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/cubesec/!svn/ver/2955/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Vendor/CocoaLumberjack/DDFileLogger.h
+END
+DDTTYLogger.h
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/cubesec/!svn/ver/2955/code/ios/root/cube-ios/Classes/Vendor/XMPPFramework/Vendor/CocoaLumberjack/DDTTYLogger.h
+END
