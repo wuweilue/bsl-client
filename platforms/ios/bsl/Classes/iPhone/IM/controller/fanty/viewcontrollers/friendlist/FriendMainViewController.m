@@ -16,13 +16,13 @@
 #import "SVProgressHUD.h"
 #import "RectangleChat.h"
 #import "ChatLogic.h"
-@interface FriendMainViewController ()<ContactListViewDelegate,HeadTabViewDelegte,RecentTalkViewDelegate,FaviorContactViewDelegate,UIPopoverControllerDelegate>
+@interface FriendMainViewController ()<ContactListViewDelegate,HeadTabViewDelegte,RecentTalkViewDelegate,FaviorContactViewDelegate,UIPopoverControllerDelegate,ContactSelectedForGroupViewControllerDelegate>
 -(void)initTabBar;
 -(void)filterClick;
 -(void)openOrCreateListView:(int)tab;
 -(void)addGroupChatClick;
 -(void)createRrightNavItem;
-@property(nonatomic,strong) UISearchBar*  selectedSearchBar;
+@property(nonatomic,retain) UISearchBar*  selectedSearchBar;
 
 @end
 
@@ -44,7 +44,7 @@
     CGRect rect=self.view.frame;
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
         rect.size.width =CGRectGetHeight(self.view.frame)/2+2;
-        rect.size.height= CGRectGetWidth(self.view.frame)-self.navigationController.navigationBar.bounds.size.height;        
+        rect.size.height= CGRectGetWidth(self.view.frame)-self.navigationController.navigationBar.bounds.size.height-44.0f;
     }
     else{
         rect.size.height-=44.0f;
@@ -61,6 +61,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc{
+    self.selectedSearchBar=nil;
+    popover.delegate=nil;
+    [popover dismissPopoverAnimated:NO];
+
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -78,21 +84,33 @@
 
 
 -(void)createRrightNavItem{
-    UIButton *navRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 7, 43, 30)];
-    //navRightButton.style = UIBarButtonItemStyleBordered;
-    [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn@2x.png"] forState:UIControlStateNormal];
-    [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn_active@2x.png"] forState:UIControlStateSelected];
-    if(tabView.selectedIndex==2){
-        [navRightButton setTitle:(faviorContactView.editing?@"取消":@"编辑") forState:UIControlStateNormal];
+    
+    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+        NSString* title=nil;
+        if(tabView.selectedIndex==2){
+            title=(faviorContactView.editing?@"取消":@"编辑");
+        }
+        else{
+            title=@"群聊";
+        }
+        self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(addGroupChatClick)];
     }
     else{
-        [navRightButton setTitle:@"群聊" forState:UIControlStateNormal];
-
+        UIButton *navRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 7, 43, 30)];
+        //navRightButton.style = UIBarButtonItemStyleBordered;
+        [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn.png"] forState:UIControlStateNormal];
+        [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn_active.png"] forState:UIControlStateSelected];
+        if(tabView.selectedIndex==2){
+            [navRightButton setTitle:(faviorContactView.editing?@"取消":@"编辑") forState:UIControlStateNormal];
+        }
+        else{
+            [navRightButton setTitle:@"群聊" forState:UIControlStateNormal];
+            
+        }
+        [[navRightButton titleLabel] setFont:[UIFont systemFontOfSize:13]];
+        [navRightButton addTarget:self action:@selector(addGroupChatClick) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightButton];
     }
-    [[navRightButton titleLabel] setFont:[UIFont systemFontOfSize:13]];
-    [navRightButton addTarget:self action:@selector(addGroupChatClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightButton];
-
 }
 
 -(void)initTabBar{
@@ -116,6 +134,7 @@
             [self.view addSubview:recentTalkView];
         }
         recentTalkView.hidden=NO;
+        
     }
     else if(tab==1){
         if(contactListView==nil){
@@ -135,7 +154,10 @@
         }
         faviorContactView.hidden=NO;
     }
-    
+    if(tab!=2){
+        [faviorContactView setEditing:NO animated:NO];
+        [faviorContactView layoutTableCell];
+    }
     [self createRrightNavItem];
 
 }
@@ -178,6 +200,7 @@
     
     
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+        controller.delegate=self;
         popover.delegate=nil;
         [popover dismissPopoverAnimated:NO];
         popover=nil;
@@ -195,6 +218,15 @@
         
     }
     
+}
+
+#pragma mark contactselectedby group delegate
+
+-(void)dismiss:(ContactSelectedForGroupViewController *)controller{
+    popover.delegate=nil;
+    [popover dismissPopoverAnimated:YES];
+    popover=nil;
+
 }
 
 #pragma mark imagepicker delegate
@@ -272,9 +304,8 @@
     }
 
     ChatMainViewController* controller=[[ChatMainViewController alloc] init];
-    controller.chatWithUser=userInfo.userJid;
+    controller.messageId=userInfo.userJid;
     controller.chatName=[userInfo name];
-    controller.title=[userInfo name];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -287,10 +318,9 @@
         return;
     }
     ChatMainViewController* controller=[[ChatMainViewController alloc] init];
-    controller.chatWithUser=rectangleChat.receiverJid;
+    controller.messageId=rectangleChat.receiverJid;
     controller.chatName=rectangleChat.name;
     controller.isGroupChat=[rectangleChat.isGroup boolValue];
-    controller.title=[rectangleChat name];
     [self.navigationController pushViewController:controller animated:YES];
 
 }
@@ -307,10 +337,8 @@
     
     
     ChatMainViewController* controller=[[ChatMainViewController alloc] init];
-    controller.chatWithUser=userInfo.userJid;
+    controller.messageId=userInfo.userJid;
     controller.chatName=[userInfo name];
-
-    controller.title=[userInfo name];
     
     [self.navigationController pushViewController:controller animated:YES];
 
@@ -319,5 +347,6 @@
 -(void)faviorContactViewDidDelete:(FaviorContactView*)recentTalkView userInfo:(UserInfo*)userInfo{
     ChatLogic* logic=[[ChatLogic alloc] init];
     [logic removeFaviorInContacts:userInfo.userJid];
+    logic=nil;
 }
 @end

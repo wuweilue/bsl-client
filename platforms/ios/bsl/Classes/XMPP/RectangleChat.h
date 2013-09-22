@@ -17,16 +17,16 @@ typedef enum {
 
 @interface RectangleChat : NSManagedObject
 
-@property(nonatomic,strong) NSNumber* chatId;
-@property(nonatomic,strong) NSNumber* chatMemberCount;
-@property(nonatomic,strong) NSString* content;
-@property(nonatomic,strong) NSNumber* contentType;
-@property(nonatomic,strong) NSString* createrJid;
-@property(nonatomic,strong) NSString* receiverJid;
-@property(nonatomic,strong) NSNumber* isGroup;
-@property(nonatomic,strong) NSDate*  updateDate;
-@property(nonatomic,strong) NSNumber* noReadMsgNumber;
-@property(nonatomic,strong) NSString* name;
+@property(nonatomic,retain) NSNumber* chatId;
+@property(nonatomic,retain) NSNumber* chatMemberCount;
+@property(nonatomic,retain) NSString* content;
+@property(nonatomic,retain) NSNumber* contentType;
+@property(nonatomic,retain) NSString* createrJid;
+@property(nonatomic,retain) NSString* receiverJid;
+@property(nonatomic,retain) NSNumber* isGroup;
+@property(nonatomic,retain) NSDate*  updateDate;
+@property(nonatomic,retain) NSNumber* noReadMsgNumber;
+@property(nonatomic,retain) NSString* name;
 
 
 @end

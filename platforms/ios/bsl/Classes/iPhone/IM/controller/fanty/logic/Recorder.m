@@ -110,7 +110,6 @@ typedef enum{
     [audioRecorder record];
     audioRecorder.meteringEnabled = YES;
     
-    
     [self observerAudioPower];
     
 }
@@ -163,7 +162,6 @@ typedef enum{
     
     NSFileManager* fileManeger = [NSFileManager defaultManager];
     [fileManeger removeItemAtURL:recordFile error:nil];
-    
     recordFile=nil;
 }
 

@@ -157,7 +157,6 @@ void uncaughtExceptionHandler(NSException*exception){
 
 }
 
-
 -(void)showLoginView{
     self.window.rootViewController = self.viewController;
     //清楚浏览器缓存
@@ -404,17 +403,16 @@ void uncaughtExceptionHandler(NSException*exception){
     [dict setObject:array forKey:@"array"];
     [request setUserInfo:dict];
     
+    __block FormDataRequest*  __request=request;
     [request setFailedBlock:^{
         NSLog(@"失败");
-        [request setCompletionBlock:nil];
         
         [NSTimer timerWithTimeInterval:60 target:self selector:@selector(postOpreateLog) userInfo:nil repeats:NO];
     }];
     
     [request setCompletionBlock:^{
-        [request setFailedBlock:nil];
-        if([request responseStatusCode] == 200){
-            NSArray *array = [[request userInfo] valueForKey:@"array"];
+        if([__request responseStatusCode] == 200){
+            NSArray *array = [[__request userInfo] valueForKey:@"array"];
             for (OperateLog *log in array) {
                 [log remove];
             }

@@ -48,8 +48,6 @@
         fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"rectangleTalk"];
         fetchedResultsController.delegate = self;
         
-        
-        
         NSError *error = nil;
         if (![fetchedResultsController performFetch:&error]) {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
@@ -59,11 +57,8 @@
         
         NSArray *contentArray = [fetchedResultsController fetchedObjects];
 
-        int i=0;
         for(id obj in contentArray){
             [list addObject:obj];
-            if(i>=20)break;
-            i++;
         }
 
         
@@ -157,7 +152,7 @@
             if([chat.receiverJid isEqualToString:updateChat.receiverJid]){
                 *stop=YES;
                 [list removeObject:chat];
-                [list insertObject:updateChat atIndex:index];
+                [list insertObject:updateChat atIndex:0];
                 return ;
             }
         }];

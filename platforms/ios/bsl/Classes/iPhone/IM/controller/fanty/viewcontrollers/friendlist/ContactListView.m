@@ -65,7 +65,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         [fetchRequest setEntity:entity];
         [fetchRequest setFetchBatchSize:20];
         //排序
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userGroup" ascending:YES];
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userGroup" ascending:YES] ;
         NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"userStatue" ascending:NO];
         NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"userName" ascending:NO];
         
@@ -74,7 +74,6 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         
         fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:@"userGroup" cacheName:@"userGroup"];
         fetchedResultsController.delegate = self;
-        
         
         NSError *error = nil;
         if (![fetchedResultsController performFetch:&error]) {
@@ -110,7 +109,6 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
     
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     del.xmpp.chatDelegate = nil;
-
 }
 
 -(NSDictionary*)friendsList{
@@ -135,14 +133,14 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
     headerArray=nil;
     friendList=nil;
     if([searchText length]<1){
-        headerArray=[friendsListDict allKeys];
+        headerArray=[friendsListDict allKeys] ;
         if(selectedIndex>-1){
             NSString* key=[headerArray objectAtIndex:selectedIndex];
-            friendList=[friendsListDict objectForKey:key];
+            friendList=[friendsListDict objectForKey:key] ;
         }
     }
     else{
-        headerArray=[NSArray arrayWithObjects:@"搜索结果", nil];
+        headerArray=[NSArray arrayWithObjects:@"搜索结果", nil] ;
         NSMutableArray* list=[[NSMutableArray alloc] initWithCapacity:2];
         for(NSArray* array in [friendsListDict allValues]){
             for(UserInfo* userInfo in array){
@@ -196,12 +194,14 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
             [managedObjectContext save:nil];
             dispatch_async(dispatch_get_main_queue(), ^{
 
+//                userArray=nil;
                 [self showLoadData];
                 isLoadingUserInfo=NO;
             });
         });
     }
     else{
+        userArray=nil;
         isLoadingUserInfo=NO;
     }
     
@@ -436,7 +436,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 -(UITableViewCell*)tableView:(UITableView *)__tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ContactCell *cell = (ContactCell*)[__tableView dequeueReusableCellWithIdentifier:@"cell"];
     if(cell == nil){
-        cell = [[ContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[ContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"] ;
     }
     UserInfo* user=[friendList objectAtIndex:[indexPath row]];
     [cell headerUrl:@"" nickname:[user name]];
@@ -489,6 +489,16 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         [self.delegate contactListDidSearchShouldBeginEditing:self searchBar:searchBar];
     
     return YES;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)__searchBar{
+    for(id cc in [__searchBar subviews]){
+        if([cc isKindOfClass:[UIButton class]])
+        {
+            UIButton *btn = (UIButton *)cc;
+            [btn setTitle:@"取消"  forState:UIControlStateNormal];
+        }
+    }
 }
 
 - (void)searchBar:(UISearchBar *)__searchBar textDidChange:(NSString *)searchText{

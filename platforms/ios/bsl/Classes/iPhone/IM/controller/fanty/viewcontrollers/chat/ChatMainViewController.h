@@ -12,6 +12,9 @@
 @class RecordingView;
 @class Recorder;
 @class ChatLogic;
+
+
+
 /*!
  @abstract:chat main page viewcontroller
  */
@@ -32,7 +35,7 @@
 
 }
 
-@property (strong,nonatomic) NSString* chatWithUser;
+@property (strong,nonatomic) NSString* messageId;
 @property(strong,nonatomic) NSString* chatName;
 @property(nonatomic,assign) BOOL isGroupChat;
 

@@ -69,13 +69,20 @@
 //    [editBarButton release];
     
     //关闭添加好友方法
-    UIButton *navRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 7, 43, 30)];
-    [navRightButton setImage:[UIImage imageNamed:@"btn_add@2x.png"] forState:UIControlStateNormal];
-//     [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn_active@2x.png"] forState:UIControlStateSelected];
-//     [navRightButton setTitle:@"搜索" forState:UIControlStateNormal];
-     [[navRightButton titleLabel] setFont:[UIFont systemFontOfSize:13]];
-     [navRightButton addTarget:self action:@selector(addUser) forControlEvents:UIControlEventTouchUpInside];
-     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightButton];
+    
+    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+        self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(addUser)];
+    }
+    else{
+        UIButton *navRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 7, 43, 30)];
+        [navRightButton setImage:[UIImage imageNamed:@"btn_add@2x.png"] forState:UIControlStateNormal];
+        //     [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn_active@2x.png"] forState:UIControlStateSelected];
+        //     [navRightButton setTitle:@"搜索" forState:UIControlStateNormal];
+        [[navRightButton titleLabel] setFont:[UIFont systemFontOfSize:13]];
+        [navRightButton addTarget:self action:@selector(addUser) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightButton];
+
+    }
     
     _groupChatUserArr = [[NSMutableArray alloc] initWithCapacity:10];
     for (int i = 0; i < 5; i++)

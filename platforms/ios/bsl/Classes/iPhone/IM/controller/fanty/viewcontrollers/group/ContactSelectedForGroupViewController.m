@@ -23,15 +23,24 @@
 -(void)backClick;
 -(void)loadShowData;
 -(void)createGroupAction:(NSString*)groupName;
+
+-(void)createRoomFinishNotification:(NSNotification*)notification;
+-(void)timeOutEvent;
 @end
 
 @implementation ContactSelectedForGroupViewController
 @synthesize dicts;
+@synthesize groupName;
+@synthesize delegate;
+@synthesize existsGroupJid;
+@synthesize tempNewjid;
 - (id)init{
     self = [super init];
     if (self) {
         self.title=@"选择联系人";
         selectedUserInfos=[[NSMutableArray alloc] initWithCapacity:2];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createRoomFinishNotification:) name:@"XMPP_CREATEROOM_NOTIFICATION" object:nil];
     }
     return self;
 }
@@ -62,7 +71,7 @@
 
         UIButton* backButton = [((CustomNavigationBar*)bar) backButtonWith:[UIImage imageNamed:@"nav_back@2x.png"] highlight:nil leftCapWidth:14.0];
         [backButton addTarget:self action:@selector(backClick) forControlEvents:UIControlEventTouchUpInside];
-        navItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+        navItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton] ;
 
     }
 
@@ -104,18 +113,28 @@
     
     searchBar=nil;
     
-
     sortedKeys=nil;
     showDicts=nil;
     selectedUserInfos=nil;
-    
+    self.tempNewjid=nil;
+
 }
 
+-(void)dealloc{
+    [timeOutTimer invalidate];
+    self.tempNewjid=nil;
+    self.existsGroupJid=nil;
+    self.dicts=nil;
+    self.groupName=nil;
+}
 
 #pragma mark method
 
 -(void)backClick{
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    if([self.delegate respondsToSelector:@selector(dismiss:)])
+        [self.delegate dismiss:self];
+    else
+        [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 -(void)filterClick{
@@ -151,7 +170,7 @@
     NSString* searchText=searchBar.text;
     
     if([searchText length]<1){
-        sortedKeys = [dicts allKeys];
+        sortedKeys = [dicts allKeys] ;
         showDicts=dicts;
 
     }
@@ -168,10 +187,9 @@
                 }
             }
         }];
-        sortedKeys=[NSArray arrayWithObjects:@"搜索结果", nil];
+        sortedKeys=[NSArray arrayWithObjects:@"搜索结果", nil] ;
         [newDict setObject:array forKey:@"搜索结果"];
-        showDicts=newDict;
-        
+        showDicts=newDict ;
     }
     
     fliterBg.hidden=([searchText length]>0);
@@ -189,45 +207,65 @@
 
 }
 
--(void)createGroupAction:(NSString*)groupName{
+-(void)createGroupAction:(NSString*)__groupName{
     
+    [timeOutTimer invalidate];
+    timeOutTimer=nil;
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
-    RoomService *roomS =[[RoomService alloc]init];
-    roomS.roomName =groupName;
-    roomS.roomDidCreateBlock =^(XMPPRoom* room){
-        
-        
-        AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-        [appDelegate.xmpp newRectangleMessage:roomS.roomID name:groupName content:@"我新建了一个群组" contentType:RectangleChatContentTypeMessage isGroup:YES];
+    self.groupName=__groupName;
+    self.tempNewjid=[[ShareAppDelegate xmpp].roomService createNewRoom];
+    
+    timeOutTimer=[NSTimer scheduledTimerWithTimeInterval:15.0f target:self selector:@selector(timeOutEvent) userInfo:nil repeats:NO];
+}
 
-        
-        //先向自己发送一个邀请
-        NSString* name=[[appDelegate.xmpp.xmppStream myJID] bare];
-        
-        int index=[name rangeOfString:@"@"].location;
-        name= [name substringToIndex:index];
+-(void)timeOutEvent{
+    [timeOutTimer invalidate];
+    timeOutTimer=nil;
+    [SVProgressHUD dismiss];
+    self.groupName=nil;
+    [[ShareAppDelegate xmpp].roomService removeNewRoom:self.tempNewjid];
+    self.tempNewjid=nil;
+    
+    [SVProgressHUD showErrorWithStatus:@"创建群组超时了，请稍候再尝试！"];
+}
 
-        
-        [appDelegate.xmpp addGroupRoomMember:roomS.roomID memberId:[[appDelegate.xmpp.xmppStream myJID] bare] sex:[[NSUserDefaults standardUserDefaults] valueForKey:@"sex"] status:@"在线" username:name];
-        
-        [room inviteUser:[appDelegate.xmpp.xmppStream myJID] withMessage:@"我新建了一个群组"];        
-        
-        //然后向选择的朋友发送邀请
-        for(UserInfo* info in selectedUserInfos){
-            [appDelegate.xmpp addGroupRoomMember:roomS.roomID memberId:info.userJid sex:info.userSex status:info.userStatue username:[info name]];
-            
-            [room inviteUser:[XMPPJID jidWithString:info.userJid] withMessage:@"我新建了一个群组"];
+#pragma mark  notification
 
-        }
+-(void)createRoomFinishNotification:(NSNotification*)notification{
+    [timeOutTimer invalidate];
+    timeOutTimer=nil;
+    XMPPRoom* roomS=(XMPPRoom*)notification.object;
+    NSString* roomJID=[roomS.roomJID bare];
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    [appDelegate.xmpp newRectangleMessage:roomJID name:self.groupName content:@"我新建了一个群组" contentType:RectangleChatContentTypeMessage isGroup:YES];
+    
+    
+    //先向自己发送一个邀请
+    NSString* name=[[appDelegate.xmpp.xmppStream myJID] bare];
+    
+    int index=[name rangeOfString:@"@"].location;
+    name= [name substringToIndex:index];
+    
+    
+    [appDelegate.xmpp addGroupRoomMember:roomJID memberId:[[appDelegate.xmpp.xmppStream myJID] bare] sex:[[NSUserDefaults standardUserDefaults] valueForKey:@"sex"] status:@"在线" username:name];
+    
+    [roomS inviteUser:[appDelegate.xmpp.xmppStream myJID] withMessage:@"我新建了一个群组"];
+    
+    //然后向选择的朋友发送邀请
+    for(UserInfo* info in selectedUserInfos){
+        [appDelegate.xmpp addGroupRoomMember:roomJID memberId:info.userJid sex:info.userSex status:info.userStatue username:[info name]];
         
-        [appDelegate.xmpp saveContext];
+        [roomS inviteUser:[XMPPJID jidWithString:info.userJid] withMessage:@"我新建了一个群组"];
         
-        [SVProgressHUD dismiss];
-        [self dismissViewControllerAnimated:YES completion:^{
-        
-        }];
-    };
-    [roomS initRoomServce];
+    }
+    
+    [appDelegate.xmpp saveContext];
+    
+    [SVProgressHUD dismiss];
+    if([self.delegate respondsToSelector:@selector(dismiss:)])
+        [self.delegate dismiss:self];
+    else
+        [self dismissViewControllerAnimated:YES completion:^{}];
 
 }
 
@@ -252,9 +290,9 @@
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    if([searchBar.text length]<1)
-        return sortedKeys;
-    else
+    //if([searchBar.text length]<1)
+    //    return sortedKeys;
+    //else
         return nil;
 }
 
@@ -265,7 +303,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
     NSString* key=[sortedKeys objectAtIndex:section];
-    UIImageView* view =[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 40.0f)];
+    UIImageView* view =[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 40.0f)] ;
     view.image=[UIImage imageNamed:@"table_header.png"];
         
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 0, view.frame.size.width-20.0f, 24.0f)];
@@ -296,7 +334,7 @@
 -(UITableViewCell*)tableView:(UITableView *)__tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ContactCheckBoxCell *cell = (ContactCheckBoxCell*)[__tableView dequeueReusableCellWithIdentifier:@"cell"];
     if(cell == nil){
-        cell = [[ContactCheckBoxCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[ContactCheckBoxCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"] ;
     }
     NSString* key=[sortedKeys objectAtIndex:[indexPath section]];
     
@@ -375,6 +413,17 @@
     return YES;
 }
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)__searchBar{
+    for(id cc in [__searchBar subviews]){
+        if([cc isKindOfClass:[UIButton class]])
+        {
+            UIButton *btn = (UIButton *)cc;
+            [btn setTitle:@"取消"  forState:UIControlStateNormal];
+        }
+    }
+}
+
+
 - (void)searchBar:(UISearchBar *)_searchBar textDidChange:(NSString *)searchText{
     [self loadShowData];
     [searchBar becomeFirstResponder];
@@ -392,13 +441,38 @@
 #pragma mark imageupload delegate
 
 -(void)didConfirmImageUploaded:(ImageUploaded*)imageUploaded{
-    InputAlertView* alertView=[[InputAlertView alloc] init];
-    alertView.callback=self;
-    [alertView showTitle:@"请为你的群组起个名字"];
-    [alertView showTextField];
-    [alertView addButtonWithTitle:@"取消"];
-    [alertView addButtonWithTitle:@"确定"];
-    [alertView show];
+    
+    if(self.existsGroupJid!=nil){
+        AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+        
+        XMPPRoom* roomS=[appDelegate.xmpp.roomService findRoomByJid:self.existsGroupJid];
+        NSString* roomJID=[roomS.roomJID bare];
+        
+        //然后向选择的朋友发送邀请
+        for(UserInfo* info in selectedUserInfos){
+            [appDelegate.xmpp addGroupRoomMember:roomJID memberId:info.userJid sex:info.userSex status:info.userStatue username:[info name]];
+            
+            [roomS inviteUser:[XMPPJID jidWithString:info.userJid] withMessage:@"我邀请你加入群组"];
+        }
+        
+        [appDelegate.xmpp saveContext];
+        
+        if([self.delegate respondsToSelector:@selector(dismiss:)])
+            [self.delegate dismiss:self];
+        else
+            [self dismissViewControllerAnimated:YES completion:^{}];
+        
+    }
+    else{
+        InputAlertView* alertView=[[InputAlertView alloc] init];
+        alertView.callback=self;
+        [alertView showTitle:@"请为你的群组起个名字"];
+        [alertView showTextField];
+        [alertView addButtonWithTitle:@"取消"];
+        [alertView addButtonWithTitle:@"确定"];
+        [alertView show];
+        
+    }
 }
 
 #pragma mark alertview delegate
@@ -406,7 +480,9 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex==1){
         InputAlertView* alert=(InputAlertView*)alertView;
-        [self createGroupAction:[alert textFieldText]];
+        if([[alert textFieldText] length]>0){
+            [self createGroupAction:[alert textFieldText]];
+        }
     }
 }
 

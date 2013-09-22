@@ -54,8 +54,6 @@
         fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"faviorUserInfo"];
         fetchedResultsController.delegate = self;
         
-        
-        
         NSError *error = nil;
         if (![fetchedResultsController performFetch:&error]) {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
@@ -199,7 +197,9 @@
         }
         [laterReloadTimer invalidate];
         laterReloadTimer=nil;
-        [self deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:index inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];        
+        if(isDel){
+            [self deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:index inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }
     else if(type==NSFetchedResultsChangeMove){
         

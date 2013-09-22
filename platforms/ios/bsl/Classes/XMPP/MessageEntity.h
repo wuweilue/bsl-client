@@ -12,18 +12,21 @@
 
 @interface MessageEntity : NSManagedObject
 
-@property (nonatomic, strong) NSString * content;
-@property (nonatomic, strong) NSNumber * flag_sended;
-@property (nonatomic, strong) NSDate   * sendDate;
-@property (nonatomic, strong) NSNumber * flag_readed;
-@property (nonatomic, strong) NSString * receiver;
-@property (nonatomic, strong) NSString * sendUser;
-@property (nonatomic, strong) NSString * type;
-@property (nonatomic, strong) NSString * statue;
-@property (nonatomic, strong) NSString * fileId;
+@property(nonatomic,retain) NSString* uqID;
+@property(nonatomic,retain) NSString* messageId;
+@property (nonatomic, retain) NSString * sendUser;
+@property(nonatomic,retain) NSString* receiveUser;
+
+@property (nonatomic, retain) NSString * content;
+@property (nonatomic, retain) NSNumber * flag_sended;
+@property (nonatomic, retain) NSDate   * sendDate;
+@property (nonatomic, retain) NSNumber * flag_readed;
+@property (nonatomic, retain) NSString * type;
+@property (nonatomic, retain) NSString * statue;
+@property (nonatomic, retain) NSString * fileId;
 
 //fanty 
-@property(nonatomic,strong) NSDate* receiveDate;
+@property(nonatomic,retain) NSDate* receiveDate;
 
 -(NSString*)name;
 

@@ -79,6 +79,18 @@
     return CELL_HEIGHT;
 }
 
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    CGRect rect=lineView.frame;
+    rect.size.width=self.frame.size.width;
+    lineView.frame=rect;
+    
+    dateLabel.frame=CGRectMake(self.frame.size.width-9.0f-80.0f, CGRectGetMinY(imageView.frame), 100.0f, 20.0f);
+
+    contentLabel.frame=CGRectMake(CGRectGetMaxX(imageView.frame)+12.0f, 35.0f, CGRectGetMinX(dateLabel.frame)-CGRectGetMaxX(imageView.frame), 18.0f);
+
+}
+
 
 -(void)headerUrl:(NSString*)headerUrl title:(NSString*)title content:(NSString*)content date:(NSDate*)date{
     [imageView setUrl:headerUrl];
@@ -88,12 +100,16 @@
     NSDateFormatter* formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yy-m-d hh:mm"];
     dateLabel.text=[formatter stringFromDate:date];
-
 }
 
 -(void)rectangleType:(RectangleCellType)type{
 //    contentImageView.hidden=(type==RectangleCellTypeMessage);
 //    contentLabel.hidden=(type!=RectangleCellTypeMessage);
+    
+    if(type==RectangleCellTypeImage)
+        contentLabel.text=@"[图片]";
+    else if(type==RectangleCellTypeVoice)
+        contentLabel.text=@"[语音]";
     
 }
 
