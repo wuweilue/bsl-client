@@ -173,6 +173,7 @@
     if ([xmppStream isConnected]) {
         [self goOffLine];
         [xmppStream disconnect];
+        [roomService tearDown];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"XMPPSTREAMIMOFFLINE" object:nil];
     }
 }
@@ -182,6 +183,8 @@
         [self goOffLine];
         
         [xmppStream disconnect];
+        [roomService tearDown];
+
     }
     islogin = NO;
     loginUserStr = @"";
@@ -194,6 +197,8 @@
         [self goOffLine];
         
         [xmppStream disconnect];
+        [roomService tearDown];
+
     }
     _persistentStoreCoordinator = nil;
     _managedObjectContext= nil;
@@ -244,6 +249,8 @@
 - (void)disconnect{
 	[self goOffLine];
 	[xmppStream disconnect];
+    [roomService tearDown];
+
 }
 
 

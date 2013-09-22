@@ -36,7 +36,7 @@
 @synthesize messageId;
 @synthesize chatName;
 @synthesize isGroupChat;
-
+@synthesize isQuit;
 - (id)init{
     self = [super init];
     if (self) {
@@ -626,7 +626,7 @@
     controller.messageId=self.messageId;
     controller.chatName=self.chatName;
     controller.isGroupChat=self.isGroupChat;
-    
+    controller.isQuit=self.isQuit;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -750,6 +750,8 @@
     chatPanel=[[ChatPanel alloc] initWithFrame:self.view.bounds];
     chatPanel.delegate=self;
     chatPanel.emoctionList=emoctionList;
+    if(self.isQuit)
+        [chatPanel hideAllControlPanel];
     CGRect rect=chatPanel.frame;
     rect.origin.y=self.view.bounds.size.height-[chatPanel panelHeight];
     chatPanel.frame=rect;

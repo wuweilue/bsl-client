@@ -34,9 +34,10 @@
 
 //btn_red
 }
-@property(nonatomic,assign) id<GroupMemberManagerViewControllerDelegate> delegate;
-@property (retain,nonatomic) NSString* messageId;
-@property(retain,nonatomic) NSString* chatName;
+@property(nonatomic,weak) id<GroupMemberManagerViewControllerDelegate> delegate;
+@property (strong,nonatomic) NSString* messageId;
+@property(strong,nonatomic) NSString* chatName;
 @property(nonatomic,assign) BOOL isGroupChat;
+@property(nonatomic,assign) BOOL isQuit;
 
 @end

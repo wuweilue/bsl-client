@@ -38,7 +38,6 @@
         // Edit the entity name as appropriate.
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"RectangleChat" inManagedObjectContext:managedObjectContext];
         [fetchRequest setEntity:entity];
-        [fetchRequest setFetchBatchSize:20];
         //排序
         
         NSSortDescriptor*sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"updateDate"ascending:NO];
@@ -53,10 +52,7 @@
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
-
-        
         NSArray *contentArray = [fetchedResultsController fetchedObjects];
-
         for(id obj in contentArray){
             [list addObject:obj];
         }
@@ -138,9 +134,6 @@
         }
 
         [list insertObject:anObject atIndex:0];
-        while([list count]>20){
-            [list removeLastObject];
-        }
 
         [laterReloadTimer invalidate];
         laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];

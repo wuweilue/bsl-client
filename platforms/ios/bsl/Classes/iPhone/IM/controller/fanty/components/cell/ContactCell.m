@@ -29,6 +29,7 @@
         
         nicknameLabel=[[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageView.frame)+9.0f, 0.0f, 300.0f-CGRectGetMaxX(imageView.frame)-9.0f, CELL_HEIGHT)];
         nicknameLabel.numberOfLines=1;
+        nicknameLabel.backgroundColor=[UIColor clearColor];
         nicknameLabel.textColor=[UIColor blackColor];
         nicknameLabel.font=[UIFont fontWithName:@"Helvetica" size:16.0f];
         

@@ -13,16 +13,16 @@
 
 @interface UserInfo : NSManagedObject
 
-@property (nonatomic, retain) NSString * userName;
-@property (nonatomic, retain) NSString *userGroup;
-@property (nonatomic, retain) NSString *userJid;
-@property (nonatomic, retain) NSString *userStatue;
-@property (nonatomic, retain) NSString *userSubscription;
-@property (nonatomic, retain) NSString *userMessageCount;
-@property (nonatomic, retain) NSString *userLastMessage;
-@property (nonatomic, retain) NSString *userSex;
-@property (nonatomic, retain) NSDate * userLastDate;
-@property (nonatomic, retain) NSNumber * isCollected;
+@property (nonatomic, strong) NSString * userName;
+@property (nonatomic, strong) NSString *userGroup;
+@property (nonatomic, strong) NSString *userJid;
+@property (nonatomic, strong) NSString *userStatue;
+@property (nonatomic, strong) NSString *userSubscription;
+@property (nonatomic, strong) NSString *userMessageCount;
+@property (nonatomic, strong) NSString *userLastMessage;
+@property (nonatomic, strong) NSString *userSex;
+@property (nonatomic, strong) NSDate * userLastDate;
+@property (nonatomic, strong) NSNumber * isCollected;
 
 
 -(NSString*)name;

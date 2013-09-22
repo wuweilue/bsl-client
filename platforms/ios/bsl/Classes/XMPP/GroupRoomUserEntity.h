@@ -11,13 +11,13 @@
 
 @interface GroupRoomUserEntity : NSManagedObject
 
-@property (nonatomic, retain) NSString * roomId;
-@property (nonatomic, retain) NSString * roomName;
-@property (nonatomic, retain) NSString * jid;
-@property (nonatomic, retain) NSString * username;
-@property (nonatomic, retain) NSNumber * sex;
-@property (nonatomic, retain) NSString * statue;
-@property (nonatomic, retain) NSString *nickName;
+@property (nonatomic, strong) NSString * roomId;
+@property (nonatomic, strong) NSString * roomName;
+@property (nonatomic, strong) NSString * jid;
+@property (nonatomic, strong) NSString * username;
+@property (nonatomic, strong) NSNumber * sex;
+@property (nonatomic, strong) NSString * statue;
+@property (nonatomic, strong) NSString *nickName;
 
 
 

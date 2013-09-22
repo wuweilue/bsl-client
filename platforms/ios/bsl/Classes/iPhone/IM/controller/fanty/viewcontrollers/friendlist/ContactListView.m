@@ -44,6 +44,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 -(void)getFriendsUserInfo;
 -(void)headerClick:(UIButton*)button;
 -(void)showLoadData;
+-(void)delayReloadTimeEvent;
+
 @end
 
 @implementation ContactListView
@@ -98,12 +100,14 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         
         [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(starRefresh) name:@"STARTRREFRESHTABLEVIEW" object:nil];
 
+        [self delayReloadTimeEvent];
     }
     return self;
 }
 
 - (void)dealloc{
 
+    [laterReloadTimer invalidate];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     
@@ -125,7 +129,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
             [SVProgressHUD showErrorWithStatus:@"即时通讯没有连接！"];
         }
         
-    }    
+    }
 }
 
 -(void)showLoadData{
@@ -273,6 +277,27 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
     [self showLoadData];
 }
 
+-(void)delayReloadTimeEvent{
+    [laterReloadTimer invalidate];
+    laterReloadTimer=nil;
+    [friendsListDict removeAllObjects];
+    
+    for(id<NSFetchedResultsSectionInfo> sectionInfo in [fetchedResultsController sections]){
+        NSString* key=NSLocalizedString([sectionInfo name],nil);
+        
+        NSMutableArray* array=[[NSMutableArray alloc] initWithCapacity:2];
+        for(UserInfo* info in [fetchedResultsController fetchedObjects]){
+            if([info.userGroup isEqualToString:key]){
+                [array addObject:info];
+            }
+        }
+        
+        NSArray* __array=[array sortedArrayUsingFunction:contactListViewSort context:nil];
+        [friendsListDict setObject:__array forKey:key];
+    }
+    [self showLoadData];
+}
+
 #pragma mark  catdelegate
 
 -(void)showFriends:(NSXMLElement*)element{
@@ -319,28 +344,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath{
     
-        switch(type) {
-            case NSFetchedResultsChangeInsert:
-            case NSFetchedResultsChangeUpdate:{
-                id<NSFetchedResultsSectionInfo> sectionInfo =[fetchedResultsController sections][[indexPath section]];
-                NSString* key=NSLocalizedString([sectionInfo name],nil);
-                
-                NSMutableArray* array=[[NSMutableArray alloc] initWithCapacity:2];
-                for(UserInfo* info in [fetchedResultsController fetchedObjects]){
-                    if([info.userGroup isEqualToString:key]){
-                        [array addObject:info];
-                    }
-                }
-                                
-                NSArray* __array=[array sortedArrayUsingFunction:contactListViewSort context:nil];
-                [friendsListDict setObject:__array forKey:key];
-                
-                if([headerArray count]<1){
-                    [self showLoadData];
-                }
-            }
-                break;
-        }
+    [laterReloadTimer invalidate];
+    laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
 }
 
 

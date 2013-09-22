@@ -33,10 +33,10 @@
     
     NSTimer* timeOutTimer;
 }
-@property(nonatomic,assign) id<ContactSelectedForGroupViewControllerDelegate> delegate;
-@property(nonatomic,retain) NSString* tempNewjid;
-@property(nonatomic,retain) NSDictionary* dicts;
-@property(nonatomic,retain) NSString* groupName;
-@property(nonatomic,retain) NSString*  existsGroupJid;
+@property(nonatomic,weak) id<ContactSelectedForGroupViewControllerDelegate> delegate;
+@property(nonatomic,strong) NSString* tempNewjid;
+@property(nonatomic,strong) NSDictionary* dicts;
+@property(nonatomic,strong) NSString* groupName;
+@property(nonatomic,strong) NSString*  existsGroupJid;
 
 @end

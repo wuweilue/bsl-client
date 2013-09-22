@@ -38,5 +38,6 @@
 @property (strong,nonatomic) NSString* messageId;
 @property(strong,nonatomic) NSString* chatName;
 @property(nonatomic,assign) BOOL isGroupChat;
+@property(nonatomic,assign) BOOL isQuit;
 
 @end

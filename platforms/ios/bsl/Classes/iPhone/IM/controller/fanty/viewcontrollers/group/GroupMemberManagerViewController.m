@@ -11,7 +11,8 @@
 #import "GroupRoomUserEntity.h"
 #import "InputAlertView.h"
 #import "ContactSelectedForGroupViewController.h"
-
+#import "ChatLogic.h"
+#import "RoomService.h"
 
 NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     UserInfo* info=(UserInfo*)obj1;
@@ -26,13 +27,16 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 -(void)initGroupPanel;
 -(void)loadLocalData;
 -(void)initQuitButton;
+-(void)quitClick;
 @end
 
 @implementation GroupMemberManagerViewController
 @synthesize delegate;
+@synthesize isQuit;
 -(id)init{
     self=[super init];
     if(self){
+        self.title=@"群组管理";
     }
     
     return self;
@@ -41,7 +45,6 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"ChatBackground_00.jpg"]];
-    self.title=self.chatName;
 
     CGRect rect=self.view.frame;
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
@@ -108,21 +111,43 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 
 -(void)initGroupPanel{
     if(groupPanel==nil){
-        groupPanel=[[GroupPanel alloc] initWithFrame:CGRectMake(10.0f, 0.0f, tableView.frame.size.width-20.0f, 0.0f)];
+        float offset=10.0f;
+        if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad)
+            offset=25.0f;
+            
+        groupPanel=[[GroupPanel alloc] initWithFrame:CGRectMake(offset, 0.0f, tableView.frame.size.width-offset*2.0f, 0.0f)];
         groupPanel.delegate=self;
         [groupPanel setArray:list];
 
     }
+    if(self.isQuit)
+        [groupPanel hideAddButton];
 }
 
 -(void)initQuitButton{
     if(quitButton==nil){
         quitButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        [quitButton addTarget:self action:@selector(quitClick) forControlEvents:UIControlEventTouchUpInside];
         UIImage* img=[UIImage imageNamed:@"btn_red.png"];
         [quitButton setBackgroundImage:[img stretchableImageWithLeftCapWidth:img.size.width*0.5f topCapHeight:img.size.height*0.5f] forState:UIControlStateNormal];
         [quitButton setTitle:@"退出群组" forState:UIControlStateNormal];
-        quitButton.frame=CGRectMake(10.0f, 0.0f, tableView.frame.size.width-20.0f, 44.0f);
+        
+        float offset=10.0f;
+        if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad)
+            offset=25.0f;
+
+        quitButton.frame=CGRectMake(offset, 0.0f, tableView.frame.size.width-offset*2.0f, 44.0f);
     }
+    
+    quitButton.hidden=self.isQuit;
+}
+
+
+-(void)quitClick{
+    UIAlertView* alertView=[[UIAlertView alloc] initWithTitle:@"你确定要退出该群组吗？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alertView.tag=332211;
+    [alertView show];
+    
 }
 
 #pragma mark table delegate
@@ -197,7 +222,7 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 -(void)tableView:(UITableView *)_tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    if([indexPath section]==1){
+    if([indexPath section]==1 && !self.isQuit){
         InputAlertView* alertView=[[InputAlertView alloc] init];
         alertView.callback=self;
         [alertView showTitle:@"请起个你要修改的群组名"];
@@ -212,18 +237,38 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex==1){
-        InputAlertView* alert=(InputAlertView*)alertView;
-        if([[alert textFieldText] length]>0){
-            self.chatName=[alert textFieldText];
-            self.title=self.chatName;
+        if(alertView.tag==332211){
+            ChatLogic* logic=[[ChatLogic alloc] init];
+            [logic sendNotificationMessage:@"你已退出群组" messageId:self.messageId isGroup:self.isGroupChat name:nil];
+            
+            RectangleChat* rectangleChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
+            if(rectangleChat!=nil){
+                rectangleChat.isQuit=[NSNumber numberWithBool:YES];
+                [rectangleChat didSave];
+            }
             
             
+            [[ShareAppDelegate xmpp].roomService removeNewRoom:self.messageId];
             
-            
-            
-            if([self.delegate respondsToSelector:@selector(updateMemberName:memberName:)])
-                [self.delegate updateMemberName:self memberName:self.chatName];
-            [tableView reloadData];
+            [self.navigationController popViewControllerAnimated:YES];
+
+            return;
+        }
+        else{
+            InputAlertView* alert=(InputAlertView*)alertView;
+            if([[alert textFieldText] length]>0){
+                self.chatName=[alert textFieldText];
+                
+                RectangleChat* rectangleChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
+                if(rectangleChat!=nil){
+                    rectangleChat.name=self.chatName;
+                    [rectangleChat didSave];
+                }
+                
+                if([self.delegate respondsToSelector:@selector(updateMemberName:memberName:)])
+                    [self.delegate updateMemberName:self memberName:self.chatName];
+                [tableView reloadData];
+            }
         }
     }
 }
@@ -344,6 +389,7 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     [popover dismissPopoverAnimated:NO];
     popover=nil;
 }
+
 
 
 

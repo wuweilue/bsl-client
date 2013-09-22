@@ -55,7 +55,7 @@
     
     RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
     if(rectChat==nil){
-        [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup];
+        [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeMessage isGroup:isGroup];
         rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
     }
     rectChat.content=content;

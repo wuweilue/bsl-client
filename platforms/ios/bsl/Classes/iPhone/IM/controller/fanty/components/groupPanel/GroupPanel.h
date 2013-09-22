@@ -34,4 +34,5 @@
 
 -(void)setArray:(NSArray*)userInfos;
 
+-(void)hideAddButton;
 @end

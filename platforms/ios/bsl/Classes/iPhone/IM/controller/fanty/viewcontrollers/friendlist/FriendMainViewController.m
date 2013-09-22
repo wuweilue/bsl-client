@@ -16,13 +16,15 @@
 #import "SVProgressHUD.h"
 #import "RectangleChat.h"
 #import "ChatLogic.h"
-@interface FriendMainViewController ()<ContactListViewDelegate,HeadTabViewDelegte,RecentTalkViewDelegate,FaviorContactViewDelegate,UIPopoverControllerDelegate,ContactSelectedForGroupViewControllerDelegate>
+#import "NumberView.h"
+@interface FriendMainViewController ()<ContactListViewDelegate,HeadTabViewDelegte,RecentTalkViewDelegate,FaviorContactViewDelegate,UIPopoverControllerDelegate,ContactSelectedForGroupViewControllerDelegate,NSFetchedResultsControllerDelegate>
 -(void)initTabBar;
 -(void)filterClick;
 -(void)openOrCreateListView:(int)tab;
 -(void)addGroupChatClick;
 -(void)createRrightNavItem;
-@property(nonatomic,retain) UISearchBar*  selectedSearchBar;
+-(void)loadNumber;
+@property(nonatomic,strong) UISearchBar*  selectedSearchBar;
 
 @end
 
@@ -33,6 +35,28 @@
     self=[super init];
     if(self){
         self.title=@"即时通讯";
+        
+        
+        
+        NSManagedObjectContext* managedObjectContext = [ShareAppDelegate xmpp].managedObjectContext;
+        
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        // Edit the entity name as appropriate.
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"RectangleChat" inManagedObjectContext:managedObjectContext];
+        [fetchRequest setEntity:entity];
+        //排序
+        NSSortDescriptor*sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"updateDate"ascending:NO];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor1,nil];
+        [fetchRequest setSortDescriptors:sortDescriptors];
+
+        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"rectangleTalk"];
+        fetchedResultsController.delegate = self;
+        
+        NSError *error = nil;
+        [fetchedResultsController performFetch:&error];
+        
+        
     }
     
     
@@ -62,6 +86,8 @@
 }
 
 - (void)dealloc{
+    fetchedResultsController.delegate=nil;
+    
     self.selectedSearchBar=nil;
     popover.delegate=nil;
     [popover dismissPopoverAnimated:NO];
@@ -120,6 +146,16 @@
     
     [tabView setTabNameArray:[NSArray arrayWithObjects:@"最近聊天",@"好友列表",@"好友收藏", nil]];
     tabView.selectedIndex=1;
+    
+    numberView=[[NumberView alloc] init];
+    [tabView addSubview:numberView];
+    
+    CGRect rect=numberView.frame;
+    rect.origin.x=tabView.frame.size.width/3.0f-rect.size.width-10.0f;
+    numberView.frame=rect;
+    
+    [self loadNumber];
+
 }
 
 -(void)openOrCreateListView:(int)tab{
@@ -218,6 +254,18 @@
         
     }
     
+}
+
+-(void)loadNumber{
+    int number=0;
+    NSArray *contentArray = [fetchedResultsController fetchedObjects];
+    
+    for(RectangleChat* obj in contentArray){
+        number+=[obj.noReadMsgNumber intValue];
+    }
+    
+
+    [numberView number:number];
 }
 
 #pragma mark contactselectedby group delegate
@@ -320,6 +368,7 @@
     ChatMainViewController* controller=[[ChatMainViewController alloc] init];
     controller.messageId=rectangleChat.receiverJid;
     controller.chatName=rectangleChat.name;
+    controller.isQuit=[rectangleChat.isQuit boolValue];
     controller.isGroupChat=[rectangleChat.isGroup boolValue];
     [self.navigationController pushViewController:controller animated:YES];
 
@@ -348,5 +397,12 @@
     ChatLogic* logic=[[ChatLogic alloc] init];
     [logic removeFaviorInContacts:userInfo.userJid];
     logic=nil;
+}
+
+#pragma mark  fetchedresultscontroller  delegate
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath{
+
+    [self loadNumber];
 }
 @end

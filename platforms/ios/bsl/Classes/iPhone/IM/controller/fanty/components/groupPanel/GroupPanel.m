@@ -125,4 +125,8 @@
         [self.delegate addGroupClick:self];
 }
 
+-(void)hideAddButton{
+    uploadButton.hidden=YES;
+}
+
 @end

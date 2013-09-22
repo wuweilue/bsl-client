@@ -14,6 +14,7 @@
 
 @interface RoomService()<NSFetchedResultsControllerDelegate,XMPPRoomDelegate>
 
+-(void)checkTimerEvent;
 
 @end
 
@@ -58,10 +59,12 @@
     NSArray *contentArray = [fetchedResultsController fetchedObjects];
     
     for(RectangleChat* chat in contentArray){
-        if([chat.isGroup boolValue]){
+        if([chat.isGroup boolValue] && ![chat.isQuit boolValue]){
             [self joinRoomServiceWithRoomID:chat.receiverJid];
         }
     }
+    
+    checkTimer=[NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(checkTimerEvent) userInfo:nil repeats:YES];
 }
 
 -(XMPPRoom*)findRoomByJid:(NSString*)roomId{
@@ -149,11 +152,29 @@
 
 
 -(void)tearDown{
+    [checkTimer invalidate];
+    checkTimer=nil;
     for(XMPPRoom* room in rooms){
         [room removeDelegate:self];
         [room deactivate];
     }
     [rooms removeAllObjects];
+}
+
+-(void)checkTimerEvent{
+    for(XMPPRoom* room in rooms){
+        if(!room.isJoined){
+            [room removeDelegate:self];
+            [room deactivate];
+            
+            [room activate:[self getCurrentStream]];
+            [room addDelegate:self delegateQueue:dispatch_get_main_queue()];
+
+            if ([room preJoinWithNickname:[self getCurrentUserName]]){
+                [room joinRoomUsingNickname:[self getCurrentUserName] history:nil];
+            }
+        }
+    }
 }
 
 #pragma RoomDelegate

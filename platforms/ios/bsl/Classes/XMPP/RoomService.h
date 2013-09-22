@@ -11,7 +11,9 @@
 @class XMPPRoom;
 
 @interface RoomService : NSObject{
+    NSTimer* checkTimer;
     NSMutableArray*  rooms;
+
 }
 -(void)tearDown;
 -(XMPPRoom*)findRoomByJid:(NSString*)roomId;

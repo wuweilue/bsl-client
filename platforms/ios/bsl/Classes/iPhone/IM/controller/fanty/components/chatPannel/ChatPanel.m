@@ -219,6 +219,23 @@
     textView.text=value;
 }
 
+-(void)hideAllControlPanel{
+    chatButton.hidden=YES;
+    textBgView.hidden=YES;
+    recordButton.hidden=YES;
+    textView.hidden=YES;
+    emoctionButton.hidden=YES;
+    addButton.hidden=YES;
+    
+
+    UILabel* label=[[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.frame.size.width, PANNEL_HEIGHT)];
+    label.text=@"你已退出该群组";
+    label.backgroundColor=[UIColor clearColor];
+    label.textColor=[UIColor blackColor];
+    label.font=[UIFont systemFontOfSize:18.0f];
+    label.textAlignment=NSTextAlignmentCenter;
+    [chatPanelBgView addSubview:label];
+}
 
 -(void)showChatOrKeyboard{
 
