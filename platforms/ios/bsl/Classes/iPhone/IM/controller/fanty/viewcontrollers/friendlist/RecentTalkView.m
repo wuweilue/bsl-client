@@ -47,16 +47,10 @@
         fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"rectangleTalk"];
         fetchedResultsController.delegate = self;
         
-        NSError *error = nil;
-        if (![fetchedResultsController performFetch:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-        NSArray *contentArray = [fetchedResultsController fetchedObjects];
-        for(id obj in contentArray){
-            [list addObject:obj];
-        }
+        [fetchedResultsController performFetch:nil];
 
+        
+        [self delayReloadTimeEvent];
         
     }
     return self;
@@ -76,6 +70,14 @@
 -(void)delayReloadTimeEvent{
     [laterReloadTimer invalidate];
     laterReloadTimer=nil;
+    
+    [list removeAllObjects];
+    NSArray *contentArray = [fetchedResultsController fetchedObjects];
+    for(id obj in contentArray){
+        [list addObject:obj];
+    }
+
+    
     [self reloadData];
 }
 
@@ -124,31 +126,10 @@
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath{
     if(![anObject isKindOfClass:[RectangleChat class]])return;
     if (type==NSFetchedResultsChangeInsert) {
-        
-        RectangleChat* removeChat=(RectangleChat*)anObject;
-        for(RectangleChat* chat in list){
-            if([chat.receiverJid isEqualToString:removeChat.receiverJid]){
-                [list removeObject:chat];
-                break;
-            }
-        }
-
-        [list insertObject:anObject atIndex:0];
-
         [laterReloadTimer invalidate];
         laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:0.5f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
 
     }else if (type==NSFetchedResultsChangeUpdate) {
-        RectangleChat* updateChat=(RectangleChat*)anObject;
-        [list enumerateObjectsUsingBlock:^(id obj,NSUInteger index,BOOL* stop){
-            RectangleChat* chat=obj;
-            if([chat.receiverJid isEqualToString:updateChat.receiverJid]){
-                *stop=YES;
-                [list removeObject:chat];
-                [list insertObject:updateChat atIndex:0];
-                return ;
-            }
-        }];
         [laterReloadTimer invalidate];
         laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
     }

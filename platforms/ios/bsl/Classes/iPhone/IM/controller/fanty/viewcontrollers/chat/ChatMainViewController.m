@@ -20,6 +20,8 @@
 #import "ImageScroller.h"
 #import "RectangleChat.h"
 #import "GroupMemberManagerViewController.h"
+#import "MessageRecord.h"
+#import "XMPPSqlManager.h"
 
 @interface ChatMainViewController ()<TouchScrollerDelegate,UITableViewDataSource,UITableViewDelegate,ChatPanelDelegate,NSFetchedResultsControllerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,RecorderDelegate,UIPopoverControllerDelegate,ChatImageCellDelegate,GroupMemberManagerViewControllerDelegate>
 -(void)createRightNavBarButton;
@@ -568,6 +570,10 @@
         RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
         rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
         [appDelegate.xmpp saveContext];
+        
+        
+        [MessageRecord createModuleBadge:@"com.foss.chat" num: [XMPPSqlManager getMessageCount]];
+
 
         [tableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationBottom];
         [tableView scrollToRowAtIndexPath:[indexPathArray lastObject] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
@@ -581,6 +587,12 @@
 -(void)updateMemberName:(GroupMemberManagerViewController *)controller memberName:(NSString *)memberName{
     self.chatName=memberName;
     self.title=self.chatName;
+}
+
+-(void)deleteMember:(GroupMemberManagerViewController *)controller{
+    self.isQuit=YES;
+    [chatPanel hideAllControlPanel];
+
 }
 
 #pragma mark method
@@ -732,6 +744,9 @@
     RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
     rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
     [appDelegate.xmpp saveContext];
+    
+    [MessageRecord createModuleBadge:@"com.foss.chat" num: [XMPPSqlManager getMessageCount]];
+
 
     //设置contentOffset才能完整显示最后一条消息,scrollToRect,scrollToIndexPath都不行
     if([messageArray count]>0)

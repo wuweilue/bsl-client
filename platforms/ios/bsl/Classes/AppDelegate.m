@@ -25,6 +25,7 @@
 //  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
 //
 
+
 #import "AppDelegate.h"
 #import "MainViewController.h"
 
@@ -299,17 +300,10 @@ void uncaughtExceptionHandler(NSException*exception){
     
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json options:NSJSONReadingMutableContainers error:nil];
     
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+//    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-#ifdef DEBUG
-    
-    HTTPRequest *request = [HTTPRequest requestWithURL:[NSURL URLWithString:kPushServerRegisterUrl]];
-    
-#else
     
     HTTPRequest *request = [HTTPRequest requestWithURL:[NSURL URLWithString:kPushServerRegisterUrl]];
-    
-#endif
     
     [request appendPostData:jsonData];
     [request setRequestMethod:@"PUT"];

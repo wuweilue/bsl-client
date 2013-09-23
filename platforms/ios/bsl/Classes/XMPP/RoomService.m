@@ -11,6 +11,10 @@
 #import "XMPPRoom.h"
 #import "RectangleChat.h"
 #import "Base64.h"
+#import "HTTPRequest.h"
+#import "IMServerAPI.h"
+#import "MessageRecord.h"
+#import "XMPPSqlManager.h"
 
 @interface RoomService()<NSFetchedResultsControllerDelegate,XMPPRoomDelegate>
 
@@ -37,40 +41,79 @@
 -(void)joinAllRoomService{
     [self tearDown];
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"RectangleChat" inManagedObjectContext:[ShareAppDelegate xmpp].managedObjectContext];
-    [fetchRequest setEntity:entity];
-    //排序
-    
-    NSSortDescriptor*sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"updateDate"ascending:NO];
-    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor1,nil];
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    NSFetchedResultsController* fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[ShareAppDelegate xmpp].managedObjectContext sectionNameKeyPath:nil cacheName:@"rectangleTalk"];
-    
-    NSError *error = nil;
-    if (![fetchedResultsController performFetch:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    
-    NSArray *contentArray = [fetchedResultsController fetchedObjects];
-    
-    for(RectangleChat* chat in contentArray){
-        if([chat.isGroup boolValue] && ![chat.isQuit boolValue]){
-            [self joinRoomServiceWithRoomID:chat.receiverJid];
+    request=[IMServerAPI grouptGetRooms:[[ShareAppDelegate xmpp].xmppStream.myJID bare] block:^(BOOL status,NSArray* array){
+        request=nil;
+        
+
+        @autoreleasepool {
+            @autoreleasepool {
+                
+                for(NSDictionary* dict in array){
+                    NSString* jid=[dict objectForKey:@"roomId"];
+                    NSString* userJid=[dict objectForKey:@"jid"];
+                    NSString* roomName=[dict objectForKey:@"roomName"];
+                    if([jid length]<1 || [userJid length]<1)continue;
+                    RectangleChat* rectChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:jid isGroup:YES];
+
+                    if(rectChat==nil){
+
+                        if([[[ShareAppDelegate xmpp].xmppStream.myJID bare] isEqualToString:userJid]){
+                            [[ShareAppDelegate xmpp] newRectangleMessage:jid name:roomName content:@"" contentType:RectangleChatContentTypeMessage isGroup:YES createrJid:nil];
+
+                        }
+                        else{
+                            NSString* content=[NSString stringWithFormat:@"%@邀请你加入群组",[dict objectForKey:@"username"] ];
+                            [[ShareAppDelegate xmpp] newRectangleMessage:jid name:roomName content:content contentType:RectangleChatContentTypeMessage isGroup:YES createrJid:userJid];
+                        }
+                        
+                    }
+                    else{
+                        rectChat.name=roomName;
+                        rectChat.createrJid=[dict objectForKey:@"jid"];
+                    }
+                }
+                
+                [[ShareAppDelegate xmpp] saveContext];
+                
+            }
+            
+            
+            
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+            // Edit the entity name as appropriate.
+            NSEntityDescription *entity = [NSEntityDescription entityForName:@"RectangleChat" inManagedObjectContext:[ShareAppDelegate xmpp].managedObjectContext];
+            [fetchRequest setEntity:entity];
+            //排序
+            
+            NSSortDescriptor*sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"updateDate"ascending:NO];
+            NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor1,nil];
+            [fetchRequest setSortDescriptors:sortDescriptors];
+            
+            NSFetchedResultsController* fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[ShareAppDelegate xmpp].managedObjectContext sectionNameKeyPath:nil cacheName:@"rectangleTalk"];
+            
+            [fetchedResultsController performFetch:nil];
+            
+            NSArray *contentArray = [fetchedResultsController fetchedObjects];
+
+            
+            for(RectangleChat* chat in contentArray){
+                if([chat.isGroup boolValue] && ![chat.isQuit boolValue] && [chat.receiverJid length]>0){
+                    [self joinRoomServiceWithRoomID:chat.receiverJid];
+                }
+            }
+            
+            checkTimer=[NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(checkTimerEvent) userInfo:nil repeats:YES];
         }
-    }
-    
-    checkTimer=[NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(checkTimerEvent) userInfo:nil repeats:YES];
+        
+        
+    }];
 }
 
 -(XMPPRoom*)findRoomByJid:(NSString*)roomId{
     for(XMPPRoom* room in rooms){
         NSString* roomJID=[room.roomJID bare];
         if([roomJID isEqualToString:roomId]){
+            
             return room;
         }
     }
@@ -104,6 +147,7 @@
     {
         [newRoom joinRoomUsingNickname:[self getCurrentUserName] history:nil];
     }
+    
     //    [self ConfigureNewRoom:_room];
     //[self performSelector:@selector(ConfigureNewRoom:) withObject:newRoom afterDelay:3.0f];
     return newJid;
@@ -152,6 +196,8 @@
 
 
 -(void)tearDown{
+    [request cancel];
+    request=nil;
     [checkTimer invalidate];
     checkTimer=nil;
     for(XMPPRoom* room in rooms){
@@ -241,6 +287,13 @@
 }
 - (void)xmppRoom:(XMPPRoom *)sender occupantDidLeave:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence{
     NSLog(@"离开了聊天室");
+    
+    /*
+     occupantJID
+     8510cc4d-bafc-4f43-84b8-096cd78c53ff@conference.snda-192-168-2-32/kuanghaojun@snda-192-168-2-32
+     Printing description of presence:
+     <presence xmlns="jabber:client" id="mwN61-6" to="tan@snda-192-168-2-32/Cube_Client11" from="8510cc4d-bafc-4f43-84b8-096cd78c53ff@conference.snda-192-168-2-32/kuanghaojun@snda-192-168-2-32" type="unavailable"><x xmlns="http://jabber.org/protocol/muc#user"><item jid="kuanghaojun@snda-192-168-2-32/Cube_Client" affiliation="owner" role="none"></item></x></presence>
+     */
 }
 
 - (void)xmppRoom:(XMPPRoom *)sender occupantDidUpdate:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence{
@@ -281,11 +334,28 @@
         if([senderUser isEqualToString:[sender myNickname]]){
             return;
         }
-        
+        /*
+        <message xmlns="jabber:client"  id="T0Pwk-9" to="tan@snda-192-168-2-32/Cube_Client11" from="8510cc4d-bafc-4f43-84b8-096cd78c53ff@conference.snda-192-168-2-32/kuanghaojun@snda-192-168-2-32" type="groupchat">
+         <subject>text</subject>
+         <body>bnnh</body>
+         <properties xmlns="http://www.jivesoftware.com/xmlns/xmpp/properties">
+         <property><name>sendDate</name><value type="string">2013-09-22 17:37:43</value></property><property><name>uqID</name><value type="string">2013-09-22 17:37:43</value></property></properties></message>
+        */
         NSString *uqID = [[message attributeForName:@"uqID"] stringValue];
+        if(uqID==nil){
+            NSXMLElement* properties=[message elementForName:@"properties"];
+            if(properties!=nil){
+                NSArray* array=[properties elementsForName:@"property"];
+                for(NSXMLElement* property in array){
+                    if([[[property elementForName:@"name"] stringValue] isEqualToString:@"uqID"]){
+                        uqID=[[property elementForName:@"value"] stringValue];
+                        break;
+                    }
+                }
+            }
+        }
         
-        
-        if([[ShareAppDelegate xmpp] fetchMessageFromUqID:uqID messageId:roomId]!=nil)
+        if(uqID!=nil && [[ShareAppDelegate xmpp] fetchMessageFromUqID:uqID messageId:roomId]!=nil)
             return;
         
         @autoreleasepool {
@@ -328,7 +398,7 @@
             RectangleChat* rectChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:roomId isGroup:YES];
             
             if(rectChat==nil){
-                [[ShareAppDelegate xmpp] newRectangleMessage:roomId name:@"" content:msg contentType:rectangleChatContentType isGroup:YES];
+                [[ShareAppDelegate xmpp] newRectangleMessage:roomId name:@"" content:msg contentType:rectangleChatContentType isGroup:YES createrJid:senderUser];
                 [[ShareAppDelegate xmpp] saveContext];
                 rectChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:roomId isGroup:YES];
             }
@@ -339,6 +409,9 @@
             rectChat.noReadMsgNumber=[NSNumber numberWithInt:noReadMsgNumber];
             rectChat.contentType=[NSNumber numberWithInt:rectangleChatContentType];
             [rectChat didSave];
+            
+            [MessageRecord createModuleBadge:@"com.foss.chat" num: [XMPPSqlManager getMessageCount]];
+
         }
     }
     

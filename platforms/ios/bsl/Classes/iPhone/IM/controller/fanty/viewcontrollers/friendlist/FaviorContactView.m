@@ -54,12 +54,7 @@
         fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"faviorUserInfo"];
         fetchedResultsController.delegate = self;
         
-        NSError *error = nil;
-        if (![fetchedResultsController performFetch:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-        
+        [fetchedResultsController performFetch:nil];
         NSArray *contentArray = [fetchedResultsController fetchedObjects];
         for(id obj in contentArray){
             [list addObject:obj];

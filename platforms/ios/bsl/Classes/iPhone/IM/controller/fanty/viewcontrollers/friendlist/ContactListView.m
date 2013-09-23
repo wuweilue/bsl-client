@@ -54,7 +54,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        selectedIndex=-1;
+        selectedIndex=0;
         isFirstLoadData=YES;
         self.userInteractionEnabled=YES;
         friendsListDict=[[NSMutableDictionary alloc] initWithCapacity:2];
@@ -106,7 +106,13 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 }
 
 - (void)dealloc{
+    if([SVProgressHUD isVisible]){
+        [SVProgressHUD dismiss];
+    }
 
+    managedObjectContext=nil;
+    fetchedResultsController.delegate=nil;
+    fetchedResultsController=nil;
     [laterReloadTimer invalidate];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -138,7 +144,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
     friendList=nil;
     if([searchText length]<1){
         headerArray=[friendsListDict allKeys] ;
-        if(selectedIndex>-1){
+        if(selectedIndex>-1 && selectedIndex<[headerArray count]){
             NSString* key=[headerArray objectAtIndex:selectedIndex];
             friendList=[friendsListDict objectForKey:key] ;
         }
@@ -195,9 +201,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
                 userInfo.userSex = useSex;
             }
             
-            [managedObjectContext save:nil];
             dispatch_async(dispatch_get_main_queue(), ^{
-
+                [managedObjectContext save:nil];
 //                userArray=nil;
                 [self showLoadData];
                 isLoadingUserInfo=NO;

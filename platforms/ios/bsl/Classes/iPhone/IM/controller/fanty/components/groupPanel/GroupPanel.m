@@ -8,8 +8,6 @@
 
 #import "GroupPanel.h"
 #import "ImageDownloadedView.h"
-#import "UserInfo.h"
-#import "GroupRoomUserEntity.h"
 
 @implementation GroupSubPanel
 
@@ -84,8 +82,10 @@
     float width=self.frame.size.width-20.0f;
 
     int index=0;
-    for(GroupRoomUserEntity* info in _tags){
-        GroupSubPanel* subView=[[GroupSubPanel alloc] initWithTitle:info.username imageUrl:@""];
+    
+    for(NSDictionary* dict in _tags){
+        NSString* username=[dict objectForKey:@"username"];
+        GroupSubPanel* subView=[[GroupSubPanel alloc] initWithTitle:username imageUrl:@""];
         subView.tag=index;
         [self addSubview:subView];
         [list addObject:subView];

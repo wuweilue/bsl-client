@@ -13,6 +13,8 @@
 #import "ContactSelectedForGroupViewController.h"
 #import "ChatLogic.h"
 #import "RoomService.h"
+#import "SVProgressHUD.h"
+#import "IMServerAPI.h"
 
 NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     UserInfo* info=(UserInfo*)obj1;
@@ -23,9 +25,9 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 };
 
 
-@interface GroupMemberManagerViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,UIAlertViewDelegate,GroupPanelDelegate,UIPopoverControllerDelegate,ContactSelectedForGroupViewControllerDelegate>
+@interface GroupMemberManagerViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,GroupPanelDelegate,UIPopoverControllerDelegate,ContactSelectedForGroupViewControllerDelegate>
+-(void)loadData;
 -(void)initGroupPanel;
--(void)loadLocalData;
 -(void)initQuitButton;
 -(void)quitClick;
 @end
@@ -56,17 +58,17 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     }
     self.view.frame=rect;
 
-    [self loadLocalData];
+    [self loadData];
     
-    tableView=[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    tableView.backgroundColor=[UIColor clearColor];
-    tableView.delegate=self;
-    tableView.dataSource=self;
-    [self.view addSubview:tableView];
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
+    [request cancel];
+    request=nil;
     list=nil;
     tableView=nil;
     groupPanel=nil;
@@ -75,39 +77,45 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 }
 
 -(void)dealloc{
+    [request cancel];
+    tableView=nil;
+    groupPanel=nil;
+    quitButton=nil;
     popover.delegate=nil;
     [popover dismissPopoverAnimated:NO];
 
-    fetchedResultsController.delegate=nil;
     self.messageId=nil;
     self.chatName=nil;
 }
 
 #pragma method
 
--(void)loadLocalData{
-    list=[[NSMutableArray alloc] initWithCapacity:2];
-    
-    managedObjectContext = [ShareAppDelegate xmpp].managedObjectContext;
-    
-    
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"roomId = %@",self.messageId];
-    NSFetchRequest *fetechRequest = [NSFetchRequest fetchRequestWithEntityName:@"GroupRoomUserEntity"];
-    [fetechRequest setPredicate:predicate];
-    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"jid" ascending:YES];
-    [fetechRequest setSortDescriptors:[NSArray arrayWithObject:sortDesc]];
-    fetchedResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:fetechRequest managedObjectContext:appDelegate.xmpp.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    fetchedResultsController.delegate = self;
-    [fetchedResultsController performFetch:NULL];
-    
-    //把消息都保存在messageArray中
-    NSArray *contentArray = [fetchedResultsController fetchedObjects];
-    
-    for(id obj in contentArray){
-        [list addObject:obj];
-    }
+-(void)loadData{
+    [request cancel];
+    [SVProgressHUD showWithStatus:@"正在获取成员列表..."];
+    request=[IMServerAPI grouptGetMembers:self.messageId block:^(BOOL status,NSArray* array){
+        
+        request=nil;
+        list=nil;
+        if(status){
+            [SVProgressHUD dismiss];
+            list=[[NSMutableArray alloc] initWithArray:array];
+            
+            tableView=[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+            tableView.backgroundColor=[UIColor clearColor];
+            tableView.delegate=self;
+            tableView.dataSource=self;
+            [self.view addSubview:tableView];
+            
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:@"获取成员失败，请检查网络！"];
+        }
+        
+        
+    }];
 }
+
 
 -(void)initGroupPanel{
     if(groupPanel==nil){
@@ -238,56 +246,66 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex==1){
         if(alertView.tag==332211){
-            ChatLogic* logic=[[ChatLogic alloc] init];
-            [logic sendNotificationMessage:@"你已退出群组" messageId:self.messageId isGroup:self.isGroupChat name:nil];
             
-            RectangleChat* rectangleChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
-            if(rectangleChat!=nil){
-                rectangleChat.isQuit=[NSNumber numberWithBool:YES];
-                [rectangleChat didSave];
-            }
-            
-            
-            [[ShareAppDelegate xmpp].roomService removeNewRoom:self.messageId];
-            
-            [self.navigationController popViewControllerAnimated:YES];
+            [request cancel];
+            [SVProgressHUD showWithStatus:@"正在执行退出..." maskType:SVProgressHUDMaskTypeBlack];
 
-            return;
+            request=[IMServerAPI grouptDeleteMember:[[ShareAppDelegate xmpp].xmppStream.myJID bare] roomId:self.messageId block:^(BOOL status){
+                request=nil;
+                if(!status){
+                    [SVProgressHUD showErrorWithStatus:@"操作失败，请检查网络！"];
+                    return ;
+                }
+                [SVProgressHUD dismiss];
+                
+                ChatLogic* logic=[[ChatLogic alloc] init];
+                [logic sendNotificationMessage:@"你已退出群组" messageId:self.messageId isGroup:self.isGroupChat name:nil];
+                
+                RectangleChat* rectangleChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
+                if(rectangleChat!=nil){
+                    rectangleChat.isQuit=[NSNumber numberWithBool:YES];
+                    [rectangleChat didSave];
+                }
+                
+                
+                [[ShareAppDelegate xmpp].roomService removeNewRoom:self.messageId];
+                
+                if([self.delegate respondsToSelector:@selector(deleteMember:)])
+                    [self.delegate deleteMember:self];
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+            
+            
+            
         }
         else{
             InputAlertView* alert=(InputAlertView*)alertView;
             if([[alert textFieldText] length]>0){
                 self.chatName=[alert textFieldText];
+                [request cancel];
+                [SVProgressHUD showWithStatus:@"操作执行中..." maskType:SVProgressHUDMaskTypeBlack];
+                request=[IMServerAPI grouptChangeRoomName:self.chatName roomId:self.messageId block:^(BOOL status){
+                    request=nil;
+                    if(!status){
+                        [SVProgressHUD showErrorWithStatus:@"操作失败，请检查网络！"];
+                        return ;
+                    }
+
+                    [SVProgressHUD dismiss];
+                    RectangleChat* rectangleChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
+                    if(rectangleChat!=nil){
+                        rectangleChat.name=self.chatName;
+                        [rectangleChat didSave];
+                    }
+                    
+                    if([self.delegate respondsToSelector:@selector(updateMemberName:memberName:)])
+                        [self.delegate updateMemberName:self memberName:self.chatName];
+                    [tableView reloadData];
                 
-                RectangleChat* rectangleChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
-                if(rectangleChat!=nil){
-                    rectangleChat.name=self.chatName;
-                    [rectangleChat didSave];
-                }
+                }];
                 
-                if([self.delegate respondsToSelector:@selector(updateMemberName:memberName:)])
-                    [self.delegate updateMemberName:self memberName:self.chatName];
-                [tableView reloadData];
             }
         }
-    }
-}
-
-
-#pragma mark  fetchedresultscontroller  delegate
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath{
-    if(![anObject isKindOfClass:[GroupRoomUserEntity class]])return;
-    if (type==NSFetchedResultsChangeInsert) {
-        [list addObject:anObject];
-        [groupPanel setArray:list];
-        [tableView reloadData];
-    }else if (type==NSFetchedResultsChangeUpdate) {
-    }
-    else if(type==NSFetchedResultsChangeDelete){
-    }
-    else if(type==NSFetchedResultsChangeMove){
-        
     }
 }
 
@@ -320,11 +338,13 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
         for(UserInfo* info in [fetchController fetchedObjects]){
             if([info.userGroup isEqualToString:key]){
                 BOOL isAdding=NO;
-                for(GroupRoomUserEntity* entity in list){
-                    if([entity.jid isEqualToString:info.userJid]){
+                for(NSDictionary* dict in list){
+                    NSString* jid=[dict objectForKey:@"jid"];
+                    if([info.userJid isEqualToString:jid]){
                         isAdding=YES;
                         break;
                     }
+
                 }
                 if(!isAdding)
                     [array addObject:info];
@@ -343,9 +363,10 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     
     controller.dicts=friendsListDict;
     
-    
+
+    controller.delegate=self;
+
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-        controller.delegate=self;
         popover.delegate=nil;
         [popover dismissPopoverAnimated:NO];
         popover=nil;
@@ -367,10 +388,35 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 
 #pragma mark contactselectedby group delegate
 
--(void)dismiss:(ContactSelectedForGroupViewController *)controller{
-    popover.delegate=nil;
-    [popover dismissPopoverAnimated:YES];
-    popover=nil;
+-(void)dismiss:(ContactSelectedForGroupViewController *)controller selectedInfo:(NSArray*)selectedInfo{
+    if(selectedInfo!=nil){
+        if(list==nil)
+            list=[[NSMutableArray alloc] initWithCapacity:1];
+        
+        @autoreleasepool {
+            for (UserInfo* userInfo in selectedInfo) {
+                NSMutableDictionary* dictionary = [[NSMutableDictionary alloc]init];
+                [dictionary setValue:userInfo.userJid forKey:@"jid"];
+                [dictionary setValue:userInfo.userSex forKey:@"sex"];
+                [dictionary setValue:[userInfo name] forKey:@"username"];
+                [dictionary setValue:userInfo.userStatue forKey:@"statue"];
+                [list addObject:dictionary];
+            }
+            
+            [groupPanel setArray:list];
+            [tableView reloadData];
+        }
+    }
+    
+    if(popover!=nil){
+        popover.delegate=nil;
+        [popover dismissPopoverAnimated:YES];
+        popover=nil;
+    }
+    else{
+        [controller dismissViewControllerAnimated:YES completion:^{}];
+    }
+    
     
 }
 

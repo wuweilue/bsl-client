@@ -399,20 +399,24 @@
 - (void)xmppStream:(XMPPStream *)sender didReceiveError:(id)error{
     DDXMLNode *errorNode = (DDXMLNode *)error;
     //遍历错误节点
-    for(DDXMLNode *node in [errorNode children])
-    {
+    for(DDXMLNode *node in [errorNode children]){
         //若错误节点有【冲突】
-        if([[node name] isEqualToString:@"conflict"])
-        {
+        if([[node name] isEqualToString:@"conflict"]){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [ShareAppDelegate showExit];
             });
+            return;
         }
     }
 }
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message{
-	if ([message isChatMessageWithBody]){
+	
+    /*
+     <message xmlns="jabber:client" uqID="1379911680.768292" type="error" from="5fe7fc67-b892-4fec-8ec5-c1c2c0c99698@conference.snda-192-168-2-32" to="guodong@snda-192-168-2-32/Cube_Client11"><body>Abc</body><subject>text</subject><error code="404" type="wait"><recipient-unavailable xmlns="urn:ietf:params:xml:ns:xmpp-stanzas"></recipient-unavailable></error></message>
+     */
+    
+    if ([message isChatMessageWithBody]){
         
         @autoreleasepool {
             NSLog(@"message = %@",message);
@@ -477,7 +481,7 @@
             
             RectangleChat* rectChat=[self fetchRectangleChatFromJid:result isGroup:NO];
             if(rectChat==nil){
-                [self newRectangleMessage:result name:[userInfo name] content:msg contentType:rectangleChatContentType isGroup:NO];
+                [self newRectangleMessage:result name:[userInfo name] content:msg contentType:rectangleChatContentType isGroup:NO createrJid:nil];
                 rectChat=[self fetchRectangleChatFromJid:result isGroup:NO];
             }
             
@@ -493,7 +497,7 @@
             [MessageRecord createModuleBadge:@"com.foss.chat" num: [XMPPSqlManager getMessageCount]];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"module_badgeCount_change" object:self];
             
-            if([self fetchMessageFromUqID:uqID messageId:result]==nil){
+            if(uqID==nil || [self fetchMessageFromUqID:uqID messageId:result]==nil){
                 MessageEntity *messageEntity = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext: self.managedObjectContext];
                 
                 messageEntity.uqID=uqID;
@@ -605,7 +609,7 @@
     return fetchedPerson;
 }
 
--(void)newRectangleMessage:(NSString*)receiverJid name:(NSString*)name content:(NSString*)content contentType:(RectangleChatContentType)contentType isGroup:(BOOL)isGroup{
+-(void)newRectangleMessage:(NSString*)receiverJid name:(NSString*)name content:(NSString*)content contentType:(RectangleChatContentType)contentType isGroup:(BOOL)isGroup createrJid:(NSString*)createrJid{
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"RectangleChat"];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"receiverJid == \"%@\"",receiverJid]];
     NSError *error=nil;
@@ -619,6 +623,7 @@
             
             if([name length]<1){
                 oldName=obj.name;
+                createrJid=obj.createrJid;
             }
             
             [context deleteObject:obj];
@@ -643,7 +648,18 @@
     
     [newManagedObject setValue:content forKey:@"content"];
     [newManagedObject setValue:[NSNumber numberWithInt:RectangleChatContentTypeMessage] forKey:@"contentType"];
-    [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"createrJid"];
+    if([createrJid length]>0){
+        [newManagedObject setValue:createrJid forKey:@"createrJid"];
+
+    }
+    else{
+        if([createrJid length]<1)
+            [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"createrJid"];
+        else
+            [newManagedObject setValue:createrJid forKey:@"createrJid"];
+    }
+    createrJid=nil;
+
     [newManagedObject setValue:receiverJid forKey:@"receiverJid"];
     [newManagedObject setValue:[NSNumber numberWithBool:isGroup] forKey:@"isGroup"];
     [newManagedObject setValue:[NSDate date] forKey:@"updateDate"];
@@ -719,81 +735,85 @@
         if ([items count]>0) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"STOPRREFRESHTABLEVIEW" object:nil];
             
-            for (int textIndex=0 ; textIndex < [items count] ; textIndex ++)
-            {
-                NSXMLElement *item=(NSXMLElement *)[items objectAtIndex:textIndex];
-                NSString *group=[[item elementForName:@"group"] stringValue];
-                if (group == nil || [group isEqualToString:@""]) {
-                    group = @"好友列表";
-                }
-                NSString * jidStr = [[item attributeForName:@"jid"] stringValue];
-                UserInfo *entity = [self fetchUserFromJid:jidStr];
-                if (entity != nil) {
-                    entity.userGroup = group;
-                    entity.userSubscription = [[item attributeForName:@"subscription"] stringValue];
-                    entity.userName = [[item attributeForName:@"name"] stringValue];
-                    //                    [self.managedObjectContext save:nil];
-                }else{
-                    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"UserInfo"inManagedObjectContext:self.managedObjectContext];
-                    [newManagedObject setValue:group forKey:@"userGroup"];
-                    [newManagedObject setValue:[[item attributeForName:@"name"] stringValue] forKey:@"userName"];
-                    [newManagedObject setValue:[[item attributeForName:@"jid"] stringValue] forKey:@"userJid"];
-                    [newManagedObject setValue:[[item attributeForName:@"subscription"] stringValue] forKey:@"userSubscription"];
-                    //                    [self.managedObjectContext save:nil];
+            
+            for (int textIndex=0 ; textIndex < [items count] ; textIndex ++){
+                @autoreleasepool {
+                    NSXMLElement *item=(NSXMLElement *)[items objectAtIndex:textIndex];
+                    NSString *group=[[item elementForName:@"group"] stringValue];
+                    if (group == nil || [group isEqualToString:@""]) {
+                        group = @"好友列表";
+                    }
+                    NSString * jidStr = [[item attributeForName:@"jid"] stringValue];
+                    UserInfo *entity = [self fetchUserFromJid:jidStr];
+                    if (entity != nil) {
+                        entity.userGroup = group;
+                        entity.userSubscription = [[item attributeForName:@"subscription"] stringValue];
+                        entity.userName = [[item attributeForName:@"name"] stringValue];
+                        //                    [self.managedObjectContext save:nil];
+                    }else{
+                        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"UserInfo"inManagedObjectContext:self.managedObjectContext];
+                        [newManagedObject setValue:group forKey:@"userGroup"];
+                        [newManagedObject setValue:[[item attributeForName:@"name"] stringValue] forKey:@"userName"];
+                        [newManagedObject setValue:[[item attributeForName:@"jid"] stringValue] forKey:@"userJid"];
+                        [newManagedObject setValue:[[item attributeForName:@"subscription"] stringValue] forKey:@"userSubscription"];
+                        //                    [self.managedObjectContext save:nil];
+                    }
                 }
             }
-            //发送通知列表可以刷新了
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"STARTRREFRESHTABLEVIEW" object:nil];
         }else{
 
             //remove by fanty 
             //[SVProgressHUD showErrorWithStatus:@"没有好友" ];
             
         }
+        //发送通知列表可以刷新了
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"STARTRREFRESHTABLEVIEW" object:nil];
+
     }else  if( [[[iq attributeForName:@"type"] stringValue] isEqualToString:@"set"]){
         //删除了好友 或者 增加好友
         NSArray *items = [[iq elementForName:@"query"] elementsForName:@"item"];
-        for (int textIndex=0 ; textIndex < [items count] ; textIndex ++)
-        {
-            NSXMLElement *item=(NSXMLElement *)[items objectAtIndex:textIndex];
-            if ([[[item attributeForName:@"subscription"] stringValue] isEqualToString: @"remove"]) {
-                
-                //先判断jid是否存在
-                NSManagedObjectContext *context =self.managedObjectContext;
-                NSString * jidStr = [[item attributeForName:@"jid"] stringValue];
-                
-                
-                UserInfo *entity = [self fetchUserFromJid:jidStr];
-                
-                [context deleteObject:entity];
-            }else if ([[[item attributeForName:@"subscription"] stringValue] isEqualToString: @"to"]) {
-                
-                NSString *group=[[item elementForName:@"group"] stringValue];
-                if (group == nil || [group isEqualToString:@""]) {
-                    group = @"好友列表";
-                }
-                
-                NSString * jidStr = [[item attributeForName:@"jid"] stringValue];
-                UserInfo *entity = [self fetchUserFromJid:jidStr];
-                if (entity != nil) {
-                    entity.userGroup = group;
-                    entity.userSubscription = [[item attributeForName:@"subscription"] stringValue];
-                    entity.userName = [[item attributeForName:@"name"] stringValue];
+        for (int textIndex=0 ; textIndex < [items count] ; textIndex ++){
+            @autoreleasepool {
+                NSXMLElement *item=(NSXMLElement *)[items objectAtIndex:textIndex];
+                if ([[[item attributeForName:@"subscription"] stringValue] isEqualToString: @"remove"]) {
                     
-                    [self.managedObjectContext save:nil];
+                    //先判断jid是否存在
+                    NSManagedObjectContext *context =self.managedObjectContext;
+                    NSString * jidStr = [[item attributeForName:@"jid"] stringValue];
                     
-                }else{
-                    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"UserInfo"inManagedObjectContext:self.managedObjectContext];
-                    [newManagedObject setValue:group forKey:@"userGroup"];
-                    [newManagedObject setValue:[[item attributeForName:@"name"] stringValue] forKey:@"userName"];
-                    [newManagedObject setValue:[[item attributeForName:@"jid"] stringValue] forKey:@"userJid"];
-                    [newManagedObject setValue:[[item attributeForName:@"subscription"] stringValue] forKey:@"userSubscription"];
                     
-                    // Save the context.
-                    NSError * error;
-                    if (![self.managedObjectContext save:&error]) {
-                        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                        abort();
+                    UserInfo *entity = [self fetchUserFromJid:jidStr];
+                    
+                    [context deleteObject:entity];
+                }else if ([[[item attributeForName:@"subscription"] stringValue] isEqualToString: @"to"]) {
+                    
+                    NSString *group=[[item elementForName:@"group"] stringValue];
+                    if (group == nil || [group isEqualToString:@""]) {
+                        group = @"好友列表";
+                    }
+                    
+                    NSString * jidStr = [[item attributeForName:@"jid"] stringValue];
+                    UserInfo *entity = [self fetchUserFromJid:jidStr];
+                    if (entity != nil) {
+                        entity.userGroup = group;
+                        entity.userSubscription = [[item attributeForName:@"subscription"] stringValue];
+                        entity.userName = [[item attributeForName:@"name"] stringValue];
+                        
+                        [self.managedObjectContext save:nil];
+                        
+                    }else{
+                        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"UserInfo"inManagedObjectContext:self.managedObjectContext];
+                        [newManagedObject setValue:group forKey:@"userGroup"];
+                        [newManagedObject setValue:[[item attributeForName:@"name"] stringValue] forKey:@"userName"];
+                        [newManagedObject setValue:[[item attributeForName:@"jid"] stringValue] forKey:@"userJid"];
+                        [newManagedObject setValue:[[item attributeForName:@"subscription"] stringValue] forKey:@"userSubscription"];
+                        
+                        // Save the context.
+                        NSError * error;
+                        if (![self.managedObjectContext save:&error]) {
+                            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                            abort();
+                        }
                     }
                 }
             }
@@ -1061,7 +1081,7 @@
                 
                 NSString *roomName =[NSString stringWithFormat:@"来自%@的会议室", fromWho];
                 NSString* content=[NSString stringWithFormat:@"%@邀请你加入群组", fromWho];
-                [self newRectangleMessage:message.fromStr name:roomName content:content contentType:RectangleChatContentTypeMessage isGroup:YES];
+                [self newRectangleMessage:message.fromStr name:roomName content:content contentType:RectangleChatContentTypeMessage isGroup:YES createrJid:fromWho];
                 
                 
                 //添加对方进入成员

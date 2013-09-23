@@ -634,7 +634,7 @@
     frame.size.width =CGRectGetHeight(self.view.frame)/2+2;
     frame.size.height= CGRectGetWidth(self.view.frame);
     
-    __weak CubeWebViewController *bCubeWebViewController  = [[CubeWebViewController alloc] init];
+    __block CubeWebViewController *bCubeWebViewController  = [[CubeWebViewController alloc] init];
     bCubeWebViewController.title = module.name;
     [bCubeWebViewController loadWebPageWithModule:module  frame:frame  didFinishBlock: ^(){
         //如果webView加载成功  这显示放大缩小按钮

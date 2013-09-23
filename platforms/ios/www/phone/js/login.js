@@ -40,12 +40,6 @@ $("body").click(function() {
 });
 
 $("#LoginBtn").click(function() {
-	/*cordova.exec(function(data){
-		data = $.parseJSON(data);
-
-	},function(err){
-
-	},"CubePackageName","getPackageName",[]);*/
 	$(this).disabled = "disabled";
 	var username = $("#username").val();
 	var password = $("#password").val();
@@ -78,7 +72,6 @@ var app = {
 		app.receivedEvent('deviceready');
 	},
 	receivedEvent: function(id) {
-	
 		cordova.exec(function(data) {
 			data = $.parseJSON(data);
 			$("#username").val(data.username);

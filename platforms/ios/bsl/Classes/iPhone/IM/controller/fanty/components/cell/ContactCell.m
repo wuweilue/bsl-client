@@ -76,6 +76,11 @@
         nicknameLabel.frame=CGRectMake(CGRectGetMaxX(imageView.frame)+9.0f, 0.0f, 300.0f-CGRectGetMaxX(imageView.frame)-9.0f, CELL_HEIGHT);
     }
 
+    
+    CGRect rect=lineView.frame;
+    rect.size.width=self.frame.size.width;
+    lineView.frame=rect;
+
 }
 
 -(void)layoutUI:(BOOL)isEdit  animated:(BOOL)animate{

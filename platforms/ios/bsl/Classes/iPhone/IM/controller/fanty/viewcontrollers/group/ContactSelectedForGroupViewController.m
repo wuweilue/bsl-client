@@ -17,6 +17,8 @@
 #import "RoomService.h"
 #import "XMPPRoom.h"
 #import "RectangleChat.h"
+#import "IMServerAPI.h"
+
 @interface ContactSelectedForGroupViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,ImageUploadedDelegate,UIAlertViewDelegate>
 
 -(void)filterClick;
@@ -111,6 +113,8 @@
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     
+    [request cancel];
+    request=nil;
     searchBar=nil;
     
     sortedKeys=nil;
@@ -122,6 +126,8 @@
 
 -(void)dealloc{
     [timeOutTimer invalidate];
+    [request cancel];
+    request=nil;
     self.tempNewjid=nil;
     self.existsGroupJid=nil;
     self.dicts=nil;
@@ -131,8 +137,8 @@
 #pragma mark method
 
 -(void)backClick{
-    if([self.delegate respondsToSelector:@selector(dismiss:)])
-        [self.delegate dismiss:self];
+    if([self.delegate respondsToSelector:@selector(dismiss:selectedInfo:)])
+        [self.delegate dismiss:self selectedInfo:nil];
     else
         [self dismissViewControllerAnimated:YES completion:^{}];
 }
@@ -213,6 +219,9 @@
     timeOutTimer=nil;
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     self.groupName=__groupName;
+    
+    
+    
     self.tempNewjid=[[ShareAppDelegate xmpp].roomService createNewRoom];
     
     timeOutTimer=[NSTimer scheduledTimerWithTimeInterval:15.0f target:self selector:@selector(timeOutEvent) userInfo:nil repeats:NO];
@@ -236,36 +245,50 @@
     timeOutTimer=nil;
     XMPPRoom* roomS=(XMPPRoom*)notification.object;
     NSString* roomJID=[roomS.roomJID bare];
+
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-    [appDelegate.xmpp newRectangleMessage:roomJID name:self.groupName content:@"我新建了一个群组" contentType:RectangleChatContentTypeMessage isGroup:YES];
     
-    
-    //先向自己发送一个邀请
-    NSString* name=[[appDelegate.xmpp.xmppStream myJID] bare];
-    
-    int index=[name rangeOfString:@"@"].location;
-    name= [name substringToIndex:index];
-    
-    
-    [appDelegate.xmpp addGroupRoomMember:roomJID memberId:[[appDelegate.xmpp.xmppStream myJID] bare] sex:[[NSUserDefaults standardUserDefaults] valueForKey:@"sex"] status:@"在线" username:name];
-    
-    [roomS inviteUser:[appDelegate.xmpp.xmppStream myJID] withMessage:@"我新建了一个群组"];
-    
-    //然后向选择的朋友发送邀请
-    for(UserInfo* info in selectedUserInfos){
-        [appDelegate.xmpp addGroupRoomMember:roomJID memberId:info.userJid sex:info.userSex status:info.userStatue username:[info name]];
+    [request cancel];
+    request=[IMServerAPI grouptAddMembers:selectedUserInfos roomId:roomJID roomName:self.groupName addSelf:YES block:^(BOOL status){
+        request=nil;
+        if(!status){
+            [SVProgressHUD showErrorWithStatus:@"群组创建失败，请稍候再尝试！"];
+
+            return ;
+        }
+
+        [appDelegate.xmpp newRectangleMessage:roomJID name:self.groupName content:@"我新建了一个群组" contentType:RectangleChatContentTypeMessage isGroup:YES createrJid:nil];
         
-        [roomS inviteUser:[XMPPJID jidWithString:info.userJid] withMessage:@"我新建了一个群组"];
         
-    }
-    
-    [appDelegate.xmpp saveContext];
-    
-    [SVProgressHUD dismiss];
-    if([self.delegate respondsToSelector:@selector(dismiss:)])
-        [self.delegate dismiss:self];
-    else
-        [self dismissViewControllerAnimated:YES completion:^{}];
+        //先向自己发送一个邀请
+        NSString* name=[[appDelegate.xmpp.xmppStream myJID] bare];
+        
+        int index=[name rangeOfString:@"@"].location;
+        name= [name substringToIndex:index];
+        
+        
+        [appDelegate.xmpp addGroupRoomMember:roomJID memberId:[[appDelegate.xmpp.xmppStream myJID] bare] sex:[[NSUserDefaults standardUserDefaults] valueForKey:@"sex"] status:@"在线" username:name];
+        
+        [roomS inviteUser:[appDelegate.xmpp.xmppStream myJID] withMessage:@"我新建了一个群组"];
+        
+        //然后向选择的朋友发送邀请
+        for(UserInfo* info in selectedUserInfos){
+            [appDelegate.xmpp addGroupRoomMember:roomJID memberId:info.userJid sex:info.userSex status:info.userStatue username:[info name]];
+            
+            [roomS inviteUser:[XMPPJID jidWithString:info.userJid] withMessage:@"我新建了一个群组"];
+            
+        }
+        
+        [appDelegate.xmpp saveContext];
+        
+        [SVProgressHUD dismiss];
+        if([self.delegate respondsToSelector:@selector(dismiss:selectedInfo:)])
+            [self.delegate dismiss:self selectedInfo:selectedUserInfos];
+        else
+            [self dismissViewControllerAnimated:YES completion:^{}];
+        
+        
+    }];
 
 }
 
@@ -443,24 +466,41 @@
 -(void)didConfirmImageUploaded:(ImageUploaded*)imageUploaded{
     
     if(self.existsGroupJid!=nil){
-        AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
         
-        XMPPRoom* roomS=[appDelegate.xmpp.roomService findRoomByJid:self.existsGroupJid];
-        NSString* roomJID=[roomS.roomJID bare];
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+
+        [request cancel];
+        request=[IMServerAPI grouptAddMembers:selectedUserInfos roomId:self.existsGroupJid roomName:self.groupName addSelf:NO block:^(BOOL status){
         
-        //然后向选择的朋友发送邀请
-        for(UserInfo* info in selectedUserInfos){
-            [appDelegate.xmpp addGroupRoomMember:roomJID memberId:info.userJid sex:info.userSex status:info.userStatue username:[info name]];
+            request=nil;
+            if(!status){
+                [SVProgressHUD showErrorWithStatus:@"添加成员失败，请稍候再尝试！"];
+                
+                return ;
+            }
             
-            [roomS inviteUser:[XMPPJID jidWithString:info.userJid] withMessage:@"我邀请你加入群组"];
-        }
+            [SVProgressHUD dismiss];
+            
+            AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+            XMPPRoom* roomS=[appDelegate.xmpp.roomService findRoomByJid:self.existsGroupJid];
+            NSString* roomJID=[roomS.roomJID bare];
+            
+            //然后向选择的朋友发送邀请
+            for(UserInfo* info in selectedUserInfos){
+                [appDelegate.xmpp addGroupRoomMember:roomJID memberId:info.userJid sex:info.userSex status:info.userStatue username:[info name]];
+                
+                [roomS inviteUser:[XMPPJID jidWithString:info.userJid] withMessage:@"我邀请你加入群组"];
+            }
+            
+            [appDelegate.xmpp saveContext];
+            
+            if([self.delegate respondsToSelector:@selector(dismiss:selectedInfo:)])
+                [self.delegate dismiss:self selectedInfo:selectedUserInfos];
+            else
+                [self dismissViewControllerAnimated:YES completion:^{}];
+
         
-        [appDelegate.xmpp saveContext];
-        
-        if([self.delegate respondsToSelector:@selector(dismiss:)])
-            [self.delegate dismiss:self];
-        else
-            [self dismissViewControllerAnimated:YES completion:^{}];
+        }];
         
     }
     else{

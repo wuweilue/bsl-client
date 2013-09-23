@@ -56,58 +56,7 @@ var Store = {
 	}
 };
 
-//下载文件
-var downloadFile = function(sourceUrl, targetUrl, callback) {
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, null);
 
-	var fileName = sourceUrl;
-	if (fileName.indexOf("?") > -1) {
-		fileName = fileName.substring(0, fileName.indexOf("?"));
-	}
-	if (fileName.indexOf("file://") > -1) {
-		var fileEntry = new Object;
-		fileEntry.fullPath = sourceUrl;
-		showPic(fileEntry);
-		return;
-	}
-
-	fileName = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.lenght);
-	console.log("filename2 " + fileName);
-
-	function gotFS(fileSystem) {
-		fileSystem.root.getDirectory(targetUrl, {
-			create: true,
-			exclusive: false
-		}, writerFile, function(e) {
-			console.log("创建文件夹失败");
-		});
-	}
-
-	function writerFile(newFile) {
-		newFile.getFile(fileName, null, showPic, function() {
-			newFile.getFile(fileName, {
-				create: true,
-				exclusive: false
-			}, gotFileEntry, null);
-		});
-	}
-
-	function showPic(fileEntry) {
-		//文件存在就直接显示  
-		callback(fileEntry);
-	}
-
-	function gotFileEntry(fileEntry) {
-		var fileTransfer = new FileTransfer();
-		var uri = encodeURI(sourceUrl);
-		fileTransfer.download(
-			uri, fileEntry.fullPath, function(entry) {
-				callback(entry);
-			}, function(error) {
-				console.log("下载网络图片出现错误");
-			});
-	}
-};
 
 //把图片转换成base64，存放到localStorage
 var getBase64Image = function(img) {

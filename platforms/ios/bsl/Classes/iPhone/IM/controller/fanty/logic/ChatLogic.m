@@ -11,6 +11,8 @@
 #import "JSONKit.h"
 #import "RectangleChat.h"
 #import "XMPPRoom.h"
+#import "MessageRecord.h"
+#import "XMPPSqlManager.h"
 
 @interface ChatLogic()
 -(NSString*)juingNewId;
@@ -28,7 +30,6 @@
 
 -(void)dealloc{
     self.roomJID=nil;
-    [request cancel];
 }
 
 -(NSString*)juingNewId{
@@ -37,32 +38,39 @@
 }
 
 -(void)sendNotificationMessage:(NSString* )content messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name{
-    NSString* uqID=[self juingNewId];
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     
-    //新建消息的entity
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
-    [newManagedObject setValue:uqID forKey:@"uqID"];
-    [newManagedObject setValue:content forKey:@"content"];
-    [newManagedObject setValue:@"notification" forKey:@"type"];
-    
-    [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
-    [newManagedObject setValue:messageId forKey:@"messageId"];
-    [newManagedObject setValue:messageId forKey:@"receiveUser"];
-    [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"sendUser"];
-    
-    [newManagedObject setValue:[NSDate date] forKey:@"receiveDate"];
-    
-    RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-    if(rectChat==nil){
-        [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeMessage isGroup:isGroup];
-        rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-    }
-    rectChat.content=content;
-    rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeMessage];
-    rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
+    @autoreleasepool {
+        NSString* uqID=[self juingNewId];
+        AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+        
+        //新建消息的entity
+        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
+        [newManagedObject setValue:uqID forKey:@"uqID"];
+        [newManagedObject setValue:content forKey:@"content"];
+        [newManagedObject setValue:@"notification" forKey:@"type"];
+        
+        [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
+        [newManagedObject setValue:messageId forKey:@"messageId"];
+        [newManagedObject setValue:messageId forKey:@"receiveUser"];
+        [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"sendUser"];
+        
+        [newManagedObject setValue:[NSDate date] forKey:@"receiveDate"];
+        
+        RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+        if(rectChat==nil){
+            [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeMessage isGroup:isGroup createrJid:nil];
+            rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+        }
+        rectChat.content=content;
+        rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeMessage];
+        rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
+        
+        [appDelegate.xmpp saveContext];
+        
+        
+        [MessageRecord createModuleBadge:@"com.foss.chat" num: [XMPPSqlManager getMessageCount]];
 
-    [appDelegate.xmpp saveContext];
+    }
 
 }
 
@@ -77,61 +85,65 @@
     NSString* uqID=[self juingNewId];
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
 
-    //拼写xml格式的xmpp消息
-    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
-    [body setStringValue:content];
-    NSXMLElement *message = [NSXMLElement elementWithName:@"message" ];
-
-    [message addAttributeWithName:@"uqID" stringValue:uqID];
-    if(!isGroup){
+    @autoreleasepool {
+        //拼写xml格式的xmpp消息
+        NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+        [body setStringValue:content];
+        NSXMLElement *message = [NSXMLElement elementWithName:@"message" ];
         
-        [message addAttributeWithName:@"type" stringValue:@"chat"];
-        [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
-        //消息接受者
-        [message addAttributeWithName:@"to" stringValue:messageId];
-        [message addChild:body];
-        
-        NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"text"];//告诉接受方 传送的是文件 还是 聊天内容
-        [message addChild:subject];        
+        [message addAttributeWithName:@"uqID" stringValue:uqID];
+        if(!isGroup){
+            
+            [message addAttributeWithName:@"type" stringValue:@"chat"];
+            [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
+            //消息接受者
+            [message addAttributeWithName:@"to" stringValue:messageId];
+            [message addChild:body];
+            
+            NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"text"];//告诉接受方 传送的是文件 还是 聊天内容
+            [message addChild:subject];
+        }
+        else{
+            [message addAttributeWithName:@"type" stringValue:@"groupchat"];
+            [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
+            //消息接受者
+            [message addAttributeWithName:@"to" stringValue:[[room roomJID] full]];
+            [message addChild:body];
+            
+            NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"text"];//告诉接受方 传送的是文件 还是 聊天内容
+            [message addChild:subject];
+        }
+        //发送消息
+        [appDelegate.xmpp.xmppStream sendElement:message];
     }
-    else{
-        [message addAttributeWithName:@"type" stringValue:@"groupchat"];
-        [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
-        //消息接受者
-        [message addAttributeWithName:@"to" stringValue:[[room roomJID] full]];
-        [message addChild:body];
+
+
+
+    @autoreleasepool {
+        //新建消息的entity
+        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
+        [newManagedObject setValue:uqID forKey:@"uqID"];
+        [newManagedObject setValue:content forKey:@"content"];
+        [newManagedObject setValue:@"text" forKey:@"type"];
         
-        NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"text"];//告诉接受方 传送的是文件 还是 聊天内容
-        [message addChild:subject];
-    }
-    //发送消息
-    [appDelegate.xmpp.xmppStream sendElement:message];
-
-
-
-    //新建消息的entity
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
-    [newManagedObject setValue:uqID forKey:@"uqID"];
-    [newManagedObject setValue:content forKey:@"content"];
-    [newManagedObject setValue:@"text" forKey:@"type"];
+        [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
+        [newManagedObject setValue:messageId forKey:@"messageId"];
+        [newManagedObject setValue:messageId forKey:@"receiveUser"];
+        [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"sendUser"];
         
-    [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
-    [newManagedObject setValue:messageId forKey:@"messageId"];
-    [newManagedObject setValue:messageId forKey:@"receiveUser"];
-    [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"sendUser"];
-    
-    [newManagedObject setValue:[NSDate date] forKey:@"receiveDate"];
-
-    RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-    if(rectChat==nil){
-        [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup];
-        rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+        [newManagedObject setValue:[NSDate date] forKey:@"receiveDate"];
+        
+        RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+        if(rectChat==nil){
+            [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup createrJid:nil];
+            rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+        }
+        rectChat.content=content;
+        rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeMessage];
+        rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
+        
+        [appDelegate.xmpp saveContext];
     }
-    rectChat.content=content;
-    rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeMessage];
-    rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
-
-    [appDelegate.xmpp saveContext];
 
 
     return YES;
@@ -145,59 +157,62 @@
     if(room!=nil && !room.isJoined)return NO;
 
     NSString* uqID=[self juingNewId];
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
 
     //拼写xml格式的xmpp消息
-    
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
-    [body setStringValue:content];
-    NSXMLElement *message = [NSXMLElement elementWithName:@"message" ];
-    [message addAttributeWithName:@"uqID" stringValue:uqID];
-
-    if(!isGroup){
+    @autoreleasepool {
+        NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+        [body setStringValue:content];
+        NSXMLElement *message = [NSXMLElement elementWithName:@"message" ];
+        [message addAttributeWithName:@"uqID" stringValue:uqID];
         
-        [message addAttributeWithName:@"type" stringValue:@"chat"];
-        [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
-        //消息接受者
-        [message addAttributeWithName:@"to" stringValue:messageId];
-        [message addChild:body];
+        if(!isGroup){
+            
+            [message addAttributeWithName:@"type" stringValue:@"chat"];
+            [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
+            //消息接受者
+            [message addAttributeWithName:@"to" stringValue:messageId];
+            [message addChild:body];
+            
+            NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"image"];//告诉接受方 传送的是文件 还是 聊天内容
+            [message addChild:subject];
+        }
+        else{
+            [message addAttributeWithName:@"type" stringValue:@"groupchat"];
+            [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
+            //消息接受者
+            [message addAttributeWithName:@"to" stringValue:[[room roomJID] full]];
+            [message addChild:body];
+            
+            NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"image"];//告诉接受方 传送的是文件 还是 聊天内容
+            [message addChild:subject];
+        }
         
-        NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"image"];//告诉接受方 传送的是文件 还是 聊天内容
-        [message addChild:subject];
+        //发送消息
+        [appDelegate.xmpp.xmppStream sendElement:message];
     }
-    else{
-        [message addAttributeWithName:@"type" stringValue:@"groupchat"];
-        [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
-        //消息接受者
-        [message addAttributeWithName:@"to" stringValue:[[room roomJID] full]];
-        [message addChild:body];
+    
+    @autoreleasepool {
+        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
+        [newManagedObject setValue:uqID forKey:@"uqID"];
+        [newManagedObject setValue:path forKey:@"content"];
+        [newManagedObject setValue:@"image" forKey:@"type"];
+        [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
+        [newManagedObject setValue:messageId forKey:@"messageId"];
+        [newManagedObject setValue:messageId forKey:@"receiveUser"];
+        [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"sendUser"];
         
-        NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"image"];//告诉接受方 传送的是文件 还是 聊天内容
-        [message addChild:subject];
+        RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+        if(rectChat==nil){
+            [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup createrJid:nil];
+            rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+        }
+        rectChat.content=content;
+        rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeImage];
+        rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
+        
+        [appDelegate.xmpp saveContext];
     }
-
-    //发送消息
-    [appDelegate.xmpp.xmppStream sendElement:message];
-    
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
-    [newManagedObject setValue:uqID forKey:@"uqID"];
-    [newManagedObject setValue:path forKey:@"content"];
-    [newManagedObject setValue:@"image" forKey:@"type"];
-    [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
-    [newManagedObject setValue:messageId forKey:@"messageId"];
-    [newManagedObject setValue:messageId forKey:@"receiveUser"];
-    [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"sendUser"];
-    
-    RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-    if(rectChat==nil){
-        [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup];
-        rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-    }
-    rectChat.content=content;
-    rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeImage];
-    rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
-
-    [appDelegate.xmpp saveContext];
 
     
     return YES;
@@ -215,61 +230,65 @@
 
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
 
-    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
-    [body setStringValue:content];
-    
-    NSXMLElement *message = [NSXMLElement elementWithName:@"message" ];
-    [message addAttributeWithName:@"uqID" stringValue:uqID];
-
-    //拼写xml格式的xmpp消息
-    if(!isGroup){
-        //消息发送者
-        [message addAttributeWithName:@"type" stringValue:@"chat"];
-        [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
-        //消息接受者
-        [message addAttributeWithName:@"to" stringValue:messageId];
+    @autoreleasepool {
+        NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+        [body setStringValue:content];
         
-        [message addChild:body];
-        NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"voice"];//告诉接受方 传送的是文件 还是 聊天内容
-        [message addChild:subject];
+        NSXMLElement *message = [NSXMLElement elementWithName:@"message" ];
+        [message addAttributeWithName:@"uqID" stringValue:uqID];
+        
+        //拼写xml格式的xmpp消息
+        if(!isGroup){
+            //消息发送者
+            [message addAttributeWithName:@"type" stringValue:@"chat"];
+            [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
+            //消息接受者
+            [message addAttributeWithName:@"to" stringValue:messageId];
+            
+            [message addChild:body];
+            NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"voice"];//告诉接受方 传送的是文件 还是 聊天内容
+            [message addChild:subject];
+        }
+        else{
+            //消息发送者
+            [message addAttributeWithName:@"type" stringValue:@"groupchat"];
+            [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
+            //消息接受者
+            [message addAttributeWithName:@"to" stringValue:[[room roomJID] full]];
+            [message addChild:body];
+            NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"voice"];//告诉接受方 传送的是文件 还是 聊天内容
+            [message addChild:subject];
+        }
+        //发送消息
+        [appDelegate.xmpp.xmppStream sendElement:message];
     }
-    else{
-        //消息发送者
-        [message addAttributeWithName:@"type" stringValue:@"groupchat"];
-        [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
-        //消息接受者
-        [message addAttributeWithName:@"to" stringValue:[[room roomJID] full]];
-        [message addChild:body];
-        NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"voice"];//告诉接受方 传送的是文件 还是 聊天内容
-        [message addChild:subject];
-    }
-    //发送消息
-    [appDelegate.xmpp.xmppStream sendElement:message];
 
     
-    //新建消息的entity
-    
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
-    
-    [newManagedObject setValue:uqID forKey:@"uqID"];
-    [newManagedObject setValue:[urlVoiceFile absoluteString] forKey:@"content"];
-    [newManagedObject setValue:@"voice" forKey:@"type"];
-    [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
-    [newManagedObject setValue:messageId forKey:@"messageId"];
-    [newManagedObject setValue:messageId forKey:@"receiveUser"];
-    [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"sendUser"];
-    
-    
-    RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-    if(rectChat==nil){
-        [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup];
-        rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+    @autoreleasepool {
+        //新建消息的entity
+        
+        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
+        
+        [newManagedObject setValue:uqID forKey:@"uqID"];
+        [newManagedObject setValue:[urlVoiceFile absoluteString] forKey:@"content"];
+        [newManagedObject setValue:@"voice" forKey:@"type"];
+        [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
+        [newManagedObject setValue:messageId forKey:@"messageId"];
+        [newManagedObject setValue:messageId forKey:@"receiveUser"];
+        [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"sendUser"];
+        
+        
+        RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+        if(rectChat==nil){
+            [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup createrJid:nil];
+            rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+        }
+        rectChat.content=content;
+        rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeVoice];
+        rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
+        
+        [appDelegate.xmpp saveContext];
     }
-    rectChat.content=content;
-    rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeVoice];
-    rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
-
-    [appDelegate.xmpp saveContext];
     
     return YES;
 }
@@ -323,24 +342,32 @@
 
 
 -(BOOL)uploadImageToServer:(UIImage*)image finish:(void (^)(NSString* id,NSString* path))finish{
-    [request cancel];
+    //[request cancel];
     
-    NSData *imageData = UIImagePNGRepresentation(image);
      NSString* token=[[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
     NSURL *requestURL = [NSURL URLWithString:[kFileUploadUrl stringByAppendingFormat:@"?sessionKey=%@&&appKey=%@",token,kAPPKey]];
   
-    request = [FormDataRequest requestWithURL:requestURL];
+    FormDataRequest* request = [FormDataRequest requestWithURL:requestURL];
+    __block FormDataRequest* __request=request;
     request.delegate = self;
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithCapacity:0];
-    [dict setObject:imageData forKey:@"file"];
-    [request setUserInfo:dict];
-    [request setData:imageData forKey:@"file"];
+    @autoreleasepool {
+        NSData *imageData = UIImagePNGRepresentation(image);
+
+        
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithCapacity:0];
+        [dict setObject:imageData forKey:@"file"];
+        [request setUserInfo:dict];
+        
+        [request setData:imageData forKey:@"file"];
+        dict=nil;
+        imageData=nil;
+    }
 
     [request setCompletionBlock:^{
         
         
-        NSString *resultStr = [request responseString];
-        NSData *imageData = [[request userInfo] valueForKey:@"file"];
+        NSString *resultStr = [__request responseString];
+        NSData *imageData = [[__request userInfo] valueForKey:@"file"];
         NSDictionary *dict = [resultStr objectFromJSONString];
         NSString *fileId = [dict valueForKey:@"id"];
         NSString *path = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"sendFiles"];
@@ -354,13 +381,13 @@
                 
         if(finish!=nil)
             finish(fileId,path);
-        request=nil;
+        [__request cancel];
     }];
     
     [request setFailedBlock:^{
         if(finish!=nil)
             finish(nil,nil);
-        request=nil;
+        [__request cancel];
     }];
     
     [request startAsynchronous];

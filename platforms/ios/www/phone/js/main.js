@@ -1,6 +1,5 @@
 //解决点击延迟问题
 new FastClick(document.body);
-var packageName;
 //封装cordova的执行方法，加上回调函数
 var cordovaExec = function(plugin, action, parameters, callback) {
 	cordova.exec(function(data) {
@@ -11,6 +10,8 @@ var cordovaExec = function(plugin, action, parameters, callback) {
 		//alert(err);
 	}, plugin, action, parameters === null || parameters === undefined ? [] : parameters);
 };
+
+
 //首页接受到信息，刷新页面
 var receiveMessage = function(identifier, count, display) {
 	console.log("AAA进入index revceiveMessage count = " + count + identifier + display);
@@ -29,11 +30,8 @@ var receiveMessage = function(identifier, count, display) {
 	} else {
 		$moduleTips.hide();
 	}
-	if (myScroll) {
-		myScroll.refresh();
-		myScroll.scrollTo(0, 1, 200, true);
-	}
-
+	myScroll.refresh();
+	myScroll.scrollTo(0, 1, 200, true);
 };
 //自动更新查新界面
 var refreshMainPage = function() {
@@ -46,11 +44,9 @@ var refreshMainPage = function() {
 		if (type == "upgrade") {
 			type = "upgradable";
 		}
-
-		loadModuleList("CubeModuleList", type + "List", t, function() {
-			if ($("#listview_btn").hasClass("active")) {
-				$('.module_div ul li .curd_btn').css('display', 'inline');
-			}
+		
+		loadModuleList("CubeModuleList", type + "List", t,function(){
+			$('.module_div ul li .curd_btn').css('display', 'inline');
 		});
 	} else {
 		//主页面
@@ -276,13 +272,14 @@ var initial = function(type, data) {
 				value.updatable = false;
 			}
 
-			downloadFile(value.icon, packageName + "/moduleIcon", function(entry) {
-				// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
-				value.icon = entry.fullPath;
-				//alert(value.icon+"---download success");
-				console.log("value.icon download success " + value.icon);
-			});
-
+			// var mark = value.icon;
+			// if (mark.indexOf("?") > -1) {
+			// 	mark = mark.substring(0, mark.indexOf("?"));
+			// }
+			// if (window.localStorage[mark] !== undefined) {
+			// 	value.icon = window.localStorage[mark];
+			// 	console.log("图片存在，直接缓存拿");
+			// }
 			value.releaseNote = subStrByCnLen(value.releaseNote + "", 21);
 			console.log("value.releasenote=" + value.releaseNote);
 			$('.module_div_ul[num="' + i + '"]').append(
@@ -694,29 +691,12 @@ var app = {
 	},
 	receivedEvent: function(id) {
 
-
-		//loadModuleList("CubeModuleList", "mainList", "main");
+		loadModuleList("CubeModuleList", "mainList", "main");
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
 			//alert(result);
-			var osPlatform = device.platform;
-			if (osPlatform.toLowerCase() == "android") {
-				cordova.exec(function(data) {
-					packageName = $.parseJSON(data).packageName;
-					//如果是android，先获取到包名
-					loadModuleList("CubeModuleList", "mainList", "main", function() {
-						myScroll.refresh();
-					});
-				}, function(err) {
-					console.log("获取Packagename失败");
-				}, "CubePackageName", "getPackageName", []);
-			} else {
-				loadModuleList("CubeModuleList", "mainList", "main", function() {
-					myScroll.refresh();
-				});
-			}
-
-
-
+			loadModuleList("CubeModuleList", "mainList", "main", function() {
+				myScroll.refresh();
+			});
 		});
 	}
 };

@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @class XMPPRoom;
+@class HTTPRequest;
 
 @interface RoomService : NSObject{
     NSTimer* checkTimer;
     NSMutableArray*  rooms;
+    
+    HTTPRequest* request;
 
 }
 -(void)tearDown;

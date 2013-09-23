@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 @class FormDataRequest;
 @interface ChatLogic : NSObject{
-    FormDataRequest * request;
+//    FormDataRequest * request;
     
 }
 

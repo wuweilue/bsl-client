@@ -11,10 +11,11 @@
 @class TouchTableView;
 @class CustomNavigationBar;
 @class ContactSelectedForGroupViewController;
+@class FormDataRequest;
 
 @protocol ContactSelectedForGroupViewControllerDelegate <NSObject>
 
--(void)dismiss:(ContactSelectedForGroupViewController*)controller;;
+-(void)dismiss:(ContactSelectedForGroupViewController*)controller selectedInfo:(NSArray*)selectedInfo;
 
 @end
 
@@ -32,6 +33,8 @@
     NSMutableArray* selectedUserInfos;
     
     NSTimer* timeOutTimer;
+    
+    FormDataRequest* request;
 }
 @property(nonatomic,weak) id<ContactSelectedForGroupViewControllerDelegate> delegate;
 @property(nonatomic,strong) NSString* tempNewjid;

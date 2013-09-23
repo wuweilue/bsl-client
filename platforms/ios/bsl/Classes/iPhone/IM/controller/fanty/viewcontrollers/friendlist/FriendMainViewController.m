@@ -151,7 +151,7 @@
     [tabView addSubview:numberView];
     
     CGRect rect=numberView.frame;
-    rect.origin.x=tabView.frame.size.width/3.0f-rect.size.width-10.0f;
+    rect.origin.x=tabView.frame.size.width/3.0f-rect.size.width-50.0f;
     numberView.frame=rect;
     
     [self loadNumber];
@@ -270,7 +270,7 @@
 
 #pragma mark contactselectedby group delegate
 
--(void)dismiss:(ContactSelectedForGroupViewController *)controller{
+-(void)dismiss:(ContactSelectedForGroupViewController *)controller selectedInfo:(NSArray *)selectedInfo{
     popover.delegate=nil;
     [popover dismissPopoverAnimated:YES];
     popover=nil;

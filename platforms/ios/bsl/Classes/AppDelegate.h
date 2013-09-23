@@ -26,10 +26,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Cordova/CDVViewController.h>
 
 #import "AnimateNavigationController.h"
 
-#import <Cordova/CDVViewController.h>
 #import "XMPPIMActor.h"
 
 #import "UpdateChecker.h"

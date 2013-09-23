@@ -61,6 +61,15 @@
     return self;
 }
 
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    
+    CGRect rect=lineView.frame;
+    rect.size.width=self.frame.size.width;
+    lineView.frame=rect;
+
+}
+
 -(void)headerUrl:(NSString*)headerUrl nickname:(NSString*)nickname{
     [imageView setUrl:headerUrl];
     nicknameLabel.text=nickname;

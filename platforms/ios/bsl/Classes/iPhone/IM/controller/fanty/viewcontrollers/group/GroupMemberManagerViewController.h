@@ -13,11 +13,13 @@
 @class NSFetchedResultsController;
 
 @class GroupMemberManagerViewController;
+@class ASIHTTPRequest;
 
 @protocol GroupMemberManagerViewControllerDelegate <NSObject>
 
 -(void)updateMemberName:(GroupMemberManagerViewController*)controller memberName:(NSString*)memberName;
 
+-(void)deleteMember:(GroupMemberManagerViewController*)controller;
 @end
 
 @interface GroupMemberManagerViewController : UIViewController{
@@ -26,12 +28,11 @@
     UIButton* quitButton;
     NSMutableArray* list;
     
-    NSManagedObjectContext *managedObjectContext;
-    
-    NSFetchedResultsController *fetchedResultsController;
-
     UIPopoverController *popover;
 
+    ASIHTTPRequest* request;
+    
+    
 //btn_red
 }
 @property(nonatomic,weak) id<GroupMemberManagerViewControllerDelegate> delegate;
