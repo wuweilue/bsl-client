@@ -3621,7 +3621,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3629,6 +3630,23 @@
 				GCC_PREFIX_HEADER = "bsl/bsl-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/ASIHTTPRequest\"",
+					"\"${PODS_ROOT}/Headers/CocoaAsyncSocket\"",
+					"$(SDKROOT)/usr/include/libresolv",
+					"\"${PODS_ROOT}/Headers/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/FMDB\"",
+					"\"${PODS_ROOT}/Headers/JSONKit\"",
+					"\"${PODS_ROOT}/Headers/MTStatusBarOverlay\"",
+					"\"${PODS_ROOT}/Headers/Reachability\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
+					"\"${PODS_ROOT}/Headers/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/XMPPFramework\"",
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = "bsl/bsl-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -3637,6 +3655,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = bsl;
+				PROVISIONING_PROFILE = "64892DA8-E8BE-4184-9A77-B1961AC251EC";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -3647,12 +3666,30 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "bsl/bsl-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/ASIHTTPRequest\"",
+					"\"${PODS_ROOT}/Headers/CocoaAsyncSocket\"",
+					"$(SDKROOT)/usr/include/libresolv",
+					"\"${PODS_ROOT}/Headers/CocoaLumberjack\"",
+					"\"${PODS_ROOT}/Headers/FMDB\"",
+					"\"${PODS_ROOT}/Headers/JSONKit\"",
+					"\"${PODS_ROOT}/Headers/MTStatusBarOverlay\"",
+					"\"${PODS_ROOT}/Headers/Reachability\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
+					"\"${PODS_ROOT}/Headers/SVProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/XMPPFramework\"",
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = "bsl/bsl-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -3661,6 +3698,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = bsl;
+				PROVISIONING_PROFILE = "64892DA8-E8BE-4184-9A77-B1961AC251EC";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -3700,6 +3738,7 @@
 					"-force_load",
 					"\"$(BUILT_PRODUCTS_DIR)/libCordova.a\"",
 					"-ObjC",
+					"$(inherited)",
 				);
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
@@ -3742,6 +3781,7 @@
 					"-force_load",
 					"\"$(BUILT_PRODUCTS_DIR)/libCordova.a\"",
 					"-ObjC",
+					"$(inherited)",
 				);
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
