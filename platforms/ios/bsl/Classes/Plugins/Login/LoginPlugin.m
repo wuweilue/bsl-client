@@ -113,8 +113,6 @@
                 UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"登录失败" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 [alert show];
             }else{
-            NSData* data = [__request responseData];
-            NSDictionary* messageDictionary = [data objectFromJSONData];
             NSString* messageAlert =   [messageDictionary objectForKey:@"message"];
             NSNumber* number =  [messageDictionary objectForKey:@"result"];
             if ([number boolValue]) {

@@ -18,6 +18,7 @@
 #import "XMPPRoom.h"
 #import "RectangleChat.h"
 #import "IMServerAPI.h"
+#import "HTTPRequest.h"
 
 @interface ContactSelectedForGroupViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,ImageUploadedDelegate,UIAlertViewDelegate>
 
@@ -249,6 +250,7 @@
     XMPPRoom* roomS=(XMPPRoom*)notification.object;
     NSString* roomJID=[roomS.roomJID bare];
 
+    self.tempNewjid=roomJID;
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     
     [request cancel];

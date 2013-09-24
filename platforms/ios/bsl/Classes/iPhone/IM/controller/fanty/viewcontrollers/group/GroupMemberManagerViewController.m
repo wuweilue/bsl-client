@@ -15,6 +15,7 @@
 #import "RoomService.h"
 #import "SVProgressHUD.h"
 #import "IMServerAPI.h"
+#import "HTTPRequest.h"
 
 NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     UserInfo* info=(UserInfo*)obj1;
