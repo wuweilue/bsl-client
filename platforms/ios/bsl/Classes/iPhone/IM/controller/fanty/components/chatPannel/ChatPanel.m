@@ -497,6 +497,34 @@
 
 }
 
+-(void)sendEmoction:(EmoctionPanel *)emoction{
+    [emoctionPanel removeFromSuperview];
+    emoctionPanel=nil;
+    [camerPanel removeFromSuperview];
+    camerPanel=nil;
+    
+    [textView resignFirstResponder];
+    
+    [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
+        CGRect rect=emoctionPanel.frame;
+        rect.origin.y=self.frame.size.height;
+        emoctionPanel.frame=rect;
+        
+        rect=self.frame;
+        rect.origin.y=self.superview.frame.size.height-self.frame.size.height;
+        self.frame=rect;
+
+    } completion:^(BOOL finish){
+        [emoctionPanel removeFromSuperview];
+        emoctionPanel=nil;
+        
+    }];
+    
+    if([self.delegate respondsToSelector:@selector(chatPanelDidSend:)])
+        [self.delegate chatPanelDidSend:self];
+
+}
+
 #pragma mark  camerapanel delegate
 
 -(void)cameraPanelDidClick:(CameraPanel *)cameraPanel clickType:(CameraPanelClickType)cameraPanelClickType{

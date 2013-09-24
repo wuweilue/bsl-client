@@ -21,7 +21,7 @@
 -(void)tearDown;
 -(XMPPRoom*)findRoomByJid:(NSString*)roomId;
 -(NSString*)createNewRoom;
--(void)removeNewRoom:(NSString*)roomId;
+-(void)removeNewRoom:(NSString*)roomId destory:(BOOL)destory;
 -(void)joinAllRoomService;
 -(void)joinRoomServiceWithRoomID:(NSString*)roomID;
 

@@ -37,7 +37,7 @@
     
 }
 
--(void)sendNotificationMessage:(NSString* )content messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name{
+-(void)sendNotificationMessage:(NSString* )content messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name  onlyUpdateChat:(BOOL)onlyUpdateChat{
     
     @autoreleasepool {
         NSString* uqID=[self juingNewId];
@@ -56,19 +56,13 @@
         
         [newManagedObject setValue:[NSDate date] forKey:@"receiveDate"];
         
-        RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-        if(rectChat==nil){
+        if(!onlyUpdateChat){
             [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeMessage isGroup:isGroup createrJid:nil];
-            rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
+            [appDelegate.xmpp saveContext];
         }
-        rectChat.content=content;
-        rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeMessage];
-        rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
         
-        [appDelegate.xmpp saveContext];
-        
-        
-        [MessageRecord createModuleBadge:@"com.foss.chat" num: [XMPPSqlManager getMessageCount]];
+        if(!onlyUpdateChat)
+            [MessageRecord createModuleBadge:@"com.foss.chat" num: [XMPPSqlManager getMessageCount]];
 
     }
 
@@ -133,14 +127,7 @@
         
         [newManagedObject setValue:[NSDate date] forKey:@"receiveDate"];
         
-        RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-        if(rectChat==nil){
-            [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup createrJid:nil];
-            rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-        }
-        rectChat.content=content;
-        rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeMessage];
-        rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
+        [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeMessage isGroup:isGroup createrJid:nil];
         
         [appDelegate.xmpp saveContext];
     }
@@ -148,6 +135,43 @@
 
     return YES;
 }
+
+-(BOOL)sendRoomQuitAction:(NSString*)messageId{
+    if(self.roomJID==nil)return NO;
+    XMPPRoom *room=nil;
+    if(self.roomJID!=nil)
+        room=[[ShareAppDelegate xmpp].roomService findRoomByJid:self.roomJID];
+    
+    if(room!=nil && !room.isJoined)return NO;
+    
+    NSString* uqID=[self juingNewId];
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    
+    @autoreleasepool {
+        //拼写xml格式的xmpp消息
+        NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+        [body setStringValue:@"quit room"];
+        NSXMLElement *message = [NSXMLElement elementWithName:@"message" ];
+        
+        [message addAttributeWithName:@"uqID" stringValue:uqID];
+
+        [message addAttributeWithName:@"type" stringValue:@"groupchat"];
+        [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
+            //消息接受者
+        [message addAttributeWithName:@"to" stringValue:[[room roomJID] full]];
+        [message addChild:body];
+            
+        NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"quitgroup"];//告诉接受方 传送的是文件 还是 聊天内容
+        [message addChild:subject];
+
+        //发送消息
+        [appDelegate.xmpp.xmppStream sendElement:message];
+    }
+    
+    return YES;
+
+}
+
 
 -(BOOL)sendfile:(NSString* )content path:(NSString*)path messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name{
     XMPPRoom *room=nil;
@@ -202,14 +226,7 @@
         [newManagedObject setValue:messageId forKey:@"receiveUser"];
         [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"sendUser"];
         
-        RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-        if(rectChat==nil){
-            [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup createrJid:nil];
-            rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-        }
-        rectChat.content=content;
-        rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeImage];
-        rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
+        [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup createrJid:nil];
         
         [appDelegate.xmpp saveContext];
     }
@@ -278,14 +295,7 @@
         [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"sendUser"];
         
         
-        RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-        if(rectChat==nil){
-            [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeImage isGroup:isGroup createrJid:nil];
-            rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:messageId isGroup:isGroup];
-        }
-        rectChat.content=content;
-        rectChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeVoice];
-        rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
+        [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeVoice isGroup:isGroup createrJid:nil];
         
         [appDelegate.xmpp saveContext];
     }

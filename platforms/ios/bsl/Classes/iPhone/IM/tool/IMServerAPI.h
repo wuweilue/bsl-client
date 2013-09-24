@@ -133,7 +133,7 @@
  *	@param 	_roomId 	需要删除房间的ID
  *          _block 状态 statue true/false 表示操作是否成功
  */
-+(void)grouptDeleteRoom:(NSString*)_roomId block:(void (^)(BOOL statue))_block
++(HTTPRequest*)grouptDeleteRoom:(NSString*)_roomId block:(void (^)(BOOL statue))_block
 ;
 
 /**

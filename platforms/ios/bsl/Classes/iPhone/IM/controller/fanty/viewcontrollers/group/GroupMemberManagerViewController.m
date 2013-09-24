@@ -138,7 +138,23 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
         [quitButton addTarget:self action:@selector(quitClick) forControlEvents:UIControlEventTouchUpInside];
         UIImage* img=[UIImage imageNamed:@"btn_red.png"];
         [quitButton setBackgroundImage:[img stretchableImageWithLeftCapWidth:img.size.width*0.5f topCapHeight:img.size.height*0.5f] forState:UIControlStateNormal];
-        [quitButton setTitle:@"退出群组" forState:UIControlStateNormal];
+        
+        @autoreleasepool {
+            XMPPIMActor* xmpp=[ShareAppDelegate xmpp];
+            
+            RectangleChat* rectChat=[xmpp fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
+            //rectChat==nil  是好愚蠢的做法， 原因的处理是刚建立群组，直接进入管理，就会发现其为空， 要找找原因才行
+            if(rectChat==nil || [rectChat.createrJid isEqualToString:[xmpp.xmppStream.myJID bare]]){
+                isMyGroup=YES;
+                [quitButton setTitle:@"解散退出群组" forState:UIControlStateNormal];
+            }
+            else{
+                [quitButton setTitle:@"退出群组" forState:UIControlStateNormal];
+                
+            }
+        }
+        
+        
         
         float offset=10.0f;
         if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad)
@@ -243,40 +259,66 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 
 #pragma mark alertview delegate
 
+-(void)delaySendRemoveRoom{
+    [[ShareAppDelegate xmpp].roomService removeNewRoom:self.messageId destory:isMyGroup];
+}
+
+-(void)quitGroupAction:(BOOL)status{
+    request=nil;
+
+    if(!status){
+        [SVProgressHUD showErrorWithStatus:@"操作失败，请检查网络！"];
+        return ;
+    }
+    [SVProgressHUD dismiss];
+    
+    XMPPIMActor* xmpp=[ShareAppDelegate xmpp];
+    ChatLogic* logic=[[ChatLogic alloc] init];
+    [logic sendNotificationMessage:@"你已退出群组" messageId:self.messageId isGroup:self.isGroupChat name:nil onlyUpdateChat:YES];
+    
+    RectangleChat* rectangleChat=[xmpp fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
+    if(rectangleChat!=nil){
+        rectangleChat.isQuit=[NSNumber numberWithBool:YES];
+        rectangleChat.content=@"你已退出群组";
+        rectangleChat.contentType=[NSNumber numberWithInt:RectangleChatContentTypeMessage];
+//        [rectangleChat didSave];
+    }
+    [xmpp saveContext];
+    
+    logic.roomJID=self.messageId;
+    if(isMyGroup)
+        [logic sendRoomQuitAction:self.messageId];
+    
+    logic=nil;
+    
+    if(!isMyGroup)
+        [xmpp.roomService removeNewRoom:self.messageId destory:isMyGroup];
+    else{
+        [self performSelector:@selector(delaySendRemoveRoom) withObject:nil afterDelay:2.0f];
+    }
+    
+    if([self.delegate respondsToSelector:@selector(deleteMember:)])
+        [self.delegate deleteMember:self];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex==1){
         if(alertView.tag==332211){
             
             [request cancel];
             [SVProgressHUD showWithStatus:@"正在执行退出..." maskType:SVProgressHUDMaskTypeBlack];
-
-            request=[IMServerAPI grouptDeleteMember:[[ShareAppDelegate xmpp].xmppStream.myJID bare] roomId:self.messageId block:^(BOOL status){
-                request=nil;
-                if(!status){
-                    [SVProgressHUD showErrorWithStatus:@"操作失败，请检查网络！"];
-                    return ;
-                }
-                [SVProgressHUD dismiss];
-                
-                ChatLogic* logic=[[ChatLogic alloc] init];
-                [logic sendNotificationMessage:@"你已退出群组" messageId:self.messageId isGroup:self.isGroupChat name:nil];
-                
-                RectangleChat* rectangleChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
-                if(rectangleChat!=nil){
-                    rectangleChat.isQuit=[NSNumber numberWithBool:YES];
-                    [rectangleChat didSave];
-                }
-                
-                
-                [[ShareAppDelegate xmpp].roomService removeNewRoom:self.messageId];
-                
-                if([self.delegate respondsToSelector:@selector(deleteMember:)])
-                    [self.delegate deleteMember:self];
-                [self.navigationController popViewControllerAnimated:YES];
-            }];
             
-            
-            
+            if(!isMyGroup){
+                request=[IMServerAPI grouptDeleteMember:[[ShareAppDelegate xmpp].xmppStream.myJID bare] roomId:self.messageId block:^(BOOL status){
+                    [self quitGroupAction:status];
+                }];
+            }
+            else{
+                request=[IMServerAPI grouptDeleteRoom:self.messageId block:^(BOOL status){
+                    [self quitGroupAction:status];
+                }];
+            }
         }
         else{
             InputAlertView* alert=(InputAlertView*)alertView;

@@ -303,8 +303,28 @@
     }];
 }
 
-+(void)grouptDeleteRoom:(NSString *)_roomId block:(void (^)(BOOL))_block{
-    NSString* urlStr =@"";
++(HTTPRequest*)grouptDeleteRoom:(NSString *)_roomId block:(void (^)(BOOL))_block{
+
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteRoom/%@",kXMPPGroupHost,_roomId];
+    
+    HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
+    __block HTTPRequest* __request=request;
+    
+    [request setCompletionBlock:^{
+        _block(YES);
+        [__request cancel];
+    }];
+    
+    [request setFailedBlock:^{
+        NSLog(@"error:%@",[__request error]);
+        _block(NO);
+        [__request cancel];
+        
+    }];
+    
+    [request startAsynchronous];
+
+    /*
     NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
     [parameters setValue:_roomId forKey:@"roomId"];
     [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -312,6 +332,9 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         _block(false);
     }];
+     */
+    
+    return request;
 }
 
 +(FormDataRequest*)grouptChangeRoomName:(NSString *)_roomName roomId:(NSString *)_roomId block:(void (^)(BOOL))_block{

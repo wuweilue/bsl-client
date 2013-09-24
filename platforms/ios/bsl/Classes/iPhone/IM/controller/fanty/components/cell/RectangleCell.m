@@ -52,7 +52,7 @@
 
         [self addSubview:titleLabel];
         
-        contentLabel=[[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageView.frame)+12.0f, 35.0f, CGRectGetMinX(dateLabel.frame)-CGRectGetMaxX(imageView.frame), 18.0f)];
+        contentLabel=[[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageView.frame)+12.0f, 35.0f, 0.0f, 18.0f)];
         contentLabel.numberOfLines=1;
         contentLabel.font=[UIFont fontWithName:@"Helvetica" size:15.0f];
         contentLabel.textColor=[UIColor grayColor];

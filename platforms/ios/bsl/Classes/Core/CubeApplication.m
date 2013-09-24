@@ -500,7 +500,6 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
     if (([Reachability reachabilityForInternetConnection].currentReachabilityStatus != NotReachable) &&
         ([Reachability reachabilityForLocalWiFi].currentReachabilityStatus != NotReachable)) {
             if(!syncing){
-                NSLog(@"url: %@", aURL);
             [[AFAppDotNetAPIClient sharedClient]getPath:aURL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 syncing = false;
                 int statusCode =operation.response.statusCode;
@@ -604,7 +603,7 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
             //puto into available module
             if (![self judgeArray:availableModules ContainsModule:remote_module]) {
                 [availableModules addObject:remote_module];
-                remote_module.autoDownload = YES;
+//                remote_module.autoDownload = YES;
                 if (remote_module.autoDownload) {
                     //优化自动下载 zhoujn begin-----
                     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

@@ -151,7 +151,7 @@
     [tabView addSubview:numberView];
     
     CGRect rect=numberView.frame;
-    rect.origin.x=tabView.frame.size.width/3.0f-rect.size.width-50.0f;
+    rect.origin.x=tabView.frame.size.width/3.0f-rect.size.width-20.0f;
     numberView.frame=rect;
     
     [self loadNumber];
@@ -233,10 +233,10 @@
 
     ContactSelectedForGroupViewController* controller=[[ContactSelectedForGroupViewController alloc] init];
     controller.dicts=[contactListView friendsList];
+    controller.delegate=self;
     
     
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-        controller.delegate=self;
         popover.delegate=nil;
         [popover dismissPopoverAnimated:NO];
         popover=nil;
@@ -271,10 +271,24 @@
 #pragma mark contactselectedby group delegate
 
 -(void)dismiss:(ContactSelectedForGroupViewController *)controller selectedInfo:(NSArray *)selectedInfo{
-    popover.delegate=nil;
-    [popover dismissPopoverAnimated:YES];
-    popover=nil;
+    if(selectedInfo!=nil){
+        [self openOrCreateListView:0];
+        ChatMainViewController* __controller=[[ChatMainViewController alloc] init];
+        __controller.messageId=controller.tempNewjid;
+        __controller.chatName=controller.groupName;
+        
+        __controller.isGroupChat=YES;
+        [self.navigationController pushViewController:__controller animated:YES];
 
+    }
+    if(popover!=nil){
+        popover.delegate=nil;
+        [popover dismissPopoverAnimated:YES];
+        popover=nil;
+    }
+    else{
+        [controller dismissViewControllerAnimated:YES completion:^{}];
+    }
 }
 
 #pragma mark imagepicker delegate

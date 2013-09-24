@@ -33,6 +33,9 @@
     ASIHTTPRequest* request;
     
     
+    
+    BOOL  isMyGroup;
+    
 //btn_red
 }
 @property(nonatomic,weak) id<GroupMemberManagerViewControllerDelegate> delegate;
