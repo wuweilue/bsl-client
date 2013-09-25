@@ -16,16 +16,15 @@
 - (void)launch:(int)index identifier:(NSString *)identifier;
 @end
 
-@interface SettingMainViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CheckUpdateDelegate,UIAlertViewDelegate>{
-    id<SettingMainViewControllerDelegate> __weak delegate;
+@interface SettingMainViewController : UIViewController{
     CubeWebViewController *cubeWebViewController;
-    
     NSArray* titleArray;
+    
+    UpdateChecker *uc;
 }
 
 @property (weak,nonatomic) id<SettingMainViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UITableView *settingTableView;
-@property (strong, nonatomic) UpdateChecker *uc;
 - (IBAction)exitBtn:(id)sender;
 @property(strong, nonatomic)NSString *selectedModule;
 

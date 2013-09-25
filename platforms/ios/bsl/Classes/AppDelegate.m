@@ -128,13 +128,6 @@ void uncaughtExceptionHandler(NSException*exception){
         [cubeApp installJS];
     }
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didLogin) name:@"LoginSuccess" object:nil];
-    
-    NSURL* url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
-    
-    if (url && [url isKindOfClass:[NSURL class]]) {
-		NSLog(@"Cube-iOS launchOptions = %@", [url absoluteString]);
-    }
-    
 
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
