@@ -86,6 +86,10 @@
 }
 
 - (void)dealloc{
+    if([SVProgressHUD isVisible]){
+        [SVProgressHUD dismiss];
+    }
+
     fetchedResultsController.delegate=nil;
     
     self.selectedSearchBar=nil;

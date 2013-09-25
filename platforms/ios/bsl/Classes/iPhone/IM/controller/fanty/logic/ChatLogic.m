@@ -136,7 +136,7 @@
     return YES;
 }
 
--(BOOL)sendRoomQuitAction:(NSString*)messageId{
+-(BOOL)sendRoomQuitAction:(NSString*)messageId  isMyGroup:(BOOL)isMyGroup{
     if(self.roomJID==nil)return NO;
     XMPPRoom *room=nil;
     if(self.roomJID!=nil)
@@ -160,8 +160,10 @@
             //消息接受者
         [message addAttributeWithName:@"to" stringValue:[[room roomJID] full]];
         [message addChild:body];
-            
-        NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"quitgroup"];//告诉接受方 传送的是文件 还是 聊天内容
+        
+        
+        NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:(isMyGroup?@"quitgroup":@"quitperson")];
+        
         [message addChild:subject];
 
         //发送消息

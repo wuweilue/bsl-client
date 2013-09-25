@@ -429,13 +429,6 @@
         if([senderUser isEqualToString:[sender myNickname]]){
             return;
         }
-        /*
-        <message xmlns="jabber:client"  id="T0Pwk-9" to="tan@snda-192-168-2-32/Cube_Client11" from="8510cc4d-bafc-4f43-84b8-096cd78c53ff@conference.snda-192-168-2-32/kuanghaojun@snda-192-168-2-32" type="groupchat">
-         <subject>text</subject>
-         <body>bnnh</body>
-         <properties xmlns="http://www.jivesoftware.com/xmlns/xmpp/properties">
-         <property><name>sendDate</name><value type="string">2013-09-22 17:37:43</value></property><property><name>uqID</name><value type="string">2013-09-22 17:37:43</value></property></properties></message>
-        */
         NSString *uqID = [[message attributeForName:@"uqID"] stringValue];
         if(uqID==nil){
             NSXMLElement* properties=[message elementForName:@"properties"];
@@ -467,25 +460,37 @@
             
             RectangleChatContentType rectangleChatContentType=RectangleChatContentTypeMessage;
             
-            if ([ [[message elementForName:@"subject"] stringValue] isEqualToString:@"voice"]) {
+            NSString* subject=[[message elementForName:@"subject"] stringValue];
+            
+            if ([ subject isEqualToString:@"voice"]) {
                 //将字符串转换成nsdata
-                NSData* fileData =  [Base64 decodeString:msg];
+                
                 NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex: 0];
                 NSURL* urlVoiceFile= [NSURL fileURLWithPath:[docDir stringByAppendingPathComponent: [NSString stringWithFormat: @"%.0f.%@", [NSDate timeIntervalSinceReferenceDate] * 1000.0, @"caf"]]];
-                [fileData writeToURL:urlVoiceFile atomically:YES];
+
+                @autoreleasepool {
+                    NSData* fileData =  [Base64 decodeString:msg];
+                    [fileData writeToURL:urlVoiceFile atomically:YES];
+                }
+                
                 messageEntity.content = [urlVoiceFile absoluteString];
                 messageEntity.type = @"voice";
                 rectangleChatContentType=RectangleChatContentTypeVoice;
             }
-            else if ([ [[message elementForName:@"subject"] stringValue] isEqualToString:@"image"]) {
+            else if ([ subject isEqualToString:@"image"]) {
                 messageEntity.content = msg;
                 messageEntity.type = @"image";
                 rectangleChatContentType=RectangleChatContentTypeImage;
             }
-            else if ([ [[message elementForName:@"subject"] stringValue] isEqualToString:@"quitgroup"]) {
+            else if ([ subject isEqualToString:@"quitgroup"]) {
                 messageEntity.type = @"notification";
                 messageEntity.content=@"群组已经被解散";
             }
+            else if ([ subject isEqualToString:@"quitperson"]) {
+                messageEntity.type = @"notification";
+                messageEntity.content=[NSString stringWithFormat:@"%@已经退出群组",[sender myNickname]];
+            }
+
             else{
                 messageEntity.content = msg;
                 messageEntity.type = @"text";
@@ -507,11 +512,13 @@
             
             rectChat.updateDate=[NSDate date];
             
-            if ([ [[message elementForName:@"subject"] stringValue] isEqualToString:@"quitgroup"])
-            {
+            if ([ subject isEqualToString:@"quitgroup"]){
                 rectChat.content=@"群组已经被解散";
                 rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
                 rectChat.isQuit=[NSNumber numberWithBool:YES];
+            }
+            else if ([ subject isEqualToString:@"quitperson"]) {
+                rectChat.content=[NSString stringWithFormat:@"%@已经退出群组",[sender myNickname]];
             }
             else{
                 rectChat.content=msg;
@@ -525,7 +532,7 @@
             [MessageRecord createModuleBadge:@"com.foss.chat" num: [XMPPSqlManager getMessageCount]];
 
             
-            if ([ [[message elementForName:@"subject"] stringValue] isEqualToString:@"quitgroup"]){
+            if ([ subject isEqualToString:@"quitgroup"]){
                 [self removeNewRoom:roomId destory:NO];
             }
 

@@ -69,7 +69,7 @@
     UINavigationItem* navItem=[[UINavigationItem alloc] initWithTitle:self.title];
 
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-        navItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backClick)];
+        navItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(backClick)];
         bar=[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 44.0f)];
     }
     else{

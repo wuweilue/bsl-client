@@ -88,6 +88,12 @@
 		396862A117EE898300C84A6A /* VOIPReceiverVoiceNodeBkgHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968626B17EE898300C84A6A /* VOIPReceiverVoiceNodeBkgHL@2x.png */; };
 		396862A217EE898300C84A6A /* VOIPSenderVoiceNodeBkg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968626C17EE898300C84A6A /* VOIPSenderVoiceNodeBkg@2x.png */; };
 		396862A317EE898300C84A6A /* VOIPSenderVoiceNodeBkgHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968626D17EE898300C84A6A /* VOIPSenderVoiceNodeBkgHL@2x.png */; };
+		39D9E80217F26A87001ED6F5 /* btn_remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 39D9E80017F26A87001ED6F5 /* btn_remove.png */; };
+		39D9E80317F26A87001ED6F5 /* btn_remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 39D9E80017F26A87001ED6F5 /* btn_remove.png */; };
+		39D9E80417F26A87001ED6F5 /* btn_remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 39D9E80017F26A87001ED6F5 /* btn_remove.png */; };
+		39D9E80517F26A87001ED6F5 /* btn_remove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39D9E80117F26A87001ED6F5 /* btn_remove@2x.png */; };
+		39D9E80617F26A87001ED6F5 /* btn_remove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39D9E80117F26A87001ED6F5 /* btn_remove@2x.png */; };
+		39D9E80717F26A87001ED6F5 /* btn_remove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39D9E80117F26A87001ED6F5 /* btn_remove@2x.png */; };
 		39E050E917F00AEA00BCF7F8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 		39E050EA17F00AEA00BCF7F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDC13BBADB100FB74C0 /* Localizable.strings */; };
 		39E050EB17F00AEA00BCF7F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDF13BBADB100FB74C0 /* Localizable.strings */; };
@@ -2001,6 +2007,8 @@
 		3968626B17EE898300C84A6A /* VOIPReceiverVoiceNodeBkgHL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VOIPReceiverVoiceNodeBkgHL@2x.png"; sourceTree = "<group>"; };
 		3968626C17EE898300C84A6A /* VOIPSenderVoiceNodeBkg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VOIPSenderVoiceNodeBkg@2x.png"; sourceTree = "<group>"; };
 		3968626D17EE898300C84A6A /* VOIPSenderVoiceNodeBkgHL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VOIPSenderVoiceNodeBkgHL@2x.png"; sourceTree = "<group>"; };
+		39D9E80017F26A87001ED6F5 /* btn_remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_remove.png; sourceTree = "<group>"; };
+		39D9E80117F26A87001ED6F5 /* btn_remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_remove@2x.png"; sourceTree = "<group>"; };
 		39E0536317F00AEA00BCF7F8 /* chameleon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chameleon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E0536417F00AEC00BCF7F8 /* bsl copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "bsl copy-Info.plist"; path = "/Users/fanty/Documents/project/temp/bsl-client/platforms/ios/bsl copy-Info.plist"; sourceTree = "<absolute>"; };
 		39FF0C1B17F13CBB0086B76C /* 移动运行网2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "移动运行网2.0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3098,6 +3106,8 @@
 			isa = PBXGroup;
 			children = (
 				3968625517EE898300C84A6A /* addphotoHL@2x.png */,
+				39D9E80017F26A87001ED6F5 /* btn_remove.png */,
+				39D9E80117F26A87001ED6F5 /* btn_remove@2x.png */,
 				3968625617EE898300C84A6A /* bottom_bar.png */,
 				3968625717EE898300C84A6A /* RightBarButtonBkg@2x.png */,
 				3968625817EE898300C84A6A /* RightBarButtonBkg_Blue@2x.png */,
@@ -4990,6 +5000,7 @@
 				F54D84F017E8C77E0067A023 /* f059.png in Resources */,
 				F54D84F117E8C77E0067A023 /* f060.png in Resources */,
 				F54D84F217E8C77E0067A023 /* f061.png in Resources */,
+				39D9E80517F26A87001ED6F5 /* btn_remove@2x.png in Resources */,
 				F5A96CB717F007FC00F9CA68 /* emotions_big.png in Resources */,
 				F5A96CF117F007FC00F9CA68 /* nav_back_active@2x.png in Resources */,
 				F5A96CE317F007FC00F9CA68 /* menu_setup.png in Resources */,
@@ -5054,6 +5065,7 @@
 				F54D851317E8C77E0067A023 /* f094.png in Resources */,
 				F54D851417E8C77E0067A023 /* f095.png in Resources */,
 				F5A96C2917F0061000F9CA68 /* icon@2x.png in Resources */,
+				39D9E80217F26A87001ED6F5 /* btn_remove.png in Resources */,
 				F5A96CB017F007FC00F9CA68 /* Background_Portrait.png in Resources */,
 				F5A96CCA17F007FC00F9CA68 /* installbtn_installing.png in Resources */,
 				F5A96CAF17F007FC00F9CA68 /* Background_Landscape.png in Resources */,
@@ -5422,6 +5434,7 @@
 				39E051C017F00AEA00BCF7F8 /* f059.png in Resources */,
 				39E051C117F00AEA00BCF7F8 /* f060.png in Resources */,
 				39E051C217F00AEA00BCF7F8 /* f061.png in Resources */,
+				39D9E80617F26A87001ED6F5 /* btn_remove@2x.png in Resources */,
 				39E051C317F00AEA00BCF7F8 /* emotions_big.png in Resources */,
 				39E051C417F00AEA00BCF7F8 /* nav_back_active@2x.png in Resources */,
 				39E051C517F00AEA00BCF7F8 /* menu_setup.png in Resources */,
@@ -5486,6 +5499,7 @@
 				39E051FF17F00AEA00BCF7F8 /* f094.png in Resources */,
 				39E0520017F00AEA00BCF7F8 /* f095.png in Resources */,
 				39E0520117F00AEA00BCF7F8 /* icon@2x.png in Resources */,
+				39D9E80317F26A87001ED6F5 /* btn_remove.png in Resources */,
 				39E0520217F00AEA00BCF7F8 /* Background_Portrait.png in Resources */,
 				39E0520317F00AEA00BCF7F8 /* installbtn_installing.png in Resources */,
 				39E0520417F00AEA00BCF7F8 /* Background_Landscape.png in Resources */,
@@ -5854,6 +5868,7 @@
 				39FF0A7A17F13CBB0086B76C /* f059.png in Resources */,
 				39FF0A7B17F13CBB0086B76C /* f060.png in Resources */,
 				39FF0A7C17F13CBB0086B76C /* f061.png in Resources */,
+				39D9E80717F26A87001ED6F5 /* btn_remove@2x.png in Resources */,
 				39FF0A7D17F13CBB0086B76C /* emotions_big.png in Resources */,
 				39FF0A7E17F13CBB0086B76C /* nav_back_active@2x.png in Resources */,
 				39FF0A7F17F13CBB0086B76C /* menu_setup.png in Resources */,
@@ -5918,6 +5933,7 @@
 				39FF0AB917F13CBB0086B76C /* f094.png in Resources */,
 				39FF0ABA17F13CBB0086B76C /* f095.png in Resources */,
 				39FF0ABB17F13CBB0086B76C /* icon@2x.png in Resources */,
+				39D9E80417F26A87001ED6F5 /* btn_remove.png in Resources */,
 				39FF0ABC17F13CBB0086B76C /* Background_Portrait.png in Resources */,
 				39FF0ABD17F13CBB0086B76C /* installbtn_installing.png in Resources */,
 				39FF0ABE17F13CBB0086B76C /* Background_Landscape.png in Resources */,

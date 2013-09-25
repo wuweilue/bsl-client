@@ -1,30 +1,25 @@
 //解决点击延迟问题
 new FastClick(document.body);
 
+var packageName = "";
+
 var modules;
+
+var myScroll = new iScroll('mainContent', {
+	checkDOMChanges: true
+});
 
 $("#search_del").click(function() {
 	console.log("点击了图标");
 	$("#searchInput").val("");
 	$(this).hide();
 });
-$("#searchInput").blur(function() {
-	console.log("离开了");
-	$("leftContent").click();
-	$(".bottomMenu").show();
-});
-$("#searchInput").focus(function() {
-	$(".bottomMenu").hide();
-	console.log("聚焦了");
-});
+
 // 检测屏幕是否伸缩
 $(window).resize(function() {
 	$(".mainContent").height($(window).height() - 50);
 });
-var refreshMainPage = function() {
 
-	loadModuleList("CubeModuleList", "mainList", "main");
-}
 //封装cordova的执行方法，加上回调函数
 var cordovaExec = function(plugin, action, parameters, callback) {
 	cordova.exec(function(data) {
@@ -35,15 +30,42 @@ var cordovaExec = function(plugin, action, parameters, callback) {
 		//alert(err);
 	}, plugin, action, parameters === null || parameters === undefined ? [] : parameters);
 };
-
+//自动更新查新界面
+var refreshMainPage = function() {
+	var page = $(".menuItem.active").attr("data");
+	alert("page" + page);
+	console.log("refreshMainPage page = " + page);
+	if (page === "home") {
+		//主页面
+		loadModuleList("CubeModuleList", "mainList", "main");
+	} else if (page === "module") {
+		//管理页面
+		//loadModuleList("CubeModuleList", "uninstallList", "install");
+		var type = $(".moduleManageBar .manager-btn.active").attr("data");
+		if (type === "uninstall") {
+			loadModuleList("CubeModuleList", "uninstallList", "uninstall");
+		} else if (type === "install") {
+			loadModuleList("CubeModuleList", "installList", "install");
+		} else if (type === "upgrade") {
+			loadModuleList("CubeModuleList", "upgradableList", "upgrade");
+		}
+	}
+};
 //首页接受到信息，刷新页面
-var receiveMessage = function(identifier, count) {
+var receiveMessage = function(identifier, count, display) {
 	var $moduleTips = $(".moduleContent[moduletype='main'][identifier='" + identifier + "']").find(".moduleTips");
-	if (count !== 0) {
-		$moduleTips.html(count).show();
+	console.log("receiveMessage count display " + display);
+	if (display) {
+		console.log("receiveMessage count 进入display");
+		if (count !== 0) {
+			$moduleTips.html(count).show();
+		} else {
+			$moduleTips.hide();
+		}
 	} else {
 		$moduleTips.hide();
 	}
+
 	triggerBodyClick();
 };
 
@@ -93,9 +115,7 @@ var checkModule = function() {
 			$(this).remove();
 		}
 	});
-
 };
-
 
 var addModule = function(identifier, type, moduleMessage) {
 	var mm = $.parseJSON(moduleMessage);
@@ -124,7 +144,11 @@ var addModule = function(identifier, type, moduleMessage) {
 
 	var moduleItemHtml = _.template(moduleItemTemplate, mm);
 
-	$(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + type + "']").after(moduleItemHtml);
+	if ($(".moduleManageBar .manager-btn.active").attr("data") === type && mm.hidden === false) {
+		$(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + type + "']").after(moduleItemHtml);
+	}
+
+	triggerBodyClick();
 
 };
 
@@ -172,7 +196,6 @@ var activeModuleManageBarItem = function(type) {
 $(".moduleManageBar .manager-btn").click(function() {
 	var type = $(this).attr("data");
 	if (!$(this).hasClass("active")) {
-		activeModuleManageBarItem(type);
 		$("#searchInput").val("");
 		//点击操作
 		if (type === "uninstall") {
@@ -182,9 +205,7 @@ $(".moduleManageBar .manager-btn").click(function() {
 		} else if (type === "upgrade") {
 			loadModuleList("CubeModuleList", "upgradableList", "upgrade");
 		}
-
 	}
-
 });
 
 //搜索框事件
@@ -194,42 +215,40 @@ $("#searchInput").focusin(function() {
 	$(".bottomMenu").show();
 });
 
-// $("#searchInput").live("input propertychange", function() {
-// 	var me = $(this);
-// 	console.log(me.val());
-// 	if (me.val() === null || me.val() === undefined || me.val() === "") {
-// 		$("#search_del").hide();
-// 	} else {
-// 		$("#search_del").css("display", "inline");
-// 	}
-// 	var moduleList = $("li[identifier]");
-// 	var moduleTitleLists = $(".moduleTitle");
-// 	//全部标题隐藏
-// 	moduleTitleLists.hide();
+$("#searchInput").live("input propertychange", function() {
+	var me = $(this);
+	console.log(me.val());
+	if (me.val() === null || me.val() === undefined || me.val() === "") {
+		$("#search_del").hide();
+	} else {
+		$("#search_del").css("display", "inline");
+	}
+	var moduleList = $("li[identifier]");
+	var moduleTitleLists = $(".moduleTitle");
+	//全部标题隐藏
+	moduleTitleLists.hide();
 
-// 	$.each(moduleList, function(index, data) {
-// 		var name = $(this).find(".moduleName").html();
-// 		//console.info($(this).find(".moduleName").toPinyin());
-// 		var classname = $(this).attr("classname");
-// 		if (name.indexOf(me.val()) < 0) {
-// 			$(this).hide();
-// 		} else {
-// 			$(this).show();
-// 			//有显示列表内容的，显示标题
-// 			$.each(moduleTitleLists, function(i, moduleTitleList) {
-// 				var title = $(moduleTitleList).attr("modulename");
-// 				if (title == classname) {
-// 					console.log("相等");
-// 					$(moduleTitleList).show();
-// 				}
-// 			});
-
-
-// 		}
-// 	});
+	$.each(moduleList, function(index, data) {
+		var name = $(this).find(".moduleName").html();
+		//console.info($(this).find(".moduleName").toPinyin());
+		var classname = $(this).attr("classname");
+		if (name.indexOf(me.val()) < 0) {
+			$(this).hide();
+		} else {
+			$(this).show();
+			//有显示列表内容的，显示标题
+			$.each(moduleTitleLists, function(i, moduleTitleList) {
+				var title = $(moduleTitleList).attr("modulename");
+				if (title == classname) {
+					console.log("相等");
+					$(moduleTitleList).show();
+				}
+			});
 
 
-// });
+		}
+	});
+});
 
 //点击模块的时候触发事件
 $("li[identifier]").live("click", function() {
@@ -237,6 +256,8 @@ $("li[identifier]").live("click", function() {
 	var identifier = $(this).attr("identifier");
 	cordovaExec("CubeModuleOperator", "showModule", [identifier, type]);
 });
+
+//获取用户信息
 var getAccountName = function() {
 	var accountName = "";
 	//获取用户名
@@ -280,13 +301,16 @@ var loadModuleList = function(plugin, action, type, callback) {
 				if (type === 'uninstall') {
 					value.updatable = false;
 				}
-				// var mark = value.icon;
-				// if (mark.indexOf("?") > -1) {
-				// 	mark = mark.substring(0, mark.indexOf("?"));
-				// }
-				// if (window.localStorage[mark] !== undefined) {
-				// 	value.icon = window.localStorage[mark];
-				// }
+
+				value.name = subStrByCnLen(value.name, 7);
+				value.releaseNote = subStrByCnLen(value.releaseNote, 25);
+				// packageName
+                   /*
+				downloadFile(value.icon, packageName + "/moduleIcon", function(entry) {
+					// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
+					value.icon = entry.fullPath;
+				});
+                    */
 				value.classname = key;
 				var moduleItemHtml = _.template(moduleItemTemplate, value);
 				moduleItemHtmlContent = moduleItemHtmlContent + moduleItemHtml;
@@ -307,15 +331,20 @@ var loadModuleList = function(plugin, action, type, callback) {
 
 		$(".mainContent").height($(window).height() - 50);
 
-		// if (!browser.versions.android) {
-		var myScroll = new iScroll('mainContent');
-		// }
+		if (myScroll !== null) {
+			myScroll = null;
+		}
+		myScroll = new iScroll('mainContent', {
+			checkDOMChanges: true
+		});
+		//切换模块管理按钮状态
+		activeModuleManageBarItem(type);
+		triggerBodyClick();
 
 		//如果回调方法不为空，则执行该回调方法
 		if (callback !== undefined) {
 			callback();
 		}
-
 
 	}, function(err) {
 		//showAlert(err, null, "提示", "确定");
@@ -326,6 +355,10 @@ var loadModuleList = function(plugin, action, type, callback) {
 var triggerBodyClick = function() {
 	setTimeout(function() {
 		$("#mainContent").trigger("click");
+		if (myScroll !== null) {
+			myScroll.refresh();
+			myScroll.scrollTo(0, 1, 200, true);
+		}
 	}, 500);
 };
 
@@ -370,7 +403,7 @@ var checkTheme = function() {
 	});
 
 };
-
+//var myScroll = null;
 //应用初始化
 var app = {
 	initialize: function() {
@@ -383,219 +416,26 @@ var app = {
 		app.receivedEvent('deviceready');
 	},
 	receivedEvent: function(id) {
-		socLogin();
 		getAccountName();
 		//loadModuleList("CubeModuleList", "mainList", "main");
-		cordovaExec("CubeModuleOperator", "sync", [], function() {
-			loadModuleList("CubeModuleList", "mainList", "main");
-		});
-		checkTheme();
+//		cordovaExec("CubeModuleOperator", "sync", [], function() {
+//			var osPlatform = device.platform;
+//			if (osPlatform == "android") {
+//				cordova.exec(function(data) {
+//					packageName = data;
+//					//如果是android，先获取到包名
+//					loadModuleList("CubeModuleList", "mainList", "main", function() {
+//						myScroll.refresh();
+//						checkTheme();
+//					});
+//				}, function(err) {}, "CubePackageName", "getPackageName", []);
+//			} else {
+				loadModuleList("CubeModuleList", "mainList", "main", function() {
+					myScroll.refresh();
+					checkTheme();
+				});
+//			}
+//		});
 	}
 };
 app.initialize();
-
-
-
-//登陆
-var socLogin = function() {
-
-	getDate();
-
-	$("#loader").attr({
-		'style': 'display:block'
-	});
-	var username = window.localStorage["username"];
-	var password = window.localStorage["password"];
-
-
-
-	$.ajax({
-		timeout: 2000 * 1000,
-		url: "http://10.103.124.104:8080/opws-mobile-web/j_spring_security_check",
-		type: "get",
-		data: {
-			"j_username": username,
-			"j_password": password
-		},
-		dataType: "json",
-		success: function(data, textStatus, jqXHR) {
-			console.log('列表数据加载成功：' + textStatus + " response:[" + data + "]");
-
-
-
-			if (data.login === true) {
-
-
-				window.localStorage["logigMessage"] = JSON.stringify(data);
-				getWeather();
-
-			} else {
-
-
-				closeLoader();
-
-
-				Toast("登陆失败,请检查用户名和密码!", null);
-			}
-
-
-		},
-		error: function(e, xhr, type) {
-
-
-			console.error('列表数据加载失败：' + e + "/" + type + "/" + xhr);
-			closeLoader();
-
-
-			Toast("登陆失败,请检查网络连接!", null);
-		}
-	});
-
-
-};
-
-//获取天气信息
-var getWeather = function() {
-
-	//admin登陆后台接口传过来的基地为null，默认为广州
-	var loginMessage = JSON.parse(window.localStorage["logigMessage"]);
-	var base = "广州"; //loginMessage.userInfo.base;
-
-	$("#base").html(base);
-
-	$.ajax({
-		timeout: 2000 * 1000,
-		url: "http://10.103.124.104:8080/opws-mobile-web/mobile/flightinfo-FlightWeather-findWeather.action",
-		type: "get",
-		data: {
-			"optArea": base
-		},
-		dataType: "json",
-		success: function(data, textStatus, jqXHR) {
-			console.log('列表数据加载成功：' + textStatus + " response:[" + data + "]");
-
-
-
-			$("#weather").html(data.weather.rmk);
-			$("#degree").html(data.weather.tempreture + "°");
-
-		},
-		error: function(e, xhr, type) {
-
-
-			console.error('列表数据加载失败：' + e + "/" + type + "/" + xhr);
-
-			Toast("加载天气信息失败!", null);
-
-		},
-
-		complete: function(xhr, status) {
-
-			closeLoader();
-
-
-
-		}
-	});
-
-};
-
-var closeLoader = function() {
-
-
-
-	$("#loader").attr({
-		'style': 'display:none'
-	});
-};
-
-
-//冒泡提示信息: msg:提示内容, duration:停留时间
-var Toast = function(msg, duration) {
-	duration = isNaN(duration) ? 3000 : duration;
-	var m = document.createElement('div');
-	m.innerHTML = msg;
-	m.style.cssText = "width:60%; min-width:150px; background:#000; opacity:0.5; height:40px; color:#fff; line-height:40px; text-align:center; border-radius:5px; position:fixed; top:80%; left:20%; z-index:999999; font-weight:bold;";
-	document.body.appendChild(m);
-	setTimeout(function() {
-		var d = 0.5;
-		m.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
-		m.style.opacity = '0';
-		setTimeout(function() {
-			document.body.removeChild(m);
-		}, d * 1000);
-	}, duration);
-};
-
-var getDate = function() {
-
-
-	var weekday = new Array(7);
-	weekday[1] = "星期一";
-	weekday[2] = "星期二";
-	weekday[3] = "星期三";
-	weekday[4] = "星期四";
-	weekday[5] = "星期五";
-	weekday[6] = "星期六";
-	weekday[0] = "星期日";
-	var myDate = new Date();
-
-
-	var month = myDate.getMonth();
-
-	var currentMonth = parseInt(month) + 1;
-	var currentDay = myDate.getDate();
-	var day = weekday[myDate.getDay()];
-
-
-	var date = currentMonth + "月" + currentDay + "日" + " " + day;
-	$("#date").html(date);
-
-};
-//搜索按键
-$("#searchBtn").click(function() {
-	//搜索事件
-	var keyword = $("#searchInput").val();
-	console.log("点击了搜索按键：keyword=" + keyword);
-
-
-	if (keyword) {
-	Toast("航班号或机未号!" + keyword, null);
-
-
-		var myDate = new Date();
-
-
-		var month = myDate.getMonth();
-
-		var currentMonth = parseInt(month) + 1;
-		var currentDay = myDate.getDate();
-
-		var confirmTime = myDate.getFullYear() + "-" + (currentMonth < 10 ? "0" + currentMonth : currentMonth) + "-" + (currentDay < 10 ? "0" + currentDay : currentDay);
-
-
-		var queryAction = {
-			QueryType: '航班机尾号',
-			QueryString: flightQuery + keyword,
-			querySite: 'flight',
-			queryUrl: UrlConfig.dynamic.findByFltNumOrTailNum,
-			requestParams: {
-				'fltDt': confirmTime,
-				'fltNr': keyword
-			},
-			fromPage: "home"
-		};
-
-
-		window.localStorage['com.csair.dynamic-flightDynamic.html'] = queryAction;
-
-		window.location = "../../com.csair.dynamic/index.html#com.csair.dynamic/flightDynamic";
-
-	} else {
-
-
-		Toast("请输入航班号或机未号!", null);
-
-	}
-
-});

@@ -9,6 +9,10 @@
 #import "GroupPanel.h"
 #import "ImageDownloadedView.h"
 
+@interface GroupSubPanel()
+-(void)addCloseButtonClick:(id)target action:(SEL)action;
+@end
+
 @implementation GroupSubPanel
 
 -(id)initWithTitle:(NSString*)value imageUrl:(NSString*)imageUrl{
@@ -29,6 +33,8 @@
         titleLabel.numberOfLines=0;
         [titleLabel sizeToFit];
         
+        
+        
         CGRect rect=titleLabel.frame;
         if(rect.size.height>30.0f){
             rect.size.height=30.0f;
@@ -37,14 +43,28 @@
         titleLabel.frame=rect;
         
         [self addSubview:titleLabel];
+        
+        
+        closeButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        
+        UIImage* img=[UIImage imageNamed:@"btn_remove.png"];
+        [closeButton setImage:img forState:UIControlStateNormal];
+        closeButton.frame=CGRectMake(self.frame.size.width-img.size.width-10.0f, -10.0f, img.size.width*2.0f, img.size.height);
+        [self addSubview:closeButton];
+
     }
     return self;
+}
+
+-(void)addCloseButtonClick:(id)target action:(SEL)action{
+    [closeButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
 }
 
 @end
 
 @interface GroupPanel()
 -(void)btnUploadClick:(UIButton*)button;
+-(void)removeClick:(UIButton*)closeButton;
 @end
 
 @implementation GroupPanel
@@ -55,6 +75,7 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
+        self.userInteractionEnabled=YES;
         list=[[NSMutableArray alloc] initWithCapacity:2];
         
         UIImage* img=[UIImage imageNamed:@"addphotoHL.png"];
@@ -86,6 +107,7 @@
     for(NSDictionary* dict in _tags){
         NSString* username=[dict objectForKey:@"username"];
         GroupSubPanel* subView=[[GroupSubPanel alloc] initWithTitle:username imageUrl:@""];
+        [subView addCloseButtonClick:self action:@selector(removeClick:)];
         subView.tag=index;
         [self addSubview:subView];
         [list addObject:subView];
@@ -127,6 +149,13 @@
 
 -(void)hideAddButton{
     uploadButton.hidden=YES;
+}
+
+-(void)removeClick:(UIButton*)closeButton{
+    GroupSubPanel* subView=(GroupSubPanel*)closeButton.superview;
+    if([self.delegate respondsToSelector:@selector(removeGroupClick:index:)])
+        [self.delegate removeGroupClick:self index:subView.tag];
+
 }
 
 @end

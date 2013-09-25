@@ -25,7 +25,7 @@
 
 -(BOOL)sendVoice:(NSString* )content urlVoiceFile:(NSURL*)urlVoiceFile messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name;
 
--(BOOL)sendRoomQuitAction:(NSString*)messageId;
+-(BOOL)sendRoomQuitAction:(NSString*)messageId isMyGroup:(BOOL)isMyGroup;
 
 
 -(BOOL)uploadImageToServer:(UIImage*)image finish:(void (^)(NSString* id,NSString* path))finish;

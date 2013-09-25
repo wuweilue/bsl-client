@@ -31,6 +31,7 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 -(void)initGroupPanel;
 -(void)initQuitButton;
 -(void)quitClick;
+-(void)delaySendRemoveRoom;
 @end
 
 @implementation GroupMemberManagerViewController
@@ -287,16 +288,11 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     [xmpp saveContext];
     
     logic.roomJID=self.messageId;
-    if(isMyGroup)
-        [logic sendRoomQuitAction:self.messageId];
+    [logic sendRoomQuitAction:self.messageId isMyGroup:isMyGroup];
     
     logic=nil;
-    
-    if(!isMyGroup)
-        [xmpp.roomService removeNewRoom:self.messageId destory:isMyGroup];
-    else{
-        [self performSelector:@selector(delaySendRemoveRoom) withObject:nil afterDelay:2.0f];
-    }
+
+    [self performSelector:@selector(delaySendRemoveRoom) withObject:nil afterDelay:2.0f];
     
     if([self.delegate respondsToSelector:@selector(deleteMember:)])
         [self.delegate deleteMember:self];

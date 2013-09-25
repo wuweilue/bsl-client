@@ -14,11 +14,12 @@
 @protocol GroupPanelDelegate <NSObject>
 
 -(void)addGroupClick:(GroupPanel*)groupPanel;
-
+-(void)removeGroupClick:(GroupPanel*)groupPanel index:(int)index;
 @end
 
 @interface GroupSubPanel : UIButton{
     ImageDownloadedView* imageDownloadedView;
+    UIButton* closeButton;
     UILabel* titleLabel;
 }
 @end
@@ -35,4 +36,6 @@
 -(void)setArray:(NSArray*)userInfos;
 
 -(void)hideAddButton;
+
+
 @end

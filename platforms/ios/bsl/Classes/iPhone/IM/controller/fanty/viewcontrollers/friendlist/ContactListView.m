@@ -45,7 +45,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 -(void)headerClick:(UIButton*)button;
 -(void)showLoadData;
 -(void)delayReloadTimeEvent;
-
+-(void)friendListTimeOutEvent;
 @end
 
 @implementation ContactListView
@@ -106,10 +106,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 }
 
 - (void)dealloc{
-    if([SVProgressHUD isVisible]){
-        [SVProgressHUD dismiss];
-    }
 
+    [friendListTimeOut invalidate];
     managedObjectContext=nil;
     fetchedResultsController.delegate=nil;
     fetchedResultsController=nil;
@@ -126,16 +124,27 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 }
 
 -(void)loadData{
+    if(friendListTimeOut!=nil || isLoadingUserInfo)return;
     if(isFirstLoadData || [[fetchedResultsController sections] count]== 0){
         isFirstLoadData=NO;
         if ([[ShareAppDelegate xmpp] isConnected]) {
             [[ShareAppDelegate xmpp] findFriendsList];
             [SVProgressHUD showWithStatus:@"正在获取好友列表..."];
+            
+            friendListTimeOut=[NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(friendListTimeOutEvent) userInfo:nil repeats:NO];
+            
         }else{
             [SVProgressHUD showErrorWithStatus:@"即时通讯没有连接！"];
         }
         
     }
+}
+
+-(void)friendListTimeOutEvent{
+    [friendListTimeOut invalidate];
+    friendListTimeOut=nil;
+    [SVProgressHUD showErrorWithStatus:@"即时通讯连接超时！"];
+
 }
 
 -(void)showLoadData{
@@ -165,6 +174,11 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 }
 
 -(void)starRefresh{
+    
+    
+    [friendListTimeOut invalidate];
+    friendListTimeOut=nil;
+
     if(isLoadingUserInfo)return;
     
     if([SVProgressHUD isVisible]){
