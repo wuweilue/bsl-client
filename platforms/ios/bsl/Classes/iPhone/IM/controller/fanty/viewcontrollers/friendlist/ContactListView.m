@@ -363,6 +363,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath{
     
+    
+    
     [laterReloadTimer invalidate];
     laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
 }
