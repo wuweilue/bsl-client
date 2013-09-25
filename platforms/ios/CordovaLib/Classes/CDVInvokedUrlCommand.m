@@ -66,6 +66,11 @@
 - (void)massageArguments
 {
     NSMutableArray* newArgs = nil;
+    
+    if(![_arguments isKindOfClass:[NSArray class]] ){
+        return;
+    }
+    
 
     for (NSUInteger i = 0, count = [_arguments count]; i < count; ++i) {
         id arg = [_arguments objectAtIndex:i];

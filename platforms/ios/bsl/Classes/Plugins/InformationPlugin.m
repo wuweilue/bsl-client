@@ -39,6 +39,7 @@
         [json setValue:appVersion forKey:@"appVersion"];
         [json setValue:app forKey:@"app"];
         [json setValue:build forKey:@"build"];
+        [json setValue:kAPPKey forKey:@"appKey"];
         [json setValue:[[UIDevice currentDevice] uniqueDeviceIdentifier] forKey:@"deviceId"];
         
         [json setValue:[defaults objectForKey:@"loginUsername"] forKey:@"username"];

@@ -50,6 +50,12 @@
         return;
     }
     
+    NSString* result=[json objectForKey:@"result"];
+    if([result isEqualToString:@"error"]){
+        [self requestFailed:ar];
+        return;
+    }
+    
     //current
     NSString *currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSInteger currentBuild = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] integerValue];

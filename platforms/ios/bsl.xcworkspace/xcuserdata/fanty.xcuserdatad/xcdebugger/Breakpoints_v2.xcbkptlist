@@ -275,13 +275,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/AppDelegate.m"
-            timestampString = "401771337.031599"
+            filePath = "CordovaLib/Classes/CDVInvokedUrlCommand.m"
+            timestampString = "401773090.430568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "-application:didFinishLaunchingWithOptions:"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "-massageArguments"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
