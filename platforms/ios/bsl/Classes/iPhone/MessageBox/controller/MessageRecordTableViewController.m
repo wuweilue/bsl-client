@@ -16,6 +16,7 @@
 #import "CubeWebViewController.h"
 #import "AnnouncementTableViewController.h"
 @interface MessageRecordTableViewController ()
+-(void)delayLoadTimerEvent;
 
 @end
 
@@ -48,7 +49,9 @@
         editing = NO;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newMessageRevice:) name:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteRecord:) name:RECORD_DELETE object:nil];
+        
+        //delete  by fanty
+        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteRecord:) name:RECORD_DELETE object:nil];
 
     }
     return self;
@@ -170,14 +173,21 @@
     
 }
 
+-(void)delayLoadTimerEvent{
+    [delayLoadTimer invalidate];
+    delayLoadTimer=nil;
+    [self loadData];
+    
+    [[self tableView] reloadData];
+
+}
+
 -(void)newMessageRevice:(NSNotification*)notification{
     
     //  MessageRecord *record =  (MessageRecord *)notification.object;
     
-    [self loadData];
-    
-    [[self tableView] reloadData];
-    
+    [delayLoadTimer invalidate];
+    delayLoadTimer=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(delayLoadTimerEvent) userInfo:nil repeats:NO];
 }
 
 

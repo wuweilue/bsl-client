@@ -82,7 +82,6 @@
 - (NSString *) uniqueDeviceIdentifier{
     NSString *macaddress = [[UIDevice currentDevice] macaddress];
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-    
     NSString *stringToHash = [NSString stringWithFormat:@"%@%@",macaddress,bundleIdentifier];
     NSString *uniqueIdentifier = [stringToHash stringFromMD5];
     

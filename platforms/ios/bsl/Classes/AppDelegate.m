@@ -264,11 +264,9 @@ void uncaughtExceptionHandler(NSException*exception){
 
 //加入apns推送功能
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [PushGetMessageInfo getPushMessageInfo];
-    });
  
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication]  cancelAllLocalNotifications];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
@@ -336,8 +334,7 @@ void uncaughtExceptionHandler(NSException*exception){
 
 // this happens while we are running ( in the background, or from within our own app )
 // only valid if cube-ios-Info.plist specifies a protocol to handle
-- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url
-{
+- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url{
     if (!url) {
         return NO;
     }
@@ -356,8 +353,7 @@ void uncaughtExceptionHandler(NSException*exception){
 
 // repost the localnotification using the default NSNotificationCenter so multiple plugins may respond
 - (void) application:(UIApplication*)application
-   didReceiveLocalNotification:(UILocalNotification*)notification
-{
+   didReceiveLocalNotification:(UILocalNotification*)notification{
   
     // re-post ( broadcast )
     [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:notification];
@@ -376,8 +372,7 @@ void uncaughtExceptionHandler(NSException*exception){
 
 
 
-- (void)applicationDidReceiveMemoryWarning:(UIApplication*)application
-{
+- (void)applicationDidReceiveMemoryWarning:(UIApplication*)application{
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
@@ -437,7 +432,6 @@ void uncaughtExceptionHandler(NSException*exception){
 
 
 -(void)didLogin{
-    NSLog(@"didLogin 1");
     //NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
     //异步加载xmpp actor
@@ -447,11 +441,7 @@ void uncaughtExceptionHandler(NSException*exception){
     
     
     //开启访问 获取到未收到的推送信息
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSLog(@"didLogin 2");
         [PushGetMessageInfo getPushMessageInfo];
-    });
-    NSLog(@"didLogin 3");
     [navControl popToRootViewControllerAnimated:NO];
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone)
     {
@@ -476,13 +466,11 @@ void uncaughtExceptionHandler(NSException*exception){
         self.mainViewController=main;
         main=nil;
     }
-    NSLog(@"didLogin 4");
 }
 
 
 
--(void)setupxmppActorStream
-{
+-(void)setupxmppActorStream{
     xmppPustActor = [[XMPPPustActor alloc]init];
     [xmppPustActor setXmppStream];
 }
@@ -499,23 +487,20 @@ void uncaughtExceptionHandler(NSException*exception){
 }
 
 
--(void)setupXmppSucces
-{
+-(void)setupXmppSucces{
     
     NSLog(@"setupXmppSucces--");
 }
 
 
--(void)setupUnsucces
-{
+-(void)setupUnsucces{
     NSString *message = [NSString stringWithFormat:@"ICube后台服务初始化失败"];
     
     UIAlertView *msg = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [msg show];
 }
 
--(void)setupError:(NSError*)aError
-{
+-(void)setupError:(NSError*)aError{
     NSString *message = [NSString stringWithFormat:@"服务器出错,无法连接"];
     
     UIAlertView *msg = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];

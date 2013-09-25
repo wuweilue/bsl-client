@@ -9,15 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MessageObject.h"
 @interface MessageDelayHandler : NSObject
-{
-    NSMutableArray *queueArray;
-    
-    NSMutableArray *handlerArray;
-    
-    
-}
-@property(nonatomic)NSMutableArray *queueArray;
-@property(nonatomic)NSMutableArray *handlerArray;
+@property(nonatomic,strong)NSMutableArray *queueArray;
 +(MessageDelayHandler*)shareInstance;
 -(void)addToQueue:(MessageObject*)msg;
 -(void)sendBroadCast:(MessageObject*)msg;

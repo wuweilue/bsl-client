@@ -12,6 +12,8 @@
 #define RECORD_DELETE @"RECORD_DELETE"
 @interface MessageRecordTableViewController : UITableViewController<MessageRecordHeaderViewDelegate>{
      CubeWebViewController *cubeWebViewController;
+    
+    NSTimer* delayLoadTimer;
 }
 
 @property(nonatomic,strong) NSMutableDictionary *presentModulesDic;

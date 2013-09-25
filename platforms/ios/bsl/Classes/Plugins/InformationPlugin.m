@@ -30,6 +30,7 @@
         NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         //应用identifier/build
         NSString *app = [[NSBundle mainBundle] bundleIdentifier];
+
         NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
         
         NSMutableDictionary *json = [NSMutableDictionary dictionary];

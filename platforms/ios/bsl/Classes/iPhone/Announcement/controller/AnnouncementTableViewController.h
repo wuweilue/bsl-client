@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AnnouncementTableViewController : UITableViewController
+@interface AnnouncementTableViewController : UITableViewController{
+    NSTimer* delayLoadTimer;
+}
 
 @property (nonatomic,strong) NSMutableArray *list;
 
