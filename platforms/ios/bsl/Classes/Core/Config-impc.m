@@ -7,13 +7,14 @@
 //
 
 NSString* const kServerURLString = @"http://192.168.11.18:18860";
-NSString* const kServerLoginURLString = @"http://192.168.11.18:18860/system/api/system/mobile/accounts/login";
+NSString* const kServerLoginURLString = @"http://192.168.11.18:18860/csair-extension/api/accounts/login";
 NSString* const  kXMPPHost=@"10.108.68.99";
 NSString* const  kXMPPPushHost =@"192.168.11.18";
 NSString* const  kXMPPGroupHost=@"192.168.11.18:9000";
 NSString* const  kXMPPDomin=@"mobile.app";
 NSString* const  kXMPPPushDomin=@"com.csair.impc.test";
 NSString* const  kPushServerRegisterUrl=@"http://192.168.11.18:18860/push/api/checkinservice/checkins";
+NSString* const kUpdatePushTagsUrl = @"http:///192.168.11.18:18860/push/api/checkinservice/checkins/tags/";
 NSString* const kAPPKey = @"c7342d0390ac6be8da4bdae0fcde5edf";
 
 NSString* const  kPushServerReceiptsUrl=@"http://192.168.11.18:18860/push/api/receipts";

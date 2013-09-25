@@ -45,4 +45,6 @@ extern NSString* const kPushGetMessageUrl;
 
 extern NSString* const kMUCSevericeDomin;
 
+extern NSString* const kUpdatePushTagsUrl;
+
 #endif

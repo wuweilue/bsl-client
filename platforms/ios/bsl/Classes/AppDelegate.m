@@ -141,11 +141,13 @@ void uncaughtExceptionHandler(NSException*exception){
     //异步加载push actor
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
-//    UINavigationController* nav=[[UINavigationController alloc] init];
-//    [nav setNavigationBarHidden:YES];
-//    self.navControl=nav;
-//    self.window.rootViewController=nav;
-    
+    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad){
+        UINavigationController* nav=[[UINavigationController alloc] init];
+        [nav setNavigationBarHidden:YES];
+        self.navControl=nav;
+        self.window.rootViewController=nav;
+        nav=nil;
+    }
     
     [self showLoginView];
     [self.window makeKeyAndVisible];
@@ -159,7 +161,7 @@ void uncaughtExceptionHandler(NSException*exception){
 
 -(void)showLoginView{
 
-    //[navControl popToRootViewControllerAnimated:NO];
+    [self.navControl popToRootViewControllerAnimated:NO];
 
     //清楚浏览器缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
@@ -172,17 +174,16 @@ void uncaughtExceptionHandler(NSException*exception){
     [xmpp disConnect];
     
     if([navControl.viewControllers count]<1){
-        if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone)
-        {
+        if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone){
             Login_IphoneViewController* controller=[[Login_IphoneViewController alloc] init];
             self.window.rootViewController=controller;
             //  [navControl pushViewController:controller animated:NO];
             controller=nil;
         }else{
             Login_IpadViewController* controller = [[Login_IpadViewController alloc]initWithNibName:@"Login_IpadViewController" bundle:nil];
-            self.window.rootViewController=controller;
+//            self.window.rootViewController=controller;
 
-            //[navControl pushViewController:controller animated:NO];
+            [self.navControl pushViewController:controller animated:NO];
             controller=nil;
         }
     }
@@ -430,6 +431,63 @@ void uncaughtExceptionHandler(NSException*exception){
     
 }
 
+-(void)updateCheckInTags
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray* privileges = [defaults objectForKey:@"privileges"];
+    NSString* updateTags =@"{";
+    if ([privileges count]>0) {
+        NSString* privilegeStr = @"";
+        for (NSDictionary* privilege in privileges) {
+            NSString* name = [privilege objectForKey:@"name"];
+            if ([name length] > 0) {
+                privilegeStr = [privilegeStr stringByAppendingFormat:@"%@,",[privilege objectForKey:@"name"]];
+            }
+            
+        }
+        if ([privilegeStr length] > 0 ) {
+            privilegeStr =  [privilegeStr substringToIndex:[privilegeStr length] -1 ];
+            updateTags = [updateTags stringByAppendingFormat:@"privileges=%@",privilegeStr];
+            updateTags = [updateTags stringByAppendingString:@","];
+            
+        }
+    }
+    if ([updateTags length]> 0) {
+        
+        
+        NSString* userName =[defaults valueForKey:@"username"] ;
+        NSString* sex = [defaults valueForKey:@"sex"];
+        NSString* phone = [defaults valueForKey:@"phone"];
+        
+        
+        if (userName) {
+            updateTags= [updateTags stringByAppendingFormat:@"userName=%@",userName];
+            updateTags = [updateTags stringByAppendingString:@","];
+        }
+        if (sex) {
+            updateTags= [updateTags stringByAppendingFormat:@"sex=%@",sex];
+            updateTags = [updateTags stringByAppendingString:@","];
+        }
+        if (phone) {
+            updateTags= [updateTags stringByAppendingFormat:@"phone=%@",phone];
+            updateTags = [updateTags stringByAppendingString:@","];
+        }
+        
+    }
+    if ([updateTags length] > 0 ) {
+        updateTags =  [updateTags substringToIndex:[updateTags length] -1 ];
+        updateTags = [updateTags stringByAppendingString:@"}"];
+        NSString* urlStr = kUpdatePushTagsUrl;
+        NSString *deviceID = [[UIDevice currentDevice] uniqueDeviceIdentifier];
+        ASIFormDataRequest * tagRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:urlStr]];
+        [tagRequest setPostValue:deviceID forKey:@"deviceId"];
+        [tagRequest setPostValue:kAPPKey forKey:@"appId"];
+        //        NSLog(@"=====%@",updateTags);
+        [tagRequest setPostValue:updateTags forKey:@"tags"];
+        [tagRequest setRequestMethod:@"PUT"];
+        [tagRequest startAsynchronous];
+    }
+}
 
 -(void)didLogin{
     //NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
@@ -438,6 +496,10 @@ void uncaughtExceptionHandler(NSException*exception){
 //    if (!(BOOL)[defaults objectForKey:@"IMXMPP"]) {
         [self setupXmppStream];
 //    }
+    
+    //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self updateCheckInTags];
+    //});
     
     
     //开启访问 获取到未收到的推送信息
@@ -457,8 +519,9 @@ void uncaughtExceptionHandler(NSException*exception){
   
     }else{
          MainViewViewController * main = [[MainViewViewController alloc]initWithNibName:@"MainViewViewController" bundle:nil finish:^{
-            self.window.rootViewController = self.mainViewController;
-//             [navControl pushViewController:self.mainViewController animated:NO];
+//            self.window.rootViewController = self.mainViewController;
+             [self.navControl popToRootViewControllerAnimated:NO];
+             [self.navControl pushViewController:self.mainViewController animated:NO];
             if([SVProgressHUD isVisible]){
                 [SVProgressHUD dismiss];
             }

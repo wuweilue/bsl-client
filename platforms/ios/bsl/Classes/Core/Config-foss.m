@@ -7,6 +7,7 @@ NSString* const  kXMPPPushHost =@"115.28.0.60";
 NSString* const  kXMPPDomin=@"snda-192-168-2-32";
 NSString* const  kXMPPPushDomin=@"csair.cube.openfire.test";
 NSString* const  kPushServerRegisterUrl=@"http://115.28.1.119:18860/push/api/checkinservice/checkins";
+NSString* const kUpdatePushTagsUrl = @"http:///192.168.11.18:18860/push/api/checkinservice/checkins/tags/";
 NSString* const kAPPKey = @"f588301fae28ca0a97aa1efcbb7d3a9a";
 
 NSString* const  kPushServerReceiptsUrl=@"http://115.28.1.119:18860/push/api/receipts";

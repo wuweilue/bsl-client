@@ -19,12 +19,23 @@
 
 @property (strong,nonatomic) NSMutableArray* settingSource;
 
+-(void)notificationDidExist;
 @end
 
 @implementation SettingMainViewController
 @synthesize delegate;
 @synthesize selectedModule;
 @synthesize settingSource;
+
+
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+    self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self){
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationDidExist) name:@"LOGOUTSENDEXITNOTIFICATION" object:nil];
+    }
+
+    return self;
+}
 
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -121,10 +132,13 @@
     [super didReceiveMemoryWarning];
 
     self.settingTableView=nil;
+    self.settingSource=nil;
     uc=nil;
 }
 
 - (void)dealloc {
+    self.settingTableView=nil;
+    self.settingSource=nil;
     uc=nil;
 }
 
@@ -368,5 +382,15 @@
         [delegate ExitLogin];
     }
     
+}
+
+-(void)notificationDidExist{
+    if ([self respondsToSelector:@selector(presentingViewController)]) {
+        [[self presentingViewController] dismissModalViewControllerAnimated:NO];
+    }
+    else
+    {
+        [[self parentViewController] dismissModalViewControllerAnimated:NO];
+    }
 }
 @end

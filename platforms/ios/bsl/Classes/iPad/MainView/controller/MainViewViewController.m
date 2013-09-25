@@ -453,6 +453,7 @@
 }
 
 -(void)logout{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGOUTSENDEXITNOTIFICATION" object:nil];
     [(AppDelegate *)[UIApplication sharedApplication].delegate showLoginView];
     [self.presentedViewController dismissViewControllerAnimated:NO completion:^{}];
 //    [self dismissViewControllerAnimated:NO completion:^{}];
@@ -517,6 +518,7 @@
             
             UIViewController *localController = (UIViewController *)[[NSClassFromString(iphoneLocal) alloc] init];
             [self showDetailViewController:localController];
+            localController=nil;
             return;
         }else{
             [self showWebViewModue:module];
@@ -709,7 +711,7 @@
 -(void)showDetailViewController:(UIViewController*)vc{
     [self addBadge];
     CGRect frame = vc.view.frame;
-    frame.size.width =CGRectGetHeight(self.view.frame)/2+2;
+    frame.size.width =CGRectGetWidth(self.view.frame)/2+2.0f;
     frame.size.height= CGRectGetWidth(self.view.frame);
     vc.view.frame = frame;
     
@@ -735,7 +737,7 @@
     detailViewFrame.origin.x = CGRectGetWidth(self.view.bounds);
     self.detailView.frame = detailViewFrame;
     
-    self.detailView.layer.cornerRadius = 10;
+   // self.detailView.layer.cornerRadius = 10;
     
     [self.detailView.layer setShadowColor: [UIColor blackColor].CGColor];
     self.detailView.layer.shadowOpacity = 0.5;

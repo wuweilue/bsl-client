@@ -143,7 +143,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 -(void)friendListTimeOutEvent{
     [friendListTimeOut invalidate];
     friendListTimeOut=nil;
-    [SVProgressHUD showErrorWithStatus:@"即时通讯连接超时！"];
+    if(self.superview!=nil)
+        [SVProgressHUD showErrorWithStatus:@"即时通讯连接超时！"];
 
 }
 

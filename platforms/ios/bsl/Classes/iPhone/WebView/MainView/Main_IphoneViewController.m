@@ -30,6 +30,7 @@
 @implementation Main_IphoneViewController
 
 - (void)dealloc{
+    self.selectedModule=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
