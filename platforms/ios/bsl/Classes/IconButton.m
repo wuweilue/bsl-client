@@ -288,9 +288,9 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
-    [self removeDownloadObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    [self removeDownloadObserver];
     
 }
 - (IBAction)didClickActionButton:(id)sender {
@@ -420,6 +420,7 @@
 -(void)removeBadge{
     if(_badgeView){
         [_badgeView removeFromSuperview];
+        _badgeView=nil;
        // self.badgeView = nil;
     }
 }
