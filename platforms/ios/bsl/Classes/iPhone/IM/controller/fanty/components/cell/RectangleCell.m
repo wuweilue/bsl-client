@@ -87,7 +87,7 @@
     
     dateLabel.frame=CGRectMake(self.frame.size.width-9.0f-100.0f, CGRectGetMinY(imageView.frame), 100.0f, 20.0f);
 
-    contentLabel.frame=CGRectMake(CGRectGetMaxX(imageView.frame)+12.0f, 35.0f, CGRectGetMinX(dateLabel.frame)-CGRectGetMaxX(imageView.frame)-24.0f, 18.0f);
+    contentLabel.frame=CGRectMake(CGRectGetMaxX(imageView.frame)+12.0f, 35.0f, CGRectGetMinX(dateLabel.frame)-CGRectGetMaxX(imageView.frame)-48.0f, 18.0f);
 
     rect=lineView.frame;
     rect.size.width=self.frame.size.width;

@@ -174,6 +174,43 @@
 
 }
 
+-(BOOL)sendRoomQuitMemberAction:(NSString*)messageId userJid:(NSString*)userJid{
+    if(self.roomJID==nil)return NO;
+    XMPPRoom *room=nil;
+    if(self.roomJID!=nil)
+        room=[[ShareAppDelegate xmpp].roomService findRoomByJid:self.roomJID];
+    
+    if(room!=nil && !room.isJoined)return NO;
+    
+    NSString* uqID=[self juingNewId];
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    
+    @autoreleasepool {
+        //拼写xml格式的xmpp消息
+        NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+        [body setStringValue:userJid];
+        NSXMLElement *message = [NSXMLElement elementWithName:@"message" ];
+        
+        [message addAttributeWithName:@"uqID" stringValue:uqID];
+        
+        [message addAttributeWithName:@"type" stringValue:@"groupchat"];
+        [message addAttributeWithName:@"from" stringValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]];
+        //消息接受者
+        [message addAttributeWithName:@"to" stringValue:[[room roomJID] full]];
+        [message addChild:body];
+        
+        
+        NSXMLNode* subject = [NSXMLNode elementWithName:@"subject" stringValue:@"killperson"];
+        
+        [message addChild:subject];
+        
+        //发送消息
+        [appDelegate.xmpp.xmppStream sendElement:message];
+    }
+    
+    return YES;
+}
+
 
 -(BOOL)sendfile:(NSString* )content path:(NSString*)path messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name{
     XMPPRoom *room=nil;

@@ -130,8 +130,14 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
         [groupPanel setArray:list];
 
     }
-    if(self.isQuit)
+    if(self.isQuit){
         [groupPanel hideAddButton];
+        [groupPanel hideRemoveButtons];
+    }
+    if(!isMyGroup){
+        [groupPanel hideRemoveButtons];
+    }
+    
 }
 
 -(void)initQuitButton{
@@ -276,6 +282,7 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     
     XMPPIMActor* xmpp=[ShareAppDelegate xmpp];
     ChatLogic* logic=[[ChatLogic alloc] init];
+    logic.roomJID=self.messageId;
     [logic sendNotificationMessage:@"你已退出群组" messageId:self.messageId isGroup:self.isGroupChat name:nil onlyUpdateChat:YES];
     
     RectangleChat* rectangleChat=[xmpp fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
@@ -287,7 +294,6 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     }
     [xmpp saveContext];
     
-    logic.roomJID=self.messageId;
     [logic sendRoomQuitAction:self.messageId isMyGroup:isMyGroup];
     
     logic=nil;
@@ -316,6 +322,30 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
                     [self quitGroupAction:status];
                 }];
             }
+        }
+        else if(alertView.tag==778899){
+            
+            [SVProgressHUD showWithStatus:@"正在执行操作..." maskType:SVProgressHUDMaskTypeBlack];
+
+            request=[IMServerAPI grouptDeleteMember:[[ShareAppDelegate xmpp].xmppStream.myJID bare] roomId:self.messageId block:^(BOOL status){
+
+                request=nil;
+                if(!status){
+                    [SVProgressHUD showErrorWithStatus:@"操作失败，请检查网络！"];
+                    return ;
+                }
+                [SVProgressHUD dismiss];
+                
+                ChatLogic* logic=[[ChatLogic alloc] init];
+                logic.roomJID=self.messageId;
+                [logic sendRoomQuitMemberAction:self.messageId userJid:groupPanel.selectedJid];
+
+                [groupPanel removeUserJid:groupPanel.selectedJid];
+
+                logic=nil;
+                
+            }];
+            
         }
         else{
             InputAlertView* alert=(InputAlertView*)alertView;
@@ -423,6 +453,13 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
         
     }
     
+}
+
+-(void)removeGroupClick:(GroupPanel *)groupPanel{
+    UIAlertView* alertView=[[UIAlertView alloc] initWithTitle:@"你确定要将此联系人踢出群组吗？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alertView.tag=778899;
+    [alertView show];
+
 }
 
 #pragma mark contactselectedby group delegate

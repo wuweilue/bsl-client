@@ -27,6 +27,7 @@
 
 -(BOOL)sendRoomQuitAction:(NSString*)messageId isMyGroup:(BOOL)isMyGroup;
 
+-(BOOL)sendRoomQuitMemberAction:(NSString*)messageId userJid:(NSString*)userJid;
 
 -(BOOL)uploadImageToServer:(UIImage*)image finish:(void (^)(NSString* id,NSString* path))finish;
 

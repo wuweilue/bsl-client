@@ -20,7 +20,7 @@
 @interface RoomService()<NSFetchedResultsControllerDelegate,XMPPRoomDelegate>
 
 -(void)checkTimerEvent;
-
+-(void)delayRemoveNewRoom:(NSString*)roomId;
 @end
 
 @implementation RoomService
@@ -72,6 +72,7 @@
                     }
                     else{
                         rectChat.name=roomName;
+                        rectChat.isQuit=[NSNumber numberWithBool:NO];
                         //rectChat.createrJid=[dict objectForKey:@"jid"];
                     }
                 }
@@ -292,6 +293,7 @@
 
 
 - (void)xmppRoom:(XMPPRoom *)sender occupantDidJoin:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence{
+    
     /*
     @autoreleasepool {
     
@@ -317,7 +319,7 @@
 
         if(info!=nil){
             if([xmpp fetchGroupRoomUser:roomId memberId:jid]==nil){
-                [logic sendNotificationMessage:[NSString stringWithFormat:@"%@加入了聊天室", [info name]] messageId:roomId isGroup:YES name:nil];
+                [logic sendNotificationMessage:[NSString stringWithFormat:@"%@加入了聊天室", [info name]] messageId:roomId isGroup:YES name:nil onlyUpdateChat:YES];
             }
             else{
                 //[logic sendNotificationMessage:[NSString stringWithFormat:@"%@进入了聊天室", [info name]] messageId:roomId isGroup:YES name:nil];
@@ -331,7 +333,7 @@
             NSString * result1 = [roomId substringToIndex:range.location];
             
             if([xmpp fetchGroupRoomUser:roomId memberId:jid]==nil){
-                [logic sendNotificationMessage:[NSString stringWithFormat:@"%@加入了聊天室", result1] messageId:roomId isGroup:YES name:nil];
+                [logic sendNotificationMessage:[NSString stringWithFormat:@"%@加入了聊天室", result1] messageId:roomId isGroup:YES name:nil onlyUpdateChat:YES];
             }
             else{
                 //[logic sendNotificationMessage:[NSString stringWithFormat:@"%@进入了聊天室", result1] messageId:roomId isGroup:YES name:nil];
@@ -344,8 +346,7 @@
         logic=nil;
         [xmpp saveContext];
     }
-     */
-    
+    */
 }
 - (void)xmppRoom:(XMPPRoom *)sender occupantDidLeave:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence{
     NSLog(@"离开了聊天室");
@@ -417,6 +418,10 @@
 }
 
 
+-(void)delayRemoveNewRoom:(NSString*)roomId{
+    [self removeNewRoom:roomId destory:NO];
+}
+
 //for groupchat 来自群聊的消息
 - (void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID{
     if([message isMessageWithBody]){
@@ -443,24 +448,32 @@
             }
         }
         
-        if(uqID!=nil && [[ShareAppDelegate xmpp] fetchMessageFromUqID:uqID messageId:roomId]!=nil)
+        XMPPIMActor* xmpp=[ShareAppDelegate xmpp];
+        
+        if(uqID!=nil && [xmpp fetchMessageFromUqID:uqID messageId:roomId]!=nil)
             return;
+        
         
         @autoreleasepool {
             
+            NSString* subject=[[message elementForName:@"subject"] stringValue];
+            NSString* msg=[[message elementForName:@"body"] stringValue];
             
-            MessageEntity *messageEntity = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext: [ShareAppDelegate xmpp].managedObjectContext];
+            if([subject isEqualToString:@"killperson"]){
+                if(![msg isEqualToString:[xmpp.xmppStream.myJID bare]]){
+                    return;
+                }
+            }
+            
+            MessageEntity *messageEntity = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext: xmpp.managedObjectContext];
             
             messageEntity.uqID=uqID;
             messageEntity.messageId=roomId;
             messageEntity.sendUser=[NSString stringWithFormat:@"%@@@%@",senderUser,kXMPPDomin];
-            messageEntity.receiveUser=[[[ShareAppDelegate xmpp].xmppStream myJID]bare];
-            
-            NSString* msg=[[message elementForName:@"body"] stringValue];
+            messageEntity.receiveUser=[[xmpp.xmppStream myJID]bare];
             
             RectangleChatContentType rectangleChatContentType=RectangleChatContentTypeMessage;
             
-            NSString* subject=[[message elementForName:@"subject"] stringValue];
             
             if ([ subject isEqualToString:@"voice"]) {
                 //将字符串转换成nsdata
@@ -490,7 +503,11 @@
                 messageEntity.type = @"notification";
                 messageEntity.content=[NSString stringWithFormat:@"%@已经退出群组",[sender myNickname]];
             }
+            else if([subject isEqualToString:@"killperson"]){
+                messageEntity.type = @"notification";
+                messageEntity.content=@"你已被请出群组";
 
+            }
             else{
                 messageEntity.content = msg;
                 messageEntity.type = @"text";
@@ -502,12 +519,12 @@
             
             [messageEntity didSave];
             
-            RectangleChat* rectChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:roomId isGroup:YES];
+            RectangleChat* rectChat=[xmpp fetchRectangleChatFromJid:roomId isGroup:YES];
             
             if(rectChat==nil){
-                [[ShareAppDelegate xmpp] newRectangleMessage:roomId name:@"" content:msg contentType:rectangleChatContentType isGroup:YES createrJid:senderUser];
-                [[ShareAppDelegate xmpp] saveContext];
-                rectChat=[[ShareAppDelegate xmpp] fetchRectangleChatFromJid:roomId isGroup:YES];
+                [xmpp newRectangleMessage:roomId name:@"" content:msg contentType:rectangleChatContentType isGroup:YES createrJid:senderUser];
+                [xmpp saveContext];
+                rectChat=[xmpp fetchRectangleChatFromJid:roomId isGroup:YES];
             }
             
             rectChat.updateDate=[NSDate date];
@@ -519,6 +536,11 @@
             }
             else if ([ subject isEqualToString:@"quitperson"]) {
                 rectChat.content=[NSString stringWithFormat:@"%@已经退出群组",[sender myNickname]];
+            }
+            else if([subject isEqualToString:@"killperson"]){
+                rectChat.content=@"你已被请出群组";
+                rectChat.noReadMsgNumber=[NSNumber numberWithInt:0];
+                rectChat.isQuit=[NSNumber numberWithBool:YES];
             }
             else{
                 rectChat.content=msg;
@@ -533,9 +555,17 @@
 
             
             if ([ subject isEqualToString:@"quitgroup"]){
-                [self removeNewRoom:roomId destory:NO];
+                [self delayRemoveNewRoom:roomId];
             }
+            else if([subject isEqualToString:@"killperson"]){
+                ChatLogic* logic=[[ChatLogic alloc] init];
+                logic.roomJID=roomId;
+                [logic sendRoomQuitAction:roomId isMyGroup:NO];
+                logic=nil;
+                [self performSelector:@selector(delayRemoveNewRoom:) withObject:roomId afterDelay:2.0f];
 
+            }
+            
         }
     }
     

@@ -642,7 +642,7 @@
         [newManagedObject setValue:[NSDate date] forKey:@"updateDate"];
         [newManagedObject setValue:[NSNumber numberWithInt:0] forKey:@"noReadMsgNumber"];
     }
-    
+
 }
 
 -(GroupRoomUserEntity*)fetchGroupRoomUser:(NSString*)roomId memberId:(NSString*)memberId{
@@ -1074,6 +1074,11 @@
                 NSString* content=[NSString stringWithFormat:@"%@邀请你加入群组", fromWho];
                 [self newRectangleMessage:message.fromStr name:roomName content:content contentType:RectangleChatContentTypeMessage isGroup:YES createrJid:fromWho];
                 
+                RectangleChat* chat=[self fetchRectangleChatFromJid:message.fromStr isGroup:YES];
+                if(chat!=nil){
+                    chat.isQuit=[NSNumber numberWithBool:NO];
+                    [chat didSave];
+                }
                 
                 //添加对方进入成员
                 [self addGroupRoomMember:message.fromStr memberId:invoteFromeJid sex:@"" status:@"在线" username:fromWho];

@@ -14,7 +14,7 @@
 @protocol GroupPanelDelegate <NSObject>
 
 -(void)addGroupClick:(GroupPanel*)groupPanel;
--(void)removeGroupClick:(GroupPanel*)groupPanel index:(int)index;
+-(void)removeGroupClick:(GroupPanel*)groupPanel;
 @end
 
 @interface GroupSubPanel : UIButton{
@@ -31,11 +31,15 @@
 
 }
 
+@property(nonatomic,strong) NSString* selectedJid;
 @property(nonatomic,weak) id<GroupPanelDelegate> delegate;
 
 -(void)setArray:(NSArray*)userInfos;
 
 -(void)hideAddButton;
 
+-(void)hideRemoveButtons;
+
+-(void)removeUserJid:(NSString*)jid;
 
 @end
