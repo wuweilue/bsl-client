@@ -116,11 +116,11 @@
     //一行高度
     CGFloat oneLineHeight = [announcement.content sizeWithFont:_contentLabel.font
                                                     forWidth:CGRectGetWidth(_contentLabel.frame) - (edit ? 31:0)
-                                               lineBreakMode:UILineBreakModeTailTruncation].height;
+                                               lineBreakMode:NSLineBreakByTruncatingTail].height;
     //多行高度
     CGFloat multiLineHeight = [announcement.content sizeWithFont:_contentLabel.font
                                              constrainedToSize:CGSizeMake(CGRectGetWidth(_contentLabel.frame) - (edit ? 31:0), 99999)
-                                                 lineBreakMode:UILineBreakModeTailTruncation].height;
+                                                 lineBreakMode:NSLineBreakByTruncatingTail].height;
     
     //重设caption高度
     CGFloat finalCaptionHeight = (_contentLabel.numberOfLines == 1) ? oneLineHeight : multiLineHeight;

@@ -55,6 +55,12 @@
 
 #import "OperateLog.h"
 
+#ifndef _DEBUG
+
+#define _DEBUG
+
+#endif
+
 void uncaughtExceptionHandler(NSException*exception){
     NSLog(@"CRASH: %@", exception);
     NSLog(@"Stack Trace: %@",[exception callStackSymbols]);
@@ -265,7 +271,8 @@ void uncaughtExceptionHandler(NSException*exception){
 
 //加入apns推送功能
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-        [PushGetMessageInfo getPushMessageInfo];
+
+    [PushGetMessageInfo getPushMessageInfo];
  
     [[UIApplication sharedApplication]  cancelAllLocalNotifications];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
@@ -311,7 +318,7 @@ void uncaughtExceptionHandler(NSException*exception){
     [json setObject:[[UIDevice currentDevice] name] forKey:@"deviceName"];
     [json setObject:@"IOS" forKey:@"osName"];
     
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json options:NSJSONReadingMutableContainers error:nil];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:nil];
     
 //    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     

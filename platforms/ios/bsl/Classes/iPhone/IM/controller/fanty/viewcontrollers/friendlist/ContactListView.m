@@ -367,7 +367,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
     
     
     [laterReloadTimer invalidate];
-    laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
+    laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:0.7f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
 }
 
 

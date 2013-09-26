@@ -153,7 +153,7 @@
             [aCubeWebViewController viewDidAppear:NO];
             [self addBadge];
         }didErrorBlock:^(){
-            UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"首页模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [alertView show];
         }];
         
@@ -305,7 +305,7 @@
             for (NSString *dependency in needInstall) {
                 CubeModule *m = [[CubeApplication currentApplication] availableModuleForIdentifier:dependency];
                 if (m!=nil)
-                    [message appendFormat:@"%@\n", m.name];
+                    [message appendFormat:@"%@(build:%d)\n", m.name,m.build];
                 else
                     [message appendFormat:@"%@\n", dependency];
             }
@@ -318,7 +318,7 @@
             for (NSString *dependency in needUpgrade) {
                 CubeModule *m = [[CubeApplication currentApplication] moduleForIdentifier:dependency];
                 if (m!=nil)
-                    [message appendFormat:@"%@\n", m.name];
+                    [message appendFormat:@"%@(build:%d)\n", m.name,m.build];
                 else
                     [message appendFormat:@"%@\n", dependency];
             }
@@ -352,7 +352,7 @@
 
     }didErrorBlock:^(){
         NSLog(@"error loading %@", bCubeWebViewController.webView.request.URL);
-        UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@模块加载失败。",aCubeWebViewController.title] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
 
     }];

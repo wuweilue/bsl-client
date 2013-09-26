@@ -38,6 +38,7 @@
         NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"MessageRecord"];
         [fetchRequest setPredicate:predicate];
         NSArray *fetchedPersonArray = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+        
         MessageObject *message = nil;
         //如果数据库中存在记录
         if (fetchedPersonArray.count>0) {
@@ -46,7 +47,7 @@
             message = [[MessageObject alloc]init];
             NSDictionary *aps = [info objectForKey:@"aps"];
             NSString* alert = [aps objectForKey:@"alert"];
-            if (!alert || [alert isEqual:[NSNull null]]) {
+            if ([alert length]<1) {
                 alert = [info objectForKey:@"title"];
             }
             [message setAlert:alert];
@@ -68,9 +69,12 @@
             }
             id content = [info objectForKey:@"content"];
             if([content isKindOfClass:[NSDictionary class]]){
-                NSData *data = [NSJSONSerialization dataWithJSONObject:content options:NSJSONWritingPrettyPrinted error:nil];
-                NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                [message setContent:string];
+                @autoreleasepool {
+                    NSData *data = [NSJSONSerialization dataWithJSONObject:content options:NSJSONWritingPrettyPrinted error:nil];
+                    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    [message setContent:string];
+                    
+                }
             }
             if([content isKindOfClass:[NSString class]]){
                 [message setContent:content];
