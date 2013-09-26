@@ -41,9 +41,11 @@
             Class cls = NSClassFromString(commandClass);
             id<CubeCommandHandler> commandInstance = [[cls alloc] init];
             [cmdArray addObject:commandInstance];
+            commandInstance=nil;
         }
         
         self.commands = cmdArray;
+        cmdArray=nil;
         
     }
     return self;

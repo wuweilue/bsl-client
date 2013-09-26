@@ -29,6 +29,5 @@ NSString* const  kFeedBackPostUrl=@"http://192.168.11.18:9000/feedbacks";
 int kXMPPPort= 5222;
 BOOL const kEnablePushNotification = YES;
 
-NSString* const kFileDownloadUrl=@"http://imap.csair.com/storage/attachments/";
-NSString* const kFileUploadUrl = @"http://imap.csair.com/storage/attachments/upload";
+NSString* const kFileUploadUrl = @"http://192.168.11.18:18860/bsl-web/mam/attachment/clientUpload";
 NSString *const kMUCSevericeDomin=@"conference.mobile.app";

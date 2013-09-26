@@ -43,8 +43,7 @@
 }
 
 -(void)requestFinished:(ASIHTTPRequest*)ar{
-    NSString *body =[[NSString alloc] initWithData:[ar responseData] encoding:NSUTF8StringEncoding];
-    id json = [body objectFromJSONString];
+    id json = [[ar responseData] objectFromJSONData];
     if (json == nil) {
         [self requestFailed:ar];
         return;
