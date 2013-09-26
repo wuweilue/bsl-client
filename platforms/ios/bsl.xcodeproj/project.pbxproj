@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1801377C17F3D1AA00261B66 /* local_module.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1801377B17F3D1AA00261B66 /* local_module.plist */; };
+		1801377D17F3D1AA00261B66 /* local_module.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1801377B17F3D1AA00261B66 /* local_module.plist */; };
+		1801377E17F3D1AA00261B66 /* local_module.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1801377B17F3D1AA00261B66 /* local_module.plist */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -2540,6 +2543,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1801377B17F3D1AA00261B66 /* local_module.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = local_module.plist; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* chameleon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chameleon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -3592,6 +3596,7 @@
 				F54D83DA17E8C77D0067A023 /* Cube.json */,
 				F54D83DB17E8C77D0067A023 /* CubeCommands.plist */,
 				F54D83DC17E8C77D0067A023 /* emotionResource.plist */,
+				1801377B17F3D1AA00261B66 /* local_module.plist */,
 				F54D83DD17E8C77D0067A023 /* emotions */,
 				F54D844D17E8C77E0067A023 /* GroupChat */,
 				F54D845117E8C77E0067A023 /* icon-announcement.png */,
@@ -5789,6 +5794,7 @@
 				F54D853A17E8C77E0067A023 /* Login_off@2x.png in Resources */,
 				F5A96CDB17F007FC00F9CA68 /* menu_button2.png in Resources */,
 				F54D853B17E8C77E0067A023 /* Login_on@2x.png in Resources */,
+				1801377C17F3D1AA00261B66 /* local_module.plist in Resources */,
 				F54D853C17E8C77E0067A023 /* login_select.png in Resources */,
 				F5A96CAD17F007FC00F9CA68 /* announcement_local.png in Resources */,
 				F54D853D17E8C77E0067A023 /* login_title.png in Resources */,
@@ -6221,6 +6227,7 @@
 				39D9E95917F27C03001ED6F5 /* Login_off@2x.png in Resources */,
 				39D9E95A17F27C03001ED6F5 /* menu_button2.png in Resources */,
 				39D9E95B17F27C03001ED6F5 /* Login_on@2x.png in Resources */,
+				1801377E17F3D1AA00261B66 /* local_module.plist in Resources */,
 				39D9E95C17F27C03001ED6F5 /* login_select.png in Resources */,
 				39D9E95D17F27C03001ED6F5 /* announcement_local.png in Resources */,
 				39D9E95E17F27C03001ED6F5 /* login_title.png in Resources */,
@@ -6653,6 +6660,7 @@
 				39E0523317F00AEA00BCF7F8 /* Login_off@2x.png in Resources */,
 				39E0523417F00AEA00BCF7F8 /* menu_button2.png in Resources */,
 				39E0523517F00AEA00BCF7F8 /* Login_on@2x.png in Resources */,
+				1801377D17F3D1AA00261B66 /* local_module.plist in Resources */,
 				39E0523617F00AEA00BCF7F8 /* login_select.png in Resources */,
 				39E0523717F00AEA00BCF7F8 /* announcement_local.png in Resources */,
 				39E0523817F00AEA00BCF7F8 /* login_title.png in Resources */,

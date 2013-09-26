@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.foss.chat</key>
+	<string>XMPPFriends</string>
+	<key>com.foss.message.record</key>
+	<string>MessageRecord</string>
+	<key>com.foss.announcement</key>
+	<string>Announcement</string>
+	<key>com.csair.flightcale</key>
+	<string>FilghtCaleMenu</string>
+	<key>com.csair.flightplan</key>
+	<string>FlightPlanView</string>
+	<key>com.csair.filghtprepearation</key>
+	<string>FPTaskListView</string>
+	<key>com.csair.ebook</key>
+	<string>EbookListView</string>
+	<key>com.csair.flightschedule</key>
+	<string>FlightSchedule</string>
+</dict>
+</plist>
