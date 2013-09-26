@@ -18,6 +18,7 @@
 #import "XMPPRoom.h"
 #import "RectangleChat.h"
 #import "IMServerAPI.h"
+#import "HTTPRequest.h"
 
 @interface ContactSelectedForGroupViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,ImageUploadedDelegate,UIAlertViewDelegate>
 
@@ -58,14 +59,17 @@
     else{
 
     }
+    self.view.autoresizesSubviews=NO;
+    self.view.autoresizingMask=UIViewAutoresizingNone;
     self.view.frame=rect;
     self.view.backgroundColor=[UIColor whiteColor];
 
+    maxHeight=rect.size.height;
 
     UINavigationItem* navItem=[[UINavigationItem alloc] initWithTitle:self.title];
 
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-        navItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backClick)];
+        navItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(backClick)];
         bar=[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 44.0f)];
     }
     else{
@@ -156,7 +160,7 @@
         
         rect=self.view.bounds;
         rect.origin.y=CGRectGetMaxY(bar.frame);
-        rect.size.height=self.view.frame.size.height- rect.origin.y-imageUploaded.frame.size.height;
+        rect.size.height=maxHeight- rect.origin.y-imageUploaded.frame.size.height;
         tableView.frame=rect;
         
         rect=imageUploaded.frame;
@@ -203,7 +207,7 @@
     tableView.tableHeaderView=searchBar;
     CGRect rect=self.view.bounds;
     rect.origin.y=CGRectGetMaxY(bar.frame);
-    rect.size.height=self.view.frame.size.height- rect.origin.y-imageUploaded.frame.size.height;
+    rect.size.height=maxHeight- rect.origin.y-imageUploaded.frame.size.height;
     tableView.frame=rect;
 
     rect=imageUploaded.frame;
@@ -232,7 +236,7 @@
     timeOutTimer=nil;
     [SVProgressHUD dismiss];
     self.groupName=nil;
-    [[ShareAppDelegate xmpp].roomService removeNewRoom:self.tempNewjid];
+    [[ShareAppDelegate xmpp].roomService removeNewRoom:self.tempNewjid destory:NO];
     self.tempNewjid=nil;
     
     [SVProgressHUD showErrorWithStatus:@"创建群组超时了，请稍候再尝试！"];
@@ -246,6 +250,7 @@
     XMPPRoom* roomS=(XMPPRoom*)notification.object;
     NSString* roomJID=[roomS.roomJID bare];
 
+    self.tempNewjid=roomJID;
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     
     [request cancel];
@@ -259,7 +264,8 @@
 
         [appDelegate.xmpp newRectangleMessage:roomJID name:self.groupName content:@"我新建了一个群组" contentType:RectangleChatContentTypeMessage isGroup:YES createrJid:nil];
         
-        
+        [appDelegate.xmpp saveContext];
+
         //先向自己发送一个邀请
         NSString* name=[[appDelegate.xmpp.xmppStream myJID] bare];
         
@@ -405,7 +411,7 @@
         fliterBg=[UIButton buttonWithType:UIButtonTypeCustom];
         [fliterBg addTarget:self action:@selector(filterClick) forControlEvents:UIControlEventTouchUpInside];
         fliterBg.backgroundColor=[UIColor blackColor];
-        fliterBg.frame=CGRectMake(0.0f, searchBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+        fliterBg.frame=CGRectMake(0.0f, searchBar.frame.size.height, self.view.frame.size.width, maxHeight);
         [self.view addSubview:fliterBg];
     }
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
@@ -416,7 +422,7 @@
         
         rect=self.view.bounds;
         rect.origin.y=CGRectGetMaxY(bar.frame);
-        rect.size.height=self.view.frame.size.height- rect.origin.y-imageUploaded.frame.size.height;
+        rect.size.height=maxHeight- rect.origin.y-imageUploaded.frame.size.height;
         tableView.frame=rect;
         
         rect=imageUploaded.frame;

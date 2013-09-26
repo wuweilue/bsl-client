@@ -29,10 +29,10 @@
 @dynamic isMessageBadge;
 @dynamic faceBackId;
 @dynamic isRead;
-+(MessageRecord *)createByApnsInfo:(NSDictionary *)info{
++(void)createByApnsInfo:(NSDictionary *)info{
     NSString * mFaceBackId = [info objectForKey:@"sendId"];
     
-    if (mFaceBackId && ![mFaceBackId isEqual:[NSNull null]]) {
+    if ([mFaceBackId length]>0) {
         //通过sendID在数据库中判断是否存在记录
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"faceBackId==%@",mFaceBackId];
         NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"MessageRecord"];
@@ -103,20 +103,15 @@
             [appDelegate ativatePushSound];
             
             NSString *nowStr = [NSString stringWithFormat:@"%ld",now];
-            if(module)
-            {
+            if(module){
                 [appDelegate.moduleReceiveMsg setValue:nowStr forKey:module];
             }
-            else
-            {
+            else{
                 [appDelegate.moduleReceiveMsg setValue:nowStr forKey:@"系统"];
             }
         }
          [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:message];
-        return message;
     }
-    return  nil;
-    
 }
 
 +(MessageRecord *)createByJSON:(NSString *)jsonString{
@@ -185,11 +180,11 @@
         
     }
     
-    dispatch_sync(dispatch_get_main_queue(), ^{ @autoreleasepool {
+//    dispatch_sync(dispatch_get_main_queue(), ^{ @autoreleasepool {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:message];
         
-    }});
+//    }});
     
     return message;
     

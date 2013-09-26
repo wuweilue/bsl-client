@@ -25,6 +25,8 @@
     TouchTableView* tableView;
     
     NSTimer* laterReloadTimer;
+    
+    NSTimer* friendListTimeOut;
 
 }
 

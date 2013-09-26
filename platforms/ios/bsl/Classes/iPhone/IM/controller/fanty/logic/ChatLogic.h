@@ -16,7 +16,7 @@
 @property(nonatomic,strong) NSString* roomJID;
 
 
--(void)sendNotificationMessage:(NSString* )content messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name;
+-(void)sendNotificationMessage:(NSString* )content messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name onlyUpdateChat:(BOOL)onlyUpdateChat;
 
 -(BOOL)sendMessage:(NSString* )content messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name;
 
@@ -25,6 +25,9 @@
 
 -(BOOL)sendVoice:(NSString* )content urlVoiceFile:(NSURL*)urlVoiceFile messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name;
 
+-(BOOL)sendRoomQuitAction:(NSString*)messageId isMyGroup:(BOOL)isMyGroup;
+
+-(BOOL)sendRoomQuitMemberAction:(NSString*)messageId userJid:(NSString*)userJid;
 
 -(BOOL)uploadImageToServer:(UIImage*)image finish:(void (^)(NSString* id,NSString* path))finish;
 

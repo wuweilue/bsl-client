@@ -574,9 +574,17 @@
         
         [MessageRecord createModuleBadge:@"com.foss.chat" num: [XMPPSqlManager getMessageCount]];
 
+        
 
         [tableView insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationBottom];
         [tableView scrollToRowAtIndexPath:[indexPathArray lastObject] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        
+        if([rectChat.isQuit boolValue]){
+            [chatPanel hideAllControlPanel];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+
+        
     }else if (type==NSFetchedResultsChangeUpdate) {
 
     }
@@ -601,9 +609,12 @@
 -(void)voiceButtonClick:(UIButton*)button{
     [chatPanel resignFirstResponder];
     VoiceCell* cell=(VoiceCell*)button.superview;
-    for(UITableViewCell* cell in [tableView visibleCells]){
-        if([cell isKindOfClass:[VoiceCell class]]){
-            [((VoiceCell*)cell) playAnimated:NO];
+    for(UITableViewCell* __cell in [tableView visibleCells]){
+        if([__cell isKindOfClass:[VoiceCell class]]){
+            [((VoiceCell*)__cell) playAnimated:NO];
+            if(cell.tag==__cell.tag){
+                cell=(VoiceCell*)__cell;
+            }
         }
     }
     if(playingIndex==cell.tag){
@@ -612,6 +623,7 @@
         playingIndex=-1;
     }
     else{
+        
         playingIndex=cell.tag;
         [cell playAnimated:YES];
         MessageEntity* entity=[messageArray objectAtIndex:cell.tag];

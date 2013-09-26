@@ -50,7 +50,7 @@
         
         editing = NO;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData:) name:ANNOUNCEMENT_DID_SAVE_NOTIFICATION object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:ANNOUNCEMENT_DID_SAVE_NOTIFICATION object:nil];
 
     }
     return self;
@@ -151,14 +151,22 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)loadData:(NSNotification*)notification{
+-(void)delayLoadTimerTimerEvent{
+    [delayLoadTimer invalidate];
+    delayLoadTimer=nil;
     
     self.list = [NSMutableArray arrayWithArray:[Announcement findAllOrderByReviceTime]];
     [self.tableView reloadData];
+
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)loadData{
+    
+    [delayLoadTimer invalidate];
+    delayLoadTimer=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(delayLoadTimerTimerEvent) userInfo:nil repeats:NO];
+}
+
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

@@ -19,6 +19,7 @@
 #import "AutoShowRecord.h"
 #import "FMDBManager.h"
 #import "FMDatabaseQueue.h"
+#import "HTTPRequest.h"
 
 #define SHOW_DETAILVIEW  @"SHOW_DETAILVIEW"  //展示模块
 
@@ -30,7 +31,7 @@
 @property (nonatomic,strong)  UIViewController * detailController;
 @property (nonatomic,strong)  UIViewController * mainController;
 @property (nonatomic,strong)  UIView* detailView;
-@property (copy, nonatomic) NSString *selectedModule;
+@property (strong, nonatomic) NSString *selectedModule;
 
 @end
 
@@ -61,13 +62,15 @@
         
         if (!skinView) {
             //读取文件信息
-            NSURL* documentUrl =  [NSFileManager applicationDocumentsDirectory];
-            NSURL* fileUrl = [documentUrl URLByAppendingPathComponent:@"www/pad/theme/theme.json"];
-            NSData* data = [[NSData alloc]initWithContentsOfURL:fileUrl];
-            
-            NSArray *arr = ( NSArray *)[data   mutableObjectFromJSONData ];
-            skinView = [[SkinView alloc]initWithActivityItems:arr];
-            skinView.delegate = self;
+            @autoreleasepool {
+                NSURL* documentUrl =  [NSFileManager applicationDocumentsDirectory];
+                NSURL* fileUrl = [documentUrl URLByAppendingPathComponent:@"www/pad/theme/theme.json"];
+                NSData* data = [[NSData alloc]initWithContentsOfURL:fileUrl];
+                
+                NSArray *arr = ( NSArray *)[data   mutableObjectFromJSONData ];
+                skinView = [[SkinView alloc]initWithActivityItems:arr];
+                skinView.delegate = self;                
+            }
         }
         
         aCubeWebViewController  = [[CubeWebViewController alloc] init];
@@ -442,14 +445,18 @@
     
     if (alertView.tag == 1 && buttonIndex== 0 ) {
         NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
-        HTTPRequest * request = [[HTTPRequest alloc]initWithURL:[NSURL URLWithString:[ServerAPI urlForlogout:[userDefaults objectForKey:@"token"]]]];
+        
+        HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:[ServerAPI urlForlogout:[userDefaults objectForKey:@"token"]]]];
         [request startAsynchronous];
         [self logout];
     }
 }
 
 -(void)logout{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGOUTSENDEXITNOTIFICATION" object:nil];
     [(AppDelegate *)[UIApplication sharedApplication].delegate showLoginView];
+    [self.presentedViewController dismissViewControllerAnimated:NO completion:^{}];
+//    [self dismissViewControllerAnimated:NO completion:^{}];
 }
 
 
@@ -511,6 +518,7 @@
             
             UIViewController *localController = (UIViewController *)[[NSClassFromString(iphoneLocal) alloc] init];
             [self showDetailViewController:localController];
+            localController=nil;
             return;
         }else{
             [self showWebViewModue:module];
@@ -703,7 +711,7 @@
 -(void)showDetailViewController:(UIViewController*)vc{
     [self addBadge];
     CGRect frame = vc.view.frame;
-    frame.size.width =CGRectGetHeight(self.view.frame)/2+2;
+    frame.size.width =CGRectGetWidth(self.view.frame)/2+2.0f;
     frame.size.height= CGRectGetWidth(self.view.frame);
     vc.view.frame = frame;
     
@@ -729,7 +737,7 @@
     detailViewFrame.origin.x = CGRectGetWidth(self.view.bounds);
     self.detailView.frame = detailViewFrame;
     
-    self.detailView.layer.cornerRadius = 10;
+   // self.detailView.layer.cornerRadius = 10;
     
     [self.detailView.layer setShadowColor: [UIColor blackColor].CGColor];
     self.detailView.layer.shadowOpacity = 0.5;

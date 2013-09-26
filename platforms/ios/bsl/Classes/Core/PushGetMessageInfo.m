@@ -11,33 +11,42 @@
 #import "JSONKit.h"
 #import "MessageRecord.h"
 
+static HTTPRequest * request=nil;
+
 @implementation PushGetMessageInfo
 
 +(void)getPushMessageInfo{
+    
+    [request cancel];
     
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     NSString* token = [userDefaults objectForKey:@"deviceToken"];
     NSString* deviceId = [[UIDevice currentDevice] uniqueDeviceIdentifier];
     NSString* requestUrl = [NSString stringWithFormat:@"%@/%@/%@/%@",kPushGetMessageUrl,token,deviceId,kAPPKey];
     
+    NSLog(@"getPushMessageInfo  url:%@",requestUrl);
+    
     if (token && [token length] > 0 ) {
-        HTTPRequest * request = [[HTTPRequest alloc]initWithURL:[NSURL URLWithString:requestUrl]];
+        
+        request = [HTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
         __block HTTPRequest* __request=request;
-        [request setRequestMethod:@"GET"];
         [request setCompletionBlock:^{
             NSLog(@"获取推送信息完成");
             if (__request.responseStatusCode != 500) {
                 NSData *data = [__request responseData];
                 NSMutableArray * messageArray = [data objectFromJSONData];
-                if ([messageArray count]>0) {
                     //FMDB 事务
-                    for (NSDictionary* dictionary in messageArray) {
+                for (NSDictionary* dictionary in messageArray) {
                         [MessageRecord createByApnsInfo:dictionary];
-                    }
                 }
             }
+            [__request cancel];
+            request=nil;
+
         }];
         [request setFailedBlock:^{
+            [__request cancel];
+            request=nil;
             NSLog(@"获取推送信息出错");
         }];
         [request startAsynchronous];

@@ -28,6 +28,8 @@
 #import "XMPPMUC.h"
 #import "RoomService.h"
 
+@class GroupRoomUserEntity;
+
 @protocol XMPPIMActorDelegate <NSObject>
 
 -(void)setupXmppSucces;
@@ -115,9 +117,12 @@
 
 
 -(MessageEntity*)fetchMessageFromUqID:(NSString*)uqID messageId:(NSString*)messageId;
--(RectangleChat*)fetchRectangleChatFromJid:(NSString*)userJid isGroup:(BOOL)isGroup;
+-(RectangleChat*)fetchRectangleChatFromJid:(NSString*)messageId isGroup:(BOOL)isGroup;
 
--(void)newRectangleMessage:(NSString*)receiverJid name:(NSString*)name content:(NSString*)content contentType:(RectangleChatContentType)contentType isGroup:(BOOL)isGroup createrJid:(NSString*)createrJid;
+-(void)newRectangleMessage:(NSString*)messageId name:(NSString*)name content:(NSString*)content contentType:(RectangleChatContentType)contentType isGroup:(BOOL)isGroup createrJid:(NSString*)createrJid;
+
+
+-(GroupRoomUserEntity*)fetchGroupRoomUser:(NSString*)roomId memberId:(NSString*)memberId;
 
 -(void)addGroupRoomMember:(NSString*)roomId memberId:(NSString*)memberId sex:(NSString*)sex status:(NSString*)status username:(NSString*)username;
 

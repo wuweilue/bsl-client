@@ -80,6 +80,7 @@
         [request setPostValue:[[UIDevice currentDevice] uniqueDeviceIdentifier]  forKey:@"deviceId"];
 
         [request setPostValue:[[NSBundle mainBundle]bundleIdentifier] forKey:@"appId"];
+        
 
         [request setFailedBlock:^{
             if([SVProgressHUD isVisible]){
@@ -113,8 +114,6 @@
                 UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"登录失败" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 [alert show];
             }else{
-            NSData* data = [__request responseData];
-            NSDictionary* messageDictionary = [data objectFromJSONData];
             NSString* messageAlert =   [messageDictionary objectForKey:@"message"];
             NSNumber* number =  [messageDictionary objectForKey:@"result"];
             if ([number boolValue]) {
@@ -137,6 +136,11 @@
                 
                 [defaults setObject:token forKey:@"token"];
                 [defaults setObject:userName forKey:@"LoginUser"];
+                [defaults setObject:[messageDictionary objectForKey:@"phone"] forKey:@"phone"];
+                [defaults setObject:[messageDictionary objectForKey:@"sex"] forKey:@"sex"];
+                [defaults setObject:[messageDictionary objectForKey:@"zhName"] forKey:@"zhName"];
+                [defaults setObject:[messageDictionary objectForKey:@"privileges"] forKey:@"privileges"];
+                //end ================
                 
                 [defaults synchronize];
                 AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;

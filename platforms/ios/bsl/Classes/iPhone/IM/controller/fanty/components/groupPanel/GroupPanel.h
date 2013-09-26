@@ -14,11 +14,12 @@
 @protocol GroupPanelDelegate <NSObject>
 
 -(void)addGroupClick:(GroupPanel*)groupPanel;
-
+-(void)removeGroupClick:(GroupPanel*)groupPanel;
 @end
 
 @interface GroupSubPanel : UIButton{
     ImageDownloadedView* imageDownloadedView;
+    UIButton* closeButton;
     UILabel* titleLabel;
 }
 @end
@@ -30,9 +31,15 @@
 
 }
 
+@property(nonatomic,strong) NSString* selectedJid;
 @property(nonatomic,weak) id<GroupPanelDelegate> delegate;
 
 -(void)setArray:(NSArray*)userInfos;
 
 -(void)hideAddButton;
+
+-(void)hideRemoveButtons;
+
+-(void)removeUserJid:(NSString*)jid;
+
 @end

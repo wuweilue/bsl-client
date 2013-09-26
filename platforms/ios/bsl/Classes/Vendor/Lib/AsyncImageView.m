@@ -224,7 +224,7 @@
             return;
         }
         
-        [[Cache instance] setData:[__request responseData] forKey:[[request originalURL] absoluteString]];
+        [[Cache instance] setData:[__request responseData] forKey:[[__request originalURL] absoluteString]];
         
         [self stopLoading];
         [self loadImageFromData:[__request responseData] animated:YES];

@@ -52,7 +52,7 @@
 
         [self addSubview:titleLabel];
         
-        contentLabel=[[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageView.frame)+12.0f, 35.0f, CGRectGetMinX(dateLabel.frame)-CGRectGetMaxX(imageView.frame), 18.0f)];
+        contentLabel=[[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageView.frame)+12.0f, 35.0f, 0.0f, 18.0f)];
         contentLabel.numberOfLines=1;
         contentLabel.font=[UIFont fontWithName:@"Helvetica" size:15.0f];
         contentLabel.textColor=[UIColor grayColor];
@@ -87,7 +87,10 @@
     
     dateLabel.frame=CGRectMake(self.frame.size.width-9.0f-100.0f, CGRectGetMinY(imageView.frame), 100.0f, 20.0f);
 
-    contentLabel.frame=CGRectMake(CGRectGetMaxX(imageView.frame)+12.0f, 35.0f, CGRectGetMinX(dateLabel.frame)-CGRectGetMaxX(imageView.frame), 18.0f);
+    
+    titleLabel.frame=CGRectMake(CGRectGetMaxX(imageView.frame)+12.0f, CGRectGetMinY(imageView.frame), CGRectGetMinX(dateLabel.frame)-CGRectGetMaxX(imageView.frame)-48.0f, 20.0f);
+
+    contentLabel.frame=CGRectMake(CGRectGetMaxX(imageView.frame)+12.0f, 35.0f, CGRectGetMinX(dateLabel.frame)-CGRectGetMaxX(imageView.frame)-48.0f, 18.0f);
 
     rect=lineView.frame;
     rect.size.width=self.frame.size.width;

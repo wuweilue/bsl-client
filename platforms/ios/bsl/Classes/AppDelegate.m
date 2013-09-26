@@ -44,6 +44,7 @@
 #import "XMPPPustActor.h"
 #import "SVProgressHUD.h"
 #import "NSFileManager+Extra.h"
+#import "UpdateChecker.h"
 
 
 #import "Login_IpadViewController.h"
@@ -57,24 +58,24 @@
 void uncaughtExceptionHandler(NSException*exception){
     NSLog(@"CRASH: %@", exception);
     NSLog(@"Stack Trace: %@",[exception callStackSymbols]);
-    // Internal error reporting
+
 }
 
-@interface AppDelegate ()
+@interface AppDelegate ()<UIApplicationDelegate,XMPPIMActorDelegate,UIAlertViewDelegate>
 @property (assign,nonatomic) CFURLRef soundFileURLRef;
 @property (assign,nonatomic) SystemSoundID soundFileObject;
 
 @end
 @implementation AppDelegate
 
-@synthesize window, viewController;
+@synthesize window;
+@synthesize navControl;
+@synthesize uc;
 @synthesize xmpp;
 @synthesize xmppPustActor;
-@synthesize isBackLunch;
 @synthesize moduleReceiveMsg;
 @synthesize mainViewController;
-- (id)init
-{
+- (id)init{
     /** If you need to do any extra app-specific initialization, you can do it here
      *  -jm
      **/
@@ -88,7 +89,6 @@ void uncaughtExceptionHandler(NSException*exception){
     [NSURLCache setSharedURLCache:sharedCache];
     self = [super init];
     
-    isBackLunch =NO;
     return self;
 }
 
@@ -97,10 +97,8 @@ void uncaughtExceptionHandler(NSException*exception){
 /**
  * This is main kick off after the app inits, the views and Settings are setup here. (preferred - iOS4 and up)
  */
-- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
-{
-    if (launchOptions)
-	{
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions{
+    if (launchOptions){
         NSDictionary* dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (dictionary != nil)
 		{
@@ -112,9 +110,10 @@ void uncaughtExceptionHandler(NSException*exception){
     }
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
-    isBackLunch =NO;
-    UpdateChecker *uc = [[UpdateChecker alloc] initWithDelegate:nil];
-    [uc check];
+    UpdateChecker *__uc = [[UpdateChecker alloc] initWithDelegate:nil];
+    self.uc=__uc;
+    __uc=nil;
+    [self.uc check];
     
     [self registerForRemoteNotification];
     [self referencePushSound];
@@ -129,14 +128,7 @@ void uncaughtExceptionHandler(NSException*exception){
         [cubeApp installJS];
     }
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didLogin) name:@"LoginSuccess" object:nil];
-    
-    NSURL* url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
-    
-    if (url && [url isKindOfClass:[NSURL class]]) {
-		NSLog(@"Cube-iOS launchOptions = %@", [url absoluteString]);
-    }
-    
-       
+
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     
@@ -148,6 +140,15 @@ void uncaughtExceptionHandler(NSException*exception){
     //end------
     //异步加载push actor
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
+    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad){
+        UINavigationController* nav=[[UINavigationController alloc] init];
+        [nav setNavigationBarHidden:YES];
+        self.navControl=nav;
+        self.window.rootViewController=nav;
+        nav=nil;
+    }
+    
     [self showLoginView];
     [self.window makeKeyAndVisible];
     return YES;
@@ -159,7 +160,9 @@ void uncaughtExceptionHandler(NSException*exception){
 }
 
 -(void)showLoginView{
-    self.window.rootViewController = self.viewController;
+
+    [self.navControl popToRootViewControllerAnimated:NO];
+
     //清楚浏览器缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     
@@ -170,13 +173,19 @@ void uncaughtExceptionHandler(NSException*exception){
    
     [xmpp disConnect];
     
-        
-    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone)
-    {
-        self.window.rootViewController = [[Login_IphoneViewController alloc] init];
-    }else{
-        Login_IpadViewController* login_IpadViewController = [[Login_IpadViewController alloc]initWithNibName:@"Login_IpadViewController" bundle:nil];
-        self.window.rootViewController = login_IpadViewController;
+    if([navControl.viewControllers count]<1){
+        if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone){
+            Login_IphoneViewController* controller=[[Login_IphoneViewController alloc] init];
+            self.window.rootViewController=controller;
+            //  [navControl pushViewController:controller animated:NO];
+            controller=nil;
+        }else{
+            Login_IpadViewController* controller = [[Login_IpadViewController alloc]initWithNibName:@"Login_IpadViewController" bundle:nil];
+//            self.window.rootViewController=controller;
+
+            [self.navControl pushViewController:controller animated:NO];
+            controller=nil;
+        }
     }
 
 }
@@ -200,7 +209,6 @@ void uncaughtExceptionHandler(NSException*exception){
     if([SVProgressHUD isVisible]){
         [SVProgressHUD dismiss];
     }
-    isBackLunch =YES;
     
 #if TARGET_IPHONE_SIMULATOR
     
@@ -219,11 +227,18 @@ void uncaughtExceptionHandler(NSException*exception){
 
 -(void)applicationWillEnterForeground:(UIApplication *)application{
     
+    
     if ([self.window.rootViewController class] == [LoginViewController class]) {
-        UpdateChecker *uc = [[UpdateChecker alloc] initWithDelegate:nil];
-        [uc check];
+        [self.uc check];
     }
-    isBackLunch =NO;
+     
+    
+    /*
+    if([navControl.visibleViewController isKindOfClass:[LoginViewController class]]){
+        [self.uc check];
+
+    }
+     */
 }
 
 
@@ -250,11 +265,9 @@ void uncaughtExceptionHandler(NSException*exception){
 
 //加入apns推送功能
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [PushGetMessageInfo getPushMessageInfo];
-    });
  
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication]  cancelAllLocalNotifications];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
@@ -322,15 +335,16 @@ void uncaughtExceptionHandler(NSException*exception){
 
 // this happens while we are running ( in the background, or from within our own app )
 // only valid if cube-ios-Info.plist specifies a protocol to handle
-- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url
-{
+- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url{
     if (!url) {
         return NO;
     }
     
     // calls into javascript global function 'handleOpenURL'
-    NSString* jsString = [NSString stringWithFormat:@"handleOpenURL(\"%@\");", url];
-    [self.viewController.webView stringByEvaluatingJavaScriptFromString:jsString];
+    
+    //下面两句由fanty 注掉，看上去不似是用得着
+//    NSString* jsString = [NSString stringWithFormat:@"handleOpenURL(\"%@\");", url];
+//    [self.viewController.webView stringByEvaluatingJavaScriptFromString:jsString];
     
     // all plugins will get the notification, and their handlers will be called
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
@@ -340,15 +354,13 @@ void uncaughtExceptionHandler(NSException*exception){
 
 // repost the localnotification using the default NSNotificationCenter so multiple plugins may respond
 - (void) application:(UIApplication*)application
-   didReceiveLocalNotification:(UILocalNotification*)notification
-{
+   didReceiveLocalNotification:(UILocalNotification*)notification{
   
     // re-post ( broadcast )
     [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:notification];
 }
 
-- (NSUInteger) application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
-{
+- (NSUInteger) application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
     //iphone只支持竖屏显示
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone) {
         return UIInterfaceOrientationMaskPortrait;
@@ -361,13 +373,11 @@ void uncaughtExceptionHandler(NSException*exception){
 
 
 
-- (void)applicationDidReceiveMemoryWarning:(UIApplication*)application
-{
+- (void)applicationDidReceiveMemoryWarning:(UIApplication*)application{
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
--(void)postOpreateLog
-{
+-(void)postOpreateLog{
     NSArray * array = [OperateLog findAllLog];
     if([array count]<1){
         [NSTimer timerWithTimeInterval:60 target:self selector:@selector(postOpreateLog) userInfo:nil repeats:NO];
@@ -421,9 +431,65 @@ void uncaughtExceptionHandler(NSException*exception){
     
 }
 
+-(void)updateCheckInTags
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray* privileges = [defaults objectForKey:@"privileges"];
+    NSString* updateTags =@"{";
+    if ([privileges count]>0) {
+        NSString* privilegeStr = @"";
+        for (NSDictionary* privilege in privileges) {
+            NSString* name = [privilege objectForKey:@"name"];
+            if ([name length] > 0) {
+                privilegeStr = [privilegeStr stringByAppendingFormat:@"%@,",[privilege objectForKey:@"name"]];
+            }
+            
+        }
+        if ([privilegeStr length] > 0 ) {
+            privilegeStr =  [privilegeStr substringToIndex:[privilegeStr length] -1 ];
+            updateTags = [updateTags stringByAppendingFormat:@"privileges=%@",privilegeStr];
+            updateTags = [updateTags stringByAppendingString:@","];
+            
+        }
+    }
+    if ([updateTags length]> 0) {
+        
+        
+        NSString* userName =[defaults valueForKey:@"username"] ;
+        NSString* sex = [defaults valueForKey:@"sex"];
+        NSString* phone = [defaults valueForKey:@"phone"];
+        
+        
+        if (userName) {
+            updateTags= [updateTags stringByAppendingFormat:@"userName=%@",userName];
+            updateTags = [updateTags stringByAppendingString:@","];
+        }
+        if (sex) {
+            updateTags= [updateTags stringByAppendingFormat:@"sex=%@",sex];
+            updateTags = [updateTags stringByAppendingString:@","];
+        }
+        if (phone) {
+            updateTags= [updateTags stringByAppendingFormat:@"phone=%@",phone];
+            updateTags = [updateTags stringByAppendingString:@","];
+        }
+        
+    }
+    if ([updateTags length] > 0 ) {
+        updateTags =  [updateTags substringToIndex:[updateTags length] -1 ];
+        updateTags = [updateTags stringByAppendingString:@"}"];
+        NSString* urlStr = kUpdatePushTagsUrl;
+        NSString *deviceID = [[UIDevice currentDevice] uniqueDeviceIdentifier];
+        ASIFormDataRequest * tagRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:urlStr]];
+        [tagRequest setPostValue:deviceID forKey:@"deviceId"];
+        [tagRequest setPostValue:kAPPKey forKey:@"appId"];
+        //        NSLog(@"=====%@",updateTags);
+        [tagRequest setPostValue:updateTags forKey:@"tags"];
+        [tagRequest setRequestMethod:@"PUT"];
+        [tagRequest startAsynchronous];
+    }
+}
 
 -(void)didLogin{
-    NSLog(@"didLogin 1");
     //NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
     //异步加载xmpp actor
@@ -431,18 +497,21 @@ void uncaughtExceptionHandler(NSException*exception){
         [self setupXmppStream];
 //    }
     
+    //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self updateCheckInTags];
+    //});
+    
     
     //开启访问 获取到未收到的推送信息
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSLog(@"didLogin 2");
         [PushGetMessageInfo getPushMessageInfo];
-    });
-    NSLog(@"didLogin 3");
+    [navControl popToRootViewControllerAnimated:NO];
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone)
     {
         //
-         UINavigationController *navControl =[[[NSBundle mainBundle] loadNibNamed:@"MainNewWindow" owner:self options:nil] objectAtIndex:0];
-        self.window.rootViewController = navControl;
+         UINavigationController *__navControl =[[[NSBundle mainBundle] loadNibNamed:@"MainNewWindow" owner:self options:nil] objectAtIndex:0];
+        self.window.rootViewController = __navControl;
+//        [navControl pushViewController:__navControl animated:NO];
+        __navControl=nil;
         //修改为HTML5界面
         if([SVProgressHUD isVisible]){
             [SVProgressHUD dismiss];
@@ -450,20 +519,21 @@ void uncaughtExceptionHandler(NSException*exception){
   
     }else{
          MainViewViewController * main = [[MainViewViewController alloc]initWithNibName:@"MainViewViewController" bundle:nil finish:^{
-            self.window.rootViewController = self.mainViewController;
+//            self.window.rootViewController = self.mainViewController;
+             [self.navControl popToRootViewControllerAnimated:NO];
+             [self.navControl pushViewController:self.mainViewController animated:NO];
             if([SVProgressHUD isVisible]){
                 [SVProgressHUD dismiss];
             }
         }];
         self.mainViewController=main;
+        main=nil;
     }
-    NSLog(@"didLogin 4");
 }
 
 
 
--(void)setupxmppActorStream
-{
+-(void)setupxmppActorStream{
     xmppPustActor = [[XMPPPustActor alloc]init];
     [xmppPustActor setXmppStream];
 }
@@ -480,23 +550,20 @@ void uncaughtExceptionHandler(NSException*exception){
 }
 
 
--(void)setupXmppSucces
-{
+-(void)setupXmppSucces{
     
     NSLog(@"setupXmppSucces--");
 }
 
 
--(void)setupUnsucces
-{
+-(void)setupUnsucces{
     NSString *message = [NSString stringWithFormat:@"ICube后台服务初始化失败"];
     
     UIAlertView *msg = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [msg show];
 }
 
--(void)setupError:(NSError*)aError
-{
+-(void)setupError:(NSError*)aError{
     NSString *message = [NSString stringWithFormat:@"服务器出错,无法连接"];
     
     UIAlertView *msg = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];

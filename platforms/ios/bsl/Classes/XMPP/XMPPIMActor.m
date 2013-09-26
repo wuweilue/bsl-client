@@ -319,8 +319,7 @@
 }
 
 
-- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender
-{
+- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender{
     
     NSLog(@"认证通过");
 	[self goOnline];
@@ -596,8 +595,8 @@
     return messageEntity;
 }
 
--(RectangleChat*)fetchRectangleChatFromJid:(NSString*)userJid isGroup:(BOOL)isGroup{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"receiverJid = \"%@\" and isGroup=%d",userJid,isGroup?1:0]];
+-(RectangleChat*)fetchRectangleChatFromJid:(NSString*)messageId isGroup:(BOOL)isGroup{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"receiverJid = \"%@\" and isGroup=%d",messageId,isGroup?1:0]];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"RectangleChat"];
     [fetchRequest setPredicate:predicate];
     
@@ -609,63 +608,55 @@
     return fetchedPerson;
 }
 
--(void)newRectangleMessage:(NSString*)receiverJid name:(NSString*)name content:(NSString*)content contentType:(RectangleChatContentType)contentType isGroup:(BOOL)isGroup createrJid:(NSString*)createrJid{
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"RectangleChat"];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"receiverJid == \"%@\"",receiverJid]];
-    NSError *error=nil;
+-(void)newRectangleMessage:(NSString*)messageId name:(NSString*)name content:(NSString*)content contentType:(RectangleChatContentType)contentType isGroup:(BOOL)isGroup createrJid:(NSString*)createrJid{
     
-    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-    NSManagedObjectContext* context=[appDelegate xmpp].managedObjectContext;
-    NSArray *fetchResult=[context executeFetchRequest:fetchRequest error:&error];
-    NSString* oldName=nil;
-    if(!error){
-        for(RectangleChat* obj in fetchResult){
-            
-            if([name length]<1){
-                oldName=obj.name;
-                createrJid=obj.createrJid;
-            }
-            
-            [context deleteObject:obj];
-        }
-    }
-    
-    
-    
-    NSManagedObject *newManagedObject=[NSEntityDescription insertNewObjectForEntityForName:@"RectangleChat" inManagedObjectContext:context];
-    if(!isGroup)
-        [newManagedObject setValue:[NSNumber numberWithInt:2] forKey:@"chatMemberCount"];
-    else
-        [newManagedObject setValue:[NSNumber numberWithInt:0] forKey:@"chatMemberCount"];
-    
-    if([name length]>0)
-        [newManagedObject setValue:name forKey:@"name"];
-    else if([oldName length]>0)
-        [newManagedObject setValue:oldName forKey:@"name"];
-    
-
-    oldName=nil;
-    
-    [newManagedObject setValue:content forKey:@"content"];
-    [newManagedObject setValue:[NSNumber numberWithInt:RectangleChatContentTypeMessage] forKey:@"contentType"];
-    if([createrJid length]>0){
-        [newManagedObject setValue:createrJid forKey:@"createrJid"];
-
+    RectangleChat* chat=[self fetchRectangleChatFromJid:messageId isGroup:isGroup];
+    if(chat!=nil){
+        chat.content=content;
+        chat.contentType=[NSNumber numberWithInt:contentType];
+        chat.updateDate=[NSDate date];
+        chat.noReadMsgNumber=[NSNumber numberWithInt:0];
+        [chat didSave];
     }
     else{
+        AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+        NSManagedObjectContext* context=[appDelegate xmpp].managedObjectContext;
+
+        NSManagedObject *newManagedObject=[NSEntityDescription insertNewObjectForEntityForName:@"RectangleChat" inManagedObjectContext:context];
+        if(!isGroup)
+            [newManagedObject setValue:[NSNumber numberWithInt:2] forKey:@"chatMemberCount"];
+        else
+            [newManagedObject setValue:[NSNumber numberWithInt:0] forKey:@"chatMemberCount"];
+        
+        [newManagedObject setValue:name forKey:@"name"];
+        
+        [newManagedObject setValue:content forKey:@"content"];
+        [newManagedObject setValue:[NSNumber numberWithInt:contentType] forKey:@"contentType"];
         if([createrJid length]<1)
             [newManagedObject setValue:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare] forKey:@"createrJid"];
         else
             [newManagedObject setValue:createrJid forKey:@"createrJid"];
+        
+        [newManagedObject setValue:messageId forKey:@"receiverJid"];
+        [newManagedObject setValue:[NSNumber numberWithBool:isGroup] forKey:@"isGroup"];
+        [newManagedObject setValue:[NSDate date] forKey:@"updateDate"];
+        [newManagedObject setValue:[NSNumber numberWithInt:0] forKey:@"noReadMsgNumber"];
     }
-    createrJid=nil;
 
-    [newManagedObject setValue:receiverJid forKey:@"receiverJid"];
-    [newManagedObject setValue:[NSNumber numberWithBool:isGroup] forKey:@"isGroup"];
-    [newManagedObject setValue:[NSDate date] forKey:@"updateDate"];
-    [newManagedObject setValue:[NSNumber numberWithInt:0] forKey:@"noReadMsgNumber"];
+}
+
+-(GroupRoomUserEntity*)fetchGroupRoomUser:(NSString*)roomId memberId:(NSString*)memberId{
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext* context=[appDelegate xmpp].managedObjectContext;
     
     
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"GroupRoomUserEntity"];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"roomId = \"%@\" && jid=\"%@\"",roomId,memberId]];
+    NSError *error=nil;
+    
+    NSArray *fetchResult=[context executeFetchRequest:fetchRequest error:&error];
+    if([fetchResult count]>0)return [fetchResult objectAtIndex:0];
+    return nil;
 }
 
 -(void)addGroupRoomMember:(NSString*)roomId memberId:(NSString*)memberId sex:(NSString*)sex  status:(NSString*)status username:(NSString*)username{
@@ -1083,6 +1074,11 @@
                 NSString* content=[NSString stringWithFormat:@"%@邀请你加入群组", fromWho];
                 [self newRectangleMessage:message.fromStr name:roomName content:content contentType:RectangleChatContentTypeMessage isGroup:YES createrJid:fromWho];
                 
+                RectangleChat* chat=[self fetchRectangleChatFromJid:message.fromStr isGroup:YES];
+                if(chat!=nil){
+                    chat.isQuit=[NSNumber numberWithBool:NO];
+                    [chat didSave];
+                }
                 
                 //添加对方进入成员
                 [self addGroupRoomMember:message.fromStr memberId:invoteFromeJid sex:@"" status:@"在线" username:fromWho];

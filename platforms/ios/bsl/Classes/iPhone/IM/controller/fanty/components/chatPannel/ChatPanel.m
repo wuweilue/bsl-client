@@ -443,6 +443,15 @@
 
 #pragma mark textview delegate
 
+- (BOOL)expandingTextViewShouldBeginEditing:(UIExpandingTextView *)expandingTextView{
+    [emoctionPanel removeFromSuperview];
+    emoctionPanel=nil;
+    [camerPanel removeFromSuperview];
+    camerPanel=nil;
+
+    return YES;
+}
+
 - (BOOL)expandingTextView:(UIExpandingTextView *)expandingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)__text{
     if(range.location>=self.limitMaxNumber)
         return NO;
@@ -494,6 +503,30 @@
     if([textView.text length] >0){
         textView.text = [textView.text substringWithRange:NSMakeRange(0, [textView.text length] -1)];
     }
+
+}
+
+-(void)sendEmoction:(EmoctionPanel *)emoction{
+    
+    [textView resignFirstResponder];
+    
+    [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
+        
+        CGRect containerFrame = self.frame;
+        containerFrame.origin.y = self.superview.frame.size.height-chatPanelBgView.frame.size.height;
+        
+        self.frame=containerFrame;
+
+    } completion:^(BOOL finish){
+        [emoctionPanel removeFromSuperview];
+        emoctionPanel=nil;
+        [camerPanel removeFromSuperview];
+        camerPanel=nil;
+
+    }];
+    
+    if([self.delegate respondsToSelector:@selector(chatPanelDidSend:)])
+        [self.delegate chatPanelDidSend:self];
 
 }
 

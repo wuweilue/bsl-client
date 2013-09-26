@@ -11,11 +11,9 @@
 #import "HTTPRequest.h"
 #import "ConfigManager.h"
 #import "DownloadManager.h"
-
+#import "ServerAPI.h"
 
 #define KDISPALYVIEWWIDTH (320*self.dispayScrollView.frame.size.height/480)
-#define kURL_PATH1 @"/m/widget"
-#define kURL_PATH2 @"/snapshot"
 static const NSString *const kLoadIconOperationKey = @"kLoadIconOperationKey";
 
 @interface DownLoadingDetialViewController ()
@@ -177,17 +175,21 @@ static const NSString *const kLoadIconOperationKey = @"kLoadIconOperationKey";
     
     self.iconImage.badgeView.hidden = YES;
     
-    HTTPRequest* request = [HTTPRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@/%@/%d%@?appKey=%@",kServerURLString,kURL_PATH1,self.identifier,self.curCubeModlue.build,kURL_PATH2, kAPPKey]]];
+    
+    
+    
+    HTTPRequest* request = [HTTPRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/mam/api/mam/clients/widget/%@/%@/snapshot?appKey=%@",kServerURLString,self.curCubeModlue.identifier,self.curCubeModlue.version,kAPPKey]]];
     __block HTTPRequest*  __request=request;
-
-
+    
+    
     [request setCompletionBlock:^{
-        [__request setFailedBlock:nil];
         [self getResult:__request];
+        [__request cancel];
     }];
     [request setFailedBlock:^{
-        [__request setCompletionBlock:nil];
         [self getFailMessage:__request];
+        [__request cancel];
+
     }];
     
     [[DownloadManager instance] addOperation:request forIdentifier:kLoadIconOperationKey];
@@ -195,12 +197,14 @@ static const NSString *const kLoadIconOperationKey = @"kLoadIconOperationKey";
 
 //取得请求数据 提醒scrollview更新
 -(void)getResult:(HTTPRequest *)request{
-    NSData *data = [request responseData];
-    NSArray *array = [data objectFromJSONData];
-    for(NSDictionary *dict in array){
-        NSString *attachment = [dict objectForKey:@"snapshot"];
-        NSString *urlStr  = [NSString stringWithFormat:@"%@/storage/attachments/%@",kServerURLString,attachment];
-        [self.iconUrlArr addObject:urlStr];
+    @autoreleasepool {
+        NSData *data = [request responseData];
+        NSArray *array = [data objectFromJSONData];
+        for(NSDictionary *dict in array){
+            NSString *attachment = [dict objectForKey:@"snapshot"];
+            NSString *urlStr  =[ServerAPI urlForAttachmentId:attachment]; //[NSString stringWithFormat:@"%@/storage/attachments/%@",kServerURLString,attachment];
+            [self.iconUrlArr addObject:urlStr];
+        }
     }
     [self loadImage];
 }

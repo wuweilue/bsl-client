@@ -11,11 +11,9 @@
 #import "FMDatabase.h"
 @implementation MessageDelayHandler
 @synthesize queueArray;
-@synthesize handlerArray;
 static FMDatabase *database;
 static MessageDelayHandler *instance;
-+(MessageDelayHandler*)shareInstance
-{
++(MessageDelayHandler*)shareInstance{
     if(instance == nil)
     {
         instance = [[MessageDelayHandler alloc]init];
@@ -28,41 +26,36 @@ static MessageDelayHandler *instance;
 {
     self = [super init];
     if (self) {
-        queueArray = [[NSMutableArray alloc]initWithCapacity:0];
-        handlerArray = [[NSMutableArray alloc]initWithCapacity:0];
+        self.queueArray = [[NSMutableArray alloc]initWithCapacity:0];
         NSString *path = [[NSFileManager applicationDocumentsDirectory]path];
         database = [[FMDatabase alloc]initWithPath:[path stringByAppendingPathComponent:@"cube.sqlite"]];
         [database open];
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(handleQueue) userInfo:nil repeats:YES];
-            [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-//        });
+
+        [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(handleQueue) userInfo:nil repeats:YES];
+
         
     }
     return self;
 }
 
--(void)addToQueue:(MessageObject*)msg
-{
+-(void)dealloc{
+    self.queueArray=nil;
+}
+
+-(void)addToQueue:(MessageObject*)msg{
     [queueArray addObject:msg];
 }
--(void)sendBroadCast:(MessageObject*)msg
-{
+-(void)sendBroadCast:(MessageObject*)msg{
     
 }
 
--(void)handleQueue
-{
-    if(queueArray.count ==0)
-    {
+-(void)handleQueue{
+    if([self.queueArray count] <1){
         return;
     }
-    [handlerArray addObjectsFromArray:queueArray];
-    [queueArray removeAllObjects];
     int pk = [self fectchLastPK];
     [database beginDeferredTransaction];
-    for (MessageObject *msg in handlerArray)
-    {
+    for (MessageObject *msg in self.queueArray){
         pk++;
         NSString *sql = @"insert into ZMESSAGERECORD(Z_PK,Z_ENT,Z_OPT,ZALERT,ZSOUND,ZBADGE,ZMODULE,ZRECORDID,ZCONTENT,ZREVICETIME,ZISICONBADGE,ZSTORE,ZISMESSAGEBADGE,ZISREAD,ZWARNINGID)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         NSMutableArray *valueArray = [[NSMutableArray alloc]init];
@@ -70,27 +63,70 @@ static MessageDelayHandler *instance;
         [valueArray addObject:[NSNumber numberWithInt:2]];
         [valueArray addObject:[NSNumber numberWithInt:1]];
         [valueArray addObject:msg.alert];
-        [valueArray addObject:msg.sound];
-        [valueArray addObject:msg.badge];
-        [valueArray addObject:msg.module];
-        [valueArray addObject:msg.recordId];
-        [valueArray addObject:msg.content];
-        [valueArray addObject:msg.reviceTime];
-        [valueArray addObject:msg.isIconBadge];
-        [valueArray addObject:msg.store];
-        [valueArray addObject:msg.isMessageBadge];
-        [valueArray addObject:msg.isRead];
-        [valueArray addObject:msg.faceBackId];
+        if([msg.sound length]>0)
+            [valueArray addObject:msg.sound];
+        else
+            [valueArray addObject:@""];
+
+        if(msg.badge!=nil)
+            [valueArray addObject:msg.badge];
+        else
+            [valueArray addObject:@"0"];
+        
+        if([msg.module length]>0)
+            [valueArray addObject:msg.module];
+        else
+            [valueArray addObject:@""];
+        
+        if([msg.recordId length]>0)
+            [valueArray addObject:msg.recordId];
+        else
+            [valueArray addObject:@""];
+        if([msg.content length]>0)
+            [valueArray addObject:msg.content];
+        else
+            [valueArray addObject:@""];
+        
+        if(msg.reviceTime!=nil)
+            [valueArray addObject:msg.reviceTime];
+        else
+            [valueArray addObject:[NSDate date]];
+        
+        if(msg.isIconBadge!=nil)
+            [valueArray addObject:msg.isIconBadge];
+        else
+            [valueArray addObject:@"0"];
+        
+        if(msg.store!=nil)
+            [valueArray addObject:msg.store];
+        else
+            [valueArray addObject:@""];
+
+        if(msg.isMessageBadge!=nil)
+            [valueArray addObject:msg.isMessageBadge];
+        else
+            [valueArray addObject:@"0"];
+
+        if(msg.isRead!=nil)
+            [valueArray addObject:msg.isRead];
+        else
+            [valueArray addObject:@"0"];
+        
+        if(msg.faceBackId!=nil)
+            [valueArray addObject:msg.faceBackId];
+        else
+            [valueArray addObject:@""];
         
         [database executeUpdate:sql withArgumentsInArray:valueArray];
     }
+    [queueArray removeAllObjects];
+
     [database commit];
     
 }
 -(int)fectchLastPK
 {
-    if(![database open])
-    {
+    if(![database open]){
         [database open];
     }
     NSString *sql = @"select max(Z_PK) from ZMESSAGERECORD";

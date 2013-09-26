@@ -110,6 +110,8 @@
 +(void)requestAnnouncement:(NSString *)announcementId withRecordId:(NSString*)recordId
 {
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestAnnouncementUrl,announcementId]]];
+    
+    __block ASIHTTPRequest* __request=request;
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
     NSString* token = [userDefaults objectForKey:@"token"];
     [request setRequestMethod:@"GET"];
@@ -117,7 +119,7 @@
     
     [request setCompletionBlock:^{
         
-        NSData *data = [request responseData];
+        NSData *data = [__request responseData];
         
        // NSString *reponseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         
@@ -126,6 +128,7 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
         
         if(error) {
+            [__request cancel];
             return;
         }
         
@@ -166,11 +169,14 @@
         
         [[NSNotificationCenter defaultCenter] postNotificationName:ANNOUNCEMENT_DID_SAVE_NOTIFICATION object:nil];
         
-        
+        [__request cancel];
+
     }];
     
     [request setFailedBlock:^{
         NSLog(@"cat not get announcement");
+        [__request cancel];
+
     }];
     
     [request startAsynchronous];

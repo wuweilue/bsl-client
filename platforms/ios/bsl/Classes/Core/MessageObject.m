@@ -28,7 +28,6 @@
     
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kPushServerReceiptsUrl]];
     if (self.faceBackId) {
-        
         [request setPostValue:self.faceBackId  forKey:@"sendId"];
     }
     

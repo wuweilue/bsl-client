@@ -35,6 +35,8 @@
     NSTimer* timeOutTimer;
     
     FormDataRequest* request;
+    
+    float maxHeight;
 }
 @property(nonatomic,weak) id<ContactSelectedForGroupViewControllerDelegate> delegate;
 @property(nonatomic,strong) NSString* tempNewjid;
