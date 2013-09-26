@@ -32,6 +32,10 @@
     return [kServerURLString stringByAppendingFormat:@"/mam/api/mam/clients/ios/%@/%@/", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
     
 }
++(NSString*)urlForSyncImpc {
+    return [kServerURLString stringByAppendingFormat:@"/csair-extension/api/extendClients/ios/%@/%@/", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    
+}
 
 +(NSString*)urlForlogout:(NSString* )sessionKey{
      return [kServerURLString stringByAppendingFormat:@"/system/api/system/mobile/accounts/logout/%@", sessionKey];

@@ -18,6 +18,7 @@
 #import "AutoDownLoadRecord.h"
 #import "Reachability.h"
 
+
 NSString *const CubeSyncStartedNotification = @"CubeSyncStartedNotification";
 NSString *const CubeSyncFinishedNotification = @"CubeSyncFinishedNotification";
 NSString *const CubeSyncFailedNotification = @"CubeSyncFailedNotification";
@@ -484,8 +485,16 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
     NSString *token =  [defaults objectForKey:@"token"];
     
     NSString *userName = [defaults objectForKey:@"LoginUser"];
-    
-    NSString *urlString = [ServerAPI urlForSync] ;
+    //判断如果是南航移动应用的标示，就切换到定制的接口进行数据同步
+    NSString *urlString;
+    if([[[NSBundle mainBundle]bundleIdentifier] isEqualToString:@"com.csair.impc"])
+    {
+        urlString = [ServerAPI urlForSync];
+    }
+    else
+    {
+        urlString = [ServerAPI urlForSync] ;
+    }
     urlString = [urlString stringByAppendingString:@"?username="];
     urlString = [urlString stringByAppendingString:userName];
     if (token) {
