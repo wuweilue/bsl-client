@@ -489,7 +489,7 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
     NSString *urlString;
     if([[[NSBundle mainBundle]bundleIdentifier] isEqualToString:@"com.csair.impc"])
     {
-        urlString = [ServerAPI urlForSync];
+        urlString = [ServerAPI urlForSyncImpc];
     }
     else
     {
@@ -555,8 +555,6 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
     [availableModules removeObjectsInArray:deleteArr];
     [deleteArr removeAllObjects];
     
-     
-    
     if(![[FMDBManager getInstance].database tableExists:@"AutoDownLoadRecord"])
     {
         AutoDownLoadRecord *record = [[AutoDownLoadRecord alloc]init];
@@ -571,10 +569,22 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
     }
     [updatableModules removeObjectsInArray:deleteArr];
     [deleteArr removeAllObjects];
+    //加载本地模块的配置
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"local_module" ofType:@"plist"];
+    NSMutableDictionary *moduleDict = [[NSMutableDictionary alloc]initWithContentsOfFile:path];
+    
     
     for (id remote_module_json in remote_modules_json) {
         //获取网络版本CubeModule
         CubeModule *remote_module = [CubeModule moduleFromJSONObject:remote_module_json];
+        //判断本地模块是否存在如果不存在就直接忽略
+        if(remote_module.local && ![remote_module.local isEqualToString:@""])
+        {
+            if(![[moduleDict allKeys] containsObject:remote_module.identifier])
+            {
+                continue;
+            }
+        }
         //获取网络版本CubeModule
         CubeModule *local_module = [self moduleForIdentifier:remote_module.identifier];
         if (local_module != nil)
@@ -608,11 +618,11 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
         }
         else
         {
-            
+            NSLog(@"=======%@",remote_module.name);
             //puto into available module
             if (![self judgeArray:availableModules ContainsModule:remote_module]) {
                 [availableModules addObject:remote_module];
-                remote_module.autoDownload = YES;
+                //remote_module.autoDownload = YES;
                 if (remote_module.autoDownload) {
                     //优化自动下载 zhoujn begin-----
                     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

@@ -13,5 +13,6 @@
 -(NSArray *)sortedAllkeys;
 
 -(NSArray *)sortedAllkeysBaseModuleEnd;
+-(NSArray *)sortedAllkeysBaseModulePublicEnd;
 
 @end
