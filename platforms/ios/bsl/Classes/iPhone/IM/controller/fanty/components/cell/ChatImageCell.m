@@ -103,11 +103,9 @@
             contentImageView.image=[UIImage imageWithContentsOfFile:imageFile];
         }
         else{
-            
             NSString *url = [ServerAPI urlForAttachmentId:imageFile];
 
-            url=[url stringByAppendingFormat:@"sessionKey=%@&appKey=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],[[[NSBundle mainBundle] infoDictionary] objectForKey:@"appKey"]];
-
+            url=[url stringByAppendingFormat:@"?sessionKey=%@&appKey=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
             [contentImageView loadImageWithURLString:url];
         }
         noContentView.hidden=(contentImageView.image!=nil);
