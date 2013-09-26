@@ -44,7 +44,7 @@
 
 -(void)requestFinished:(ASIHTTPRequest*)ar{
     id json = [[ar responseData] objectFromJSONData];
-    if (json == nil) {
+    if (json == nil || [json count]<1) {
         [self requestFailed:ar];
         return;
     }

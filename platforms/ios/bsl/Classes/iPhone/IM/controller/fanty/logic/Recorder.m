@@ -100,6 +100,14 @@ typedef enum{
     //获取document 目录
     NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) objectAtIndex: 0];
     
+    
+    docDir=[docDir stringByAppendingPathComponent:[[[ShareAppDelegate xmpp].xmppStream myJID]bare]];
+    NSFileManager* fileManager=[NSFileManager defaultManager];
+    if(![fileManager fileExistsAtPath:docDir]){
+        [fileManager createDirectoryAtPath:docDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    
     recordFile= [NSURL fileURLWithPath:[docDir stringByAppendingPathComponent: [NSString stringWithFormat: @"%.0f.%@", [NSDate timeIntervalSinceReferenceDate] * 1000.0, @"aac"]]];
     
         

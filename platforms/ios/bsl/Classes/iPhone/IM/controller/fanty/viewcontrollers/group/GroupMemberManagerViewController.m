@@ -257,7 +257,7 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     if([indexPath section]==1 && !self.isQuit){
         InputAlertView* alertView=[[InputAlertView alloc] init];
         alertView.callback=self;
-        [alertView showTitle:@"请起个你要修改的群组名"];
+        [alertView showTitle:@"修改群组名"];
         [alertView showTextField];
         [alertView addButtonWithTitle:@"取消"];
         [alertView addButtonWithTitle:@"确定"];
@@ -373,6 +373,11 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
                 
                 }];
                 
+            }
+            else{
+                UIAlertView* alertView=[[UIAlertView alloc] initWithTitle:@"请输入群组名" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alertView show];
+                alertView=nil;
             }
         }
     }

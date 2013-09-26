@@ -529,6 +529,12 @@
         if([[alert textFieldText] length]>0){
             [self createGroupAction:[alert textFieldText]];
         }
+        else{
+            UIAlertView* alertView=[[UIAlertView alloc] initWithTitle:@"请输入群组名" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alertView show];
+            alertView=nil;
+        }
+
     }
 }
 

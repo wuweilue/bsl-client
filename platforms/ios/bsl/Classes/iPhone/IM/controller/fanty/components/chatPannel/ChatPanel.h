@@ -37,6 +37,7 @@
 @property(nonatomic,assign) NSUInteger limitMaxNumber;
 @property(nonatomic,strong) NSString* text;
 @property(nonatomic,strong) NSDictionary* emoctionList;
+@property(nonatomic,assign) float superViewHeight;
 
 
 -(float)panelHeight;

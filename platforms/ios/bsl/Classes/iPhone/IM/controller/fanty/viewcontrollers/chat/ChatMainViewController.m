@@ -782,7 +782,7 @@
     CGRect rect=chatPanel.frame;
     rect.origin.y=self.view.bounds.size.height-[chatPanel panelHeight];
     chatPanel.frame=rect;
-    
+    chatPanel.superViewHeight=self.view.frame.size.height;
 }
 
 @end

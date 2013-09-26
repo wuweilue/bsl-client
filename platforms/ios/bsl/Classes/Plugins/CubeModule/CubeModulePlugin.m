@@ -87,6 +87,8 @@
 -(void)mainList:(CDVInvokedUrlCommand*)command
 {
     
+    
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_VIEW" object:[NSNumber numberWithInt:0]];
     CubeApplication *cubeApp = [CubeApplication currentApplication];
     //循环获取所有安装模块的category
@@ -100,6 +102,10 @@
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"获取信息失败！"];
     }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    
+    
+    
+    
 }
 
 -(NSString* )getJsonFromDictioary:(NSMutableDictionary*)moduleCategoryDictionary  showHide:(Boolean)hide{
@@ -120,9 +126,13 @@
                 }
             }
             //组合 cateGory 数据
-            [Json setObject:mudoleArray forKey:category];
+            //add by fanty
+            if([mudoleArray count]>0)
+                [Json setObject:mudoleArray forKey:category];
+            mudoleArray=nil;
         }
         jsonString=Json.JSONString ;
+        Json=nil;
     }
   
 

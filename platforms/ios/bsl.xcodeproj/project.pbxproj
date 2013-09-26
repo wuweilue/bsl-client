@@ -5414,6 +5414,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
+				TargetAttributes = {
+					39D9E80817F27C03001ED6F5 = {
+						DevelopmentTeam = KMB2BDRT85;
+					};
+					39E050E317F00AEA00BCF7F8 = {
+						DevelopmentTeam = KMB2BDRT85;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "bsl" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -8276,7 +8284,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "南航移动应用";
-				PROVISIONING_PROFILE = "3AF79C6A-6432-451F-A711-1833C1AFE001";
+				PROVISIONING_PROFILE = "A13C937E-A769-4154-B950-451F423D94E8";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -8311,7 +8319,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "南航移动应用";
-				PROVISIONING_PROFILE = "3AF79C6A-6432-451F-A711-1833C1AFE001";
+				PROVISIONING_PROFILE = "A13C937E-A769-4154-B950-451F423D94E8";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -8322,7 +8330,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -8348,7 +8356,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = chameleon;
-				PROVISIONING_PROFILE = "64892DA8-E8BE-4184-9A77-B1961AC251EC";
+				PROVISIONING_PROFILE = "9EAEE69C-D807-4934-A3AB-0761E456C559";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -8359,7 +8367,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8383,7 +8391,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = chameleon;
-				PROVISIONING_PROFILE = "64892DA8-E8BE-4184-9A77-B1961AC251EC";
+				PROVISIONING_PROFILE = "9EAEE69C-D807-4934-A3AB-0761E456C559";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
