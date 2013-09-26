@@ -419,10 +419,12 @@
         NSData *imageData = [[__request userInfo] valueForKey:@"file"];
         NSDictionary *dict = [resultStr objectFromJSONString];
         NSString *fileId = [dict valueForKey:@"id"];
-        NSString *path = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"sendFiles"];
-        NSFileManager *manager = [NSFileManager defaultManager];
-        if(![manager fileExistsAtPath:path]){
-            [manager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+        
+        NSString* path=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        path=[path stringByAppendingPathComponent:[[[ShareAppDelegate xmpp].xmppStream myJID]bare]];
+        NSFileManager* fileManager=[NSFileManager defaultManager];
+        if(![fileManager fileExistsAtPath:path]){
+            [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
         }
         path = [[path stringByAppendingPathComponent:fileId] stringByAppendingString:@".png"];
         

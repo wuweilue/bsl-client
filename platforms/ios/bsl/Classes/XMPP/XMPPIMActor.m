@@ -510,6 +510,13 @@
                     NSString *docDir = [NSSearchPathForDirectoriesInDomains(
                                                                             NSDocumentDirectory,
                                                                             NSUserDomainMask, YES) objectAtIndex: 0];
+
+                    docDir=[docDir stringByAppendingPathComponent:[[self.xmppStream myJID]bare]];
+                    NSFileManager* fileManager=[NSFileManager defaultManager];
+                    if(![fileManager fileExistsAtPath:docDir]){
+                        [fileManager createDirectoryAtPath:docDir withIntermediateDirectories:YES attributes:nil error:nil];
+                    }
+                    
                     NSURL* urlVoiceFile= [NSURL fileURLWithPath:[docDir stringByAppendingPathComponent: [NSString stringWithFormat: @"%.0f.%@", [NSDate timeIntervalSinceReferenceDate] * 1000.0, @"caf"]]];
                     [fileData writeToURL:urlVoiceFile atomically:YES];
                     messageEntity.content = [urlVoiceFile absoluteString];

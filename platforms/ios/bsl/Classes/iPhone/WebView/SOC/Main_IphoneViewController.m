@@ -553,7 +553,9 @@
         [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
         
         if (!newModule.hidden) {
-            NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage();"];
+            //edit  fanty   and subin
+            //old code is refreshMainPage()
+            NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage('%@','main','%@');"];
             [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:mainScript];
         }
     }

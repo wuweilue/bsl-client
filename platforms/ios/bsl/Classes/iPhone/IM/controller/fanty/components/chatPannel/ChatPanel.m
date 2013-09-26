@@ -35,6 +35,7 @@
 
 @synthesize text;
 @synthesize emoctionList;
+@synthesize superViewHeight;
 
 - (id)initWithFrame:(CGRect)frame{
     
@@ -192,7 +193,7 @@
         [UIView setAnimationDuration:0.3f];
 
         CGRect containerFrame = self.frame;
-        containerFrame.origin.y = self.superview.frame.size.height-chatPanelBgView.frame.size.height;
+        containerFrame.origin.y = superViewHeight-chatPanelBgView.frame.size.height;
         self.frame=containerFrame;
         
         // commit animations
@@ -293,7 +294,7 @@
             [UIView setAnimationDuration:0.3f];
             
             CGRect containerFrame = self.frame;
-            containerFrame.origin.y = self.superview.frame.size.height-chatPanelBgView.frame.size.height;
+            containerFrame.origin.y = superViewHeight-chatPanelBgView.frame.size.height;
             self.frame=containerFrame;
             
             // commit animations
@@ -336,7 +337,7 @@
             emoctionPanel.frame=rect;
             
             rect=self.frame;
-            rect.origin.y=self.superview.frame.size.height-self.frame.size.height;
+            rect.origin.y=superViewHeight-self.frame.size.height;
             self.frame=rect;
             
         } completion:^(BOOL finish){
@@ -393,7 +394,7 @@
             camerPanel.frame=rect;
             
             rect=self.frame;
-            rect.origin.y=self.superview.frame.size.height-self.frame.size.height;
+            rect.origin.y=superViewHeight-self.frame.size.height;
             self.frame=rect;
             
         } completion:^(BOOL finish){
@@ -513,7 +514,7 @@
     [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
         
         CGRect containerFrame = self.frame;
-        containerFrame.origin.y = self.superview.frame.size.height-chatPanelBgView.frame.size.height;
+        containerFrame.origin.y = superViewHeight-chatPanelBgView.frame.size.height;
         
         self.frame=containerFrame;
 
@@ -555,7 +556,7 @@
         
 	CGRect containerFrame = self.frame;
     
-    containerFrame.origin.y = self.superview.frame.size.height - (keyboardBounds.size.height + chatPanelBgView.frame.size.height);
+    containerFrame.origin.y = superViewHeight - (keyboardBounds.size.height + chatPanelBgView.frame.size.height);
     
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationBeginsFromCurrentState:YES];
@@ -574,7 +575,7 @@
     NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
 	
 	CGRect containerFrame = self.frame;
-    containerFrame.origin.y = self.superview.frame.size.height-chatPanelBgView.frame.size.height;
+    containerFrame.origin.y = superViewHeight-chatPanelBgView.frame.size.height;
 	
 	// animations settings
 	[UIView beginAnimations:nil context:NULL];
