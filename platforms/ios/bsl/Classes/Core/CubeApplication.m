@@ -489,7 +489,7 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
     NSString *urlString;
     if([[[NSBundle mainBundle]bundleIdentifier] isEqualToString:@"com.csair.impc"])
     {
-        urlString = [ServerAPI urlForSync];
+        urlString = [ServerAPI urlForSyncImpc];
     }
     else
     {
