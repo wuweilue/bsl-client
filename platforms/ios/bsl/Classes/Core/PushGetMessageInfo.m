@@ -36,8 +36,12 @@ static HTTPRequest * request=nil;
                 NSData *data = [__request responseData];
                 NSMutableArray * messageArray = [data objectFromJSONData];
                     //FMDB 事务
+                int index=0;
                 for (NSDictionary* dictionary in messageArray) {
                         [MessageRecord createByApnsInfo:dictionary];
+                    if(index>50){
+                        [MessageRecord save];
+                    }
                 }
             }
             [__request cancel];

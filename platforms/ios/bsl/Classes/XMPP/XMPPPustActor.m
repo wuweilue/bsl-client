@@ -203,7 +203,7 @@
     
     [json setObject:[[UIDevice currentDevice] uniqueDeviceIdentifier] forKey:@"deviceId"];
     
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json options:NSJSONReadingMutableContainers error:nil];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingPrettyPrinted error:nil];
     
     HTTPRequest *request = [HTTPRequest requestWithURL:[NSURL URLWithString:kPushServerRegisterUrl]];
     

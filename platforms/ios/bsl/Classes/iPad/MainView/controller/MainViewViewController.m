@@ -97,7 +97,7 @@
                 self.finishWebViewBlock = nil;
             }
         }didErrorBlock:^(){
-            UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"首页模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [alertView show];
         }];
         isFullScrean = NO;
@@ -600,42 +600,52 @@
             return;
         }
     }
-    //检查依赖包 是否已经安装
-    NSDictionary *missingModules = [module missingDependencies];
-    NSArray *needInstall = [missingModules objectForKey:kMissingDependencyNeedInstallKey];
-    NSArray *needUpgrade = [missingModules objectForKey:kMissingDependencyNeedUpgradeKey];
     
-    if ([needInstall count] > 0 || [needUpgrade count] > 0) {
-        NSMutableString *message = [[NSMutableString alloc] init];
+    @autoreleasepool {
+        //检查依赖包 是否已经安装
+        NSDictionary *missingModules = [module missingDependencies];
+        NSArray *needInstall = [missingModules objectForKey:kMissingDependencyNeedInstallKey];
+        NSArray *needUpgrade = [missingModules objectForKey:kMissingDependencyNeedUpgradeKey];
         
-        if([needInstall count] > 0){
+        if ([needInstall count] > 0 || [needUpgrade count] > 0) {
+            NSMutableString *message = [[NSMutableString alloc] init];
             
-            [message appendString:@"需要安装以下模块:\n"];
-            for (__strong NSString *dependency in needInstall) {
-                CubeModule *m = [[CubeApplication currentApplication] availableModuleForIdentifier:dependency];
-                if (m) dependency = m.name;
-                [message appendFormat:@"%@\n", dependency];
+            if([needInstall count] > 0){
+                
+                [message appendString:@"需要安装以下模块:\n"];
+                for ( NSString *dependency in needInstall) {
+                    CubeModule *m = [[CubeApplication currentApplication] availableModuleForIdentifier:dependency];
+                    if(m!=nil)
+                        [message appendFormat:@"%@\n", m.name];
+                    else
+                        [message appendFormat:@"%@\n", dependency];
+                }
+                
             }
             
-        }
-        
-        if( [needUpgrade count] > 0){
-            
-            [message appendString:@"需要升级以下模块:\n"];
-            for (__strong NSString *dependency in needUpgrade) {
-                CubeModule *m = [[CubeApplication currentApplication] moduleForIdentifier:dependency];
-                if (m) dependency = m.name;
-                [message appendFormat:@"%@\n", dependency];
+            if( [needUpgrade count] > 0){
+                
+                [message appendString:@"需要升级以下模块:\n"];
+                for ( NSString *dependency in needUpgrade) {
+                    CubeModule *m = [[CubeApplication currentApplication] moduleForIdentifier:dependency];
+                    if(m!=nil)
+                        [message appendFormat:@"%@\n", m.name];
+                    else
+                        [message appendFormat:@"%@\n", dependency];
+                }
+                
             }
+            self.selectedModule = module.identifier;
+            UIAlertView *dependsAlert = [[UIAlertView alloc] initWithTitle:@"缺少依赖模块"
+                                                                   message:message
+                                                                  delegate:self
+                                                         cancelButtonTitle:@"确定" otherButtonTitles:/*@"安装", */nil];
+            [dependsAlert show];
             
+            message=nil;
+            return;
         }
-        self.selectedModule = module.identifier;
-        UIAlertView *dependsAlert = [[UIAlertView alloc] initWithTitle:@"缺少依赖模块"
-                                                               message:message
-                                                              delegate:self
-                                                     cancelButtonTitle:@"确定" otherButtonTitles:/*@"安装", */nil];
-        [dependsAlert show];
-        return;
+
     }
     
     CGRect frame = self.view.frame;
@@ -663,7 +673,7 @@
         }
     }didErrorBlock:^(){
         NSLog(@"error loading %@", bCubeWebViewController.webView.request.URL);
-        UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@模块加载失败。",aCubeWebViewController.title] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
     }];
     

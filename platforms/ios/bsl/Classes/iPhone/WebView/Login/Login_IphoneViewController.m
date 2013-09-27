@@ -51,7 +51,7 @@
         NSLog(@"finish load WebView date = %@",[NSDate date]);
     }didErrorBlock:^(){
         aCubeWebViewController.closeButton.hidden = YES;
-        UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"登陆模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
     }];
 }
