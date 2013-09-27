@@ -23,11 +23,14 @@
 }
 
 +(BOOL)save {
-	NSError *error = nil;
-	BOOL result = [[self managedObjectContext] save:&error];
-	if (!result || error) {
-		NSLog(@"save fail, %@", error);
-	}
+    BOOL result=NO;
+    if([[self managedObjectContext] hasChanges]){
+        NSError *error = nil;
+    	result = [[self managedObjectContext] save:&error];
+        if (!result || error) {
+            NSLog(@"save fail, %@", error);
+        }
+    }
 	return result;
 }
 

@@ -215,6 +215,8 @@
 
 
 -(void)newMessageRevice:(NSNotification*)notification{
+    //remove by fanty   推送暂不更新这时
+    /*
     if ([self.identifier isEqualToString:@"com.foss.message.record"]) {
         [self addBadge];
         return;
@@ -227,6 +229,7 @@
         [self addBadge];
     }
    }
+     */
 }
 
 /*

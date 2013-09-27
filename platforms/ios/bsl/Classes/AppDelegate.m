@@ -105,11 +105,13 @@ void uncaughtExceptionHandler(NSException*exception){
  */
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions{
     if (launchOptions){
+        //现在每一次开app 都运行接收推送，暂不要这段代码了
+        
         NSDictionary* dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        if (dictionary != nil)
-		{
-            [MessageRecord createByApnsInfo:dictionary];
+        if (dictionary != nil){
+            [[PushGetMessageInfo sharedInstance] updatePushMessage];
         }
+        
     }else{
          [[UIApplication sharedApplication] cancelAllLocalNotifications];
          [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
@@ -272,7 +274,7 @@ void uncaughtExceptionHandler(NSException*exception){
 //加入apns推送功能
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
 
-    [PushGetMessageInfo getPushMessageInfo];
+    [[PushGetMessageInfo sharedInstance] updatePushMessage];
  
     [[UIApplication sharedApplication]  cancelAllLocalNotifications];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
@@ -510,7 +512,7 @@ void uncaughtExceptionHandler(NSException*exception){
     
     
     //开启访问 获取到未收到的推送信息
-        [PushGetMessageInfo getPushMessageInfo];
+    [[PushGetMessageInfo sharedInstance] updatePushMessage];
     [navControl popToRootViewControllerAnimated:NO];
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone)
     {

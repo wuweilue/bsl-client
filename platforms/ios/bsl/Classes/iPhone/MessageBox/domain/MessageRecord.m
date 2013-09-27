@@ -29,10 +29,14 @@
 @dynamic isMessageBadge;
 @dynamic faceBackId;
 @dynamic isRead;
-+(void)createByApnsInfo:(NSDictionary *)info{
++(void)createByApnsInfo:(NSDictionary *)info outputArrayIds:(NSMutableArray*)outputArrayIds{
     NSString * mFaceBackId = [info objectForKey:@"sendId"];
     
     if ([mFaceBackId length]>0) {
+        
+        [outputArrayIds addObject:mFaceBackId];
+
+        
         //通过sendID在数据库中判断是否存在记录
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"faceBackId==%@",mFaceBackId];
         NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"MessageRecord"];
@@ -42,8 +46,9 @@
         MessageObject *message = nil;
         //如果数据库中存在记录
         if (fetchedPersonArray.count>0) {
-            [[fetchedPersonArray objectAtIndex:0] sendFeedBack];
+//            [[fetchedPersonArray objectAtIndex:0] sendFeedBack];
         }else{
+
             message = [[MessageObject alloc]init];
             NSDictionary *aps = [info objectForKey:@"aps"];
             NSString* alert = [aps objectForKey:@"alert"];
@@ -85,9 +90,9 @@
             [message setIsMessageBadge:[NSNumber numberWithInt:1]];
 //            [message save];
             //将消息添加到队列begin=====
-            [[MessageDelayHandler shareInstance]addToQueue:message];
+//            [[MessageDelayHandler shareInstance]addToQueue:message];
             //end====
-            [message sendFeedBack];
+//            [message sendFeedBack];
             
             [message showAlert];
            [MessageRecord isCommand:info];
@@ -114,10 +119,10 @@
                 [appDelegate.moduleReceiveMsg setValue:nowStr forKey:@"系统"];
             }
         }
-         [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:message];
     }
 }
 
+/*
 +(MessageRecord *)createByJSON:(NSString *)jsonString{
     
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
@@ -193,6 +198,7 @@
     return message;
     
 }
+ */
 
 +(int)countAllAtBadge{
     
@@ -209,6 +215,7 @@
     localAlert.alertBody = self.alert;
     localAlert.alertAction = @"确定";
     [[UIApplication sharedApplication] scheduleLocalNotification:localAlert];
+    localAlert=nil;
 }
 
 +(BOOL)isCommand:(NSDictionary *)data{
@@ -272,49 +279,48 @@
         return;
     }
     
-    NSArray *array = [MessageRecord findForModuleIdentifierAtBadge:identifier];
-    
-    for(MessageRecord *each in array){
-        [each setIsIconBadge:[NSNumber numberWithInt:0]];
-        
-        [each save];
+    @autoreleasepool {
+        NSArray *array = [MessageRecord findForModuleIdentifierAtBadge:identifier];
+        for(MessageRecord *each in array){
+            [each setIsIconBadge:[NSNumber numberWithInt:0]];
+        }
+        [MessageRecord save];
     }
 }
 
 +(void)createModuleBadge:(NSString *)identifier num:(int)num{
-    NSArray *array = [MessageRecord findForModuleIdentifier:identifier];
-    
-    if (num >= [array count]) {
-        for(MessageRecord *each in array){
-            [each setIsIconBadge:[NSNumber numberWithInt:1]];
-            [each save];
-        }
+    @autoreleasepool {
+        NSArray *array = [MessageRecord findForModuleIdentifier:identifier];
         
-        for (int i = 0; i < num - [array count]; i++) {
-            MessageRecord* message = [MessageRecord insert];
-            message.module = identifier ;
-            message.isIconBadge = [NSNumber numberWithInt:1];
-            [message save];
-        }
-        
-    }else{
-        [self dismissModuleBadge:identifier];
-        
-        for (int i = 0; i < num; i++) {
-            if ([array count]== 0) {
+        if (num >= [array count]) {
+            for(MessageRecord *each in array){
+                [each setIsIconBadge:[NSNumber numberWithInt:1]];
+            }
+            for (int i = 0; i < num - [array count]; i++) {
                 MessageRecord* message = [MessageRecord insert];
                 message.module = identifier ;
                 message.isIconBadge = [NSNumber numberWithInt:1];
-                [message save];
-            }else{
-                MessageRecord *each = [array objectAtIndex:i];
-                [each setIsIconBadge:[NSNumber numberWithInt:1]];
-                [each save];
             }
+            [MessageRecord save];
+            
+        }else{
+            [self dismissModuleBadge:identifier];
+            
+            for (int i = 0; i < num; i++) {
+                if ([array count]== 0) {
+                    MessageRecord* message = [MessageRecord insert];
+                    message.module = identifier ;
+                    message.isIconBadge = [NSNumber numberWithInt:1];
+                }else{
+                    MessageRecord *each = [array objectAtIndex:i];
+                    [each setIsIconBadge:[NSNumber numberWithInt:1]];
+                }
+            }
+            [MessageRecord save];
         }
+        NSLog(@"badgeChange  ==identifier = %@=== %d",identifier,num);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"module_badgeCount_change" object:self];
     }
-    NSLog(@"badgeChange  ==identifier = %@=== %d",identifier,num);
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"module_badgeCount_change" object:self];
 }
 
 
