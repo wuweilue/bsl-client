@@ -71,7 +71,8 @@
                         
                     }
                     else{
-                        rectChat.name=roomName;
+                        if([roomName length]>0)
+                            rectChat.name=roomName;
                         rectChat.isQuit=[NSNumber numberWithBool:NO];
                         //rectChat.createrJid=[dict objectForKey:@"jid"];
                     }

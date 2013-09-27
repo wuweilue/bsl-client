@@ -3,8 +3,6 @@ new FastClick(document.body);
 
 // $(".mainContent").height($(window).height() - 50);
 
-var myScroll;
-
 // 检测屏幕是否伸缩
 $(window).resize(function() {
 	$(".mainContent").height($(window).height() - 50);
@@ -610,7 +608,7 @@ var data = {
 		"build": 60
 	}, {
 		"version": "1.0.0.60",
-		"category": "产品演示产品演示",
+		"category": "产品演示",
 		"downloadUrl": " ff8080813e1cd6f5013e30c3358701ec",
 		"releaseNote": "1.添加起降状态标志 2.界面调整",
 		"icon": "img/icon-notice.png",
@@ -660,8 +658,6 @@ $("li[identifier]").live("click", function() {
 
 var loadModuleList = function() {
 
-	myScroll = null;
-
 	$(".mainContent").remove();
 	var mainContent = $('<div id="mainContent" class="mainContent"><div id="scroller"><ul class="scrollContent nav nav-list bs-docs-sidenav affix-top"></ul></div></div>');
 	$(".middleContent").append(mainContent);
@@ -677,13 +673,8 @@ var loadModuleList = function() {
 				mark = mark.substring(0, mark.indexOf("?"));
 			}
 			if (window.localStorage[mark] !== undefined) {
-				// value.icon = window.localStorage[mark];
-				//value.icon = store.get(mark);
-				value.icon = combineString(mark);
-
+				value.icon = window.localStorage[mark];
 			}
-
-			value.name = subStrByCnLen(value.name, 5);
 
 			value.moduleType = 'main';
 			value.classname = key;
@@ -692,10 +683,6 @@ var loadModuleList = function() {
 		});
 		//获取模块名
 		var moduleContentTemplate = $("#moduleContentTemplate").html();
-		if (moduleItemHtmlContent !== "" || moduleItemHtmlContent !== null) {
-
-		}
-
 		var moduleContentHtml = _.template(moduleContentTemplate, {
 			'moduleTitle': key,
 			'moduleItem': moduleItemHtmlContent,
@@ -708,9 +695,7 @@ var loadModuleList = function() {
 
 	$(".mainContent").height($(window).height() - 50);
 
-	myScroll = new iScroll('mainContent');
-
-	myScroll.scrollTo(0, 1, 200, true);
+	var myScroll = new iScroll('mainContent');
 
 	// $('.mainContent').iScroll('refresh');
 	// $('img.imageCache').imageCache();

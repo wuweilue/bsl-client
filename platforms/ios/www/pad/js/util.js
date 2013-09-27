@@ -79,105 +79,36 @@ var Store = {
 	}
 };
 
-//下载文件
-var downloadFile = function(sourceUrl, targetUrl, callback) {
+//把图片转换成base64，存放到localStorage
+var getBase64Image = function(img) {
+	try {
+		if (!/^data:image/.test($(img).attr("src")) && window.localStorage[$(img).attr("src")] === undefined) {
 
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, null);
-
-	var fileName = sourceUrl;
-	if (fileName.indexOf("?") > -1) {
-		fileName = fileName.substring(0, fileName.indexOf("?"));
-	}
-
-	if (fileName.indexOf("file://") > -1) {
-		var fileEntry = new Object;
-		fileEntry.fullPath = sourceUrl;
-		showPic(fileEntry);
-	}
-
-	fileName = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.lenght);
-
-	function gotFS(fileSystem) {
-		fileSystem.root.getDirectory(targetUrl, {
-			create: true,
-			exclusive: false
-		}, writerFile, null);
-	}
-
-	function writerFile(newFile) {
-		newFile.getFile(fileName, null, showPic, function() {
-			newFile.getFile(fileName, {
-				create: true,
-				exclusive: false
-			}, gotFileEntry, null);
-		});
-	}
-
-	function showPic(fileEntry) {
-		//文件存在就直接显示  
-		callback(fileEntry);
-	}
-
-	function gotFileEntry(fileEntry) {
-		var fileTransfer = new FileTransfer();
-		var uri = encodeURI(sourceUrl);
-		fileTransfer.download(
-			uri, fileEntry.fullPath, function(entry) {
-				callback(entry);
-			}, function(error) {
-				console.log("下载网络图片出现错误");
+			var pic_real_width, pic_real_height;
+			var realimg = $("<img/>").attr("src", img.src).on("load", function() {
+				pic_real_width = this.width;
+				pic_real_height = this.height;
+				var canvas = document.createElement('canvas');
+				var ctx = canvas.getContext('2d');
+				canvas.width = pic_real_width;
+				canvas.height = pic_real_height;
+				ctx.drawImage(this, 0, 0, pic_real_width, pic_real_height);
+				var mark = $(img).attr("src");
+				if (mark.indexOf("?") > -1) {
+					mark = mark.substring(0, mark.indexOf("?"));
+				}
+				// var imgType = img.src.match(/\.(jpg|jpeg|png|gif)$/i);
+				// console.info(imgType);
+				// if (imgType && imgType.length) {
+				// 	imgType = imgType[1].toLowerCase() == 'jpg' ? 'jpeg' : imgType[1].toLowerCase();
+				// } else {
+				// 	throw 'Invalid image type for canvas encoder: ' + img.src;
+				// }
+				window.localStorage[mark] = canvas.toDataURL();
 			});
-	}
-};
-
-function combineString(mark) {
-	console.info("131 " + mark);
-	var str = "";
-	//var marker = store.get(mark);
-	var marker = window.localStorage[mark];
-	console.info(marker);
-	var markers = marker.split(";");
-	for (var i = 0; i < markers.length; i++) {
-		//str = str + store.get(markers[i]);
-		str = str + window.localStorage[markers[i]];
-	}
-	return str;
-};
-
-function chop(str, step) {
-	if (str == null) return [];
-	str = String(str);
-	step = ~~step;
-	return step > 0 ? str.match(new RegExp('.{1,' + step + '}', 'g')) : [str];
-};
-
-
-//获取字符串字节数
-String.prototype.getBytesLength = function() {
-	return this.replace(/[^\x00-\xff]/gi, "--").length;
-};
-
-function subStrByCnLen(str, len) {
-	var cnlen = len * 2;
-
-	var index = 0;
-	var tempStr = "";
-
-	for (i = 0; i < str.length; i++) {
-		var s = str.charAt(i);
-		if (index >= cnlen) {
-			// return tempStr;
-		} else {
-			if (s.getBytesLength() > 1) {
-				index += 2;
-			} else {
-				index += 1;
-			}
-			tempStr = tempStr + s;
 		}
+	} catch (e) {
+		console && console.log(e);
+		return 'error';
 	}
-	if (str.getBytesLength() > cnlen) {
-		tempStr = tempStr + "..";
-	}
-	return tempStr;
-};
+}

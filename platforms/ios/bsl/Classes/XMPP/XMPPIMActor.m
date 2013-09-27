@@ -1115,12 +1115,13 @@
                     for(NSDictionary* dict in array){
                         NSString* jid=[dict objectForKey:@"roomId"];
                         if([jid isEqualToString:roomId]){
-                            
-                            RectangleChat* rectChat=[self fetchRectangleChatFromJid:jid isGroup:YES];
-                            if(rectChat!=nil){
-                                NSString* roomName=[dict objectForKey:@"roomName"];
-                                rectChat.name=roomName;
-                                [rectChat save];
+                            NSString* roomName=[dict objectForKey:@"roomName"];
+                            if([roomName length]>0){
+                                RectangleChat* rectChat=[self fetchRectangleChatFromJid:jid isGroup:YES];
+                                if(rectChat!=nil){
+                                    rectChat.name=roomName;
+                                    [rectChat save];
+                                }
                             }
                             break;
                         }
