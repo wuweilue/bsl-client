@@ -12,6 +12,8 @@
 
 +(NSString*)urlForAttachmentId:(NSString*)aid;
 +(NSString*)urlForAppUpdate;
+//下载后更新计数
++(NSString*)urlForAppUpdateRecord;
 +(NSString*)urlForLogin;
 +(NSString*)urlforUserSync;
 +(NSString*)urlForSync;

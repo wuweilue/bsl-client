@@ -19,6 +19,10 @@
 +(NSString*)urlForAppUpdate {
     return [kServerURLString stringByAppendingFormat:@"/mam/api/mam/clients/update/ios/%@/?ts=%f", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"], [NSDate timeIntervalSinceReferenceDate]];
 }
+//下载后更新计数
++(NSString*)urlForAppUpdateRecord {
+    return [kServerURLString stringByAppendingFormat:@"/mam/api/mam/clients/update/appcount/ios/"];
+}
 
 +(NSString*)urlForLogin {
     return kServerLoginURLString;

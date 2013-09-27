@@ -302,6 +302,7 @@ void uncaughtExceptionHandler(NSException*exception){
     
     NSMutableDictionary *json = [[NSMutableDictionary alloc] init];
     [json setObject:token forKey:@"pushToken"];
+    NSLog(@"[%@]",NSHomeDirectory());
     
 #ifdef _DEBUG
     [json setObject:@"apns_sandbox" forKey:@"channelId"];
@@ -464,24 +465,24 @@ void uncaughtExceptionHandler(NSException*exception){
     }
     if ([updateTags length]> 0) {
         
-        
-        NSString* userName =[defaults valueForKey:@"username"] ;
+        //暂时屏蔽username，phone连个标签
+//        NSString* userName =[defaults valueForKey:@"username"] ;
         NSString* sex = [defaults valueForKey:@"sex"];
-        NSString* phone = [defaults valueForKey:@"phone"];
+//        NSString* phone = [defaults valueForKey:@"phone"];
         
         
-        if (userName) {
-            updateTags= [updateTags stringByAppendingFormat:@"userName=%@",userName];
-            updateTags = [updateTags stringByAppendingString:@","];
-        }
+//        if (userName) {
+//            updateTags= [updateTags stringByAppendingFormat:@"userName=%@",userName];
+//            updateTags = [updateTags stringByAppendingString:@","];
+//        }
         if (sex) {
             updateTags= [updateTags stringByAppendingFormat:@"sex=%@",sex];
             updateTags = [updateTags stringByAppendingString:@","];
         }
-        if (phone) {
-            updateTags= [updateTags stringByAppendingFormat:@"phone=%@",phone];
-            updateTags = [updateTags stringByAppendingString:@","];
-        }
+//        if (phone) {
+//            updateTags= [updateTags stringByAppendingFormat:@"phone=%@",phone];
+//            updateTags = [updateTags stringByAppendingString:@","];
+//        }
         
     }
     if ([updateTags length] > 0 ) {

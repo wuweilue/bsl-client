@@ -3511,7 +3511,6 @@
 				F54D816117E8BFBA0067A023 /* util */,
 				F54D817C17E8BFBB0067A023 /* Vendor */,
 				F54D828417E8BFBB0067A023 /* XMPP */,
-				F54D829F17E8BFBB0067A023 /* zh-Hans.lproj */,
 			);
 			name = Classes;
 			path = bsl/Classes;
@@ -4914,13 +4913,6 @@
 			path = XMPP;
 			sourceTree = "<group>";
 		};
-		F54D829F17E8BFBB0067A023 /* zh-Hans.lproj */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "zh-Hans.lproj";
-			sourceTree = "<group>";
-		};
 		F54D83DD17E8C77D0067A023 /* emotions */ = {
 			isa = PBXGroup;
 			children = (
@@ -5434,6 +5426,7 @@
 				es,
 				de,
 				se,
+				zh,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -8256,7 +8249,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -8282,7 +8275,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "南航移动应用";
-				PROVISIONING_PROFILE = "A13C937E-A769-4154-B950-451F423D94E8";
+				PROVISIONING_PROFILE = "95DA3612-1B70-45E2-8214-0D6E077494FD";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -8293,8 +8286,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: China Southern Airlines Company Limited";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: China Southern Airlines Company Limited";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "bsl/bsl-Prefix.pch";
@@ -8317,7 +8310,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "南航移动应用";
-				PROVISIONING_PROFILE = "A13C937E-A769-4154-B950-451F423D94E8";
+				PROVISIONING_PROFILE = "95DA3612-1B70-45E2-8214-0D6E077494FD";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
