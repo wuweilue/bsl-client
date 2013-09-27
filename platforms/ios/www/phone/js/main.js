@@ -253,7 +253,7 @@ var changeLayout = function(oldfilename, newfilename, type) {
 var initial = function(type, data) {
 	console.log("AAAAAAAA initial=" + type);
 	var i = 0;
-    /*<!--     
+    ///*<!--
     //把data转换成array
 	var array = [];
 	for(var category in data){
@@ -279,8 +279,8 @@ var initial = function(type, data) {
 			'tag': i
 		}));
 		_.each((data), function(value, key) {
-     -->*/
-    //<!--
+    // -->*/
+    /*//<!--
      _.each(data, function(value, key) {
            
         $("#myul").append(_.template($("#t2").html(), {
@@ -289,7 +289,7 @@ var initial = function(type, data) {
                                         }));
         _.each((value), function(value, key) {
 
-    //-->
+    //-->*/
 
 			console.log('AAAAAAAA identifier icon = ' + value.identifier + " -- " + value.icon);
 

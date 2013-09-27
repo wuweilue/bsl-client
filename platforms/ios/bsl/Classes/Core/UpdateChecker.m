@@ -68,7 +68,8 @@
     self.downloadUrl = [ServerAPI urlForAttachmentId:bundle];
     if (currentBuild < build) {
         NSString *message = [NSString stringWithFormat:@"当前版本:%@\n最新版本:%@\n版本说明:\n%@", currentVersion, version, releaseNote];
-        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setValue:version forKey:@"newVersion"];
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:[ NSString stringWithFormat:@"%@平台版本更新",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] ] message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
         [av show];
     } else {
@@ -94,7 +95,34 @@
     if (buttonIndex == 1) {
         NSString *urlString = [NSString stringWithFormat:@"itms-services://?action=download-manifest&url=%@", [NSString stringWithFormat:@"%@%@appKey%@%@",self.downloadUrl,@"%3F",@"%3D",kAPPKey]];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+        //发送更新记录
+        //南航移动应用自有业务
+        if([[[NSBundle mainBundle]bundleIdentifier]isEqualToString:@"com.csair.impc"])
+        {
+            [self updateDownloadRecord];
+        }
+        
     }
+}
+//下载完成后更新服务端计数
+-(void)updateDownloadRecord
+{
+    NSString *version = [[NSUserDefaults standardUserDefaults] valueForKey:@"newVersion"];
+    NSString *url = [ServerAPI urlForAppUpdateRecord];
+    url = [[url stringByAppendingString:version]stringByAppendingFormat:@"?appKey=%@",kAPPKey ];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"newVersion"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    request = [HTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setCompletionBlock:^{
+        NSLog(@"[更新下载记录=success]");
+        
+    }];
+    [request setFailedBlock:^{
+        NSLog(@"更新下载记录失败");
+        
+    }];
+    [request startAsynchronous];
+    
 }
 
 @end
