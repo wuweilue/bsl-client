@@ -217,7 +217,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [managedObjectContext save:nil];
+                if([managedObjectContext hasChanges])
+                    [managedObjectContext save:nil];
 //                userArray=nil;
                 [self showLoadData];
                 isLoadingUserInfo=NO;
@@ -500,7 +501,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 
 -(void)tableView:(UITableView *)__tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [__tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [searchBar resignFirstResponder];    
+    [searchBar resignFirstResponder];
+    if(laterReloadTimer!=nil)return;
     UserInfo* user=[friendList objectAtIndex:[indexPath row]];
     if([self.delegate respondsToSelector:@selector(contactListDidSelected:userInfo:)])
         [self.delegate contactListDidSelected:self userInfo:user];
@@ -520,8 +522,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)__searchBar{
     for(id cc in [__searchBar subviews]){
-        if([cc isKindOfClass:[UIButton class]])
-        {
+        if([cc isKindOfClass:[UIButton class]]){
             UIButton *btn = (UIButton *)cc;
             [btn setTitle:@"取消"  forState:UIControlStateNormal];
         }

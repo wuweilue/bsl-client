@@ -369,10 +369,10 @@
 
 #pragma mark  chatimagecell delegate
 
--(void)chatImageCellDidSelect:(ChatImageCell *)cell image:(UIImage *)image{
+-(void)chatImageCellDidSelect:(ChatImageCell *)cell imageFile:(NSString *)imageFile{
     AppDelegate* appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
     ImageScroller* view=[[ImageScroller alloc] initWithFrame:appDelegate.window.rootViewController.view.bounds];
-    [view showImage:image];
+    [view showImage:imageFile];
     [view showInView:appDelegate.window.rootViewController.view];
     
     view=nil;

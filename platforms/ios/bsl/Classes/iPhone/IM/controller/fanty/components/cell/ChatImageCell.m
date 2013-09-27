@@ -91,9 +91,11 @@
     return CELL_SIZE+70.0f;
 }
 
--(void)headerUrl:(NSString*)headerUrl name:(NSString*)name imageFile:(NSString*)imageFile sendDate:(NSDate*)date bubbleType:(NSBubbleType)bubbleType{
+-(void)headerUrl:(NSString*)headerUrl name:(NSString*)name imageFile:(NSString*)__imageFile sendDate:(NSDate*)date bubbleType:(NSBubbleType)bubbleType{
     noHeaderView.hidden=NO;
     noContentView.hidden=NO;
+    imageFile=__imageFile;
+    
     if([headerUrl length]>0)
         [imageView loadImageWithURLString:headerUrl];
     //imageFile=@"T1saYTByxT1RCvBVdK";
@@ -179,8 +181,8 @@
 
 -(void)avatorClick{
     if(contentImageView.image!=nil){
-        if([self.delegate respondsToSelector:@selector(chatImageCellDidSelect:image:)])
-            [self.delegate chatImageCellDidSelect:self image:contentImageView.image];
+        if([self.delegate respondsToSelector:@selector(chatImageCellDidSelect:imageFile:)])
+            [self.delegate chatImageCellDidSelect:self imageFile:imageFile];
     }
 }
 
