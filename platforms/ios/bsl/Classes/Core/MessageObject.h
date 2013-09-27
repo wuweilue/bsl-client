@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MessageObject : NSObject
+@interface MessageObject : NSManagedObject
 
 @property (nonatomic, strong) NSString * alert;//alert 的内容
 @property (nonatomic, strong) NSString * sound;//声音
 @property (nonatomic, strong) NSNumber * badge;//显示个数
-@property (nonatomic, copy)   NSString * module;
+@property (nonatomic, strong)   NSString * module;
 @property (nonatomic, strong) NSString * recordId;
 @property (nonatomic, strong) NSString * content;
 @property (nonatomic, strong) NSDate * reviceTime;

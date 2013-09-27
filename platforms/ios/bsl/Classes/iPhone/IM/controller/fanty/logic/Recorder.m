@@ -150,7 +150,8 @@ typedef enum{
         [self.delegate refreshAudioPower:self level:condition];
     
     if(self.addInterval>=60){
-        
+        if([self.delegate respondsToSelector:@selector(recordTimeout:)])
+            [self.delegate recordTimeout:self];
     }
 }
 
@@ -167,6 +168,10 @@ typedef enum{
     [audioPlayer stop];
     audioPlayer=nil;
 
+}
+
+-(BOOL)isRecording{
+    return (audioRecorder!=nil);
 }
 
 -(void)removeRecord{

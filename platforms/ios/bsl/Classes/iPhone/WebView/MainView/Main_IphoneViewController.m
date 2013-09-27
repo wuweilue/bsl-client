@@ -532,20 +532,25 @@
 {
     CubeModule *newModule = [note object];
     if (newModule) {
-        NSMutableDictionary* moduleDictionary = [self modueToJson:newModule];
-        NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
-        NSString * javaScript = @"";
-        if (newModule.installType) {
-            javaScript = [NSString stringWithFormat:@"refreshModule('%@','upgrade','%@');",newModule.identifier,JSO];
-        }else{
-            javaScript = [NSString stringWithFormat:@"refreshModule('%@','install','%@');",newModule.identifier,JSO];
-        }
-        newModule.installType = nil;
-        [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
-        
-        if (!newModule.hidden) {
-            NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage();"];
-            [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:mainScript];
+        @autoreleasepool {
+            NSMutableDictionary* moduleDictionary = [self modueToJson:newModule];
+            NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
+            NSString * javaScript = @"";
+            if (newModule.installType) {
+                javaScript = [NSString stringWithFormat:@"refreshModule('%@','upgrade','%@');",newModule.identifier,JSO];
+            }else{
+                javaScript = [NSString stringWithFormat:@"refreshModule('%@','install','%@');",newModule.identifier,JSO];
+            }
+            newModule.installType = nil;
+            [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
+            
+            if (!newModule.hidden) {
+                NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage('%@','install','%@');",newModule.identifier,JSO];
+                [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:mainScript];
+            }
+            
+            JSO=nil;
+            
         }
     }
 }

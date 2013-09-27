@@ -41,7 +41,6 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "MessageRecord.h"
 #import "NSData+Hex.h"
-#import "XMPPPustActor.h"
 #import "SVProgressHUD.h"
 #import "NSFileManager+Extra.h"
 #import "UpdateChecker.h"
@@ -440,8 +439,7 @@ void uncaughtExceptionHandler(NSException*exception){
     
 }
 
--(void)updateCheckInTags
-{
+-(void)updateCheckInTags{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSArray* privileges = [defaults objectForKey:@"privileges"];
     NSString* updateTags =@"{";
@@ -541,11 +539,6 @@ void uncaughtExceptionHandler(NSException*exception){
 }
 
 
-
--(void)setupxmppActorStream{
-    xmppPustActor = [[XMPPPustActor alloc]init];
-    [xmppPustActor setXmppStream];
-}
 
 -(void)setupXmppStream{
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];

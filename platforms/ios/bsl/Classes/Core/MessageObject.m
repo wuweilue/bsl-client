@@ -10,18 +10,18 @@
 #import "ASIFormDataRequest.h"
 #import "UIDevice+IdentifierAddition.h"
 @implementation MessageObject
-@synthesize alert;
-@synthesize sound;
-@synthesize badge;
-@synthesize module;
-@synthesize recordId;
-@synthesize content;
-@synthesize reviceTime;
-@synthesize isIconBadge;
-@synthesize store;
-@synthesize isMessageBadge;
-@synthesize isRead;
-@synthesize faceBackId;
+@dynamic alert;
+@dynamic sound;
+@dynamic badge;
+@dynamic module;
+@dynamic recordId;
+@dynamic content;
+@dynamic reviceTime;
+@dynamic isIconBadge;
+@dynamic store;
+@dynamic isMessageBadge;
+@dynamic isRead;
+@dynamic faceBackId;
 
 
 - (void)sendFeedBack{

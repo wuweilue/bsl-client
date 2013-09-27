@@ -30,6 +30,10 @@
 		30A0434814DC770100060A13 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434314DC770100060A13 /* Localizable.strings */; };
 		30A0434914DC770100060A13 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3926908C17F51F1C00F1500B /* line_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3926908B17F51F1C00F1500B /* line_shadow@2x.png */; };
+		3926908D17F51F1C00F1500B /* line_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3926908B17F51F1C00F1500B /* line_shadow@2x.png */; };
+		3926908E17F51F1C00F1500B /* line_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3926908B17F51F1C00F1500B /* line_shadow@2x.png */; };
+		3926908F17F51F1C00F1500B /* line_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3926908B17F51F1C00F1500B /* line_shadow@2x.png */; };
 		3968621A17EE7C8800C84A6A /* RoomService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3968621917EE7C8800C84A6A /* RoomService.m */; };
 		3968622017EE7CFB00C84A6A /* ContactSelectedForGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3968621D17EE7CFB00C84A6A /* ContactSelectedForGroupViewController.m */; };
 		3968622117EE7CFB00C84A6A /* GroupMemberManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3968621F17EE7CFB00C84A6A /* GroupMemberManagerViewController.m */; };
@@ -697,7 +701,6 @@
 		39D9EA6617F27C03001ED6F5 /* XMPPIM_Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = F54D829817E8BFBB0067A023 /* XMPPIM_Model.xcdatamodel */; };
 		39D9EA6717F27C03001ED6F5 /* XMPPIMActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829A17E8BFBB0067A023 /* XMPPIMActor.m */; };
 		39D9EA6817F27C03001ED6F5 /* RoomService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3968621917EE7C8800C84A6A /* RoomService.m */; };
-		39D9EA6917F27C03001ED6F5 /* XMPPPustActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829C17E8BFBB0067A023 /* XMPPPustActor.m */; };
 		39D9EA6A17F27C03001ED6F5 /* XMPPSqlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829E17E8BFBB0067A023 /* XMPPSqlManager.m */; };
 		39D9EA6D17F27C03001ED6F5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5BE109A6A2B0062928A /* CoreLocation.framework */; };
 		39D9EA6E17F27C03001ED6F5 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA0E66E1729F460000DC89A /* ImageIO.framework */; };
@@ -1317,7 +1320,6 @@
 		39E0534417F00AEA00BCF7F8 /* XMPPIM_Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = F54D829817E8BFBB0067A023 /* XMPPIM_Model.xcdatamodel */; };
 		39E0534517F00AEA00BCF7F8 /* XMPPIMActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829A17E8BFBB0067A023 /* XMPPIMActor.m */; };
 		39E0534617F00AEA00BCF7F8 /* RoomService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3968621917EE7C8800C84A6A /* RoomService.m */; };
-		39E0534717F00AEA00BCF7F8 /* XMPPPustActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829C17E8BFBB0067A023 /* XMPPPustActor.m */; };
 		39E0534817F00AEA00BCF7F8 /* XMPPSqlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829E17E8BFBB0067A023 /* XMPPSqlManager.m */; };
 		39E0534917F00AEA00BCF7F8 /* Config-foss-test.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAD17E8BFB90067A023 /* Config-foss-test.m */; };
 		39E0534B17F00AEA00BCF7F8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5BE109A6A2B0062928A /* CoreLocation.framework */; };
@@ -1936,7 +1938,6 @@
 		39FF0BFC17F13CBB0086B76C /* XMPPIM_Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = F54D829817E8BFBB0067A023 /* XMPPIM_Model.xcdatamodel */; };
 		39FF0BFD17F13CBB0086B76C /* XMPPIMActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829A17E8BFBB0067A023 /* XMPPIMActor.m */; };
 		39FF0BFE17F13CBB0086B76C /* RoomService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3968621917EE7C8800C84A6A /* RoomService.m */; };
-		39FF0BFF17F13CBB0086B76C /* XMPPPustActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829C17E8BFBB0067A023 /* XMPPPustActor.m */; };
 		39FF0C0017F13CBB0086B76C /* XMPPSqlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829E17E8BFBB0067A023 /* XMPPSqlManager.m */; };
 		39FF0C0317F13CBB0086B76C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5BE109A6A2B0062928A /* CoreLocation.framework */; };
 		39FF0C0417F13CBB0086B76C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA0E66E1729F460000DC89A /* ImageIO.framework */; };
@@ -2178,7 +2179,6 @@
 		F54D83C817E8BFBC0067A023 /* XMPP_Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F54D829017E8BFBB0067A023 /* XMPP_Model.xcdatamodeld */; };
 		F54D83CA17E8BFBC0067A023 /* XMPPIM_Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = F54D829817E8BFBB0067A023 /* XMPPIM_Model.xcdatamodel */; };
 		F54D83CB17E8BFBC0067A023 /* XMPPIMActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829A17E8BFBB0067A023 /* XMPPIMActor.m */; };
-		F54D83CC17E8BFBC0067A023 /* XMPPPustActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829C17E8BFBB0067A023 /* XMPPPustActor.m */; };
 		F54D83CD17E8BFBC0067A023 /* XMPPSqlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829E17E8BFBB0067A023 /* XMPPSqlManager.m */; };
 		F54D83CE17E8C5840067A023 /* Config-foss-test.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAD17E8BFB90067A023 /* Config-foss-test.m */; };
 		F54D84A517E8C77E0067A023 /* add_friend_icon_clicked.png in Resources */ = {isa = PBXBuildFile; fileRef = F54D83CF17E8C77D0067A023 /* add_friend_icon_clicked.png */; };
@@ -2566,6 +2566,7 @@
 		30A0434714DC770100060A13 /* se */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = se; path = Localizable.strings; sourceTree = "<group>"; };
 		30E5649113A7FCAF007403D8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* bsl-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "bsl-Prefix.pch"; sourceTree = "<group>"; };
+		3926908B17F51F1C00F1500B /* line_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line_shadow@2x.png"; sourceTree = "<group>"; };
 		3968621817EE7C8800C84A6A /* RoomService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomService.h; sourceTree = "<group>"; };
 		3968621917EE7C8800C84A6A /* RoomService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomService.m; sourceTree = "<group>"; };
 		3968621C17EE7CFB00C84A6A /* ContactSelectedForGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactSelectedForGroupViewController.h; sourceTree = "<group>"; };
@@ -3044,8 +3045,6 @@
 		F54D829817E8BFBB0067A023 /* XMPPIM_Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XMPPIM_Model.xcdatamodel; sourceTree = "<group>"; };
 		F54D829917E8BFBB0067A023 /* XMPPIMActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPIMActor.h; sourceTree = "<group>"; };
 		F54D829A17E8BFBB0067A023 /* XMPPIMActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPIMActor.m; sourceTree = "<group>"; };
-		F54D829B17E8BFBB0067A023 /* XMPPPustActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPPustActor.h; sourceTree = "<group>"; };
-		F54D829C17E8BFBB0067A023 /* XMPPPustActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPPustActor.m; sourceTree = "<group>"; };
 		F54D829D17E8BFBB0067A023 /* XMPPSqlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPSqlManager.h; sourceTree = "<group>"; };
 		F54D829E17E8BFBB0067A023 /* XMPPSqlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPSqlManager.m; sourceTree = "<group>"; };
 		F54D83CF17E8C77D0067A023 /* add_friend_icon_clicked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_friend_icon_clicked.png; sourceTree = "<group>"; };
@@ -4909,8 +4908,6 @@
 				F54D829817E8BFBB0067A023 /* XMPPIM_Model.xcdatamodel */,
 				F54D829917E8BFBB0067A023 /* XMPPIMActor.h */,
 				F54D829A17E8BFBB0067A023 /* XMPPIMActor.m */,
-				F54D829B17E8BFBB0067A023 /* XMPPPustActor.h */,
-				F54D829C17E8BFBB0067A023 /* XMPPPustActor.m */,
 				F54D829D17E8BFBB0067A023 /* XMPPSqlManager.h */,
 				F54D829E17E8BFBB0067A023 /* XMPPSqlManager.m */,
 			);
@@ -5221,6 +5218,7 @@
 			children = (
 				F5A96C4C17F007FC00F9CA68 /* announcement_local.png */,
 				F5A96C4D17F007FC00F9CA68 /* avatar_msg.png */,
+				3926908B17F51F1C00F1500B /* line_shadow@2x.png */,
 				F5A96C4E17F007FC00F9CA68 /* Background_Landscape.png */,
 				F5A96C4F17F007FC00F9CA68 /* Background_Portrait.png */,
 				F5A96C5017F007FC00F9CA68 /* blueArrow.png */,
@@ -5419,7 +5417,7 @@
 						DevelopmentTeam = KMB2BDRT85;
 					};
 					39E050E317F00AEA00BCF7F8 = {
-						DevelopmentTeam = KMB2BDRT85;
+						DevelopmentTeam = XDTMM97Z68;
 					};
 				};
 			};
@@ -5644,6 +5642,7 @@
 				F54D84D417E8C77E0067A023 /* f031.png in Resources */,
 				F54D84D517E8C77E0067A023 /* f032.png in Resources */,
 				F54D84D617E8C77E0067A023 /* f033.png in Resources */,
+				3926908C17F51F1C00F1500B /* line_shadow@2x.png in Resources */,
 				F54D84D717E8C77E0067A023 /* f034.png in Resources */,
 				3968628217EE898300C84A6A /* ToolViewEmotionHL@2x.png in Resources */,
 				F54D84D817E8C77E0067A023 /* f035.png in Resources */,
@@ -6077,6 +6076,7 @@
 				39D9E8B917F27C03001ED6F5 /* f031.png in Resources */,
 				39D9E8BA17F27C03001ED6F5 /* f032.png in Resources */,
 				39D9E8BB17F27C03001ED6F5 /* f033.png in Resources */,
+				3926908F17F51F1C00F1500B /* line_shadow@2x.png in Resources */,
 				39D9E8BC17F27C03001ED6F5 /* f034.png in Resources */,
 				39D9E8BD17F27C03001ED6F5 /* ToolViewEmotionHL@2x.png in Resources */,
 				39D9E8BE17F27C03001ED6F5 /* f035.png in Resources */,
@@ -6510,6 +6510,7 @@
 				39E0519617F00AEA00BCF7F8 /* f031.png in Resources */,
 				39E0519717F00AEA00BCF7F8 /* f032.png in Resources */,
 				39E0519817F00AEA00BCF7F8 /* f033.png in Resources */,
+				3926908D17F51F1C00F1500B /* line_shadow@2x.png in Resources */,
 				39E0519917F00AEA00BCF7F8 /* f034.png in Resources */,
 				39E0519A17F00AEA00BCF7F8 /* ToolViewEmotionHL@2x.png in Resources */,
 				39E0519B17F00AEA00BCF7F8 /* f035.png in Resources */,
@@ -6987,6 +6988,7 @@
 				39FF0A7C17F13CBB0086B76C /* f061.png in Resources */,
 				39D9E80717F26A87001ED6F5 /* btn_remove@2x.png in Resources */,
 				39FF0A7D17F13CBB0086B76C /* emotions_big.png in Resources */,
+				3926908E17F51F1C00F1500B /* line_shadow@2x.png in Resources */,
 				39FF0A7E17F13CBB0086B76C /* nav_back_active@2x.png in Resources */,
 				39FF0A7F17F13CBB0086B76C /* menu_setup.png in Resources */,
 				39FF0A8017F13CBB0086B76C /* f062.png in Resources */,
@@ -7558,7 +7560,6 @@
 				F54D83CA17E8BFBC0067A023 /* XMPPIM_Model.xcdatamodel in Sources */,
 				F54D83CB17E8BFBC0067A023 /* XMPPIMActor.m in Sources */,
 				3968621A17EE7C8800C84A6A /* RoomService.m in Sources */,
-				F54D83CC17E8BFBC0067A023 /* XMPPPustActor.m in Sources */,
 				F54D83CD17E8BFBC0067A023 /* XMPPSqlManager.m in Sources */,
 				F54D83CE17E8C5840067A023 /* Config-foss-test.m in Sources */,
 			);
@@ -7744,7 +7745,6 @@
 				39D9EA6617F27C03001ED6F5 /* XMPPIM_Model.xcdatamodel in Sources */,
 				39D9EA6717F27C03001ED6F5 /* XMPPIMActor.m in Sources */,
 				39D9EA6817F27C03001ED6F5 /* RoomService.m in Sources */,
-				39D9EA6917F27C03001ED6F5 /* XMPPPustActor.m in Sources */,
 				39D9EA6A17F27C03001ED6F5 /* XMPPSqlManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7928,7 +7928,6 @@
 				39E0534417F00AEA00BCF7F8 /* XMPPIM_Model.xcdatamodel in Sources */,
 				39E0534517F00AEA00BCF7F8 /* XMPPIMActor.m in Sources */,
 				39E0534617F00AEA00BCF7F8 /* RoomService.m in Sources */,
-				39E0534717F00AEA00BCF7F8 /* XMPPPustActor.m in Sources */,
 				39E0534817F00AEA00BCF7F8 /* XMPPSqlManager.m in Sources */,
 				39E0534917F00AEA00BCF7F8 /* Config-foss-test.m in Sources */,
 			);
@@ -8114,7 +8113,6 @@
 				39FF0BFC17F13CBB0086B76C /* XMPPIM_Model.xcdatamodel in Sources */,
 				39FF0BFD17F13CBB0086B76C /* XMPPIMActor.m in Sources */,
 				39FF0BFE17F13CBB0086B76C /* RoomService.m in Sources */,
-				39FF0BFF17F13CBB0086B76C /* XMPPPustActor.m in Sources */,
 				39FF0C0017F13CBB0086B76C /* XMPPSqlManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

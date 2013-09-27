@@ -367,20 +367,19 @@
 
 
 
--(void)showLocalNotification:(NSString*)Msg
-{
+-(void)showLocalNotification:(NSString*)Msg{
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
     localNotification.alertAction = @"知道了";
     //		localNotification.alertBody = aMsg;
     localNotification.alertBody = Msg;
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+    localNotification=nil;
 }
 
 -(void)showTheMsg:(NSString*)aMsg
 {
-    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
-	{
+    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive){
         
 	}
 	else
@@ -392,6 +391,7 @@
         localNotification.alertBody = @"您有新的消息，请注意查收！";
 		localNotification.soundName = UILocalNotificationDefaultSoundName;
 		[[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+        localNotification=nil;
 	}
 }
 

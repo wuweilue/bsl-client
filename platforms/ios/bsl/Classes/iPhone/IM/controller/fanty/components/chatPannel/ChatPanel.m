@@ -36,7 +36,7 @@
 @synthesize text;
 @synthesize emoctionList;
 @synthesize superViewHeight;
-
+@synthesize cancelRecond;
 - (id)initWithFrame:(CGRect)frame{
     
     frame.size.height=PANNEL_HEIGHT+EC_PANEL_height;
@@ -419,11 +419,13 @@
 
 
 -(void)recordTouchDown{
+    self.cancelRecond=NO;
     if([self.delegate respondsToSelector:@selector(chatPanelRecordTouch:isTouch:)])
         [self.delegate chatPanelRecordTouch:self isTouch:YES];
 }
 
 -(void)recordTouchUp{
+    if(self.cancelRecond)return;
     if([self.delegate respondsToSelector:@selector(chatPanelRecordTouch:isTouch:)])
         [self.delegate chatPanelRecordTouch:self isTouch:NO];
 

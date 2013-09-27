@@ -48,8 +48,8 @@
         if (fetchedPersonArray.count>0) {
 //            [[fetchedPersonArray objectAtIndex:0] sendFeedBack];
         }else{
+            message  = (MessageObject *)[NSEntityDescription insertNewObjectForEntityForName:@"MessageRecord" inManagedObjectContext:self.managedObjectContext];
 
-            message = [[MessageObject alloc]init];
             NSDictionary *aps = [info objectForKey:@"aps"];
             NSString* alert = [aps objectForKey:@"alert"];
             if ([alert length]<1) {
