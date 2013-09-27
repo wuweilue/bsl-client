@@ -7,11 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HTTPRequest.h"
 
-@interface PushGetMessageInfo : NSObject
+@class HTTPRequest;
+@interface PushGetMessageInfo : NSObject{
+    NSTimer* updateTimer;
+    HTTPRequest * request;
+}
 
-+(void)getPushMessageInfo;
++(PushGetMessageInfo*)sharedInstance;
 
+-(void)updatePushMessage;
 
 @end

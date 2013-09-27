@@ -220,10 +220,13 @@
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
     //如果是由cube_dmin发送过来的则是推送的消息
+    //remove by fanty 已经不需要xmpp做推送了
+    /*
     if([[message fromStr] hasPrefix:[NSString stringWithFormat:@"%@@%@",kXMPPPusher,kXMPPPushDomin]]){
         [MessageRecord createByJSON:[[message elementForName:@"body"] stringValue]];
         return;
     }
+     */
 }
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(NSXMLElement *)error

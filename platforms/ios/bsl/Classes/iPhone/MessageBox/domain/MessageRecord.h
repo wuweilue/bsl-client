@@ -29,10 +29,11 @@
 @property (nonatomic, strong) NSNumber *isRead;
 @property (nonatomic, strong) NSString * faceBackId;
 
-+(void)createByApnsInfo:(NSDictionary *)info;
++(void)createByApnsInfo:(NSDictionary *)info outputArrayIds:(NSMutableArray*)outputArrayIds;
 
+/*
 +(MessageRecord *)createByJSON:(NSString *)jsonString;
-
+*/
 +(void)createModuleBadge:(NSString *)identifier num:(int)num;
 
 +(NSArray *)findForModuleIdentifier:(NSString *)moduleName;

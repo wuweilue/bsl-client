@@ -43,5 +43,6 @@
     localAlert.alertBody = self.alert;
     localAlert.alertAction = @"确定";
     [[UIApplication sharedApplication] scheduleLocalNotification:localAlert];
+    localAlert=nil;
 }
 @end
