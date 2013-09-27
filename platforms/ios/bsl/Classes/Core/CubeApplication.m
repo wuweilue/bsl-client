@@ -621,18 +621,27 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
             NSLog(@"=======%@",remote_module.name);
             //puto into available module
             if (![self judgeArray:availableModules ContainsModule:remote_module]) {
-                [availableModules addObject:remote_module];
-                //remote_module.autoDownload = YES;
-                if (remote_module.autoDownload) {
-                    //优化自动下载 zhoujn begin-----
-                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                    NSString *userName = [defaults valueForKey:@"username"];
-                    if(![[FMDBManager getInstance] recordIsExist:@"identifier" withtableName:@"AutoDownLoadRecord" withConditios:userName])
-                    {
-                        remote_module.isDownloading =YES;
-                        [downloadingModules addObject:remote_module];
+                //判断如果是本地模块直接添加到modules中
+                if(remote_module.local && remote_module.local.length >0)
+                {
+                    [modules addObject:remote_module];
+                }
+                else
+                {
+                    [availableModules addObject:remote_module];
+                    //remote_module.autoDownload = YES;
+                    if (remote_module.autoDownload) {
+                        //优化自动下载 zhoujn begin-----
+                        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                        NSString *userName = [defaults valueForKey:@"username"];
+                        if(![[FMDBManager getInstance] recordIsExist:@"identifier" withtableName:@"AutoDownLoadRecord" withConditios:userName])
+                        {
+                            remote_module.isDownloading =YES;
+                            [downloadingModules addObject:remote_module];
+                        }
                     }
                 }
+                
             }
         }
     }
