@@ -540,23 +540,27 @@
 {
     CubeModule *newModule = [note object];
     if (newModule) {
-        NSMutableDictionary* moduleDictionary = [self modueToJson:newModule];
-        NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
-        NSString * javaScript = @"";
-        if (newModule.installType) {
-            javaScript = [NSString stringWithFormat:@"refreshModule('%@','upgrade','%@');",newModule.identifier,JSO];
-        }else{
-            javaScript = [NSString stringWithFormat:@"refreshModule('%@','install','%@');",newModule.identifier,JSO];
-        }
-        JSO=nil;
-        newModule.installType = nil;
-        [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
-        
-        if (!newModule.hidden) {
-            //edit  fanty   and subin
-            //old code is refreshMainPage()
-            NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage('%@','main','%@');"];
-            [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:mainScript];
+        @autoreleasepool {
+            NSMutableDictionary* moduleDictionary = [self modueToJson:newModule];
+            NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
+            NSString * javaScript = @"";
+            if (newModule.installType) {
+                javaScript = [NSString stringWithFormat:@"refreshModule('%@','upgrade','%@');",newModule.identifier,JSO];
+            }else{
+                javaScript = [NSString stringWithFormat:@"refreshModule('%@','install','%@');",newModule.identifier,JSO];
+            }
+            [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
+            
+            if (!newModule.hidden) {
+                //edit  fanty   and subin
+                //old code is refreshMainPage()
+                NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage('%@','main','%@');",newModule.identifier,JSO];
+                [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:mainScript];
+            }
+            
+            JSO=nil;
+            newModule.installType = nil;
+            
         }
     }
 }

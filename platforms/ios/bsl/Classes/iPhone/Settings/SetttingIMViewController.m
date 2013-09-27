@@ -8,7 +8,6 @@
 
 #import "SetttingIMViewController.h"
 #import "AppDelegate.h"
-#import "XMPPPustActor.h"
 @interface SetttingIMViewController ()
 
 @end
@@ -108,11 +107,5 @@
 }
 
 - (IBAction)switchPushTouchdown:(id)sender {
-    if ([[[ShareAppDelegate xmppPustActor]xmppStream] isConnected] ) {
-        if([[ShareAppDelegate xmppPustActor] respondsToSelector:@selector(disConnect)])
-         [[ShareAppDelegate xmppPustActor] performSelector:@selector(disConnect)];
-    }else{
-         [[ShareAppDelegate xmppPustActor] setXmppStream];
-    }
 }
 @end

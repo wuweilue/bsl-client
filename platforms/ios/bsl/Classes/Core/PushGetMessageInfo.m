@@ -40,7 +40,7 @@ static PushGetMessageInfo* instance=nil;
     updateTimer=nil;
 
     if(callNow){
-        [self updatePushMessage];
+        updateTimer=[NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(updatePushMessage) userInfo:nil repeats:NO];
     }
     else{
         updateTimer=[NSTimer scheduledTimerWithTimeInterval:300.0f target:self selector:@selector(updatePushMessage) userInfo:nil repeats:NO];
@@ -48,17 +48,39 @@ static PushGetMessageInfo* instance=nil;
 }
 
 -(void)sendFeedBack:(NSMutableArray*)outputArrayIds{
-    FormDataRequest *formDataRequest = [FormDataRequest requestWithURL:[NSURL URLWithString:kPushServerReceiptsUrl]];
 
+    NSMutableString* ids=[[NSMutableString alloc] initWithCapacity:1];
+    
+    [outputArrayIds enumerateObjectsUsingBlock:^(id obj,NSUInteger index,BOOL *stop){
+    
+        [ids appendString:obj];
+        if(index<[outputArrayIds count]-1)
+            [ids appendString:@","];
+    }];
+    
+    FormDataRequest *formDataRequest = [FormDataRequest requestWithURL:[NSURL URLWithString:kPushServerReceiptsUrl]];
+    
     formDataRequest.timeOutSeconds=5.0f;
     formDataRequest.persistentConnectionTimeoutSeconds=5.0f;
-//    [request setPostValue:self.faceBackId  forKey:@"sendId"];
-    
+    [formDataRequest setPostValue:ids  forKey:@"sendId"];
     NSString * uuid = [[UIDevice currentDevice] uniqueDeviceIdentifier];
     [formDataRequest setPostValue:uuid forKey:@"deviceId"];
     [formDataRequest setPostValue:kAPPKey forKey:@"appKey"];
     [formDataRequest setRequestMethod:@"PUT"];
     [formDataRequest startAsynchronous];
+    __block FormDataRequest *__formDataRequest=formDataRequest;
+    [formDataRequest setCompletionBlock:^{
+    
+        NSLog(@"result:%@",[__formDataRequest responseString]);
+        [__formDataRequest cancel];
+    }];
+    
+    [formDataRequest setFailedBlock:^{
+        NSLog(@"result:%@",[__formDataRequest responseString]);
+        [__formDataRequest cancel];
+    }];
+
+    ids=nil;
 }
 
 -(void)updatePushMessage{

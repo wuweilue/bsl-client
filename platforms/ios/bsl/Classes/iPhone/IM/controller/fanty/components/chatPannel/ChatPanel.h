@@ -38,7 +38,7 @@
 @property(nonatomic,strong) NSString* text;
 @property(nonatomic,strong) NSDictionary* emoctionList;
 @property(nonatomic,assign) float superViewHeight;
-
+@property(nonatomic,assign) BOOL cancelRecond;
 
 -(float)panelHeight;
 

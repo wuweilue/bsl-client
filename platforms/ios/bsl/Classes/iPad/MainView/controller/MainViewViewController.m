@@ -666,7 +666,7 @@
             fullScreanBtn.frame = CGRectMake(CGRectGetHeight(self.view.frame) -65,CGRectGetWidth(self.view.frame) - 65 , 45, 45);
             [self.view addSubview:fullScreanBtn];
             fullScreanBtn.backgroundColor = [UIColor grayColor];
-            fullScreanBtn.layer.cornerRadius = 8;
+//            fullScreanBtn.layer.cornerRadius = 8;
             [fullScreanBtn addTarget:self action:@selector(didClickFullScrean:) forControlEvents:UIControlEventTouchUpInside];
             fullScreanBtn.alpha = 0.6;
             [self showDetailViewController:bCubeWebViewController];
@@ -747,12 +747,21 @@
     detailViewFrame.origin.x = CGRectGetWidth(self.view.bounds);
     self.detailView.frame = detailViewFrame;
     
+    
+    UIImageView* imageView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"line_shadow.png"] ];
+    CGRect rect=imageView.frame;
+    rect.origin.x=-rect.size.width;
+    rect.size.height=self.detailView.frame.size.height;
+    imageView.frame=rect;
+    [self.detailView addSubview:imageView];
+    imageView=nil;
+    
    // self.detailView.layer.cornerRadius = 10;
     
-    [self.detailView.layer setShadowColor: [UIColor blackColor].CGColor];
-    self.detailView.layer.shadowOpacity = 0.5;
-    self.detailView.layer.shadowRadius = 20.0;
-    self.detailView.layer.shadowOffset = CGSizeMake(0,0);
+  //  [self.detailView.layer setShadowColor: [UIColor blackColor].CGColor];
+  //  self.detailView.layer.shadowOpacity = 0.5;
+  //  self.detailView.layer.shadowRadius = 20.0;
+  //  self.detailView.layer.shadowOffset = CGSizeMake(0,0);
     
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPanOnDetailView:)];
     pan.minimumNumberOfTouches = 1;
@@ -848,13 +857,16 @@
     CubeApplication *cubeApp = [CubeApplication currentApplication];
     
     CubeModule *m = [cubeApp moduleForIdentifier:identifier];
-    
-    NSMutableDictionary* moduleDictionary = [self modueToJson:m];
-    NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
-    NSString * javaScript = [NSString stringWithFormat:@"refreshModule('%@','uninstall','%@');",identifier,JSO ];
-    [cubeApp uninstallModule:m didFinishBlock:^(){
-        [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
-    }];
+    @autoreleasepool {
+        NSMutableDictionary* moduleDictionary = [self modueToJson:m];
+        NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
+        NSString * javaScript = [NSString stringWithFormat:@"refreshModule('%@','uninstall','%@');",identifier,JSO ];
+        [cubeApp uninstallModule:m didFinishBlock:^(){
+            [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
+        }];
+        JSO=nil;
+        
+    }
 }
 
 
@@ -863,16 +875,20 @@
 {
     CubeModule *newModule = [note object];
     if (newModule) {
-        NSMutableDictionary* moduleDictionary = [self modueToJson:newModule];
-        NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
-        NSString * javaScript = @"";
-        if (newModule.installType) {
-            javaScript = [NSString stringWithFormat:@"refreshModule('%@','upgrade','%@');",newModule.identifier,JSO];
-        }else{
-            javaScript = [NSString stringWithFormat:@"refreshModule('%@','install','%@');",newModule.identifier,JSO];
+        @autoreleasepool {
+            NSMutableDictionary* moduleDictionary = [self modueToJson:newModule];
+            NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
+            NSString * javaScript = @"";
+            if (newModule.installType) {
+                javaScript = [NSString stringWithFormat:@"refreshModule('%@','upgrade','%@');",newModule.identifier,JSO];
+            }else{
+                javaScript = [NSString stringWithFormat:@"refreshModule('%@','install','%@');",newModule.identifier,JSO];
+            }
+            JSO=nil;
+            newModule.installType = nil;
+            [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
+            
         }
-        newModule.installType = nil;
-        [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
     }
 }
 

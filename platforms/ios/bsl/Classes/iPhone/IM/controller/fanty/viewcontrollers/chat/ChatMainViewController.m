@@ -374,6 +374,8 @@
     ImageScroller* view=[[ImageScroller alloc] initWithFrame:appDelegate.window.rootViewController.view.bounds];
     [view showImage:image];
     [view showInView:appDelegate.window.rootViewController.view];
+    
+    view=nil;
 }
 
 #pragma mark  recorder  delegate
@@ -392,6 +394,12 @@
     [SVProgressHUD showErrorWithStatus:@"文件不存在"];
     playingIndex=-1;
 
+}
+
+-(void)recordTimeout:(Recorder *)__record{
+    chatPanel.cancelRecond=YES;
+    [self chatPanelRecordTouch:chatPanel isTouch:NO];
+    
 }
 
 -(void)refreshAudioPower:(Recorder*)recorder level:(int)level{

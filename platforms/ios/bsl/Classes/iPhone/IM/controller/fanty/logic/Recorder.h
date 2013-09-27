@@ -18,6 +18,7 @@
 -(void)recordDidPlayFinish:(Recorder*)recorder;
 -(void)recordDidPlayError:(Recorder*)recorder;
 -(void)refreshAudioPower:(Recorder*)recorder level:(int)level;
+-(void)recordTimeout:(Recorder*)record;
 @end
 
 @interface Recorder : NSObject{
@@ -35,6 +36,8 @@
 
 
 -(void)record;
+
+-(BOOL)isRecording;
 
 -(void)stop;
 
