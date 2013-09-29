@@ -224,12 +224,21 @@ static const NSString *const kLoadIconOperationKey = @"kLoadIconOperationKey";
             self.pageControl = [[NativePageControl alloc]initWithFrame:CGRectMake(0, 480*0.9 + 169, 320, 20)];
             //设置竖向滚动范围
             [self.mainScrollView setContentSize: CGSizeMake(self.view.frame.size.width,480 *0.9 +20 +169)];
-            //设置图片滚动底图
-            self.scorllImageView.frame = CGRectMake(self.scorllImageView.frame.origin.x, self.scorllImageView.frame.origin.y, 320, 480 *0.9 +30) ;
-            //设置图片滚动的大小 还有滚动大小
-            self.imageScrollView.frame = CGRectMake(0, 169, 320, 480*0.9);
+            if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+                 self.imageScrollView.frame = CGRectMake(0, 169,540, 480);
+                //设置图片滚动底图
+                self.scorllImageView.frame = CGRectMake(self.scorllImageView.frame.origin.x, self.scorllImageView.frame.origin.y, 540, 480 *0.9 +30) ;
+                
+            }else{
+                 self.imageScrollView.frame = CGRectMake(0, 169, 320, 480);
+                //设置图片滚动底图
+                self.scorllImageView.frame = CGRectMake(self.scorllImageView.frame.origin.x, self.scorllImageView.frame.origin.y, 320, 480 *0.9 +30) ;
+                
+            }
             [self.imageScrollView setContentSize:CGSizeMake(self.view.frame.size.width * [self.iconUrlArr count], 480*0.9 )];
         }
+        
+        
         
         self.scorllImageView.image =  [self.scorllImageView.image stretchableImageWithLeftCapWidth:0 topCapHeight:40];
     }
