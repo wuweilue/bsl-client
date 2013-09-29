@@ -13,6 +13,15 @@ $("#search_del").click(function() {
 	console.log("点击了图标");
 	$("#searchInput").val("");
 	$(this).hide();
+
+	var moduleList = $("li[identifier]");
+	var moduleTitleLists = $(".moduleTitle");
+	$.each(moduleList, function(index, data) {
+		$(this).show();
+		$.each(moduleTitleLists, function(i, moduleTitleList) {
+			$(moduleTitleList).show();
+		});
+	});
 });
 
 // 检测屏幕是否伸缩
@@ -30,25 +39,43 @@ var cordovaExec = function(plugin, action, parameters, callback) {
 		//alert(err);
 	}, plugin, action, parameters === null || parameters === undefined ? [] : parameters);
 };
+var isKeyboardShow = function(isShow) {
+	if (isShow) {
+		$(".bottomMenu").hide();
+	} else {
+		$(".bottomMenu").show();
+	}
+}
 //自动更新查新界面
-var refreshMainPage = function() {
+var refreshMainPage = function(identifier, type, moduleMessage) {
 	var page = $(".menuItem.active").attr("data");
-	alert("page" + page);
 	console.log("refreshMainPage page = " + page);
 	if (page === "home") {
 		//主页面
-		loadModuleList("CubeModuleList", "mainList", "main");
+		/*loadModuleList("CubeModuleList", "mainList", "main",function(){
+			myScroll.refresh();
+		});*/
+		console.log("主页面。。。。");
+		//$(".home_btn").trigger("click");
+		addModule(identifier, "main", moduleMessage);
 	} else if (page === "module") {
 		//管理页面
 		//loadModuleList("CubeModuleList", "uninstallList", "install");
 		var type = $(".moduleManageBar .manager-btn.active").attr("data");
-		if (type === "uninstall") {
-			loadModuleList("CubeModuleList", "uninstallList", "uninstall");
+		console.log("refreshMainPage data" + type);
+		/*if (type === "uninstall") {
+			loadModuleList("CubeModuleList", "uninstallList", "uninstall", function() {
+				myScroll.refresh();
+			});
 		} else if (type === "install") {
-			loadModuleList("CubeModuleList", "installList", "install");
+			loadModuleList("CubeModuleList", "installList", "install", function() {
+				myScroll.refresh();
+			});
 		} else if (type === "upgrade") {
-			loadModuleList("CubeModuleList", "upgradableList", "upgrade");
-		}
+			loadModuleList("CubeModuleList", "upgradableList", "upgrade", function() {
+				myScroll.refresh();
+			});
+		}*/
 	}
 };
 //首页接受到信息，刷新页面
@@ -84,6 +111,7 @@ var refreshModule = function(identifier, type, moduleMessage) {
 		addModule(identifier, "uninstall", moduleMessage);
 		//更新有则减
 		$(".moduleContent[moduletype='upgrade'][identifier='" + identifier + "']").remove();
+		$(".moduleContent[moduletype='main'][identifier='" + identifier + "']").remove();
 		console.log("删除了刷新完成");
 	} else if (type === "install") {
 		//未安装减一个
@@ -100,6 +128,7 @@ var refreshModule = function(identifier, type, moduleMessage) {
 		$(".moduleContent[moduletype='upgrade'][identifier='" + identifier + "']").remove();
 		//未安装不变
 	} else if (type === "main") {
+		console.log("mainmainmain");
 		addModule(identifier, "main", moduleMessage);
 	}
 
@@ -119,11 +148,15 @@ var checkModule = function() {
 
 var addModule = function(identifier, type, moduleMessage) {
 	var mm = $.parseJSON(moduleMessage);
+	var page = $(".menuItem.active").attr("data");
 	//如果该模块不存在，则生成
 	if ($(".moduleTitle[modulename='" + mm.category + "']").size() < 1) {
 		//获取模板名
+		console.log("分组不存在了。");
 		var moduleContentTemplate = $("#moduleContentTemplate").html();
-
+	/*	if(page === "home" && type !=="uninstall" ){
+			type = "main";
+		}*/
 		var moduleContentHtml = _.template(moduleContentTemplate, {
 			'moduleTitle': mm.category,
 			'moduleItem': "",
@@ -144,8 +177,18 @@ var addModule = function(identifier, type, moduleMessage) {
 
 	var moduleItemHtml = _.template(moduleItemTemplate, mm);
 
-	if ($(".moduleManageBar .manager-btn.active").attr("data") === type && mm.hidden === false) {
+	if ($(".moduleManageBar .manager-btn.active").attr("data") === type && mm.hidden == false) {
+		console.log("进入addddddddd type "+type);
 		$(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + type + "']").after(moduleItemHtml);
+	}
+	console.log("进入addddddddd222 type "+type);
+	if(page === "home" && type !=="uninstall"  &&mm.hidden ==false){
+		console.log("addddd 主页面");
+		var size = $(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + "main" + "']").size();
+		console.log("size   "+size);
+		mm.moduleType = "main";
+		moduleItemHtml = _.template(moduleItemTemplate, mm);
+		$(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + "main" + "']").after(moduleItemHtml);
 	}
 
 	triggerBodyClick();
@@ -279,7 +322,7 @@ var getAccountName = function() {
 
 //加载列表，渲染成html
 var loadModuleList = function(plugin, action, type, callback) {
-
+	$(".mainContent").html("");
 	$(".mainContent").remove();
 	var mainContent = $('<div id="mainContent" class="mainContent"><div id="scroller"><ul class="scrollContent nav nav-list bs-docs-sidenav affix-top"></ul></div></div>');
 	$(".middleContent").append(mainContent);
@@ -305,12 +348,13 @@ var loadModuleList = function(plugin, action, type, callback) {
 				value.name = subStrByCnLen(value.name, 7);
 				value.releaseNote = subStrByCnLen(value.releaseNote, 25);
 				// packageName
-                   /*
+
 				downloadFile(value.icon, packageName + "/moduleIcon", function(entry) {
 					// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
 					value.icon = entry.fullPath;
+					console.log("下载成功 " + value.icon);
 				});
-                    */
+
 				value.classname = key;
 				var moduleItemHtml = _.template(moduleItemTemplate, value);
 				moduleItemHtmlContent = moduleItemHtmlContent + moduleItemHtml;
@@ -418,24 +462,25 @@ var app = {
 	receivedEvent: function(id) {
 		getAccountName();
 		//loadModuleList("CubeModuleList", "mainList", "main");
-//		cordovaExec("CubeModuleOperator", "sync", [], function() {
-//			var osPlatform = device.platform;
-//			if (osPlatform == "android") {
-//				cordova.exec(function(data) {
-//					packageName = data;
-//					//如果是android，先获取到包名
-//					loadModuleList("CubeModuleList", "mainList", "main", function() {
-//						myScroll.refresh();
-//						checkTheme();
-//					});
-//				}, function(err) {}, "CubePackageName", "getPackageName", []);
-//			} else {
+		cordovaExec("CubeModuleOperator", "sync", [], function() {
+			var osPlatform = device.platform;
+			if (osPlatform.toLowerCase() == "android") {
+				cordova.exec(function(data) {
+					packageName = $.parseJSON(data).packageName;
+					console.log("packageName " + packageName);
+					//如果是android，先获取到包名
+					loadModuleList("CubeModuleList", "mainList", "main", function() {
+						myScroll.refresh();
+						checkTheme();
+					});
+				}, function(err) {}, "CubePackageName", "getPackageName", []);
+			} else {
 				loadModuleList("CubeModuleList", "mainList", "main", function() {
 					myScroll.refresh();
 					checkTheme();
 				});
-//			}
-//		});
+			}
+		});
 	}
 };
 app.initialize();

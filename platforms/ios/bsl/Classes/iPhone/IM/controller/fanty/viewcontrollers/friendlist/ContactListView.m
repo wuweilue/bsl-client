@@ -194,13 +194,17 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
     isLoadingUserInfo=YES;
     NSMutableArray* userIds = [[NSMutableArray alloc]init];
     NSMutableArray* userSexs=[[NSMutableArray alloc] init];
-    for ( id <NSFetchedResultsSectionInfo> sectionInfo in [fetchedResultsController sections]) {
-        for (UserInfo* userInfo in [sectionInfo objects]) {
+
+    for(NSArray* array in [friendsListDict allValues]){
+        for (UserInfo* userInfo in array) {
             if ([userInfo.userSex length]<1) {
                 [userIds addObject:userInfo.userJid];
             }
         }
     }
+    
+    
+    
     if([userIds count]>0){
         AppDelegate *del = (AppDelegate*)[[UIApplication sharedApplication] delegate];
 
@@ -220,16 +224,22 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                for ( id <NSFetchedResultsSectionInfo> sectionInfo in [fetchedResultsController sections]) {
-                    for (UserInfo* userInfo in [sectionInfo objects]) {
+                if(self.superview==nil)return;
+                for(NSArray* array in [friendsListDict allValues]){
+                    for (UserInfo* userInfo in array) {
                         if ([userInfo.userSex length]<1) {
                             [userIds enumerateObjectsUsingBlock:^(id obj,NSUInteger index,BOOL* stop){
-                                NSString* jid=obj;
-                                if([jid isEqualToString:userInfo.userJid]){
+                                if(index<[userSexs count]){
+                                    NSString* jid=obj;
+                                    if([jid isEqualToString:userInfo.userJid]){
+                                        *stop=YES;
+                                        
+                                        userInfo.userSex=[userSexs objectAtIndex:index];
+                                        
+                                    }
+                                }
+                                else{
                                     *stop=YES;
-                                    
-                                    userInfo.userSex=[userSexs objectAtIndex:index];
-                                    
                                 }
                             
                             }];

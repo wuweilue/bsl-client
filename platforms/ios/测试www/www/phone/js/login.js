@@ -51,12 +51,12 @@ $("#LoginBtn").click(function() {
 	cordova.exec(function(data) {
 		data = $.parseJSON(data);
 		if (data.isSuccess === true) {
-			$(this).removeAttr("disabled");
+			$("#LoginBtn").removeAttr("disabled");
 		}
 	}, function(err) {
 
 		err = $.parseJSON(err);
-		$(this).removeAttr("disabled");
+		$("#LoginBtn").removeAttr("disabled");
 	}, "CubeLogin", "login", [username, password, isRemember]);
 
 });
@@ -72,6 +72,7 @@ var app = {
 		app.receivedEvent('deviceready');
 	},
 	receivedEvent: function(id) {
+	
 		cordova.exec(function(data) {
 			data = $.parseJSON(data);
 			$("#username").val(data.username);
