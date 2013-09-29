@@ -106,17 +106,17 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 }
 
 - (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    del.xmpp.chatDelegate = nil;
 
     [friendListTimeOut invalidate];
     managedObjectContext=nil;
     fetchedResultsController.delegate=nil;
     fetchedResultsController=nil;
     [laterReloadTimer invalidate];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     
-    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    del.xmpp.chatDelegate = nil;
 }
 
 -(NSDictionary*)friendsList{
@@ -353,7 +353,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 #pragma mark  catdelegate
 
 -(void)showFriends:(NSXMLElement*)element{
-    
+    if(self.superview==nil)return;
     NSArray *items = [element elementsForName:@"item"];
     for (int textIndex=0 ; textIndex < [items count] ; textIndex ++){
         NSXMLElement *item=(NSXMLElement *)[items objectAtIndex:textIndex];
@@ -373,7 +373,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         NSError *error = nil;
         NSArray *objects = [context executeFetchRequest:request error:&error];
         
-        if (objects != nil && [objects count] != 0) {
+        if ([objects count] >0) {
+        
         }else{
             NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
             [newManagedObject setValue:group forKey:@"userGroup"];
@@ -381,10 +382,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
             [newManagedObject setValue:[[item attributeForName:@"jid"] stringValue] forKey:@"userJid"];
             [newManagedObject setValue:[[item attributeForName:@"subscription"] stringValue] forKey:@"userSubscription"];
             // Save the context.
-            if (![context save:&error]) {
-                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                abort();
-            }
+            [context save:&error];
         }
         
     }
@@ -396,10 +394,10 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath{
     
-    
-    
-    [laterReloadTimer invalidate];
-    laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:0.7f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
+    if(self.superview!=nil){
+        [laterReloadTimer invalidate];
+        laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:0.7f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
+    }
 }
 
 
