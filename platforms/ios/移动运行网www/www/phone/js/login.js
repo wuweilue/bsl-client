@@ -5,6 +5,7 @@ $("#login_btn").click(function() {
 	console.log("点击了登录按键");
 	var username = $("#username").val();
 	var password = $("#password").val();
+
 	window.localStorage["username"] =username;
 	window.localStorage["password"] =password;
 

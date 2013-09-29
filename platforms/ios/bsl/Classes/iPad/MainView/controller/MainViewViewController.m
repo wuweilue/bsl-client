@@ -343,7 +343,7 @@
             }else{
                 count = [MessageRecord countForModuleIdentifierAtBadge:moduleIdentifier];
             }
-            [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"receiveMessage('%@',%d);",moduleIdentifier,count]];
+            [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"receiveMessage('%@',%d,true);",moduleIdentifier,count]];
         }
     }
 }

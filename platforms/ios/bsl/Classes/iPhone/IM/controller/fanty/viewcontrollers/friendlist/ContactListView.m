@@ -192,41 +192,62 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 -(void)getFriendsUserInfo{
     if(isLoadingUserInfo)return;
     isLoadingUserInfo=YES;
-    NSLog(@"读取数组");
-    NSMutableArray* userArray = [[NSMutableArray alloc]init];
+    NSMutableArray* userIds = [[NSMutableArray alloc]init];
+    NSMutableArray* userSexs=[[NSMutableArray alloc] init];
     for ( id <NSFetchedResultsSectionInfo> sectionInfo in [fetchedResultsController sections]) {
         for (UserInfo* userInfo in [sectionInfo objects]) {
-            if (!userInfo.userSex || userInfo.userSex.length == 0) {
-                [userArray addObject:userInfo];
+            if ([userInfo.userSex length]<1) {
+                [userIds addObject:userInfo.userJid];
             }
         }
     }
-    NSLog(@"读取数组完成 条数为%d",[userArray count]);
-    if([userArray count]>0){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{            
+    if([userIds count]>0){
+        AppDelegate *del = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+
+        if (!del.xmpp.xmppvCardTempModule) {
+            [del.xmpp newvCard];
+        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             //开异步读取好友VCard
-            AppDelegate *del = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-            for (UserInfo* userInfo in userArray) {
+            for (NSString* jid in userIds) {
                 if(self.superview==nil)break;
-                if (!del.xmpp.xmppvCardTempModule) {
-                    [del.xmpp newvCard];
-                }
-                XMPPvCardTemp * xmppvCardTemp =[ del.xmpp.xmppvCardTempModule fetchvCardTempForJID:[XMPPJID jidWithString:userInfo.userJid]];
+                XMPPvCardTemp * xmppvCardTemp =[ del.xmpp.xmppvCardTempModule fetchvCardTempForJID:[XMPPJID jidWithString:jid]];
                 NSString*useSex =  [[[xmppvCardTemp elementForName:@"N"] elementForName:@"MIDDLE"] stringValue];
-                userInfo.userSex = useSex;
+                if([useSex length]>0)
+                    [userSexs addObject:useSex];
+                else
+                    [userSexs addObject:@""];
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                for ( id <NSFetchedResultsSectionInfo> sectionInfo in [fetchedResultsController sections]) {
+                    for (UserInfo* userInfo in [sectionInfo objects]) {
+                        if ([userInfo.userSex length]<1) {
+                            [userIds enumerateObjectsUsingBlock:^(id obj,NSUInteger index,BOOL* stop){
+                                NSString* jid=obj;
+                                if([jid isEqualToString:userInfo.userJid]){
+                                    *stop=YES;
+                                    
+                                    userInfo.userSex=[userSexs objectAtIndex:index];
+                                    
+                                }
+                            
+                            }];
+                        }
+                    }
+                }
+
+                
                 if([managedObjectContext hasChanges])
                     [managedObjectContext save:nil];
-//                userArray=nil;
-                [self showLoadData];
+                [self delayReloadTimeEvent];
                 isLoadingUserInfo=NO;
             });
         });
     }
     else{
-        userArray=nil;
+        userIds=nil;
+        userSexs=nil;
         isLoadingUserInfo=NO;
     }
     

@@ -102,7 +102,12 @@
         self.startPage = [NSString stringWithFormat:@"%@#%@/%@", indexPath, module.identifier, viewStr];
     }else{
         NSString * moduleIndex = [[[module runtimeURL] URLByAppendingPathComponent:@"index.html"] absoluteString];
+#ifdef MOBILE_BSL
+        self.startPage = [NSString stringWithFormat:@"%@", moduleIndex];
+
+#else
         self.startPage = [NSString stringWithFormat:@"%@#%@/", moduleIndex, module.identifier];
+#endif
     }
     self.didFinishPreloadBlock = didFinishBlock;
     self.didErrorPreloadBlock = didErrorBolock;
@@ -117,21 +122,18 @@
                didFinishBlock:(DidFinishPreloadBlock)didFinishBlock
                 didErrorBlock:(DidErrorPreloadBlock)didErrorBolock
 {
-    NSURL *moduleConfigURL = [[module runtimeURL] URLByAppendingPathComponent:@"CubeModule.json"];
     
-    NSString *content = [NSString stringWithContentsOfURL:moduleConfigURL encoding:NSUTF8StringEncoding error:nil];
-    NSDictionary *jo_app = [content objectFromJSONString];
-    NSString * versionStr = [jo_app objectForKey:@"cubeVersion"];
-    NSString* viewStr = [jo_app objectForKey:@"defaultView"];
+
     
-    NSString *indexPath = [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:self.startPage] absoluteString];
+    NSString* moduleIndex = [[[module runtimeURL] URLByAppendingPathComponent:@"index.html"] absoluteString];
+#ifdef MOBILE_BSL
+    self.startPage = [NSString stringWithFormat:@"%@", moduleIndex];
     
-    if (versionStr) {
-        self.startPage = [NSString stringWithFormat:@"%@#%@/%@", indexPath, module.identifier, viewStr];
-    }else{
-        NSString * moduleIndex = [[[module runtimeURL] URLByAppendingPathComponent:@"index.html"] absoluteString];
-        self.startPage = [NSString stringWithFormat:@"%@#%@/", moduleIndex, module.identifier];
-    }
+#else
+    self.startPage = [NSString stringWithFormat:@"%@#%@/", moduleIndex, module.identifier];
+#endif
+    
+    
     self.didFinishPreloadBlock = didFinishBlock;
     self.didErrorPreloadBlock = didErrorBolock;
     self.view.frame = frame;
