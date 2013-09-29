@@ -545,7 +545,7 @@
             [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
             
             if (!newModule.hidden) {
-                NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage('%@','install','%@');",newModule.identifier,JSO];
+                NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage('%@','main','%@');",newModule.identifier,JSO];
                 [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:mainScript];
             }
             
