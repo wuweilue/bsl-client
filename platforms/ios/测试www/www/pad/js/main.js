@@ -50,20 +50,19 @@ var isKeyboardShow = function(isShow) {
 var refreshMainPage = function(identifier, type, moduleMessage) {
 	var page = $(".menuItem.active").attr("data");
 	console.log("refreshMainPage page = " + page);
+	myScroll = null;
 	if (page === "home") {
 		//主页面
 		/*loadModuleList("CubeModuleList", "mainList", "main",function(){
 			myScroll.refresh();
 		});*/
-		console.log("主页面。。。。");
-		//$(".home_btn").trigger("click");
 		addModule(identifier, "main", moduleMessage);
 	} else if (page === "module") {
 		//管理页面
 		//loadModuleList("CubeModuleList", "uninstallList", "install");
 		var type = $(".moduleManageBar .manager-btn.active").attr("data");
 		console.log("refreshMainPage data" + type);
-		/*if (type === "uninstall") {
+		if (type === "uninstall") {
 			loadModuleList("CubeModuleList", "uninstallList", "uninstall", function() {
 				myScroll.refresh();
 			});
@@ -75,7 +74,7 @@ var refreshMainPage = function(identifier, type, moduleMessage) {
 			loadModuleList("CubeModuleList", "upgradableList", "upgrade", function() {
 				myScroll.refresh();
 			});
-		}*/
+		}
 	}
 };
 //首页接受到信息，刷新页面
@@ -111,7 +110,6 @@ var refreshModule = function(identifier, type, moduleMessage) {
 		addModule(identifier, "uninstall", moduleMessage);
 		//更新有则减
 		$(".moduleContent[moduletype='upgrade'][identifier='" + identifier + "']").remove();
-		$(".moduleContent[moduletype='main'][identifier='" + identifier + "']").remove();
 		console.log("删除了刷新完成");
 	} else if (type === "install") {
 		//未安装减一个
@@ -128,7 +126,6 @@ var refreshModule = function(identifier, type, moduleMessage) {
 		$(".moduleContent[moduletype='upgrade'][identifier='" + identifier + "']").remove();
 		//未安装不变
 	} else if (type === "main") {
-		console.log("mainmainmain");
 		addModule(identifier, "main", moduleMessage);
 	}
 
@@ -148,15 +145,11 @@ var checkModule = function() {
 
 var addModule = function(identifier, type, moduleMessage) {
 	var mm = $.parseJSON(moduleMessage);
-	var page = $(".menuItem.active").attr("data");
 	//如果该模块不存在，则生成
 	if ($(".moduleTitle[modulename='" + mm.category + "']").size() < 1) {
 		//获取模板名
-		console.log("分组不存在了。");
 		var moduleContentTemplate = $("#moduleContentTemplate").html();
-	/*	if(page === "home" && type !=="uninstall" ){
-			type = "main";
-		}*/
+
 		var moduleContentHtml = _.template(moduleContentTemplate, {
 			'moduleTitle': mm.category,
 			'moduleItem': "",
@@ -177,18 +170,8 @@ var addModule = function(identifier, type, moduleMessage) {
 
 	var moduleItemHtml = _.template(moduleItemTemplate, mm);
 
-	if ($(".moduleManageBar .manager-btn.active").attr("data") === type && mm.hidden == false) {
-		console.log("进入addddddddd type "+type);
+	if ($(".moduleManageBar .manager-btn.active").attr("data") === type && mm.hidden === false) {
 		$(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + type + "']").after(moduleItemHtml);
-	}
-	console.log("进入addddddddd222 type "+type);
-	if(page === "home" && type !=="uninstall"  &&mm.hidden ==false){
-		console.log("addddd 主页面");
-		var size = $(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + "main" + "']").size();
-		console.log("size   "+size);
-		mm.moduleType = "main";
-		moduleItemHtml = _.template(moduleItemTemplate, mm);
-		$(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + "main" + "']").after(moduleItemHtml);
 	}
 
 	triggerBodyClick();

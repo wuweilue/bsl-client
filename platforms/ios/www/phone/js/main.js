@@ -42,6 +42,7 @@ var refreshMainPage = function(identifier, type, moduleMessage) {
 	console.log("进入refreshMainPage" + type + "..." + identifier);
 	if ($('#top_left_btn').hasClass('back_bt_class')) {
 		//管理页面
+		//loadModuleList("CubeModuleList", "installList", "install");
 		/*var type = $(".buttomContent .buttom_btn_group .btn.active").attr("data");
 		console.log("refreshMainPage type " + type);
 		var t = type;
@@ -56,15 +57,18 @@ var refreshMainPage = function(identifier, type, moduleMessage) {
 
 			}
 		});*/
-		
+
 	} else {
 		//主页面
 		console.log("进入main页面");
-		/*loadModuleList("CubeModuleList", "mainList", "main", function() {
-			myScroll.refresh();
-		});*/
-		addModule(identifier, type, moduleMessage);
-		$("li[identifier='" + identifier + "']").css('-moz-opacity', '0.5').css('opacity', '0.5');
+
+		/*addModule(identifier, "main", moduleMessage);
+		$("li[identifier='" + identifier + "']").css('opacity', '0.5');*/
+		loadModuleList("CubeModuleList", "mainList", "main", function() {
+			gridLayout();
+		});
+
+
 	}
 };
 
@@ -85,7 +89,7 @@ var updateProgress = function(identifier, count) {
 	} else if (count == 101) {
 		$(".module_div ul li .module_li_img .progress[identifier='" + identifier + "']").css('display', 'none');
 
-
+		
 
 		var $crud_btn = $(".module_li .curd_btn[identifier='" + identifier + "']");
 		var btn_title = $crud_btn.html();
@@ -135,16 +139,15 @@ var refreshModule = function(identifier, type, moduleMessage) {
 		} else if (type === "main") {
 			//addModule(identifier, "main", moduleMessage);
 		}
+		
 
-
-	} else {
+	}else{
 		//主页面
-		$("li[identifier='" + identifier + "']").css('-moz-opacity', '1').css('opacity', '1');
+		console.log("主界面、、");
+		$("li[identifier='" + identifier + "']").css('opacity', '1');
 		//判断模块 hidden
-		var isHide = $("li[identifier='" + identifier + "']").attr("hidden");
-		console.log(identifier + "" + "是否隐藏 " + isHide);
-		if (isHide == "true") {
-			console.log("隐藏了删除 " + isHide);
+		var isHidden = $("li[identifier='" + identifier + "']").attr("hidden");
+		if(isHidden){
 			$("li[identifier='" + identifier + "']").remove();
 		}
 	}
@@ -193,7 +196,7 @@ var addModule = function(identifier, type, moduleMessage) {
 		"hidden": mm.hidden
 	});
 	$(".scrollContent_li[modules_title='" + mm.category + "']").children('div').children('ul').append(moduleItemHtml);
-
+	myScroll.refresh();
 
 };
 //检查模块信息的完整性，如果没有模块，则隐藏
@@ -202,14 +205,11 @@ var checkModules = function() {
 	$.each($(".scrollContent_li"), function(index, data) {
 
 		if ($(this).children('.module_div').children('.module_div_ul').children('.module_li').size() < 1) {
-			console.log("没有隐藏对象111");
 			$(this).remove();
 
 		} else {
 			var show_module_lis = $(this).children('.module_div').children('.module_div_ul').children('.module_li');
-			console.log("有模块数据。。。。。");
 			$.each($(show_module_lis), function(i, show_module_li) {
-				console.log("210210210210210");
 				if ($(show_module_li).css('display') == "none") {
 					console.log("有隐藏的对象");
 					$(show_module_li).parent('.module_div_ul').parent('.module_div').parent('.scrollContent_li').remove();
@@ -326,35 +326,6 @@ var changeLayout = function(oldfilename, newfilename, type) {
 var initial = function(type, data) {
 	console.log("AAAAAAAA initial=" + type);
 	var i = 0;
-	 /*<!-- 
-	 //南航需求:共有功能放到最前面, 基础功能放在最下方     
-	//把data转换成array
-	var array = [];
-	for(var category in data){
-		array.push({"key":category,"value":data[category]});
-	}
-	array.sort(function(c1,c2){
-        //        排序最前面           最后面
-        if(c1.key == "公共功能" || c2.key == "基本功能"){
-            return -1;
-        }
-        if(c1.key == "基本功能" || c2.key == "公共功能"){
-            return 1;
-        }
-        return 0;
-     })
-    
-	_.each(array, function(obj) {
-
-        var key = obj.key;
-        var data = obj.value;
-		$("#myul").append(_.template($("#t2").html(), {
-			'muduleTitle': key,
-			'tag': i
-		}));
-		_.each((data), function(value, key) {
-	-->*/
-	//<!--
 	_.each(data, function(value, key) {
 
 		$("#myul").append(_.template($("#t2").html(), {
@@ -362,7 +333,6 @@ var initial = function(type, data) {
 			'tag': i
 		}));
 		_.each((value), function(value, key) {
-	//-->
 			console.log('AAAAAAAA identifier icon = ' + value.identifier + " -- " + value.icon);
 
 			//处理，只有在首页的时候才显示有统计数据
@@ -748,7 +718,7 @@ $('#manager_btn')
 				//设置左边按键class做标志
 				$('#top_left_btn').addClass('back_bt_class');
 				// 处理模块管理问题
-				var type = "upgrade";
+				var type = "install";
 				activeModuleManageBarItem(type);
 				listLayout();
 				myScroll.refresh();
@@ -829,6 +799,14 @@ var app = {
 
 
 		});
+		// loadModuleList("CubeModuleList", "mainList", "main");
+		// cordovaExec("CubeModuleOperator", "sync", [], function() {
+		// 	//alert(result);
+		// 	loadModuleList("CubeModuleList", "mainList", "main", function() {
+		// 		myScroll.refresh();
+		// 	});
+		// });
 	}
 };
 app.initialize();
+x
