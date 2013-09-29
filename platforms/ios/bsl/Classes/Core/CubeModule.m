@@ -55,6 +55,7 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
 @synthesize showIntervalTime;
 @synthesize timeUnit;
 @synthesize autoDownload;
+@synthesize sortingWeight;
 
 
 - (NSString*)description
@@ -298,6 +299,7 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
     module.privileges = [jsonObject objectForKey:@"privileges"];
     module.pushMsgLink = [jsonObject objectForKey:@"pushMsgLink"];
     module.discription = [jsonObject objectForKey:@"discription"];
+    module.sortingWeight = [jsonObject objectForKey:@"sortingWeight"];
     module.isAutoShow = [[jsonObject objectForKey:@"isAutoShow"]boolValue];
     module.showPushMsgCount = [[jsonObject objectForKey:@"showPushMsgCount"]integerValue];
     module.showIntervalTime = [[jsonObject valueForKey:@"showIntervalTime"] isEqual:[NSNull null] ] ? 0 : [[jsonObject valueForKey:@"showIntervalTime"] integerValue];
