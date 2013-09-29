@@ -113,15 +113,19 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
         //init collections
         NSMutableArray *tmp_modules = [[NSMutableArray alloc] init];
         self.modules = tmp_modules;
+        tmp_modules=nil;
         
         NSMutableArray *tmp_updatable_modules = [[NSMutableArray alloc] init];
         self.updatableModules = tmp_updatable_modules;
+        tmp_updatable_modules=nil;
         
         NSMutableArray *tmp_available_modules = [[NSMutableArray alloc] init];
         self.availableModules = tmp_available_modules;
+        tmp_available_modules=nil;
         
         NSMutableArray * tmp_downloading_modules = [[NSMutableArray alloc]init];
         self.downloadingModules = tmp_downloading_modules;
+        tmp_downloading_modules=nil;
         
         //load application
         
@@ -131,7 +135,8 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
             
             //merge runtime_config
             //本地模块升级
-            if (self.installed) [self mergeNewLocalModules];
+            if (self.installed)
+                [self mergeNewLocalModules];
         }else{
             if (self.installed) {
                 NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];

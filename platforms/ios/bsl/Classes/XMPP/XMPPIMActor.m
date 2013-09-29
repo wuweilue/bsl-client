@@ -20,6 +20,9 @@
 #import "GroupRoomUserEntity.h"
 
 #import "XMPPMUC.h"
+
+#import "IMServerAPI.h"
+
 @interface XMPPIMActor ()
 
 - (void)teardownStream;
@@ -1076,19 +1079,19 @@
                 //to   自己
                 
                 //from 是哪个创建的
-                
+                NSString* roomId=message.fromStr;
                 NSString *roomName =[NSString stringWithFormat:@"来自%@的会议室", fromWho];
                 NSString* content=[NSString stringWithFormat:@"%@邀请你加入群组", fromWho];
                 [self newRectangleMessage:message.fromStr name:roomName content:content contentType:RectangleChatContentTypeMessage isGroup:YES createrJid:fromWho];
                 
-                RectangleChat* chat=[self fetchRectangleChatFromJid:message.fromStr isGroup:YES];
+                RectangleChat* chat=[self fetchRectangleChatFromJid:roomId isGroup:YES];
                 if(chat!=nil){
                     chat.isQuit=[NSNumber numberWithBool:NO];
                     [chat didSave];
                 }
                 
                 //添加对方进入成员
-                [self addGroupRoomMember:message.fromStr memberId:invoteFromeJid sex:@"" status:@"在线" username:fromWho];
+                [self addGroupRoomMember:roomId memberId:invoteFromeJid sex:@"" status:@"在线" username:fromWho];
                 
                 //添加自己
                 
@@ -1103,6 +1106,27 @@
                 [roomService performSelector:@selector(joinRoomServiceWithRoomID:) withObject:message.fromStr afterDelay:2.0f];
                 
                 
+                
+                //这里需要获取群组名字
+                
+                [IMServerAPI grouptGetRooms:[[ShareAppDelegate xmpp].xmppStream.myJID bare] block:^(BOOL status,NSArray* array){
+                    
+                    
+                    for(NSDictionary* dict in array){
+                        NSString* jid=[dict objectForKey:@"roomId"];
+                        if([jid isEqualToString:roomId]){
+                            NSString* roomName=[dict objectForKey:@"roomName"];
+                            if([roomName length]>0){
+                                RectangleChat* rectChat=[self fetchRectangleChatFromJid:jid isGroup:YES];
+                                if(rectChat!=nil){
+                                    rectChat.name=roomName;
+                                    [rectChat save];
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }];
             }
             break;
         }

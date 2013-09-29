@@ -105,7 +105,12 @@
 
 +(FormDataRequest*)grouptAddMembers:(NSArray *)userInfoArray roomId:(NSString *)_roomId roomName:(NSString *)_roomName addSelf:(BOOL)addSelf block:(void (^)(BOOL))_block{
     
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/addMembers",kXMPPGroupHost];
+    
+
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/addMembers?sessionKey=%@&appKey=%@",kXMPPGroupHost,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
+    
+    
 
     NSMutableArray* userArray = [[NSMutableArray alloc]init];
     @autoreleasepool {
@@ -144,6 +149,11 @@
  //   [parameters setValue:[userArray JSONString] forKey:@"members"];
     
     FormDataRequest* request=[FormDataRequest requestWithURL:[NSURL URLWithString:urlStr]];
+
+    [request setPostValue:kAPPKey forKey:@"appKey"];
+    [request setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"token"] forKey:@"sessionKey"];
+    
+    
     __block FormDataRequest* __request=request;
     [request setPostValue:[userArray JSONString] forKey:@"members"];
 
@@ -178,7 +188,8 @@
 
 
 +(HTTPRequest*)grouptGetMembers:(NSString *)_roomId block:(void (^)(BOOL, NSArray *))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/query/%@",kXMPPGroupHost,_roomId];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/query/%@?sessionKey=%@&appKey=%@",kXMPPGroupHost,_roomId,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
     
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block HTTPRequest* __request=request;
@@ -214,7 +225,8 @@
 
 
 +(HTTPRequest*)grouptGetRooms:(NSString *)userJid block:(void (^)(BOOL, NSArray *))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/queryAllRoom/%@",kXMPPGroupHost,userJid];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/queryAllRoom/%@?sessionKey=%@&appKey=%@",kXMPPGroupHost,userJid,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
 
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block HTTPRequest* __request=request;
@@ -248,7 +260,9 @@
 
 
 +(HTTPRequest*)grouptDeleteMember:(NSString *)userJid roomId:(NSString *)_roomId block:(void (^)(BOOL))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteMember/%@/%@",kXMPPGroupHost,_roomId,userJid];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteMember/%@/%@?sessionKey=%@&appKey=%@",kXMPPGroupHost,_roomId,userJid,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
+
     
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block HTTPRequest* __request=request;
@@ -305,7 +319,8 @@
 
 +(HTTPRequest*)grouptDeleteRoom:(NSString *)_roomId block:(void (^)(BOOL))_block{
 
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteRoom/%@",kXMPPGroupHost,_roomId];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteRoom/%@?sessionKey=%@&appKey=%@",kXMPPGroupHost,_roomId,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
     
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block HTTPRequest* __request=request;
@@ -338,13 +353,16 @@
 }
 
 +(FormDataRequest*)grouptChangeRoomName:(NSString *)_roomName roomId:(NSString *)_roomId block:(void (^)(BOOL))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/roommember/roomname",kXMPPGroupHost];
-    
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/roommember/roomname?sessionKey=%@&appKey=%@",kXMPPGroupHost,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+
     FormDataRequest* request=[FormDataRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block FormDataRequest* __request=request;
     
     [request setPostValue:_roomId forKey:@"roomId"];
     [request setPostValue:_roomName forKey:@"roomName"];
+    [request setPostValue:kAPPKey forKey:@"appKey"];
+    [request setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"token"] forKey:@"sessionKey"];
+
 
     [request setCompletionBlock:^{
         _block(YES);

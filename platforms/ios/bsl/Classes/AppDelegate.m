@@ -103,6 +103,9 @@ void uncaughtExceptionHandler(NSException*exception){
  * This is main kick off after the app inits, the views and Settings are setup here. (preferred - iOS4 and up)
  */
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions{
+    
+    [UIApplication sharedApplication].idleTimerDisabled=YES;
+    
     if (launchOptions){
         //现在每一次开app 都运行接收推送，暂不要这段代码了
         

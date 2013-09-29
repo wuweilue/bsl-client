@@ -379,6 +379,7 @@
         
         NSString *countText = [[NSString alloc] initWithFormat:@"%d", count];
         _badgeView.badgeText = countText;
+        countText=nil;
     }else{
     
         [self removeBadge];

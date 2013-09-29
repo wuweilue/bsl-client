@@ -42,9 +42,9 @@
                 NSString* moduleIdentifier = module.identifier;
                 int count = [moduleIdentifier  isEqualToString:@"com.foss.message.record"] ? [MessageRecord countAllAtBadge] :[MessageRecord countForModuleIdentifierAtBadge:moduleIdentifier];
                 //判断模块是否需要显示右上角的数字
-                if(module.showPushMsgCount ==1)
+//                if(module.showPushMsgCount ==1)
                 {
-                    [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"receiveMessage('%@',%d);",moduleIdentifier,count]];
+                    [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"receiveMessage('%@',%d,true);",moduleIdentifier,count]];
                 }
                 
             }
@@ -591,6 +591,7 @@
         }[jsonCube  setObject: [NSNumber numberWithInt:count] forKey:@"msgCount"];
         [jsonCube  setObject: [NSNumber numberWithInt:0] forKey:@"progress"];
         //=========================================
+         [jsonCube setObject:each.sortingWeight forKey:@"sortingWeight"];
         [jsonCube  setObject: [NSNumber numberWithInteger:each.build] forKey:@"build"];
         if ([self isUpdateModule:each.identifier]) {
             [jsonCube  setObject:  [NSNumber numberWithBool:YES] forKey:@"updatable"];

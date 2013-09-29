@@ -7,7 +7,8 @@
 //
 
 #import "ImageScroller.h"
-
+#import "AsyncImageView.h"
+#import "ServerAPI.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation ImageScroller
@@ -16,7 +17,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.userInteractionEnabled=YES;
-        imageView=[[UIImageView alloc] initWithFrame:self.bounds];
+        imageView=[[AsyncImageView alloc] initWithFrame:self.bounds];
         imageView.contentMode=UIViewContentModeScaleAspectFit;
         [self addSubview:imageView];
         
@@ -52,8 +53,20 @@
     
 }
 
--(void)showImage:(UIImage*)image{
-    imageView.image=image;
+-(void)showImage:(NSString*)imageFile{
+    if([imageFile length]>0){
+        
+        if([[NSFileManager defaultManager] fileExistsAtPath:imageFile]){
+            imageView.image=[UIImage imageWithContentsOfFile:imageFile];
+        }
+        else{
+            NSString *url = [ServerAPI urlForAttachmentId:imageFile];
+            
+            url=[url stringByAppendingFormat:@"?sessionKey=%@&appKey=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+            [imageView loadImageWithURLString:url];
+        }
+
+    }
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{

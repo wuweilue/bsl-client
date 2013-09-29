@@ -369,10 +369,10 @@
 
 #pragma mark  chatimagecell delegate
 
--(void)chatImageCellDidSelect:(ChatImageCell *)cell image:(UIImage *)image{
+-(void)chatImageCellDidSelect:(ChatImageCell *)cell imageFile:(NSString *)imageFile{
     AppDelegate* appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
     ImageScroller* view=[[ImageScroller alloc] initWithFrame:appDelegate.window.rootViewController.view.bounds];
-    [view showImage:image];
+    [view showImage:imageFile];
     [view showInView:appDelegate.window.rootViewController.view];
     
     view=nil;
@@ -787,6 +787,14 @@
     chatPanel.emoctionList=emoctionList;
     if(self.isQuit)
         [chatPanel hideAllControlPanel];
+    
+#ifdef MOBILE_BSL
+    //移动运行网暂不要群组发语音
+    if(self.isGroupChat){
+        [chatPanel disableChatButton];
+    }
+#endif
+    
     CGRect rect=chatPanel.frame;
     rect.origin.y=self.view.bounds.size.height-[chatPanel panelHeight];
     chatPanel.frame=rect;
