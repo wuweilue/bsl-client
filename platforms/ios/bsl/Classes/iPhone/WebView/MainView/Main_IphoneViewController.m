@@ -588,6 +588,7 @@
         [jsonCube  setObject: [NSNumber numberWithInt:0] forKey:@"progress"];
         //=========================================
         [jsonCube  setObject: [NSNumber numberWithInteger:each.build] forKey:@"build"];
+         [jsonCube setObject:each.sortingWeight forKey:@"sortingWeight"];
         if ([self isUpdateModule:each.identifier]) {
             [jsonCube  setObject:  [NSNumber numberWithBool:YES] forKey:@"updatable"];
         }else{
