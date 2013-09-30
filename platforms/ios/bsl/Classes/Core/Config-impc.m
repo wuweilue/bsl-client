@@ -10,7 +10,7 @@ NSString* const kServerURLString = @"http://192.168.11.18:18860";
 NSString* const kServerLoginURLString = @"http://192.168.11.18:18860/csair-extension/api/accounts/login";
 NSString* const  kXMPPHost=@"10.108.68.99";
 NSString* const  kXMPPPushHost =@"192.168.11.18";
-NSString* const  kXMPPGroupHost=@"192.168.11.18:18860";
+NSString* const  kAPIServerAPI=@"192.168.11.18:18860/csair-im/api";
 NSString* const  kXMPPDomin=@"mobile.app";
 NSString* const  kXMPPPushDomin=@"com.csair.impc.test";
 NSString* const  kPushServerRegisterUrl=@"http://192.168.11.18:18860/push/api/checkinservice/checkins";
@@ -31,3 +31,4 @@ BOOL const kEnablePushNotification = YES;
 
 NSString* const kFileUploadUrl = @"http://192.168.11.18:18860/bsl-web/mam/attachment/clientUpload";
 NSString *const kMUCSevericeDomin=@"conference.mobile.app";
+

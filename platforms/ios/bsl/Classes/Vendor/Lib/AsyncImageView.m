@@ -108,6 +108,66 @@
 #pragma mark -
 #pragma mark functions for loading images
 
++(UIImage*)imageWithThumbnail:(UIImage *)image size:(CGSize)thumbSize{
+    
+    CGSize imageSize = image.size;
+    
+    CGFloat width = imageSize.width;
+    
+    CGFloat height = imageSize.height;
+    
+    
+    CGFloat scaleFactor = 0.0;
+    
+    CGPoint thumbPoint = CGPointMake(0.0,0.0);
+    CGFloat widthFactor = thumbSize.width / width;
+    
+    CGFloat heightFactor = thumbSize.height / height;
+    if (widthFactor > heightFactor)  {
+        scaleFactor = widthFactor;
+    }
+    
+    else {
+        
+        scaleFactor = heightFactor;
+        
+    }
+    
+    CGFloat scaledWidth  = width * scaleFactor;
+    
+    CGFloat scaledHeight = height * scaleFactor;
+    
+    if (widthFactor > heightFactor){
+        
+        thumbPoint.y = (thumbSize.height - scaledHeight) * 0.5;
+    }
+    
+    else if (widthFactor < heightFactor){
+        thumbPoint.x = (thumbSize.width - scaledWidth) * 0.5;
+    }
+    UIGraphicsBeginImageContext(thumbSize);
+    
+    CGRect thumbRect = CGRectZero;
+    
+    thumbRect.origin = thumbPoint;
+    
+    thumbRect.size.width  = scaledWidth;
+    
+    thumbRect.size.height = scaledHeight;
+    
+    [image drawInRect:thumbRect];
+    
+    
+    
+    UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return thumbImage;
+}
+
+
+
 //
 //如果从本地读取图片，不显示淡入动画
 //
@@ -129,30 +189,30 @@
         
             UIImage *rawImage = [[UIImage alloc] initWithData:data];
             
-            NSString *osVersion = [[UIDevice currentDevice] systemVersion];
+           // NSString *osVersion = [[UIDevice currentDevice] systemVersion];
             
-            UIImage *image;
-            
-            if ([osVersion isEqualToString:@"5.0"]) {
-                image = rawImage;
-            }else{
+            //if ([osVersion isEqualToString:@"5.0"]) {
+//                image = rawImage;
+           // }else{
+            /*
                 image = [rawImage resizedImageWithContentMode:UIViewContentModeScaleAspectFill
                                                        bounds:self.frame.size
                                          interpolationQuality:kCGInterpolationHigh];
-            }
+            */
+             //}
             
             
             if (animated) {
                 self.alpha = 0.0;
                 
-                self.image = image;
+                self.image = rawImage;
                 _loaded = YES;
                 
                 [UIView animateWithDuration:0.5 animations:^{
                     self.alpha = 1.0; 
                 }];
             } else {
-                self.image = image;
+                self.image = rawImage;
             }
             
         
@@ -206,7 +266,7 @@
     HTTPRequest *request = [[HTTPRequest alloc] initWithURL:url];
     __block HTTPRequest*  __request=request;
 
-    [request setTimeOutSeconds:20];
+    [request setTimeOutSeconds:10];
 
     [request setStartedBlock:^{
     
@@ -223,11 +283,41 @@
             [self cleanupRequest];
             return;
         }
+        NSString* urlString=[[__request originalURL] absoluteString];
         
-        [[Cache instance] setData:[__request responseData] forKey:[[__request originalURL] absoluteString]];
+        @autoreleasepool {
+            UIImage *rawImage = [[UIImage alloc] initWithData:[__request responseData]];
+            CGSize size=CGSizeMake(420.0f, 600.0f);
+            if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+                size=CGSizeMake(800.0f, 600.0f);
+            }
+            if(rawImage!=nil ){
+                if((rawImage.size.width>size.width || rawImage.size.height>size.height)){
+                    size.height=size.width/(rawImage.size.width/rawImage.size.height);
+                    UIImage *image=[AsyncImageView imageWithThumbnail:rawImage size:size];
+                    
+                    NSData* newData=UIImagePNGRepresentation(image);
+                    
+                    [[Cache instance] setData:newData forKey:urlString];
+
+                }
+                else{
+                    [[Cache instance] setData:[__request responseData] forKey:urlString];
+
+                }
+                
+            }
+        }
+
         
         [self stopLoading];
-        [self loadImageFromData:[__request responseData] animated:YES];
+        
+        NSData *cacheData = [[Cache instance] dataForKey:urlString];
+        if (cacheData) {
+            //        DebugLog(@"读取缓存:%@", urlString);
+            [self loadImageFromData:cacheData animated:YES];
+            return;
+        }
         
         [self cleanupRequest];
 

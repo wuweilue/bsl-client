@@ -25,7 +25,6 @@
 
 @interface XMPPIMActor ()
 
-- (void)teardownStream;
 @end
 
 @implementation XMPPIMActor

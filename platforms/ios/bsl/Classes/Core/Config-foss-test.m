@@ -2,7 +2,7 @@ NSString* const kServerURLString = @"http://10.108.1.217:18860";
 NSString* const kServerLoginURLString = @"http://10.108.1.217:18860/system/api/system/mobile/accounts/login";
 //NSString* const kServerURLString = @"http://10.108.68.136:9000";
 NSString* const  kXMPPHost=@"115.28.0.60";
-NSString* const  kXMPPGroupHost=@"115.28.0.60:8081";
+NSString* const  kAPIServerAPI=@"115.28.0.60:8081";
 NSString* const  kXMPPPushHost =@"115.28.0.60";
 NSString* const  kXMPPDomin=@"snda-192-168-2-32";
 NSString* const  kXMPPPushDomin=@"csair.cube.openfire.test";
@@ -25,3 +25,4 @@ BOOL const kEnablePushNotification = YES;
 NSString* const kFileUploadUrl = @"http://10.108.1.217:8080/bsl-web/mam/attachment/clientUpload";
 
 NSString *const kMUCSevericeDomin=@"conference.snda-192-168-2-32";
+

@@ -224,8 +224,14 @@
             }else{
                 iphoneLocal = [module.local stringByAppendingString:@"ViewController"];
             }
-            self.navigationController.navigationBar.hidden = NO;
             UIViewController *localController = (UIViewController *)[[NSClassFromString(iphoneLocal) alloc] init];
+            if(localController==nil){
+                UIAlertView* alertView=[[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@模块不存在",module.name] message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alertView show];
+                alertView=nil;
+                return;
+            }
+            self.navigationController.navigationBar.hidden = NO;
             [self.navigationController pushViewController:localController animated:YES];
             return;
         }else{

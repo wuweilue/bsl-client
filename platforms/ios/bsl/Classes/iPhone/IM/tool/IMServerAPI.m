@@ -73,7 +73,7 @@
 
 +(void)grouptAddMember:(UserInfo *)userInfo roomId:(NSString *)_roomId block:(void (^)(BOOL))_block{
     
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/csair-im/api/chat/addMember",kXMPPGroupHost];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/addMember",kAPIServerAPI];
     NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
     [parameters setValue:_roomId forKey:@"roomId"];
     [parameters setValue:userInfo.userJid forKey:@"jid"];
@@ -91,7 +91,7 @@
 
 
 +(void)grouptUpdateStatue:(UserInfo *)userInfo block:(void (^)(BOOL))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/csair-im/api/chat/updateStatue",kXMPPGroupHost];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/updateStatue",kAPIServerAPI];
 
     NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
     [parameters setValue:userInfo.userStatue forKey:@"statue"];
@@ -107,7 +107,7 @@
     
     
 
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/csair-im/api/chat/addMembers?sessionKey=%@&appKey=%@",kXMPPGroupHost,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/addMembers?sessionKey=%@&appKey=%@",kAPIServerAPI,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
     
     
     
@@ -188,7 +188,7 @@
 
 
 +(HTTPRequest*)grouptGetMembers:(NSString *)_roomId block:(void (^)(BOOL, NSArray *))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/csair-im/api/chat/query/%@?sessionKey=%@&appKey=%@",kXMPPGroupHost,_roomId,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/query/%@?sessionKey=%@&appKey=%@",kAPIServerAPI,_roomId,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
     
     
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
@@ -225,7 +225,7 @@
 
 
 +(HTTPRequest*)grouptGetRooms:(NSString *)userJid block:(void (^)(BOOL, NSArray *))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/csair-im/api/chat/queryAllRoom/%@?sessionKey=%@&appKey=%@",kXMPPGroupHost,userJid,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/queryAllRoom/%@?sessionKey=%@&appKey=%@",kAPIServerAPI,userJid,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
     
 
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
@@ -260,7 +260,7 @@
 
 
 +(HTTPRequest*)grouptDeleteMember:(NSString *)userJid roomId:(NSString *)_roomId block:(void (^)(BOOL))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/csair-im/api/chat/deleteMember/%@/%@?sessionKey=%@&appKey=%@",kXMPPGroupHost,_roomId,userJid,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteMember/%@/%@?sessionKey=%@&appKey=%@",kAPIServerAPI,_roomId,userJid,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
     
 
     
@@ -319,7 +319,7 @@
 
 +(HTTPRequest*)grouptDeleteRoom:(NSString *)_roomId block:(void (^)(BOOL))_block{
 
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/csair-im/api/chat/deleteRoom/%@?sessionKey=%@&appKey=%@",kXMPPGroupHost,_roomId,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteRoom/%@?sessionKey=%@&appKey=%@",kAPIServerAPI,_roomId,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
     
     
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
@@ -353,7 +353,7 @@
 }
 
 +(FormDataRequest*)grouptChangeRoomName:(NSString *)_roomName roomId:(NSString *)_roomId block:(void (^)(BOOL))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/csair-im/api/chat/roommember/roomname?sessionKey=%@&appKey=%@",kXMPPGroupHost,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/roommember/roomname?sessionKey=%@&appKey=%@",kAPIServerAPI,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
 
     FormDataRequest* request=[FormDataRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block FormDataRequest* __request=request;

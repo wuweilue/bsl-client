@@ -49,6 +49,7 @@ static PushGetMessageInfo* instance=nil;
 
 -(void)sendFeedBack:(NSMutableArray*)outputArrayIds{
 
+    /*
     for(NSString* sendId in outputArrayIds){
         FormDataRequest *formDataRequest = [FormDataRequest requestWithURL:[NSURL URLWithString:kPushServerReceiptsUrl]];
         
@@ -72,8 +73,9 @@ static PushGetMessageInfo* instance=nil;
             [__formDataRequest cancel];
         }];
     }
+     */
     
-    /*
+    
     NSMutableString* ids=[[NSMutableString alloc] initWithCapacity:1];
     
     [outputArrayIds enumerateObjectsUsingBlock:^(id obj,NSUInteger index,BOOL *stop){
@@ -106,7 +108,7 @@ static PushGetMessageInfo* instance=nil;
     }];
 
     ids=nil;
-     */
+    
 }
 
 -(void)updatePushMessage{

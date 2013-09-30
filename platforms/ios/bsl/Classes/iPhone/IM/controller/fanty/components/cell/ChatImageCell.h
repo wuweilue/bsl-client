@@ -15,7 +15,7 @@
 
 @protocol ChatImageCellDelegate <NSObject>
 
--(void)chatImageCellDidSelect:(ChatImageCell*)cell imageFile:(NSString*)imageFile;
+-(void)chatImageCellDidSelect:(ChatImageCell*)cell image:(UIImage*)image;
 
 @end
 
@@ -32,7 +32,6 @@
     UIImageView* noContentView;
     UILabel* dateLabel;
 
-    NSString* imageFile;
 }
 @property(nonatomic,weak) id<ChatImageCellDelegate> delegate;
 +(float)cellHeight:(NSBubbleType)bubbleType;
