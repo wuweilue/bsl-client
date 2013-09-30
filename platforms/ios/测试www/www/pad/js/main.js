@@ -46,23 +46,26 @@ var isKeyboardShow = function(isShow) {
 		$(".bottomMenu").show();
 	}
 }
+
+
 //自动更新查新界面
 var refreshMainPage = function(identifier, type, moduleMessage) {
 	var page = $(".menuItem.active").attr("data");
 	console.log("refreshMainPage page = " + page);
-	myScroll = null;
 	if (page === "home") {
 		//主页面
 		/*loadModuleList("CubeModuleList", "mainList", "main",function(){
 			myScroll.refresh();
 		});*/
+		console.log("主页面。。。。");
+		//$(".home_btn").trigger("click");
 		addModule(identifier, "main", moduleMessage);
 	} else if (page === "module") {
 		//管理页面
 		//loadModuleList("CubeModuleList", "uninstallList", "install");
 		var type = $(".moduleManageBar .manager-btn.active").attr("data");
 		console.log("refreshMainPage data" + type);
-		if (type === "uninstall") {
+		/*if (type === "uninstall") {
 			loadModuleList("CubeModuleList", "uninstallList", "uninstall", function() {
 				myScroll.refresh();
 			});
@@ -74,7 +77,7 @@ var refreshMainPage = function(identifier, type, moduleMessage) {
 			loadModuleList("CubeModuleList", "upgradableList", "upgrade", function() {
 				myScroll.refresh();
 			});
-		}
+		}*/
 	}
 };
 //首页接受到信息，刷新页面
@@ -110,6 +113,7 @@ var refreshModule = function(identifier, type, moduleMessage) {
 		addModule(identifier, "uninstall", moduleMessage);
 		//更新有则减
 		$(".moduleContent[moduletype='upgrade'][identifier='" + identifier + "']").remove();
+		$(".moduleContent[moduletype='main'][identifier='" + identifier + "']").remove();
 		console.log("删除了刷新完成");
 	} else if (type === "install") {
 		//未安装减一个
@@ -126,6 +130,7 @@ var refreshModule = function(identifier, type, moduleMessage) {
 		$(".moduleContent[moduletype='upgrade'][identifier='" + identifier + "']").remove();
 		//未安装不变
 	} else if (type === "main") {
+		console.log("mainmainmain");
 		addModule(identifier, "main", moduleMessage);
 	}
 
@@ -145,11 +150,15 @@ var checkModule = function() {
 
 var addModule = function(identifier, type, moduleMessage) {
 	var mm = $.parseJSON(moduleMessage);
+	var page = $(".menuItem.active").attr("data");
 	//如果该模块不存在，则生成
 	if ($(".moduleTitle[modulename='" + mm.category + "']").size() < 1) {
 		//获取模板名
+		console.log("分组不存在了。");
 		var moduleContentTemplate = $("#moduleContentTemplate").html();
-
+		/*	if(page === "home" && type !=="uninstall" ){
+			type = "main";
+		}*/
 		var moduleContentHtml = _.template(moduleContentTemplate, {
 			'moduleTitle': mm.category,
 			'moduleItem': "",
@@ -170,8 +179,18 @@ var addModule = function(identifier, type, moduleMessage) {
 
 	var moduleItemHtml = _.template(moduleItemTemplate, mm);
 
-	if ($(".moduleManageBar .manager-btn.active").attr("data") === type && mm.hidden === false) {
+	if ($(".moduleManageBar .manager-btn.active").attr("data") === type && mm.hidden == false) {
+		console.log("进入addddddddd type " + type);
 		$(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + type + "']").after(moduleItemHtml);
+	}
+	console.log("进入addddddddd222 type " + type);
+	if (page === "home" && type !== "uninstall" && mm.hidden == false) {
+		console.log("addddd 主页面");
+		var size = $(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + "main" + "']").size();
+		console.log("size   " + size);
+		mm.moduleType = "main";
+		moduleItemHtml = _.template(moduleItemTemplate, mm);
+		$(".moduleTitle[modulename='" + mm.category + "'][moduletype='" + "main" + "']").after(moduleItemHtml);
 	}
 
 	triggerBodyClick();
@@ -180,6 +199,7 @@ var addModule = function(identifier, type, moduleMessage) {
 
 //点击左边菜单
 $(".menuItem").tap(function() {
+	isOver = 0;
 	var type = $(this).attr("data");
 	$(".menuItem").removeClass("active");
 	$(this).addClass("active");
@@ -221,6 +241,7 @@ var activeModuleManageBarItem = function(type) {
 //点击模块管理按钮
 $(".moduleManageBar .manager-btn").click(function() {
 	var type = $(this).attr("data");
+	isOver = 0;
 	if (!$(this).hasClass("active")) {
 		$("#searchInput").val("");
 		//点击操作
@@ -304,79 +325,86 @@ var getAccountName = function() {
 };
 
 //加载列表，渲染成html
+var isOver = 0;
 var loadModuleList = function(plugin, action, type, callback) {
-	$(".mainContent").html("");
-	$(".mainContent").remove();
-	var mainContent = $('<div id="mainContent" class="mainContent"><div id="scroller"><ul class="scrollContent nav nav-list bs-docs-sidenav affix-top"></ul></div></div>');
-	$(".middleContent").append(mainContent);
-	var allModuleContentHtml = "";
+	if (isOver ===0) {
+		isOver = isOver + 1;
 
-	cordova.exec(function(data) {
-		data = $.parseJSON(data);
-		//处理成功加载首页模块列表
-		_.each(data, function(value, key) {
-			var moduleItemHtmlContent = "";
-			var moduleItemTemplate = $("#moduleItemTemplate").html();
-			_.each(value, function(value) {
-				value.moduleType = type;
-				//处理，只有在首页的时候才显示有统计数据
-				if (type !== "main") {
-					value.msgCount = 0;
-				}
-				//更新的图标，如果在未安装里面，不应该出现
-				if (type === 'uninstall') {
-					value.updatable = false;
-				}
 
-				value.name = subStrByCnLen(value.name, 7);
-				value.releaseNote = subStrByCnLen(value.releaseNote, 25);
-				// packageName
+		$(".mainContent").html("");
+		$(".mainContent").remove();
+		var mainContent = $('<div id="mainContent" class="mainContent"><div id="scroller"><ul class="scrollContent nav nav-list bs-docs-sidenav affix-top"></ul></div></div>');
+		$(".middleContent").append(mainContent);
+		var allModuleContentHtml = "";
 
-				downloadFile(value.icon, packageName + "/moduleIcon", function(entry) {
-					// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
-					value.icon = entry.fullPath;
-					console.log("下载成功 " + value.icon);
+		cordova.exec(function(data) {
+			data = $.parseJSON(data);
+			//处理成功加载首页模块列表
+			_.each(data, function(value, key) {
+				var moduleItemHtmlContent = "";
+				var moduleItemTemplate = $("#moduleItemTemplate").html();
+				_.each(value, function(value) {
+					value.moduleType = type;
+					//处理，只有在首页的时候才显示有统计数据
+					if (type !== "main") {
+						value.msgCount = 0;
+					}
+					//更新的图标，如果在未安装里面，不应该出现
+					if (type === 'uninstall') {
+						value.updatable = false;
+					}
+
+					value.name = subStrByCnLen(value.name, 7);
+					value.releaseNote = subStrByCnLen(value.releaseNote, 25);
+					// packageName
+
+					downloadFile(value.icon, packageName + "/moduleIcon", function(entry) {
+						// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
+						value.icon = entry.fullPath;
+						console.log("下载成功 " + value.icon);
+					});
+
+					value.classname = key;
+					var moduleItemHtml = _.template(moduleItemTemplate, value);
+					moduleItemHtmlContent = moduleItemHtmlContent + moduleItemHtml;
 				});
+				//获取模板名
+				var moduleContentTemplate = $("#moduleContentTemplate").html();
 
-				value.classname = key;
-				var moduleItemHtml = _.template(moduleItemTemplate, value);
-				moduleItemHtmlContent = moduleItemHtmlContent + moduleItemHtml;
+				var moduleContentHtml = _.template(moduleContentTemplate, {
+					'moduleTitle': key,
+					'moduleItem': moduleItemHtmlContent,
+					'moduleType': type
+				});
+				if (moduleItemHtmlContent.trim().length > 0) {
+					allModuleContentHtml = allModuleContentHtml + moduleContentHtml;
+				}
 			});
-			//获取模板名
-			var moduleContentTemplate = $("#moduleContentTemplate").html();
+			$(".mainContent").find(".scrollContent").append(allModuleContentHtml);
 
-			var moduleContentHtml = _.template(moduleContentTemplate, {
-				'moduleTitle': key,
-				'moduleItem': moduleItemHtmlContent,
-				'moduleType': type
-			});
-			if (moduleItemHtmlContent.trim().length > 0) {
-				allModuleContentHtml = allModuleContentHtml + moduleContentHtml;
+			$(".mainContent").height($(window).height() - 50);
+
+			if (myScroll !== null) {
+				myScroll = null;
 			}
-		});
-		$(".mainContent").find(".scrollContent").append(allModuleContentHtml);
+			myScroll = new iScroll('mainContent', {
+				checkDOMChanges: true
+			});
+			isOver = isOver - 1;
+			//切换模块管理按钮状态
+			activeModuleManageBarItem(type);
+			triggerBodyClick();
 
-		$(".mainContent").height($(window).height() - 50);
+			//如果回调方法不为空，则执行该回调方法
+			if (callback !== undefined) {
+				callback();
+			}
 
-		if (myScroll !== null) {
-			myScroll = null;
-		}
-		myScroll = new iScroll('mainContent', {
-			checkDOMChanges: true
-		});
-		//切换模块管理按钮状态
-		activeModuleManageBarItem(type);
-		triggerBodyClick();
-
-		//如果回调方法不为空，则执行该回调方法
-		if (callback !== undefined) {
-			callback();
-		}
-
-	}, function(err) {
-		//showAlert(err, null, "提示", "确定");
-	}, plugin, action, []);
-
+		}, function(err) {
+			//showAlert(err, null, "提示", "确定");
+			isOver = isOver - 1;
+		}, plugin, action, []);
+	}
 };
 
 var triggerBodyClick = function() {

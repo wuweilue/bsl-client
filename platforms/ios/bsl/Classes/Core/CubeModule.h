@@ -18,35 +18,35 @@
 
 @property(nonatomic,assign)BOOL isAutoShow; //是否自动显示
 @property(nonatomic,assign)int  showIntervalTime;//显示时间间隔
-@property(nonatomic,copy)NSString *timeUnit;//时间的单位
+@property(nonatomic,strong)NSString *timeUnit;//时间的单位
 @property(nonatomic,assign)BOOL isStop;
 @property(nonatomic,assign)BOOL autoDownload;
-@property(nonatomic,copy)NSString * discription;
-@property(nonatomic,copy)NSString *sortingWeight;//模块排序
+@property(nonatomic,strong)NSString * discription;
+@property(nonatomic,strong)NSString *sortingWeight;//模块排序
 
 
 
-@property(nonatomic,copy)NSString *pushMsgLink;
-@property(nonatomic,copy)NSString *identifier;
-@property(nonatomic,copy)NSString *name;
-@property(nonatomic,copy)NSString *releaseNote;
-@property(nonatomic,copy)NSString *icon;
+@property(nonatomic,strong)NSString *pushMsgLink;
+@property(nonatomic,strong)NSString *identifier;
+@property(nonatomic,strong)NSString *name;
+@property(nonatomic,strong)NSString *releaseNote;
+@property(nonatomic,strong)NSString *icon;
 
 //online browse url
-@property(nonatomic,copy)NSString *url;
+@property(nonatomic,strong)NSString *url;
 //offline package download urls
-@property(nonatomic,copy)NSString *bundle;
+@property(nonatomic,strong)NSString *bundle;
 //wtf?
-@property(nonatomic,copy)NSString *package;
+@property(nonatomic,strong)NSString *package;
 
-@property(nonatomic,copy)NSString *version;
+@property(nonatomic,strong)NSString *version;
 @property(nonatomic,assign)NSInteger build;
-@property(nonatomic,copy)NSString *category;
-@property (nonatomic,copy)NSString *local;
+@property(nonatomic,strong)NSString *category;
+@property (nonatomic,strong)NSString *local;
 
-@property(nonatomic,copy)NSString *localImageUrl;
+@property(nonatomic,strong)NSString *localImageUrl;
 
-@property(nonatomic,copy)NSString *installType;
+@property(nonatomic,strong)NSString *installType;
 
 @property(nonatomic,assign)BOOL installed;
 

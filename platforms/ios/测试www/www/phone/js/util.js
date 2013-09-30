@@ -74,8 +74,8 @@ var downloadFile = function(sourceUrl, targetUrl, callback) {
 	fileName = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.lenght);
 
 
-	if(fileName.indexOf(".png") > -1){
-		fileName.replace(/.png/,".img");
+	if (fileName.indexOf(".png") > -1) {
+		fileName.replace(/.png/, ".img");
 	}
 	console.log("filename2 " + fileName);
 
@@ -93,7 +93,7 @@ var downloadFile = function(sourceUrl, targetUrl, callback) {
 			newFile.getFile(fileName, {
 				create: true,
 				exclusive: false
-			}, gotFileEntry, function(){
+			}, gotFileEntry, function() {
 				console.log("写图片失败");
 			});
 		});

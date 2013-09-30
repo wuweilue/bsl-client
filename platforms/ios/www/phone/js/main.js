@@ -48,10 +48,16 @@ var refreshMainPage = function(identifier, type, moduleMessage) {
 
 		/*addModule(identifier, "main", moduleMessage);
 		$("li[identifier='" + identifier + "']").css('opacity', '0.5');*/
-		loadModuleList("CubeModuleList", "mainList", "main", function() {
-			//gridLayout();
-			myScroll.refresh();
-		});
+		if (isOver === 0) {
+			isOver = isOver + 1;
+			console.log("刷新。。。。");
+			loadModuleList("CubeModuleList", "mainList", "main", function() {
+				//gridLayout();
+				myScroll.refresh();
+				isOver = isOver -1;
+			});
+		}
+
 
 
 	}
@@ -135,8 +141,8 @@ var refreshModule = function(identifier, type, moduleMessage) {
 		$("li[identifier='" + identifier + "']").css('opacity', '1');
 		//判断模块 hidden
 		var isHidden = $("li[identifier='" + identifier + "']").attr("hidden");
-		console.log("是否显示？？？？"+isHidden);
-		if (isHidden =="true") {
+		console.log("是否显示？？？？" + isHidden);
+		if (isHidden == "true") {
 			$("li[identifier='" + identifier + "']").remove();
 		}
 	}
@@ -367,49 +373,49 @@ var initial = function(type, data) {
 // 加载列表，渲染成html
 var isOver = 0;
 var loadModuleList = function(plugin, action, type, callback) {
-	if (isOver === 0) {
-		isOver = isOver + 1;
-		var accountName = "";
-		//获取用户名
-		cordova.exec(function(account) {
-			console.log("进入exec获取accountName");
-			var a = $.parseJSON(account);
-			accountName = a.accountname;
+	//if (isOver === 0) {
+	//	isOver = isOver + 1;
+	var accountName = "";
+	//获取用户名
+	cordova.exec(function(account) {
+		console.log("进入exec获取accountName");
+		var a = $.parseJSON(account);
+		accountName = a.accountname;
 
-		}, function(err) {
-			accountName = "";
-		}, "CubeAccount", "getAccount", []);
-		if (accountName !== "") {
-			accountName = " " + accountName + " ";
-		}
-		$('.account_content').html("<h4>欢迎" + accountName + "登录</h4>");
-		$(".mainContent").html("");
-		$(".mainContent").remove();
-
-		var mainContent = $('<div class="mainContent"><ul id="myul" class="scrollContent nav nav-list"></ul>');
-		$("#scroller").append(mainContent);
-		$(".mainContent").css('padding-bottom', '50px');
-		console.log('AAAAAA------------------ZHE');
-		// cordova.exec(success,failed,plugin,action,[]);
-		cordova.exec(function(data) {
-			data = $.parseJSON(data);
-			initial(type, data);
-			//绑定点击事件
-			//$("li[identifier]").die('click');
-			module_all_click();
-			curd_btn_click();
-			myScroll.refresh();
-			checkModules();
-			isOver = isOver - 1;
-			//如果回调方法不为空，则执行该回调方法
-			if (callback !== undefined) {
-				callback();
-			}
-		}, function(err) {
-			isOver = isOver - 1;
-		}, plugin, action, []);
-
+	}, function(err) {
+		accountName = "";
+	}, "CubeAccount", "getAccount", []);
+	if (accountName !== "") {
+		accountName = " " + accountName + " ";
 	}
+	$('.account_content').html("<h4>欢迎" + accountName + "登录</h4>");
+	$(".mainContent").html("");
+	$(".mainContent").remove();
+
+	var mainContent = $('<div class="mainContent"><ul id="myul" class="scrollContent nav nav-list"></ul>');
+	$("#scroller").append(mainContent);
+	$(".mainContent").css('padding-bottom', '50px');
+	console.log('AAAAAA------------------ZHE');
+	// cordova.exec(success,failed,plugin,action,[]);
+	cordova.exec(function(data) {
+		data = $.parseJSON(data);
+		initial(type, data);
+		//绑定点击事件
+		//$("li[identifier]").die('click');
+		module_all_click();
+		curd_btn_click();
+		myScroll.refresh();
+		checkModules();
+		//isOver = isOver - 1;
+		//如果回调方法不为空，则执行该回调方法
+		if (callback !== undefined) {
+			callback();
+		}
+	}, function(err) {
+		isOver = isOver - 1;
+	}, plugin, action, []);
+
+	//}
 
 
 
@@ -418,6 +424,7 @@ var loadModuleList = function(plugin, action, type, callback) {
 $('#top_left_btn')
 	.click(
 		function() {
+			isOver = 0;
 			if ($(this).hasClass('back_bt_class')) {
 				// 返回按键
 				$('#top_left_btn').removeClass('back_bt_class');
@@ -461,7 +468,11 @@ $("#searchInput").click(function(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	if ($('#top_left_btn').hasClass('back_bt_class')) {
-		$('.buttomContent').hide();
+		var osPlatform = device.platform;
+		if(osPlatform.toLowerCase() == "android"){
+			$('.buttomContent').hide();
+		}
+		
 	}
 });
 $("body").click(function() {
@@ -694,16 +705,16 @@ $('#manager_btn')
 	.click(function() {
 		$(this).attr("disabled", "disabled");
 		isOver = 0;
-		setTimeout($('#manager_btn').removeAttr("disabled"),200);
+		setTimeout($('#manager_btn').removeAttr("disabled"), 200);
 		//清除搜索框内容
 		$("#searchInput").val("");
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
-			loadModuleList("CubeModuleList", "installList", "install", function() {
+			loadModuleList("CubeModuleList", "uninstallList", "uninstall", function() {
 				$('#manager_btn').hide();
 				//完成后设置listview
 				$('.buttomContent').css('display', 'block');
 				$('#title').html("模块管理");
-				
+
 
 				//关闭欢迎光临
 				$('.account_content').hide();

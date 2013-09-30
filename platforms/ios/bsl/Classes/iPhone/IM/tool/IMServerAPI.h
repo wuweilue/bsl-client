@@ -56,25 +56,6 @@
 // === === 即时聊天功能 === ===
 
 
-/**
- *	@brief	向房间中添加成员
- *
- *	@param 	userInfo 	群组中添加用户信息
- *	@param 	_roomId 	房间的id
- *	@param 	_delUserInfo  删除收藏好友的
- *          _block 状态 statue true/false 表示操作是否成功
- */
-+(void)grouptAddMember:(UserInfo*)userInfo roomId:(NSString*)_roomId block:(void (^)(BOOL statue))_block
-;
-
-/**
- *	@brief	更新群组好友状态
- *
- *	@param 	userInfo 群成员好友信息
- *          _block 状态 statue true/false 表示操作是否成功
- */
-+(void)grouptUpdateStatue:(UserInfo*)userInfo block:(void (^)(BOOL statue))_block
-;
 
 /**
  *	@brief	批量添加群成员
@@ -115,17 +96,6 @@
  *          _block 状态 statue true/false 表示操作是否成功
  */
 +(HTTPRequest*)grouptDeleteMember:(NSString*)userId roomId:(NSString*)_roomId block:(void (^)(BOOL statue))_block;
-
-/**
- *	@brief	批量删除群成员
- *
- *	@param 	userinfoArray 	删除成员数组
- *	@param 	_roomId 	房间ID
- *          _block 状态 statue true/false 表示操作是否成功
- */
-+(void)grouptDeleteMembers:(NSArray*)userinfoArray roomId:(NSString*)_roomId block:(void (^)(BOOL statue))_block
-;
-
 
 /**
  *	@brief	删除房间

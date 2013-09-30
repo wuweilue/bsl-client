@@ -1,4 +1,3 @@
-//解决点击延迟问题
 new FastClick(document.body);
 var packageName;
 //封装cordova的执行方法，加上回调函数
@@ -37,39 +36,32 @@ var receiveMessage = function(identifier, count, display) {
 };
 //自动更新查新界面
 var refreshMainPage = function(identifier, type, moduleMessage) {
-	//alert("refreshMainPage");
+
 	console.log("refreshMainPage refreshMainPage refreshMainPage refreshMainPage");
 	console.log("进入refreshMainPage" + type + "..." + identifier);
 	if ($('#top_left_btn').hasClass('back_bt_class')) {
-		//管理页面
-		//loadModuleList("CubeModuleList", "installList", "install");
-		/*var type = $(".buttomContent .buttom_btn_group .btn.active").attr("data");
-		console.log("refreshMainPage type " + type);
-		var t = type;
-		if (type == "upgrade") {
-			type = "upgradable";
-		}
-
-		loadModuleList("CubeModuleList", type + "List", t, function() {
-			myScroll.refresh();
-			if ($("#listview_btn").hasClass("active")) {
-				$('.module_div ul li .curd_btn').css('display', 'inline');
-
-			}
-		});*/
 
 	} else {
+
 		//主页面
 		console.log("进入main页面");
 
 		/*addModule(identifier, "main", moduleMessage);
 		$("li[identifier='" + identifier + "']").css('opacity', '0.5');*/
-		loadModuleList("CubeModuleList", "mainList", "main", function() {
-			gridLayout();
-		});
+		if (isOver === 0) {
+			isOver = isOver + 1;
+			console.log("刷新。。。。");
+			loadModuleList("CubeModuleList", "mainList", "main", function() {
+				//gridLayout();
+				myScroll.refresh();
+				isOver = isOver -1;
+			});
+		}
+
 
 
 	}
+
 };
 
 
@@ -89,7 +81,7 @@ var updateProgress = function(identifier, count) {
 	} else if (count == 101) {
 		$(".module_div ul li .module_li_img .progress[identifier='" + identifier + "']").css('display', 'none');
 
-		
+
 
 		var $crud_btn = $(".module_li .curd_btn[identifier='" + identifier + "']");
 		var btn_title = $crud_btn.html();
@@ -107,8 +99,10 @@ var updateProgress = function(identifier, count) {
 	}
 
 };
+
 //模块增删，刷新模块列表(uninstall，install，upgrade)
 var refreshModule = function(identifier, type, moduleMessage) {
+
 	if ($('#top_left_btn').hasClass('back_bt_class')) {
 		console.log("进入refreshModule" + type + "..." + identifier);
 
@@ -139,19 +133,22 @@ var refreshModule = function(identifier, type, moduleMessage) {
 		} else if (type === "main") {
 			//addModule(identifier, "main", moduleMessage);
 		}
-		
 
-	}else{
+
+	} else {
 		//主页面
 		console.log("主界面、、");
 		$("li[identifier='" + identifier + "']").css('opacity', '1');
 		//判断模块 hidden
 		var isHidden = $("li[identifier='" + identifier + "']").attr("hidden");
-		if(isHidden){
+		console.log("是否显示？？？？" + isHidden);
+		if (isHidden == "true") {
 			$("li[identifier='" + identifier + "']").remove();
 		}
 	}
 	checkModules();
+
+
 };
 var addModule = function(identifier, type, moduleMessage) {
 	var mm = $.parseJSON(moduleMessage);
@@ -255,7 +252,7 @@ var activeModuleManageBarItem = function(type) {
 //点击模块的时候触发事件
 var module_all_click = function() {
 	/*$("li[identifier] .module_li_img , li[identifier] .module_push, li[identifier] .detail").bind('click', function() {*/
-	$("li[identifier]").live('click', function() {
+	$("li[identifier]").bind('click', function() {
 
 		console.log("模块父类点击");
 		/*var type = $(this).parent(".module_li").attr("moduleType");*/
@@ -374,7 +371,10 @@ var initial = function(type, data) {
 
 
 // 加载列表，渲染成html
+var isOver = 0;
 var loadModuleList = function(plugin, action, type, callback) {
+	//if (isOver === 0) {
+	//	isOver = isOver + 1;
 	var accountName = "";
 	//获取用户名
 	cordova.exec(function(account) {
@@ -400,25 +400,31 @@ var loadModuleList = function(plugin, action, type, callback) {
 	cordova.exec(function(data) {
 		data = $.parseJSON(data);
 		initial(type, data);
-
 		//绑定点击事件
+		//$("li[identifier]").die('click');
 		module_all_click();
 		curd_btn_click();
-		//myScroll.refresh();
+		myScroll.refresh();
 		checkModules();
+		//isOver = isOver - 1;
 		//如果回调方法不为空，则执行该回调方法
 		if (callback !== undefined) {
 			callback();
 		}
 	}, function(err) {
-
+		isOver = isOver - 1;
 	}, plugin, action, []);
+
+	//}
+
+
 
 };
 // 左边按键--设置、返回
 $('#top_left_btn')
 	.click(
 		function() {
+			isOver = 0;
 			if ($(this).hasClass('back_bt_class')) {
 				// 返回按键
 				$('#top_left_btn').removeClass('back_bt_class');
@@ -440,7 +446,7 @@ $('#top_left_btn')
 				//返回刷新列表
 				loadModuleList("CubeModuleList", "mainList", "main", function() {
 					gridLayout();
-					//myScroll.refresh();
+					myScroll.refresh();
 				});
 
 
@@ -462,7 +468,11 @@ $("#searchInput").click(function(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	if ($('#top_left_btn').hasClass('back_bt_class')) {
-		$('.buttomContent').hide();
+		var osPlatform = device.platform;
+		if(osPlatform.toLowerCase() == "android"){
+			$('.buttomContent').hide();
+		}
+		
 	}
 });
 $("body").click(function() {
@@ -606,7 +616,7 @@ var listLayout = function() {
 				$(this).hide();
 			}
 
-		})
+		});
 	} else {
 		//查看界面
 		//alert("进入查看界面");
@@ -624,13 +634,12 @@ var listLayout = function() {
 	//切换active
 	$('#listview_btn').addClass('active');
 	$('#gridview_btn').removeClass('active');
-	//myScroll.refresh();
 
 	setTimeout(function() {
 		myScroll.refresh();
 		myScroll.scrollTo(0, 0, 200, false);
 	}, 100);
-}
+};
 
 var gridLayout = function() {
 	console.log("gridview");
@@ -694,14 +703,18 @@ $('#gridview_btn').bind('click', function() {
 // 管理按钮
 $('#manager_btn')
 	.click(function() {
+		$(this).attr("disabled", "disabled");
+		isOver = 0;
+		setTimeout($('#manager_btn').removeAttr("disabled"), 200);
 		//清除搜索框内容
 		$("#searchInput").val("");
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
-			loadModuleList("CubeModuleList", "installList", "install", function() {
+			loadModuleList("CubeModuleList", "uninstallList", "uninstall", function() {
+				$('#manager_btn').hide();
 				//完成后设置listview
 				$('.buttomContent').css('display', 'block');
 				$('#title').html("模块管理");
-				$('#manager_btn').hide();
+
 
 				//关闭欢迎光临
 				$('.account_content').hide();
@@ -718,7 +731,7 @@ $('#manager_btn')
 				//设置左边按键class做标志
 				$('#top_left_btn').addClass('back_bt_class');
 				// 处理模块管理问题
-				var type = "install";
+				var type = "uninstall";
 				activeModuleManageBarItem(type);
 				listLayout();
 				myScroll.refresh();
