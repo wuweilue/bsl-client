@@ -22,7 +22,7 @@
 @property(nonatomic,assign)BOOL isStop;
 @property(nonatomic,assign)BOOL autoDownload;
 @property(nonatomic,strong)NSString * discription;
-@property(nonatomic,strong)NSString *sortingWeight;//模块排序
+@property(nonatomic,assign)int sortingWeight;//模块排序
 
 
 

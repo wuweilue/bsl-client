@@ -174,10 +174,7 @@
         }
         [jsonCube  setObject: [NSNumber numberWithInt:count] forKey:@"msgCount"];
         [jsonCube  setObject: [NSNumber numberWithInt:0] forKey:@"progress"];
-        if([each.sortingWeight length]>0)
-            [jsonCube setObject:each.sortingWeight forKey:@"sortingWeight"];
-        else
-            [jsonCube setObject:@"" forKey:@"sortingWeight"];
+        [jsonCube setObject:[NSNumber numberWithInt:each.sortingWeight] forKey:@"sortingWeight"];
         
         [jsonCube  setObject: [NSNumber numberWithInteger:each.build] forKey:@"build"];
         if ([self isUpdateModule:each.identifier]) {

@@ -72,10 +72,10 @@ var loadModuleList = function(plugin, action, type, callback) {
 			console.log(s);
 
 		});
-		console.log("keyArray0 "+keyArray[0]);
-		console.log("keyArray1 "+keyArray[1]);
-		console.log("valueArray0 "+valueArray[0]);
-		console.log("valueArray1 "+valueArray[1]);
+		console.log("keyArray0 " + keyArray[0]);
+		console.log("keyArray1 " + keyArray[1]);
+		console.log("valueArray0 " + valueArray[0]);
+		console.log("valueArray1 " + valueArray[1]);
 		console.log("AAAAAA-----1DATA");
 		_.each(valueArray, function(value) {
 			//alert(JSON.stringify(value));
@@ -220,7 +220,7 @@ var socLogin = function() {
 
 	$.ajax({
 		timeout: 2000 * 1000,
-		url: "http://10.103.124.104:8080/opws-mobile-web/j_spring_security_check",
+		url: "http://58.248.56.101/opws-mobile-web/j_spring_security_check",
 		type: "get",
 		data: {
 			"username": username,
@@ -237,16 +237,15 @@ var socLogin = function() {
 
 				window.localStorage["socUserInfo"] = JSON.stringify(data);
 				getWeather();
+
 			} else {
 
-
-				closeLoader();
 
 
 				Toast("登陆失败,请检查用户名和密码!", null);
 			}
 
-
+			closeLoader();
 		},
 		error: function(e, xhr, type) {
 
@@ -273,7 +272,7 @@ var getWeather = function() {
 
 	$.ajax({
 		timeout: 2000 * 1000,
-		url: "http://10.103.124.104:8080/opws-mobile-web/mobile/flightinfo-FlightWeather-findWeather.action",
+		url: "http://58.248.56.101/opws-mobile-web/mobile/flightinfo-FlightWeather-findWeather.action",
 		type: "get",
 		data: {
 			"optArea": base
@@ -300,7 +299,7 @@ var getWeather = function() {
 
 		complete: function(xhr, status) {
 
-			closeLoader();
+			// closeLoader();
 
 
 
@@ -378,8 +377,8 @@ var app = {
 		app.receivedEvent('deviceready');
 	},
 	receivedEvent: function(id) {
-
-		socLogin();
+		getDate();
+		//socLogin();
 		console.info("2222888");
 		//loadModuleList("CubeModuleList", "mainList", "main");
 
