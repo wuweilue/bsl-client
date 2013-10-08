@@ -22,6 +22,7 @@
 #import "GroupMemberManagerViewController.h"
 #import "MessageRecord.h"
 #import "XMPPSqlManager.h"
+#import "IMServerAPI.h"
 
 @interface ChatMainViewController ()<TouchScrollerDelegate,UITableViewDataSource,UITableViewDelegate,ChatPanelDelegate,NSFetchedResultsControllerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,RecorderDelegate,UIPopoverControllerDelegate,ChatImageCellDelegate,GroupMemberManagerViewControllerDelegate>
 -(void)createRightNavBarButton;
@@ -640,16 +641,37 @@
 }
 
 -(void)rightActionClick{
+    [SVProgressHUD showWithStatus:@"操作执行中..." maskType:SVProgressHUDMaskTypeBlack];
     if([chatLogic isInFaviorContacts:self.messageId]){
-        [chatLogic removeFaviorInContacts:self.messageId];
-        [SVProgressHUD showSuccessWithStatus:@"你已取消关注该好友"];
+        
+        [IMServerAPI deleteCollectIMFriend:self.messageId block:^(BOOL status){
+        
+            if(!status){
+                [SVProgressHUD showErrorWithStatus:@"操作失败，请稍后再试！"];
+            }
+            else{
+                [chatLogic removeFaviorInContacts:self.messageId];
+                [SVProgressHUD showSuccessWithStatus:@"你已取消关注该好友"];
+            }
+            [self createRightNavBarButton];
+
+        }];
     }
     else{
-        [chatLogic addFaviorInContacts:self.messageId];
-        [SVProgressHUD showSuccessWithStatus:@"你已成功关注该好友"];
+        [IMServerAPI collectIMFriend:self.messageId block:^(BOOL status){
+            if(!status){
+                [SVProgressHUD showErrorWithStatus:@"操作失败，请稍后再试！"];
+            }
+            else{
+                [chatLogic addFaviorInContacts:self.messageId];
+                [SVProgressHUD showSuccessWithStatus:@"你已成功关注该好友"];
+            }
+            [self createRightNavBarButton];
+
+        }];
+
     }
     
-    [self createRightNavBarButton];
 }
 
 -(void)rightGroupClick{

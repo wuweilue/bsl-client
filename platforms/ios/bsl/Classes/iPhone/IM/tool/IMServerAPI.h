@@ -23,16 +23,8 @@
  *          _myJid 用户的JID
  *          _block 状态 statue true/false 表示操作是否成功
  */
-+(void)collectIMFriend:(UserInfo*)user myJid:(NSString*)_myJid block:(void (^)(BOOL statue))_block
++(FormDataRequest*)collectIMFriend:(NSString*)friendJid block:(void (^)(BOOL statue))_block
 ;
-
-/**
- *	@brief	更新收藏好友状态
- *
- *	@param 	user 好友信息对象
- *          _block 状态 statue true/false 表示操作是否成功
- */
-+(void)updateCollectIMFriendStatue:(UserInfo*)user block:(void (^)(BOOL statue))_block;
 
 
 /**
@@ -42,7 +34,7 @@
  *          _block 状态 statue true/false 表示操作是否成功
  *                      friends 用户的收藏好友
  */
-+(void)getCollectIMFriends:(NSString*)myUserId block:(void (^)(BOOL statue,NSArray*friends))_block;
++(HTTPRequest*)getCollectIMFriends:(void (^)(BOOL statue,NSArray*friends))_block;
 
 /**
  *	@brief	删除收藏好友
@@ -51,7 +43,7 @@
  *	@param 	_delUserInfo  删除收藏好友的
  *          _block 状态 statue true/false 表示操作是否成功
  */
-+(void)deleteCollectIMFriend:(NSString*)myUserId deleteUser:(UserInfo*)_delUserInfo block:(void (^)(BOOL statue))_block;
++(HTTPRequest*)deleteCollectIMFriend:(NSString*)friendId block:(void (^)(BOOL statue))_block;
 
 // === === 即时聊天功能 === ===
 

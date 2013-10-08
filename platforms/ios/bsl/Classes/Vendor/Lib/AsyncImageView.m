@@ -299,25 +299,19 @@
                     NSData* newData=UIImagePNGRepresentation(image);
                     
                     [[Cache instance] setData:newData forKey:urlString];
+                    [self loadImageFromData:newData animated:YES];
 
                 }
                 else{
                     [[Cache instance] setData:[__request responseData] forKey:urlString];
+                    [self loadImageFromData:[__request responseData] animated:YES];
 
                 }
                 
             }
         }
 
-        
         [self stopLoading];
-        
-        NSData *cacheData = [[Cache instance] dataForKey:urlString];
-        if (cacheData) {
-            //        DebugLog(@"读取缓存:%@", urlString);
-            [self loadImageFromData:cacheData animated:YES];
-            return;
-        }
         
         [self cleanupRequest];
 

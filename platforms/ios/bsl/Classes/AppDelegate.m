@@ -53,6 +53,8 @@
 #import "PushGetMessageInfo.h"
 
 #import "OperateLog.h"
+#import "IMServerAPI.h"
+#import "ChatLogic.h"
 
 #ifndef _DEBUG
 
@@ -71,6 +73,7 @@ void uncaughtExceptionHandler(NSException*exception){
 @property (assign,nonatomic) SystemSoundID soundFileObject;
 
 -(void)postOpreateLog;
+-(void)updateCollectionFriends;
 @end
 @implementation AppDelegate
 
@@ -513,6 +516,16 @@ void uncaughtExceptionHandler(NSException*exception){
     }
 }
 
+-(void)updateCollectionFriends{
+    [IMServerAPI getCollectIMFriends:^(BOOL status,NSArray* friends){
+        if(status){
+            ChatLogic* logic=[[ChatLogic alloc] init];
+            [logic addFaviorersInContacts:friends];
+            logic=nil;
+        }
+    }];
+}
+
 -(void)didLogin{
     //NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
@@ -525,6 +538,7 @@ void uncaughtExceptionHandler(NSException*exception){
         [self updateCheckInTags];
     //});
     
+    [self updateCollectionFriends];
     
     //开启访问 获取到未收到的推送信息
     [[PushGetMessageInfo sharedInstance] updatePushMessage];
