@@ -760,6 +760,7 @@
                     }
                 }
             }
+            [self saveContext];
         }else{
 
             //remove by fanty 

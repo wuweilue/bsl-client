@@ -29,10 +29,8 @@
 @property (nonatomic, strong) NSDate * reviceTime;
 @property (nonatomic,strong) NSString* recordId;
 
-+(void)requestAnnouncement:(NSString *)announcementId;
 
-+(void)requestAnnouncement:(NSString *)announcementId withRecordId:(NSString*)recordId;
-
++(void)requestAnnouncement:(NSDictionary*)data;
 +(NSArray *)findAllOrderByReviceTime;
 
 

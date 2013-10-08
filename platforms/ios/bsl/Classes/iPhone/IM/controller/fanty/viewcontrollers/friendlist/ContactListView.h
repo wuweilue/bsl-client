@@ -32,5 +32,6 @@
 
 @property(nonatomic,weak) id<ContactListViewDelegate> delegate;
 -(void)loadData;
+-(void)clear;
 -(NSDictionary*)friendsList;
 @end

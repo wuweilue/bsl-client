@@ -119,6 +119,15 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
     
 }
 
+-(void)clear{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    del.xmpp.chatDelegate = nil;
+    
+    [friendListTimeOut invalidate];
+    friendListTimeOut=nil;
+}
+
 -(NSDictionary*)friendsList{
     return  friendsListDict;
 }
@@ -149,17 +158,24 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 }
 
 -(void)showLoadData{
+    NSLog(@"showLoadData 1");
     NSString* searchText=searchBar.text;
     headerArray=nil;
     friendList=nil;
     if([searchText length]<1){
+        NSLog(@"showLoadData 2");
+
         headerArray=[friendsListDict allKeys] ;
         if(selectedIndex>-1 && selectedIndex<[headerArray count]){
             NSString* key=[headerArray objectAtIndex:selectedIndex];
             friendList=[friendsListDict objectForKey:key] ;
         }
+        NSLog(@"showLoadData 3");
+
     }
     else{
+        NSLog(@"showLoadData 4");
+
         headerArray=[NSArray arrayWithObjects:@"搜索结果", nil] ;
         NSMutableArray* list=[[NSMutableArray alloc] initWithCapacity:2];
         for(NSArray* array in [friendsListDict allValues]){
@@ -169,9 +185,16 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
                 }
             }
         }
+        NSLog(@"showLoadData 5");
+
         friendList=[list sortedArrayUsingFunction:contactListViewSort context:nil];
+        NSLog(@"showLoadData 6");
+
     }
     [tableView reloadData];
+    
+    NSLog(@"showLoadData 7");
+
 }
 
 -(void)starRefresh{
