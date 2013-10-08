@@ -123,10 +123,8 @@
 		39D9E82117F27C03001ED6F5 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C6017F007FC00F9CA68 /* home.png */; };
 		39D9E82217F27C03001ED6F5 /* iphoneAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800117E8BFBA0067A023 /* iphoneAboutViewController.xib */; };
 		39D9E82317F27C03001ED6F5 /* icon_app@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C2317F0061000F9CA68 /* icon_app@2x.png */; };
-		39D9E82417F27C03001ED6F5 /* AnnouncementTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800617E8BFBA0067A023 /* AnnouncementTableViewController.xib */; };
 		39D9E82517F27C03001ED6F5 /* TypeSelectorBtn_Black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968625117EE898300C84A6A /* TypeSelectorBtn_Black@2x.png */; };
 		39D9E82617F27C03001ED6F5 /* menu_help.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C7E17F007FC00F9CA68 /* menu_help.png */; };
-		39D9E82717F27C03001ED6F5 /* AnnouncementTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800A17E8BFBA0067A023 /* AnnouncementTableViewCell.xib */; };
 		39D9E82817F27C03001ED6F5 /* DownLoadingDetialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D801417E8BFBA0067A023 /* DownLoadingDetialViewController.xib */; };
 		39D9E82917F27C03001ED6F5 /* bottleReceiverVoiceNodePlaying003@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968625C17EE898300C84A6A /* bottleReceiverVoiceNodePlaying003@2x.png */; };
 		39D9E82A17F27C03001ED6F5 /* DownloadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D801717E8BFBA0067A023 /* DownloadingViewController.xib */; };
@@ -745,10 +743,8 @@
 		39E050FC17F00AEA00BCF7F8 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C6017F007FC00F9CA68 /* home.png */; };
 		39E050FD17F00AEA00BCF7F8 /* iphoneAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800117E8BFBA0067A023 /* iphoneAboutViewController.xib */; };
 		39E050FE17F00AEA00BCF7F8 /* icon_app@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C2317F0061000F9CA68 /* icon_app@2x.png */; };
-		39E050FF17F00AEA00BCF7F8 /* AnnouncementTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800617E8BFBA0067A023 /* AnnouncementTableViewController.xib */; };
 		39E0510017F00AEA00BCF7F8 /* TypeSelectorBtn_Black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968625117EE898300C84A6A /* TypeSelectorBtn_Black@2x.png */; };
 		39E0510117F00AEA00BCF7F8 /* menu_help.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C7E17F007FC00F9CA68 /* menu_help.png */; };
-		39E0510217F00AEA00BCF7F8 /* AnnouncementTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800A17E8BFBA0067A023 /* AnnouncementTableViewCell.xib */; };
 		39E0510317F00AEA00BCF7F8 /* DownLoadingDetialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D801417E8BFBA0067A023 /* DownLoadingDetialViewController.xib */; };
 		39E0510417F00AEA00BCF7F8 /* bottleReceiverVoiceNodePlaying003@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968625C17EE898300C84A6A /* bottleReceiverVoiceNodePlaying003@2x.png */; };
 		39E0510517F00AEA00BCF7F8 /* DownloadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D801717E8BFBA0067A023 /* DownloadingViewController.xib */; };
@@ -1364,10 +1360,8 @@
 		39FF09B817F13CBB0086B76C /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C6017F007FC00F9CA68 /* home.png */; };
 		39FF09B917F13CBB0086B76C /* iphoneAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800117E8BFBA0067A023 /* iphoneAboutViewController.xib */; };
 		39FF09BA17F13CBB0086B76C /* icon_app@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C2317F0061000F9CA68 /* icon_app@2x.png */; };
-		39FF09BB17F13CBB0086B76C /* AnnouncementTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800617E8BFBA0067A023 /* AnnouncementTableViewController.xib */; };
 		39FF09BC17F13CBB0086B76C /* TypeSelectorBtn_Black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968625117EE898300C84A6A /* TypeSelectorBtn_Black@2x.png */; };
 		39FF09BD17F13CBB0086B76C /* menu_help.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C7E17F007FC00F9CA68 /* menu_help.png */; };
-		39FF09BE17F13CBB0086B76C /* AnnouncementTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800A17E8BFBA0067A023 /* AnnouncementTableViewCell.xib */; };
 		39FF09BF17F13CBB0086B76C /* DownLoadingDetialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D801417E8BFBA0067A023 /* DownLoadingDetialViewController.xib */; };
 		39FF09C017F13CBB0086B76C /* bottleReceiverVoiceNodePlaying003@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968625C17EE898300C84A6A /* bottleReceiverVoiceNodePlaying003@2x.png */; };
 		39FF09C117F13CBB0086B76C /* DownloadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D801717E8BFBA0067A023 /* DownloadingViewController.xib */; };
@@ -2010,9 +2004,7 @@
 		F54D82CC17E8BFBB0067A023 /* iphoneAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D800017E8BFBA0067A023 /* iphoneAboutViewController.m */; };
 		F54D82CD17E8BFBB0067A023 /* iphoneAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800117E8BFBA0067A023 /* iphoneAboutViewController.xib */; };
 		F54D82CE17E8BFBB0067A023 /* AnnouncementTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D800517E8BFBA0067A023 /* AnnouncementTableViewController.m */; };
-		F54D82CF17E8BFBB0067A023 /* AnnouncementTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800617E8BFBA0067A023 /* AnnouncementTableViewController.xib */; };
 		F54D82D017E8BFBB0067A023 /* AnnouncementTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D800917E8BFBA0067A023 /* AnnouncementTableViewCell.m */; };
-		F54D82D117E8BFBB0067A023 /* AnnouncementTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D800A17E8BFBA0067A023 /* AnnouncementTableViewCell.xib */; };
 		F54D82D217E8BFBB0067A023 /* Announcement.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D800D17E8BFBA0067A023 /* Announcement.m */; };
 		F54D82D317E8BFBB0067A023 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D801117E8BFBA0067A023 /* BaseViewController.m */; };
 		F54D82D417E8BFBB0067A023 /* DownLoadingDetialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D801317E8BFBA0067A023 /* DownLoadingDetialViewController.m */; };
@@ -2741,10 +2733,8 @@
 		F54D800117E8BFBA0067A023 /* iphoneAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = iphoneAboutViewController.xib; sourceTree = "<group>"; };
 		F54D800417E8BFBA0067A023 /* AnnouncementTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnouncementTableViewController.h; sourceTree = "<group>"; };
 		F54D800517E8BFBA0067A023 /* AnnouncementTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnouncementTableViewController.m; sourceTree = "<group>"; };
-		F54D800617E8BFBA0067A023 /* AnnouncementTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnnouncementTableViewController.xib; sourceTree = "<group>"; };
 		F54D800817E8BFBA0067A023 /* AnnouncementTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnouncementTableViewCell.h; sourceTree = "<group>"; };
 		F54D800917E8BFBA0067A023 /* AnnouncementTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnouncementTableViewCell.m; sourceTree = "<group>"; };
-		F54D800A17E8BFBA0067A023 /* AnnouncementTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnnouncementTableViewCell.xib; sourceTree = "<group>"; };
 		F54D800C17E8BFBA0067A023 /* Announcement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Announcement.h; sourceTree = "<group>"; };
 		F54D800D17E8BFBA0067A023 /* Announcement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Announcement.m; sourceTree = "<group>"; };
 		F54D801017E8BFBA0067A023 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -4044,7 +4034,6 @@
 			children = (
 				F54D800417E8BFBA0067A023 /* AnnouncementTableViewController.h */,
 				F54D800517E8BFBA0067A023 /* AnnouncementTableViewController.m */,
-				F54D800617E8BFBA0067A023 /* AnnouncementTableViewController.xib */,
 				F54D800717E8BFBA0067A023 /* view */,
 			);
 			path = controller;
@@ -4055,7 +4044,6 @@
 			children = (
 				F54D800817E8BFBA0067A023 /* AnnouncementTableViewCell.h */,
 				F54D800917E8BFBA0067A023 /* AnnouncementTableViewCell.m */,
-				F54D800A17E8BFBA0067A023 /* AnnouncementTableViewCell.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -5435,10 +5423,8 @@
 				F5A96CC117F007FC00F9CA68 /* home.png in Resources */,
 				F54D82CD17E8BFBB0067A023 /* iphoneAboutViewController.xib in Resources */,
 				F5A96C2C17F0061100F9CA68 /* icon_app@2x.png in Resources */,
-				F54D82CF17E8BFBB0067A023 /* AnnouncementTableViewController.xib in Resources */,
 				3968628917EE898300C84A6A /* TypeSelectorBtn_Black@2x.png in Resources */,
 				F5A96CDF17F007FC00F9CA68 /* menu_help.png in Resources */,
-				F54D82D117E8BFBB0067A023 /* AnnouncementTableViewCell.xib in Resources */,
 				F54D82D517E8BFBB0067A023 /* DownLoadingDetialViewController.xib in Resources */,
 				3968629217EE898300C84A6A /* bottleReceiverVoiceNodePlaying003@2x.png in Resources */,
 				F54D82D717E8BFBB0067A023 /* DownloadingViewController.xib in Resources */,
@@ -5869,10 +5855,8 @@
 				39D9E82117F27C03001ED6F5 /* home.png in Resources */,
 				39D9E82217F27C03001ED6F5 /* iphoneAboutViewController.xib in Resources */,
 				39D9E82317F27C03001ED6F5 /* icon_app@2x.png in Resources */,
-				39D9E82417F27C03001ED6F5 /* AnnouncementTableViewController.xib in Resources */,
 				39D9E82517F27C03001ED6F5 /* TypeSelectorBtn_Black@2x.png in Resources */,
 				39D9E82617F27C03001ED6F5 /* menu_help.png in Resources */,
-				39D9E82717F27C03001ED6F5 /* AnnouncementTableViewCell.xib in Resources */,
 				39D9E82817F27C03001ED6F5 /* DownLoadingDetialViewController.xib in Resources */,
 				39D9E82917F27C03001ED6F5 /* bottleReceiverVoiceNodePlaying003@2x.png in Resources */,
 				39D9E82A17F27C03001ED6F5 /* DownloadingViewController.xib in Resources */,
@@ -6303,10 +6287,8 @@
 				39E050FC17F00AEA00BCF7F8 /* home.png in Resources */,
 				39E050FD17F00AEA00BCF7F8 /* iphoneAboutViewController.xib in Resources */,
 				39E050FE17F00AEA00BCF7F8 /* icon_app@2x.png in Resources */,
-				39E050FF17F00AEA00BCF7F8 /* AnnouncementTableViewController.xib in Resources */,
 				39E0510017F00AEA00BCF7F8 /* TypeSelectorBtn_Black@2x.png in Resources */,
 				39E0510117F00AEA00BCF7F8 /* menu_help.png in Resources */,
-				39E0510217F00AEA00BCF7F8 /* AnnouncementTableViewCell.xib in Resources */,
 				39E0510317F00AEA00BCF7F8 /* DownLoadingDetialViewController.xib in Resources */,
 				39E0510417F00AEA00BCF7F8 /* bottleReceiverVoiceNodePlaying003@2x.png in Resources */,
 				39E0510517F00AEA00BCF7F8 /* DownloadingViewController.xib in Resources */,
@@ -6737,10 +6719,8 @@
 				39FF09B817F13CBB0086B76C /* home.png in Resources */,
 				39FF09B917F13CBB0086B76C /* iphoneAboutViewController.xib in Resources */,
 				39FF09BA17F13CBB0086B76C /* icon_app@2x.png in Resources */,
-				39FF09BB17F13CBB0086B76C /* AnnouncementTableViewController.xib in Resources */,
 				39FF09BC17F13CBB0086B76C /* TypeSelectorBtn_Black@2x.png in Resources */,
 				39FF09BD17F13CBB0086B76C /* menu_help.png in Resources */,
-				39FF09BE17F13CBB0086B76C /* AnnouncementTableViewCell.xib in Resources */,
 				39FF09BF17F13CBB0086B76C /* DownLoadingDetialViewController.xib in Resources */,
 				39FF09C017F13CBB0086B76C /* bottleReceiverVoiceNodePlaying003@2x.png in Resources */,
 				39FF09C117F13CBB0086B76C /* DownloadingViewController.xib in Resources */,

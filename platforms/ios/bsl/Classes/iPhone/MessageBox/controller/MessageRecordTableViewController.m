@@ -245,7 +245,7 @@
     if(module){
         [cell configureWithModuleName:module.name reviceTime:messageRecord.reviceTime alert:messageRecord.alert];
     }else{
-        [cell configureWithModuleName:@"系统" reviceTime:messageRecord.reviceTime alert:messageRecord.alert];
+        [cell configureWithModuleName:messageRecord.alert reviceTime:messageRecord.reviceTime alert:messageRecord.content];
     }
     if([messageRecord.isRead intValue] == 0)
     {

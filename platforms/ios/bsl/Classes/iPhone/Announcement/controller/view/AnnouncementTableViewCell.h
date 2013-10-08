@@ -9,24 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "Announcement.h"
 
-@interface AnnouncementTableViewCell : UITableViewCell
+@interface AnnouncementTableViewCell : UITableViewCell{
+    UILabel* titleLabel;
+    UILabel* contentLabel;
+    UILabel* isReadLabel;
+    UILabel* timeLabel;
+    UIView* lineView;
+}
 
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
++(float)cellHeight:(NSString*)content width:(float)w editing:(BOOL)editing;
 
-@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
-
-@property (strong, nonatomic) IBOutlet UILabel *isReadLabel;
-
-@property (strong, nonatomic) IBOutlet UILabel *contentLabel;
-
-@property (strong, nonatomic) IBOutlet UIImageView *timeImage;
-
-@property (strong, nonatomic) IBOutlet UIView *line1;
-
--(void)configoure:(Announcement *)announcement isEdit:(BOOL) edit;
-
--(void)moveView;
-
--(void)initView:(BOOL)edit;
+-(void)title:(NSString*)title content:(NSString*)content time:(NSDate*)time isRead:(BOOL)isRead;
 
 @end

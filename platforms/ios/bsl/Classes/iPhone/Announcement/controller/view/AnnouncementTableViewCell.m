@@ -6,161 +6,121 @@
 //
 //
 
-#define margin_top 10
-#define margin_left 20
-#define margin_right 20
-#define border_left 5
-#define border_right 5
-#define border_gap 5
-#define content_hight 17
-#define gap_line_hight 2
-#define bottom_gap 10
+#define OFFSET 40.0f
 
 #import "AnnouncementTableViewCell.h"
 #import "UIColor+expanded.h"
 
 @implementation AnnouncementTableViewCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        [self setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]];
+        
+        titleLabel=[[UILabel alloc] init];
+        titleLabel.numberOfLines=1;
+        titleLabel.font=[UIFont boldSystemFontOfSize:19.0f];
+        titleLabel.backgroundColor=[UIColor clearColor];
+        titleLabel.textColor=[UIColor blackColor];
+        [self addSubview:titleLabel];
+        
+        
+        contentLabel=[[UILabel alloc] init];
+        contentLabel.numberOfLines=0;
+        contentLabel.font=[UIFont systemFontOfSize:16.0f];
+        contentLabel.backgroundColor=[UIColor clearColor];
+        contentLabel.textColor=[UIColor blackColor];
+        [self addSubview:contentLabel];
+        
+        isReadLabel=[[UILabel alloc] init];
+        isReadLabel.numberOfLines=1;
+        isReadLabel.textAlignment=NSTextAlignmentRight;
+        isReadLabel.font=[UIFont boldSystemFontOfSize:15.0f];
+        isReadLabel.backgroundColor=[UIColor clearColor];
+        isReadLabel.textColor=[UIColor blackColor];
+        [self addSubview:isReadLabel];
+        
+        
+        lineView=[[UIView alloc] init];
+        lineView.backgroundColor=[UIColor lightGrayColor];
+        [self addSubview:lineView];
+        
+
+        timeLabel=[[UILabel alloc] init];
+        timeLabel.numberOfLines=1;
+        timeLabel.textAlignment=NSTextAlignmentRight;
+        timeLabel.font=[UIFont systemFontOfSize:15.0f];
+        timeLabel.backgroundColor=[UIColor clearColor];
+        timeLabel.textColor=[UIColor blackColor];
+        [self addSubview:timeLabel];
+        
     }
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
++(float)cellHeight:(NSString*)content width:(float)w editing:(BOOL)editing{
+    float height=40.0f;
+    float offset=OFFSET;
+    if(editing){
+        offset+=40.0f;
+    }
+
+    UILabel* contentLabel=[[UILabel alloc] initWithFrame:CGRectMake(offset, 0.0f, w-offset*2.0f, 0.0f)];
+    contentLabel.numberOfLines=0;
+    contentLabel.font=[UIFont systemFontOfSize:16.0f];
+    contentLabel.backgroundColor=[UIColor clearColor];
+    contentLabel.textColor=[UIColor blackColor];
+
+    contentLabel.text=content;
+    [contentLabel sizeToFit];
+    height+=contentLabel.frame.size.height+3.0f+20.0f;
+    contentLabel=nil;
+    return height;
 }
 
-
--(void)initView:(BOOL)edit{
+-(void)title:(NSString*)title content:(NSString*)content time:(NSDate*)time isRead:(BOOL)isRead {
+    titleLabel.text=title;
+    contentLabel.text=content;
     
-}
-
-
-
--(void)configoure:(Announcement *)announcement  isEdit:(BOOL)edit{
-    
-    float cell_hight = 0.0;
-    
-    if(!_isReadLabel){
-        _isReadLabel = [[UILabel alloc] initWithFrame:CGRectMake( self.frame.size.width - margin_right  - 55+(UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone ? 0:150), margin_top, 55, content_hight)];
-        
-        [self addSubview:_isReadLabel];
+    if(!isRead){
+        isReadLabel.text=@"未读";
+        isReadLabel.textColor = [UIColor blueColor];
+    }else{
+        isReadLabel.text=@"已读";
+        isReadLabel.textColor = [UIColor blackColor];
     }
-    [_isReadLabel setTextAlignment:NSTextAlignmentRight];
-    [_isReadLabel setFont:[UIFont systemFontOfSize:15]];
-    
-    [_isReadLabel setBackgroundColor:[UIColor clearColor]];
-    
-    
-    
-    cell_hight = cell_hight + 17 + margin_top;
-    
-    cell_hight = cell_hight + border_gap;   
-    
-    cell_hight = cell_hight + border_gap;
-    
-  
-   
-    
-    if(!_line1){
-        _line1 = [[UIView alloc] init];
-        [_line1 setBackgroundColor:[UIColor lightGrayColor]];
-       
-        
-        [self addSubview:_line1];
-    }
-    _line1.frame = CGRectMake(margin_left-10 + (edit ? 31:0) + UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone ? 0:31 , cell_hight, self.frame.size.width - margin_left -margin_right+20-(edit ? 31:0) +( UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone ? 0:154), 1);
-    
-       cell_hight = cell_hight + border_gap + _line1.frame.size.height;
-    
-    
-    if(!_titleLabel){
-        _titleLabel = [[UILabel alloc] init];
-        [self addSubview:_titleLabel];
-    }
-    _titleLabel.frame =  CGRectMake(margin_left+ (edit ? 31:0)+ UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone ? 0:51, margin_top, 200-(edit ? 31:0)+( UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone ? 0:154), content_hight);
-
-    [_titleLabel setFont:[UIFont boldSystemFontOfSize:17]];
-    
-    [_titleLabel setBackgroundColor:[UIColor clearColor]];
-    
-    if(!_contentLabel){
-        
-        _contentLabel = [[UILabel alloc] init];
-        
-        [self addSubview:_contentLabel];
-    }
-    
-    _contentLabel.frame = CGRectMake(margin_left + (edit ? 31:0)+ UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone ? 0:51, cell_hight, self.frame.size.width - margin_left -margin_right-(edit ? 31:0), 0);
-    
-    
-    //[self.contentLabel setText:announcement.content];
-    
-    [_contentLabel setBackgroundColor:[UIColor clearColor]];
-    
-    [_contentLabel setNumberOfLines:0];
-    
-    [_contentLabel setFont:[UIFont systemFontOfSize:14]];
-    _contentLabel.textColor = [UIColor colorWithRGBHex:0x212121];
-    [_contentLabel setLineBreakMode:NSLineBreakByTruncatingTail];
-    
-    
-    //一行高度
-    CGFloat oneLineHeight = [announcement.content sizeWithFont:_contentLabel.font
-                                                    forWidth:CGRectGetWidth(_contentLabel.frame) - (edit ? 31:0)
-                                               lineBreakMode:NSLineBreakByTruncatingTail].height;
-    //多行高度
-    CGFloat multiLineHeight = [announcement.content sizeWithFont:_contentLabel.font
-                                             constrainedToSize:CGSizeMake(CGRectGetWidth(_contentLabel.frame) - (edit ? 31:0), 99999)
-                                                 lineBreakMode:NSLineBreakByTruncatingTail].height;
-    
-    //重设caption高度
-    CGFloat finalCaptionHeight = (_contentLabel.numberOfLines == 1) ? oneLineHeight : multiLineHeight;
-    
-    [_contentLabel setFrame:CGRectMake(_contentLabel.frame.origin.x, _contentLabel.frame.origin.y, _contentLabel.frame.size.width, finalCaptionHeight)];
-    
-    
-    cell_hight = cell_hight + bottom_gap + finalCaptionHeight;
-    if(!_timeLabel){
-        
-        _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(180+(UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone ? 0:150), cell_hight, 166, content_hight)];
-        _timeLabel.backgroundColor = [UIColor clearColor];
-        [self addSubview:_timeLabel];
-    }
-    
-    [_timeLabel setFont:[UIFont systemFontOfSize:15]];
     
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    
     [df setDateFormat:@"yyyy-MM-dd HH:mm"];
+    timeLabel.text=[df stringFromDate:time];
     
-    [self.timeLabel setText:[df stringFromDate:announcement.reviceTime]];
-    self.timeLabel.textColor = [UIColor colorWithRGBHex:0x969696];
-    cell_hight = cell_hight + content_hight + border_gap;
-    
-    [self setFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, cell_hight)];
-    self.backgroundColor = [UIColor whiteColor];
-    
-    
-   
 }
 
+-(void)layoutSubviews{
+    [super layoutSubviews];
 
--(void)moveView{
-    [_contentLabel setCenter: CGPointMake( _contentLabel.center.x +30 , _contentLabel.center.y)];
-    [_titleLabel setCenter: CGPointMake( _titleLabel.center.x +30 , _titleLabel.center.y)];
-    [_line1 setCenter: CGPointMake( _line1.center.x +31, _line1.center.y)];
-     _contentLabel.frame = CGRectMake(_contentLabel.frame.origin.x , _contentLabel.frame.origin.y, _contentLabel.frame.size.width-31, _contentLabel.frame.size.height );
-    _titleLabel.frame = CGRectMake(_titleLabel.frame.origin.x , _titleLabel.frame.origin.y, _titleLabel.frame.size.width-31, _titleLabel.frame.size.height );
-    _line1.frame = CGRectMake(_line1.frame.origin.x , _line1.frame.origin.y, _line1.frame.size.width-31, _line1.frame.size.height );
+    float w=self.frame.size.width;
+    
+    float offset=OFFSET;
+    if(self.editing){
+        offset+=40.0f;
+    }
+    
+    
+    isReadLabel.frame=CGRectMake(w-50.0f-OFFSET, 10.0f, 50.0f, 25.0f);
+    titleLabel.frame=CGRectMake(offset, 10.0f, CGRectGetMinX(isReadLabel.frame)-offset, 25.0f);
+    
+    if(!self.editing)
+        lineView.frame=CGRectMake(offset,CGRectGetMaxY(titleLabel.frame)+2.0f,w-offset*2.0f,1);
+    else
+        lineView.frame=CGRectMake(offset,CGRectGetMaxY(titleLabel.frame)+2.0f,w-OFFSET*2.0f-40.0f,1);
+
+    contentLabel.frame=CGRectMake(offset, CGRectGetMaxY(titleLabel.frame)+5.0f, w-offset*2.0f, 0.0f);
+    [contentLabel sizeToFit];
+    
+    timeLabel.frame=CGRectMake(w-150.0f-OFFSET, CGRectGetMaxY(contentLabel.frame)+3.0f, w-OFFSET*2.0f, 20.0f);
+
 }
 
 @end

@@ -81,7 +81,7 @@
                     
                 }
             }
-            if([content isKindOfClass:[NSString class]]){
+            else if([content isKindOfClass:[NSString class]]){
                 [message setContent:content];
             }
             [message setReviceTime:[NSDate date]];
@@ -238,10 +238,10 @@
         
         NSDictionary *module = [data objectForKey:@"extras"];
         if (module && [[module objectForKey:@"moduleIdentifer"] isEqualToString:@"com.foss.announcement"]) {
-            [Announcement requestAnnouncement:[module objectForKey:@"announceId"] withRecordId:[data objectForKey:@"sendId"]];
             
-            ;
-        }	
+            
+            [Announcement requestAnnouncement:[module objectForKey:@"announceId"] withRecordId:[data objectForKey:@"sendId"]];
+        }
         //需要支持99发送的公告，99发送的公告缺少announcement字段
         return YES;
     }else{

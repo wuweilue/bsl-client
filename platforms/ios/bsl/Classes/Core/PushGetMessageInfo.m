@@ -92,7 +92,7 @@ static PushGetMessageInfo* instance=nil;
     [formDataRequest setPostValue:ids  forKey:@"sendId"];
     NSString * uuid = [[UIDevice currentDevice] uniqueDeviceIdentifier];
     [formDataRequest setPostValue:uuid forKey:@"deviceId"];
-    [formDataRequest setPostValue:kAPPKey forKey:@"appKey"];
+    [formDataRequest setPostValue:kAPPKey forKey:@"appId"];
     [formDataRequest setRequestMethod:@"PUT"];
     [formDataRequest startAsynchronous];
     __block FormDataRequest *__formDataRequest=formDataRequest;
@@ -113,14 +113,14 @@ static PushGetMessageInfo* instance=nil;
 
 -(void)updatePushMessage{
     [request cancel];
+    request=nil;
     [updateTimer invalidate];
     updateTimer=nil;
-    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString* token = [userDefaults objectForKey:@"deviceToken"];
-    NSString* deviceId = [[UIDevice currentDevice] uniqueDeviceIdentifier];
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/%@/%@/%@",kPushGetMessageUrl,token,deviceId,kAPPKey];
+    NSString* token = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"];
     
     if (token && [token length] > 0 ) {
+        NSString* deviceId = [[UIDevice currentDevice] uniqueDeviceIdentifier];
+        NSString* requestUrl = [NSString stringWithFormat:@"%@/%@/%@/%@",kPushGetMessageUrl,token,deviceId,kAPPKey];
         
         request = [HTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
         __block HTTPRequest* __request=request;
