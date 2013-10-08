@@ -14,10 +14,16 @@
 @implementation ImageScroller
 
 - (id)initWithFrame:(CGRect)frame{
+    
     self = [super initWithFrame:frame];
     if (self) {
         self.userInteractionEnabled=YES;
-        imageView=[[AsyncImageView alloc] initWithFrame:self.bounds];
+        frame=self.bounds;
+        frame.origin.x=20.0f;
+        frame.origin.y=20.0f;
+        frame.size.width-=40.0f;
+        frame.size.height-=40.0f;
+        imageView=[[UIImageView alloc] initWithFrame:frame];
         imageView.contentMode=UIViewContentModeScaleAspectFit;
         [self addSubview:imageView];
         
@@ -53,20 +59,8 @@
     
 }
 
--(void)showImage:(NSString*)imageFile{
-    if([imageFile length]>0){
-        
-        if([[NSFileManager defaultManager] fileExistsAtPath:imageFile]){
-            imageView.image=[UIImage imageWithContentsOfFile:imageFile];
-        }
-        else{
-            NSString *url = [ServerAPI urlForAttachmentId:imageFile];
-            
-            url=[url stringByAppendingFormat:@"?sessionKey=%@&appKey=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
-            [imageView loadImageWithURLString:url];
-        }
-
-    }
+-(void)showImage:(UIImage*)image{
+    imageView.image=image;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{

@@ -12,6 +12,7 @@
 #import "RectangleChat.h"
 #import "XMPPRoom.h"
 #import "MessageRecord.h"
+#import "AsyncImageView.h"
 #import "XMPPSqlManager.h"
 
 @interface ChatLogic()
@@ -397,6 +398,8 @@
     NSURL *requestURL = [NSURL URLWithString:[kFileUploadUrl stringByAppendingFormat:@"?sessionKey=%@&&appKey=%@",token,kAPPKey]];
   
     FormDataRequest* request = [FormDataRequest requestWithURL:requestURL];
+    request.timeOutSeconds=10.0f;
+    request.persistentConnectionTimeoutSeconds=10.0f;
     __block FormDataRequest* __request=request;
     request.delegate = self;
     @autoreleasepool {
@@ -427,9 +430,33 @@
             [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
         }
         path = [[path stringByAppendingPathComponent:fileId] stringByAppendingString:@".png"];
-        
-        [imageData writeToFile:path atomically:YES];
+        if(imageData!=nil){
+            
+            @autoreleasepool {
                 
+                UIImage *rawImage = [[UIImage alloc] initWithData:imageData];
+                CGSize size=CGSizeMake(420.0f, 600.0f);
+                if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+                    size=CGSizeMake(800.0f, 640.0f);
+                }
+                if(rawImage!=nil &&(rawImage.size.width>size.width || rawImage.size.height>size.height)){
+                    size.height=size.width/(rawImage.size.width/rawImage.size.height);
+                    UIImage *image=[AsyncImageView imageWithThumbnail:rawImage size:size];
+                    
+                    NSData* newData=UIImagePNGRepresentation(image);
+                    
+                    [newData writeToFile:path atomically:YES];
+                    
+                }
+                else{
+                    [imageData writeToFile:path atomically:YES];
+                    
+                }
+                rawImage=nil;
+                
+            }
+
+        }
         if(finish!=nil)
             finish(fileId,path);
         [__request cancel];

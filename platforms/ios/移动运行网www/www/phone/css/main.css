@@ -56,6 +56,21 @@ header{
 	-webkit-box-shadow: -1px 3px 3px #3263a5;
 	box-shadow: -1px 3px 3px #3263a5;
 }
+
+.title {
+position: absolute;
+top: 0;
+left: 0;
+display: block;
+width: 100%;
+font-size: 20px;
+font-weight: bold;
+line-height: 44px;
+color: #fff;
+text-align: center;
+text-shadow: 0 -1px rgba(0,0,0,0.5);
+white-space: nowrap;
+}
 .logo_content{
 	overflow: hidden;
 	padding: 6px 10px;

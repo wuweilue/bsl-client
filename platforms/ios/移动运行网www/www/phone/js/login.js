@@ -24,6 +24,12 @@ $("#login_btn").click(function() {
 
 });
 
+var bodyHeight = $(window).height();
+$("body").css({
+	'height':bodyHeight+'px',
+	'min-height':bodyHeight+'px'
+});
+
 var app = {
 	initialize: function() {
 		this.bindEvents();

@@ -327,7 +327,8 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
             
             [SVProgressHUD showWithStatus:@"正在执行操作..." maskType:SVProgressHUDMaskTypeBlack];
 
-            request=[IMServerAPI grouptDeleteMember:[[ShareAppDelegate xmpp].xmppStream.myJID bare] roomId:self.messageId block:^(BOOL status){
+            
+            request=[IMServerAPI grouptDeleteMember:groupPanel.selectedJid roomId:self.messageId block:^(BOOL status){
 
                 request=nil;
                 if(!status){

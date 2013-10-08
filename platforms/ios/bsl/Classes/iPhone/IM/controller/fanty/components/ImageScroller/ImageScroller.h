@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-@class AsyncImageView;
 @interface ImageScroller : UIView{
-    AsyncImageView* imageView;
+    UIImageView* imageView;
 }
 
--(void)showImage:(NSString*)imageFile;
+-(void)showImage:(UIImage*)image;
 
 -(void)showInView:(UIView*)view;
 

@@ -224,8 +224,14 @@
             }else{
                 iphoneLocal = [module.local stringByAppendingString:@"ViewController"];
             }
-            self.navigationController.navigationBar.hidden = NO;
             UIViewController *localController = (UIViewController *)[[NSClassFromString(iphoneLocal) alloc] init];
+            if(localController==nil){
+                UIAlertView* alertView=[[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@模块不存在",module.name] message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alertView show];
+                alertView=nil;
+                return;
+            }
+            self.navigationController.navigationBar.hidden = NO;
             [self.navigationController pushViewController:localController animated:YES];
             return;
         }else{
@@ -582,7 +588,7 @@
         [jsonCube  setObject: [NSNumber numberWithInt:0] forKey:@"progress"];
         //=========================================
         [jsonCube  setObject: [NSNumber numberWithInteger:each.build] forKey:@"build"];
-         [jsonCube setObject:each.sortingWeight forKey:@"sortingWeight"];
+         [jsonCube setObject:[NSNumber numberWithInt:each.sortingWeight] forKey:@"sortingWeight"];
         if ([self isUpdateModule:each.identifier]) {
             [jsonCube  setObject:  [NSNumber numberWithBool:YES] forKey:@"updatable"];
         }else{
