@@ -110,6 +110,11 @@
 //同步数据
 -(void)sync:(CDVInvokedUrlCommand*)command{
     NSLog(@"syncing............");
+    
+    if(![SVProgressHUD isVisible]){
+        [SVProgressHUD showWithStatus:@"正在同步数据..." maskType:SVProgressHUDMaskTypeGradient ] ;
+    }
+
     self.cdvCommand = command;
     CubeApplication *cubeApp = [CubeApplication currentApplication];
     [cubeApp sync];
