@@ -76,15 +76,20 @@ html,body,img,div,ul,li,a,h3{
 }
 .left_btn{
 	left: 10px;
+	height: 20px;
+width: 24px;
 }
 .right_btn{
 	right:10px;
+	height: 20px;
+	width: 24px;
 }
 .left_btn:active , .right_btn:active{
 	background:-webkit-gradient(linear, 10% 100%, 10% 100%, from(#67aee2), to(#417dbe));
 	border: 2px solid #3772ba;
 }
 .left_btn .set_img{
+	position: relative;
 	height: 20px;
 	width: 20px;
 

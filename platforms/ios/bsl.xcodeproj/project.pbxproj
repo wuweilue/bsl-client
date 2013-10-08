@@ -4696,8 +4696,6 @@
 			children = (
 				F54D817D17E8BFBB0067A023 /* AFAppDotNetAPIClient.h */,
 				F54D817E17E8BFBB0067A023 /* AFAppDotNetAPIClient.m */,
-				F54D818E17E8BFBB0067A023 /* AFNetworking_class */,
-				F54D818F17E8BFBB0067A023 /* ASIHTTPRequest */,
 				F54D819417E8BFBB0067A023 /* AsyncSocket */,
 				F54D819517E8BFBB0067A023 /* Base64 */,
 				F54D819917E8BFBB0067A023 /* FMDB */,
@@ -4710,52 +4708,6 @@
 				F54D81CD17E8BFBB0067A023 /* ViewDeck */,
 			);
 			path = Vendor;
-			sourceTree = "<group>";
-		};
-		F54D818E17E8BFBB0067A023 /* AFNetworking_class */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = AFNetworking_class;
-			sourceTree = "<group>";
-		};
-		F54D818F17E8BFBB0067A023 /* ASIHTTPRequest */ = {
-			isa = PBXGroup;
-			children = (
-				F54D819017E8BFBB0067A023 /* ASIWebPageRequest */,
-				F54D819117E8BFBB0067A023 /* CloudFiles */,
-				F54D819217E8BFBB0067A023 /* S3 */,
-				F54D819317E8BFBB0067A023 /* Tests */,
-			);
-			path = ASIHTTPRequest;
-			sourceTree = "<group>";
-		};
-		F54D819017E8BFBB0067A023 /* ASIWebPageRequest */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ASIWebPageRequest;
-			sourceTree = "<group>";
-		};
-		F54D819117E8BFBB0067A023 /* CloudFiles */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = CloudFiles;
-			sourceTree = "<group>";
-		};
-		F54D819217E8BFBB0067A023 /* S3 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = S3;
-			sourceTree = "<group>";
-		};
-		F54D819317E8BFBB0067A023 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Tests;
 			sourceTree = "<group>";
 		};
 		F54D819417E8BFBB0067A023 /* AsyncSocket */ = {
@@ -8196,10 +8148,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework/Vendor/libidn\"",
 					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/AFNetworking\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = chameleon;
@@ -8231,10 +8180,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework/Vendor/libidn\"",
 					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/AFNetworking\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = chameleon;
@@ -8268,10 +8214,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework/Vendor/libidn\"",
 					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/AFNetworking\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "南航移动应用";
@@ -8303,10 +8246,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework/Vendor/libidn\"",
 					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/AFNetworking\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "南航移动应用";
@@ -8340,10 +8280,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework/Vendor/libidn\"",
 					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/AFNetworking\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = chameleon;
@@ -8375,10 +8312,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework/Vendor/libidn\"",
 					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/AFNetworking\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = chameleon;
@@ -8419,10 +8353,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework/Vendor/libidn\"",
 					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/AFNetworking\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "移动运行网2.0";
@@ -8461,10 +8392,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework/Vendor/libidn\"",
 					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/XMPPFramework\"",
-					"\"$(SRCROOT)/cube-ios/Classes/Vendor/AFNetworking\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "移动运行网2.0";

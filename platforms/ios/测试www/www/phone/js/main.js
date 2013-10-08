@@ -54,7 +54,7 @@ var refreshMainPage = function(identifier, type, moduleMessage) {
 			loadModuleList("CubeModuleList", "mainList", "main", function() {
 				//gridLayout();
 				myScroll.refresh();
-				isOver = isOver -1;
+				isOver = isOver - 1;
 			});
 		}
 
@@ -439,7 +439,7 @@ $('#top_left_btn')
 				// 删除左边按键class标志
 				$('#top_left_btn').removeClass(
 					'back_bt_class').addClass('btn-primary').addClass('btn').css('text-indent', '0px').css('background', '-webkit-gradient(linear, 10% 100%, 10% 100%, from(#5390d5), to(#60a5e1))').css('border', '2px solid #2a66a7');
-				$('#top_left_btn').css('width', '48px').html('<img class="set_img" src="img/set.png">');
+				$('#top_left_btn').css('width', '24px').css('height', '18px').html('<img class="set_img" src="img/set.png" style="top:-2px;">');
 				//开启欢迎光临
 				$('.account_content').show();
 				$('.searchContent').css("height", "60px");
@@ -460,11 +460,29 @@ $('#top_left_btn')
 
 
 // 检测屏幕是否伸缩
+var LastHeight = window.screen.availHeight;
 $(window).resize(function() {
 	//$(".mainContent").height($(window).height() - 50);
+	var availHeight = $(window).height();
+	console.log("LastHeight " + LastHeight);
+	console.log("availHeight " + availHeight);
+	if (Math.abs(LastHeight - availHeight) > 100) {
+		if ((LastHeight - availHeight) > 0) {
+			//键盘弹出
+			console.log("键盘弹出了");
+			$('.buttomContent').hide();
+		} else {
+			console.log("键盘隐藏了。。。");
+			//键盘隐藏
+			if ($('#top_left_btn').hasClass('back_bt_class')) {
+				$('.buttomContent').show();
+			}
+		}
+	}
+	LastHeight = availHeight;
 	myScroll.refresh();
 });
-$("#searchInput").click(function(e) {
+/*$("#searchInput").click(function(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	if ($('#top_left_btn').hasClass('back_bt_class')) {
@@ -474,15 +492,15 @@ $("#searchInput").click(function(e) {
 		}
 		
 	}
-});
-$("body").click(function() {
+});*/
+/*$("body").click(function() {
+	console.log("body click");
 	if ($('#top_left_btn').hasClass('back_bt_class')) {
 		$('.buttomContent').show();
 	}
-	$("li[identifier]").focus();
 
-});
-$("body").live("touchend", function() {
+});*/
+$("#wrapper").live("touchend", function() {
 	console.log("body touchend");
 	myScroll.refresh();
 
@@ -703,13 +721,12 @@ $('#gridview_btn').bind('click', function() {
 // 管理按钮
 $('#manager_btn')
 	.click(function() {
-		$(this).attr("disabled", "disabled");
-		isOver = 0;
-		setTimeout($('#manager_btn').removeAttr("disabled"), 200);
+		console.log("点击");
 		//清除搜索框内容
-		$("#searchInput").val("");
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
 			loadModuleList("CubeModuleList", "uninstallList", "uninstall", function() {
+				isOver = 0;
+				$("#searchInput").val("");
 				$('#manager_btn').hide();
 				//完成后设置listview
 				$('.buttomContent').css('display', 'block');
@@ -726,7 +743,7 @@ $('#manager_btn')
 					.css('width', '50px')
 				//.html(' <i class="icon-arrow-left icon-white"></i>');
 				.css('background', "url('img/back.png') no-repeat")
-					.css('background-size', '50px 30px').html("返回")
+					.css('background-size', '50px 32px').html("返回").css('padding-top', '6px')
 					.css('border', '0px').css('text-align', 'center').css('text-indent', '5px');
 				//设置左边按键class做标志
 				$('#top_left_btn').addClass('back_bt_class');
@@ -822,4 +839,3 @@ var app = {
 	}
 };
 app.initialize();
-x
