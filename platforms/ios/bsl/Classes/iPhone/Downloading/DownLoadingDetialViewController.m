@@ -63,11 +63,11 @@ static const NSString *const kLoadIconOperationKey = @"kLoadIconOperationKey";
     
     [self.mainScrollView addSubview:_iconImage];//添加图片按钮
     //获取模块快照数据  动态刷新数据
-    
+     self.iconImage.badgeView.hidden = YES;
     if (self.curCubeModlue.local ) {
         if ([self.curCubeModlue.localImageUrl length]>0) {
             NSArray* imageURL =   [self.curCubeModlue.localImageUrl componentsSeparatedByString:@","];
-           for (NSString * str  in imageURL) {
+            for (NSString * str  in imageURL) {
                 [self.iconUrlArr addObject: [[[NSBundle mainBundle] URLForResource:str withExtension:nil] absoluteString]];
             }
             [self loadImage];
@@ -76,19 +76,24 @@ static const NSString *const kLoadIconOperationKey = @"kLoadIconOperationKey";
         [self loadImageData];
     }
 
+
 }
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    
+    [super viewWillAppear:animated];
     [self enableDetialInfoNotification];
-}
+    }
 
 -(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [self disableDetialInfoNotification];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     [self synAppInfo];
 }
 
@@ -173,7 +178,7 @@ static const NSString *const kLoadIconOperationKey = @"kLoadIconOperationKey";
 //请求快照图片地址数据
 -(void)loadImageData{
     
-    self.iconImage.badgeView.hidden = YES;
+   
     
     
     
@@ -191,8 +196,9 @@ static const NSString *const kLoadIconOperationKey = @"kLoadIconOperationKey";
         [__request cancel];
 
     }];
+    [request startAsynchronous];
     
-    [[DownloadManager instance] addOperation:request forIdentifier:kLoadIconOperationKey];
+//    [[DownloadManager instance] addOperation:request forIdentifier:kLoadIconOperationKey];
 }
 
 //取得请求数据 提醒scrollview更新
