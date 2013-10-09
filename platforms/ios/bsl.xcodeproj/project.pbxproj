@@ -180,8 +180,6 @@
 		39D9E85D17F27C03001ED6F5 /* MessageRecordHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811B17E8BFBA0067A023 /* MessageRecordHeaderView.xib */; };
 		39D9E85E17F27C03001ED6F5 /* MessageRecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811E17E8BFBA0067A023 /* MessageRecordTableViewCell.xib */; };
 		39D9E85F17F27C03001ED6F5 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813017E8BFBA0067A023 /* AboutViewController.xib */; };
-		39D9E86017F27C03001ED6F5 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813217E8BFBA0067A023 /* AboutViewController.xib */; };
-		39D9E86117F27C03001ED6F5 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813417E8BFBA0067A023 /* AboutViewController.xib */; };
 		39D9E86217F27C03001ED6F5 /* SettingMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813717E8BFBA0067A023 /* SettingMainViewController.xib */; };
 		39D9E86317F27C03001ED6F5 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813A17E8BFBA0067A023 /* SettingsViewController.xib */; };
 		39D9E86417F27C03001ED6F5 /* SetttingIMViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813D17E8BFBA0067A023 /* SetttingIMViewController.xib */; };
@@ -787,8 +785,6 @@
 		39E0513A17F00AEA00BCF7F8 /* MessageRecordHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811B17E8BFBA0067A023 /* MessageRecordHeaderView.xib */; };
 		39E0513B17F00AEA00BCF7F8 /* MessageRecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811E17E8BFBA0067A023 /* MessageRecordTableViewCell.xib */; };
 		39E0513C17F00AEA00BCF7F8 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813017E8BFBA0067A023 /* AboutViewController.xib */; };
-		39E0513D17F00AEA00BCF7F8 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813217E8BFBA0067A023 /* AboutViewController.xib */; };
-		39E0513E17F00AEA00BCF7F8 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813417E8BFBA0067A023 /* AboutViewController.xib */; };
 		39E0513F17F00AEA00BCF7F8 /* SettingMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813717E8BFBA0067A023 /* SettingMainViewController.xib */; };
 		39E0514017F00AEA00BCF7F8 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813A17E8BFBA0067A023 /* SettingsViewController.xib */; };
 		39E0514117F00AEA00BCF7F8 /* SetttingIMViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813D17E8BFBA0067A023 /* SetttingIMViewController.xib */; };
@@ -1391,8 +1387,6 @@
 		39FF09F417F13CBB0086B76C /* MessageRecordHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811B17E8BFBA0067A023 /* MessageRecordHeaderView.xib */; };
 		39FF09F517F13CBB0086B76C /* MessageRecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811E17E8BFBA0067A023 /* MessageRecordTableViewCell.xib */; };
 		39FF09F617F13CBB0086B76C /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813017E8BFBA0067A023 /* AboutViewController.xib */; };
-		39FF09F717F13CBB0086B76C /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813217E8BFBA0067A023 /* AboutViewController.xib */; };
-		39FF09F817F13CBB0086B76C /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813417E8BFBA0067A023 /* AboutViewController.xib */; };
 		39FF09F917F13CBB0086B76C /* SettingMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813717E8BFBA0067A023 /* SettingMainViewController.xib */; };
 		39FF09FA17F13CBB0086B76C /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813A17E8BFBA0067A023 /* SettingsViewController.xib */; };
 		39FF09FB17F13CBB0086B76C /* SetttingIMViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813D17E8BFBA0067A023 /* SetttingIMViewController.xib */; };
@@ -2066,8 +2060,6 @@
 		F54D837817E8BFBB0067A023 /* ThreadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D812C17E8BFBA0067A023 /* ThreadTask.m */; };
 		F54D837917E8BFBB0067A023 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D812F17E8BFBA0067A023 /* AboutViewController.m */; };
 		F54D837A17E8BFBB0067A023 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813017E8BFBA0067A023 /* AboutViewController.xib */; };
-		F54D837B17E8BFBB0067A023 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813217E8BFBA0067A023 /* AboutViewController.xib */; };
-		F54D837C17E8BFBB0067A023 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813417E8BFBA0067A023 /* AboutViewController.xib */; };
 		F54D837D17E8BFBB0067A023 /* SettingMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D813617E8BFBA0067A023 /* SettingMainViewController.m */; };
 		F54D837E17E8BFBB0067A023 /* SettingMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D813717E8BFBA0067A023 /* SettingMainViewController.xib */; };
 		F54D837F17E8BFBB0067A023 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D813917E8BFBA0067A023 /* SettingsViewController.m */; };
@@ -2853,8 +2845,6 @@
 		F54D812E17E8BFBA0067A023 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		F54D812F17E8BFBA0067A023 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		F54D813017E8BFBA0067A023 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
-		F54D813217E8BFBA0067A023 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
-		F54D813417E8BFBA0067A023 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		F54D813517E8BFBA0067A023 /* SettingMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingMainViewController.h; sourceTree = "<group>"; };
 		F54D813617E8BFBA0067A023 /* SettingMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingMainViewController.m; sourceTree = "<group>"; };
 		F54D813717E8BFBA0067A023 /* SettingMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingMainViewController.xib; sourceTree = "<group>"; };
@@ -4464,8 +4454,6 @@
 				F54D812E17E8BFBA0067A023 /* AboutViewController.h */,
 				F54D812F17E8BFBA0067A023 /* AboutViewController.m */,
 				F54D813017E8BFBA0067A023 /* AboutViewController.xib */,
-				F54D813117E8BFBA0067A023 /* chameleon */,
-				F54D813317E8BFBA0067A023 /* isupport */,
 				F54D813517E8BFBA0067A023 /* SettingMainViewController.h */,
 				F54D813617E8BFBA0067A023 /* SettingMainViewController.m */,
 				F54D813717E8BFBA0067A023 /* SettingMainViewController.xib */,
@@ -4477,22 +4465,6 @@
 				F54D813D17E8BFBA0067A023 /* SetttingIMViewController.xib */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		F54D813117E8BFBA0067A023 /* chameleon */ = {
-			isa = PBXGroup;
-			children = (
-				F54D813217E8BFBA0067A023 /* AboutViewController.xib */,
-			);
-			path = chameleon;
-			sourceTree = "<group>";
-		};
-		F54D813317E8BFBA0067A023 /* isupport */ = {
-			isa = PBXGroup;
-			children = (
-				F54D813417E8BFBA0067A023 /* AboutViewController.xib */,
-			);
-			path = isupport;
 			sourceTree = "<group>";
 		};
 		F54D813E17E8BFBA0067A023 /* UserCenter */ = {
@@ -5392,8 +5364,6 @@
 				F54D837117E8BFBB0067A023 /* MessageRecordHeaderView.xib in Resources */,
 				F54D837317E8BFBB0067A023 /* MessageRecordTableViewCell.xib in Resources */,
 				F54D837A17E8BFBB0067A023 /* AboutViewController.xib in Resources */,
-				F54D837B17E8BFBB0067A023 /* AboutViewController.xib in Resources */,
-				F54D837C17E8BFBB0067A023 /* AboutViewController.xib in Resources */,
 				F54D837E17E8BFBB0067A023 /* SettingMainViewController.xib in Resources */,
 				F54D838017E8BFBB0067A023 /* SettingsViewController.xib in Resources */,
 				F54D838217E8BFBB0067A023 /* SetttingIMViewController.xib in Resources */,
@@ -5812,8 +5782,6 @@
 				39D9E85D17F27C03001ED6F5 /* MessageRecordHeaderView.xib in Resources */,
 				39D9E85E17F27C03001ED6F5 /* MessageRecordTableViewCell.xib in Resources */,
 				39D9E85F17F27C03001ED6F5 /* AboutViewController.xib in Resources */,
-				39D9E86017F27C03001ED6F5 /* AboutViewController.xib in Resources */,
-				39D9E86117F27C03001ED6F5 /* AboutViewController.xib in Resources */,
 				39D9E86217F27C03001ED6F5 /* SettingMainViewController.xib in Resources */,
 				39D9E86317F27C03001ED6F5 /* SettingsViewController.xib in Resources */,
 				39D9E86417F27C03001ED6F5 /* SetttingIMViewController.xib in Resources */,
@@ -6232,8 +6200,6 @@
 				39E0513A17F00AEA00BCF7F8 /* MessageRecordHeaderView.xib in Resources */,
 				39E0513B17F00AEA00BCF7F8 /* MessageRecordTableViewCell.xib in Resources */,
 				39E0513C17F00AEA00BCF7F8 /* AboutViewController.xib in Resources */,
-				39E0513D17F00AEA00BCF7F8 /* AboutViewController.xib in Resources */,
-				39E0513E17F00AEA00BCF7F8 /* AboutViewController.xib in Resources */,
 				39E0513F17F00AEA00BCF7F8 /* SettingMainViewController.xib in Resources */,
 				39E0514017F00AEA00BCF7F8 /* SettingsViewController.xib in Resources */,
 				39E0514117F00AEA00BCF7F8 /* SetttingIMViewController.xib in Resources */,
@@ -6652,8 +6618,6 @@
 				39FF09F417F13CBB0086B76C /* MessageRecordHeaderView.xib in Resources */,
 				39FF09F517F13CBB0086B76C /* MessageRecordTableViewCell.xib in Resources */,
 				39FF09F617F13CBB0086B76C /* AboutViewController.xib in Resources */,
-				39FF09F717F13CBB0086B76C /* AboutViewController.xib in Resources */,
-				39FF09F817F13CBB0086B76C /* AboutViewController.xib in Resources */,
 				39FF09F917F13CBB0086B76C /* SettingMainViewController.xib in Resources */,
 				39FF09FA17F13CBB0086B76C /* SettingsViewController.xib in Resources */,
 				39FF09FB17F13CBB0086B76C /* SetttingIMViewController.xib in Resources */,
