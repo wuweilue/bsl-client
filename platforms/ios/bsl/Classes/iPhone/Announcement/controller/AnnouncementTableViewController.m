@@ -9,8 +9,8 @@
 #import "AnnouncementTableViewController.h"
 #import "AnnouncementTableViewCell.h"
 #import "NSManagedObject+Repository.h"
+#import "Announcement.h"
 #import "MessageRecord.h"
-
 
 #define RECORD_DELETE @"RECORD_DELETE"
 @interface AnnouncementTableViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -86,14 +86,14 @@
     
     [self.view setBackgroundColor:[UIColor colorWithRed:246/256.0 green:246/256.0 blue:246/256.0 alpha:1.0]];
     
-    self.list=[NSMutableArray arrayWithArray:[MessageRecord findForModuleIdentifier:@"com.foss.announcement"]];
+    self.list=[NSMutableArray arrayWithArray:[Announcement findAllOrderByReviceTime]];
     
     //跳转到对应的公告记录
     if([self.recordId length]>0){
         __block int slideIndex = -1;
         [self.list enumerateObjectsUsingBlock:^(id obj,NSUInteger index,BOOL* stop){
-            MessageRecord *messageRecord=obj;
-            if([messageRecord.recordId isEqualToString:self.recordId]){
+            Announcement *announcement=obj;
+            if([announcement.recordId isEqualToString:self.recordId]){
                 slideIndex = index;
                 *stop=YES;
             }
@@ -110,10 +110,10 @@
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
-    for (MessageRecord * messageRecord in list) {
-        [messageRecord setIsRead:[NSNumber numberWithBool:YES]];
+    for (Announcement *announcement in list) {
+        [announcement setIsRead:[NSNumber numberWithBool:YES]];
     }
-    [[MessageRecord managedObjectContext] save:nil];
+    [[Announcement managedObjectContext] save:nil];
 }
 
 
@@ -126,7 +126,7 @@
     [delayLoadTimer invalidate];
     delayLoadTimer=nil;
     
-    self.list=[NSMutableArray arrayWithArray:[MessageRecord findForModuleIdentifier:@"com.foss.announcement"]];
+    self.list=[NSMutableArray arrayWithArray:[Announcement findAllOrderByReviceTime]];
     [self createRrightNavItem];
 
     [tableView reloadData];
@@ -162,9 +162,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)__tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MessageRecord* messageRecord = [list objectAtIndex:[indexPath section]];
+    Announcement* announcent = [list objectAtIndex:[indexPath section]];
 
-    return [AnnouncementTableViewCell cellHeight:messageRecord.content width:__tableView.frame.size.width editing:__tableView.editing];
+    return [AnnouncementTableViewCell cellHeight:announcent.content width:__tableView.frame.size.width editing:__tableView.editing];
 }
 
 
@@ -177,9 +177,9 @@
         
     }
     
-    MessageRecord* messageRecord = [list objectAtIndex:[indexPath section]];
+    Announcement* announcent = [list objectAtIndex:[indexPath section]];
     cell.editing=__tableView.editing;
-    [cell title:messageRecord.alert content:messageRecord.content time:messageRecord.reviceTime isRead:[messageRecord.isRead boolValue]];
+    [cell title:announcent.title content:announcent.content time:announcent.reviceTime isRead:[announcent.isRead boolValue]];
     return cell;
     
 }
@@ -190,7 +190,9 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)__tableView
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleDelete;
+    if(__tableView.editing)
+        return UITableViewCellEditingStyleDelete;
+    return UITableViewCellEditingStyleNone;
 }
 
 -(void)tableView:(UITableView *)__tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -199,8 +201,8 @@
         //        获取选中删除行索引值
         int index=[indexPath section];
         
-        MessageRecord* record=[self.list objectAtIndex:index];
-        [record remove];
+        Announcement* announcent=[self.list objectAtIndex:index];
+        [announcent remove];
         [self.list removeObjectAtIndex:index];
         
         [__tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -214,10 +216,23 @@
 - (void)tableView:(UITableView *)__tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [__tableView deselectRowAtIndexPath:indexPath animated:YES];
     int index=[indexPath section];
-    MessageRecord* record=[self.list objectAtIndex:index];
-    record.isRead=[NSNumber numberWithBool:YES];
-    [record save];
-    [__tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+    Announcement* announcent=[self.list objectAtIndex:index];
+    if(![announcent.isRead boolValue]){
+        announcent.isRead=[NSNumber numberWithBool:YES];
+        [announcent save];
+        
+        MessageRecord* messageRecord=[MessageRecord findMessageRecordByAnounceId:announcent.recordId];
+        messageRecord.isIconBadge=[NSNumber numberWithInt:0];
+        messageRecord.isRead=[NSNumber numberWithBool:YES];
+        messageRecord.isMessageBadge=[NSNumber numberWithInt:0];
+
+        [messageRecord save];
+        
+        [__tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"module_badgeCount_change" object:nil];
+    }
+
 
 }
 @end

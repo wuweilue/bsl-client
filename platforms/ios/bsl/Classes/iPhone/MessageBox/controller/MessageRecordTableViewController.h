@@ -10,8 +10,9 @@
 #import "MessageRecordHeaderView.h"
 #import "CubeWebViewController.h"
 #define RECORD_DELETE @"RECORD_DELETE"
-@interface MessageRecordTableViewController : UITableViewController<MessageRecordHeaderViewDelegate>{
-     CubeWebViewController *cubeWebViewController;
+@interface MessageRecordTableViewController : UIViewController<MessageRecordHeaderViewDelegate>{
+    UITableView* tableView;
+    CubeWebViewController *cubeWebViewController;
     
     NSTimer* delayLoadTimer;
 }

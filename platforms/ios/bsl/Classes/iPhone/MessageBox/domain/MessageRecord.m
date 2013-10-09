@@ -29,9 +29,9 @@
 @dynamic isMessageBadge;
 @dynamic faceBackId;
 @dynamic isRead;
-+(void)createByApnsInfo:(NSDictionary *)info outputArrayIds:(NSMutableArray*)outputArrayIds{
++(BOOL)createByApnsInfo:(NSDictionary *)info outputArrayIds:(NSMutableArray*)outputArrayIds{
     NSString * mFaceBackId = [info objectForKey:@"sendId"];
-    
+    BOOL ret=NO;
     if ([mFaceBackId length]>0) {
         
         [outputArrayIds addObject:mFaceBackId];
@@ -48,6 +48,7 @@
         if (fetchedPersonArray.count>0) {
 //            [[fetchedPersonArray objectAtIndex:0] sendFeedBack];
         }else{
+            ret=YES;
             message  = (MessageObject *)[NSEntityDescription insertNewObjectForEntityForName:@"MessageRecord" inManagedObjectContext:self.managedObjectContext];
 
             NSDictionary *aps = [info objectForKey:@"aps"];
@@ -120,6 +121,8 @@
             }
         }
     }
+    
+    return ret;
 }
 
 /*

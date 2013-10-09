@@ -174,7 +174,6 @@
 		39D9E85617F27C03001ED6F5 /* iphoneLoginViewController_retina4.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D810D17E8BFBA0067A023 /* iphoneLoginViewController_retina4.xib */; };
 		39D9E85717F27C03001ED6F5 /* iphoneLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D810F17E8BFBA0067A023 /* iphoneLoginViewController.xib */; };
 		39D9E85817F27C03001ED6F5 /* iphoneLoginViewController_retina4.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811017E8BFBA0067A023 /* iphoneLoginViewController_retina4.xib */; };
-		39D9E85917F27C03001ED6F5 /* MessageRecordTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811717E8BFBA0067A023 /* MessageRecordTableViewController.xib */; };
 		39D9E85A17F27C03001ED6F5 /* ToolViewInputTextHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968624C17EE898300C84A6A /* ToolViewInputTextHL@2x.png */; };
 		39D9E85B17F27C03001ED6F5 /* default notload.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C5417F007FC00F9CA68 /* default notload.png */; };
 		39D9E85C17F27C03001ED6F5 /* nav_add_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C8B17F007FC00F9CA68 /* nav_add_btn@2x.png */; };
@@ -794,7 +793,6 @@
 		39E0513317F00AEA00BCF7F8 /* iphoneLoginViewController_retina4.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D810D17E8BFBA0067A023 /* iphoneLoginViewController_retina4.xib */; };
 		39E0513417F00AEA00BCF7F8 /* iphoneLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D810F17E8BFBA0067A023 /* iphoneLoginViewController.xib */; };
 		39E0513517F00AEA00BCF7F8 /* iphoneLoginViewController_retina4.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811017E8BFBA0067A023 /* iphoneLoginViewController_retina4.xib */; };
-		39E0513617F00AEA00BCF7F8 /* MessageRecordTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811717E8BFBA0067A023 /* MessageRecordTableViewController.xib */; };
 		39E0513717F00AEA00BCF7F8 /* ToolViewInputTextHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968624C17EE898300C84A6A /* ToolViewInputTextHL@2x.png */; };
 		39E0513817F00AEA00BCF7F8 /* default notload.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C5417F007FC00F9CA68 /* default notload.png */; };
 		39E0513917F00AEA00BCF7F8 /* nav_add_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C8B17F007FC00F9CA68 /* nav_add_btn@2x.png */; };
@@ -1411,7 +1409,6 @@
 		39FF09ED17F13CBB0086B76C /* iphoneLoginViewController_retina4.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D810D17E8BFBA0067A023 /* iphoneLoginViewController_retina4.xib */; };
 		39FF09EE17F13CBB0086B76C /* iphoneLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D810F17E8BFBA0067A023 /* iphoneLoginViewController.xib */; };
 		39FF09EF17F13CBB0086B76C /* iphoneLoginViewController_retina4.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811017E8BFBA0067A023 /* iphoneLoginViewController_retina4.xib */; };
-		39FF09F017F13CBB0086B76C /* MessageRecordTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811717E8BFBA0067A023 /* MessageRecordTableViewController.xib */; };
 		39FF09F117F13CBB0086B76C /* ToolViewInputTextHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968624C17EE898300C84A6A /* ToolViewInputTextHL@2x.png */; };
 		39FF09F217F13CBB0086B76C /* default notload.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C5417F007FC00F9CA68 /* default notload.png */; };
 		39FF09F317F13CBB0086B76C /* nav_add_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A96C8B17F007FC00F9CA68 /* nav_add_btn@2x.png */; };
@@ -2091,7 +2088,6 @@
 		F54D836C17E8BFBB0067A023 /* iphoneLoginViewController_retina4.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811017E8BFBA0067A023 /* iphoneLoginViewController_retina4.xib */; };
 		F54D836D17E8BFBB0067A023 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D811217E8BFBA0067A023 /* LoginViewController.m */; };
 		F54D836E17E8BFBB0067A023 /* MessageRecordTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D811617E8BFBA0067A023 /* MessageRecordTableViewController.m */; };
-		F54D836F17E8BFBB0067A023 /* MessageRecordTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811717E8BFBA0067A023 /* MessageRecordTableViewController.xib */; };
 		F54D837017E8BFBB0067A023 /* MessageRecordHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D811A17E8BFBA0067A023 /* MessageRecordHeaderView.m */; };
 		F54D837117E8BFBB0067A023 /* MessageRecordHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D811B17E8BFBA0067A023 /* MessageRecordHeaderView.xib */; };
 		F54D837217E8BFBB0067A023 /* MessageRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D811D17E8BFBA0067A023 /* MessageRecordTableViewCell.m */; };
@@ -2632,7 +2628,7 @@
 		39D9E80117F26A87001ED6F5 /* btn_remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_remove@2x.png"; sourceTree = "<group>"; };
 		39D9EA8517F27C03001ED6F5 /* 南航移动应用.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "南航移动应用.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39D9EA8617F27C05001ED6F5 /* bsl copy3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "bsl copy3-Info.plist"; path = "/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl copy3-Info.plist"; sourceTree = "<absolute>"; };
-		39E0536317F00AEA00BCF7F8 /* chameleon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chameleon.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		39E0536317F00AEA00BCF7F8 /* chameleon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = chameleon.app; path = "变色龙.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E0536417F00AEC00BCF7F8 /* bsl copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "bsl copy-Info.plist"; path = "/Users/fanty/Documents/project/temp/bsl-client/platforms/ios/bsl copy-Info.plist"; sourceTree = "<absolute>"; };
 		39FF0C1B17F13CBB0086B76C /* 移动运行网2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "移动运行网2.0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39FF0C1C17F13CBB0086B76C /* bsl copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "bsl copy2-Info.plist"; path = "/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl copy2-Info.plist"; sourceTree = "<absolute>"; };
@@ -2880,7 +2876,6 @@
 		F54D811217E8BFBA0067A023 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		F54D811517E8BFBA0067A023 /* MessageRecordTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageRecordTableViewController.h; sourceTree = "<group>"; };
 		F54D811617E8BFBA0067A023 /* MessageRecordTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageRecordTableViewController.m; sourceTree = "<group>"; };
-		F54D811717E8BFBA0067A023 /* MessageRecordTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageRecordTableViewController.xib; sourceTree = "<group>"; };
 		F54D811917E8BFBA0067A023 /* MessageRecordHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageRecordHeaderView.h; sourceTree = "<group>"; };
 		F54D811A17E8BFBA0067A023 /* MessageRecordHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageRecordHeaderView.m; sourceTree = "<group>"; };
 		F54D811B17E8BFBA0067A023 /* MessageRecordHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageRecordHeaderView.xib; sourceTree = "<group>"; };
@@ -4458,7 +4453,6 @@
 			children = (
 				F54D811517E8BFBA0067A023 /* MessageRecordTableViewController.h */,
 				F54D811617E8BFBA0067A023 /* MessageRecordTableViewController.m */,
-				F54D811717E8BFBA0067A023 /* MessageRecordTableViewController.xib */,
 				F54D811817E8BFBA0067A023 /* view */,
 			);
 			path = controller;
@@ -5474,7 +5468,6 @@
 				F54D836A17E8BFBB0067A023 /* iphoneLoginViewController_retina4.xib in Resources */,
 				F54D836B17E8BFBB0067A023 /* iphoneLoginViewController.xib in Resources */,
 				F54D836C17E8BFBB0067A023 /* iphoneLoginViewController_retina4.xib in Resources */,
-				F54D836F17E8BFBB0067A023 /* MessageRecordTableViewController.xib in Resources */,
 				3968628417EE898300C84A6A /* ToolViewInputTextHL@2x.png in Resources */,
 				F5A96CB517F007FC00F9CA68 /* default notload.png in Resources */,
 				F5A96CEC17F007FC00F9CA68 /* nav_add_btn@2x.png in Resources */,
@@ -5906,7 +5899,6 @@
 				39D9E85617F27C03001ED6F5 /* iphoneLoginViewController_retina4.xib in Resources */,
 				39D9E85717F27C03001ED6F5 /* iphoneLoginViewController.xib in Resources */,
 				39D9E85817F27C03001ED6F5 /* iphoneLoginViewController_retina4.xib in Resources */,
-				39D9E85917F27C03001ED6F5 /* MessageRecordTableViewController.xib in Resources */,
 				39D9E85A17F27C03001ED6F5 /* ToolViewInputTextHL@2x.png in Resources */,
 				39D9E85B17F27C03001ED6F5 /* default notload.png in Resources */,
 				39D9E85C17F27C03001ED6F5 /* nav_add_btn@2x.png in Resources */,
@@ -6338,7 +6330,6 @@
 				39E0513317F00AEA00BCF7F8 /* iphoneLoginViewController_retina4.xib in Resources */,
 				39E0513417F00AEA00BCF7F8 /* iphoneLoginViewController.xib in Resources */,
 				39E0513517F00AEA00BCF7F8 /* iphoneLoginViewController_retina4.xib in Resources */,
-				39E0513617F00AEA00BCF7F8 /* MessageRecordTableViewController.xib in Resources */,
 				39E0513717F00AEA00BCF7F8 /* ToolViewInputTextHL@2x.png in Resources */,
 				39E0513817F00AEA00BCF7F8 /* default notload.png in Resources */,
 				39E0513917F00AEA00BCF7F8 /* nav_add_btn@2x.png in Resources */,
@@ -6770,7 +6761,6 @@
 				39FF09ED17F13CBB0086B76C /* iphoneLoginViewController_retina4.xib in Resources */,
 				39FF09EE17F13CBB0086B76C /* iphoneLoginViewController.xib in Resources */,
 				39FF09EF17F13CBB0086B76C /* iphoneLoginViewController_retina4.xib in Resources */,
-				39FF09F017F13CBB0086B76C /* MessageRecordTableViewController.xib in Resources */,
 				39FF09F117F13CBB0086B76C /* ToolViewInputTextHL@2x.png in Resources */,
 				39FF09F217F13CBB0086B76C /* default notload.png in Resources */,
 				39FF09F317F13CBB0086B76C /* nav_add_btn@2x.png in Resources */,
@@ -8263,7 +8253,7 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = chameleon;
+				PRODUCT_NAME = "变色龙";
 				PROVISIONING_PROFILE = "9EAEE69C-D807-4934-A3AB-0761E456C559";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -8295,7 +8285,7 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = chameleon;
+				PRODUCT_NAME = "变色龙";
 				PROVISIONING_PROFILE = "9EAEE69C-D807-4934-A3AB-0761E456C559";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -138,11 +138,11 @@ static PushGetMessageInfo* instance=nil;
                 BOOL hasAnnouncemnt=NO;
                 //FMDB 事务
                 for (NSDictionary* dictionary in messageArray) {
-                    [MessageRecord createByApnsInfo:dictionary outputArrayIds:outputArrayIds];
-                    
-                    if(!hasAnnouncemnt)
-                        hasAnnouncemnt=[objSelf checkIsAnnouncementAndInsert:dictionary];
-                    
+                    if([MessageRecord createByApnsInfo:dictionary outputArrayIds:outputArrayIds]){
+                        BOOL ret=[objSelf checkIsAnnouncementAndInsert:dictionary];
+                        if(!hasAnnouncemnt)
+                            hasAnnouncemnt=ret;
+                    }                    
                 }
                 if([outputArrayIds count]>0)
                     [objSelf sendFeedBack:outputArrayIds];

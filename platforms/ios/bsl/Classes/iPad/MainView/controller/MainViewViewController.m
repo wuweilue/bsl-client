@@ -20,6 +20,7 @@
 #import "FMDBManager.h"
 #import "FMDatabaseQueue.h"
 #import "HTTPRequest.h"
+#import "Announcement.h"
 
 #define SHOW_DETAILVIEW  @"SHOW_DETAILVIEW"  //展示模块
 
