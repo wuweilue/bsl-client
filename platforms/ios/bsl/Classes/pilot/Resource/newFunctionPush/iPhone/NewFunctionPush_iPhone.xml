@@ -1,0 +1,9 @@
+<frames>
+	<frame index="0" image="飞行计算器_phone.png" />
+    <frame index="1" image="电子书目录_phone.png" />
+    <frame index="2" image="离线浏览_phone.png" />
+    <frame index="3" image="英文搜索_phone.png" />
+    <frame index="4" image="查询中断_phone.png">
+		<button image="start_zh.png" x="115" y="440" width="90" height="30" action="finishShow:" />
+    </frame>
+</frames>

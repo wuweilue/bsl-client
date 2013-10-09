@@ -506,6 +506,7 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
         urlString = [urlString stringByAppendingString:@"&sessionKey="];
         urlString = [urlString stringByAppendingString:token];
     }
+    urlString = [urlString stringByReplacingOccurrencesOfString:@"192.168.11.18:18860" withString:@"192.168.11.11:9994"];
     [self syncWithString:urlString token:token];
 }
 
@@ -590,6 +591,12 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
                 continue;
             }
         }
+//        else
+//        {
+//            //测试用删除掉
+//            if([remote_module.local isEqualToString:@"FilghtCaleMenu"])
+//            remote_module.icon = [NSString stringWithFormat:@"local:%@ViewController.png",remote_module.local ];
+//        }
         //获取网络版本CubeModule
         CubeModule *local_module = [self moduleForIdentifier:remote_module.identifier];
         if (local_module != nil)

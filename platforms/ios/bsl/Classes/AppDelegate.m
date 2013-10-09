@@ -415,7 +415,7 @@ void uncaughtExceptionHandler(NSException*exception){
         [dictArray addObject:dictionary];
     }
     NSString *json = [dictArray JSONString];
-    NSLog(@"%@",json);
+//    NSLog(@"%@",json);
     dictArray=nil;
     
     FormDataRequest *request =[FormDataRequest requestWithURL:[NSURL URLWithString:[kServerURLString stringByAppendingFormat:@"%s","/csair-monitor/api/monitor/saveAll"]]];

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <array>
+        <string>A319-112</string>
+        <string>A319-115</string>
+        <string>A319-132</string>
+        <string>A319-133</string>
+        <string>A320-214</string>
+        <string>A320-232</string>
+        <string>A321-211</string>
+        <string>A321-231</string>
+        <string>A330-223</string>
+        <string>A330-243(772B)</string>
+        <string>A330-243(772C)</string>
+        <string>A330-323(PW4170)</string>
+        <string>A330-343(772B)</string>
+        <string>A330-343(772C)</string>
+        <string>A380-841</string>
+        <string>B737(22K)新疆ACOFF</string>
+        <string>B737(22K)新疆ACON</string>
+        <string>B737-300</string>
+        <string>B737-700(22K)</string>
+        <string>B737-700(24K)</string>
+        <string>B737-700W(22K)</string>
+        <string>B737-800</string>
+        <string>B737-800W</string>
+        <string>B737-800W(7B24)</string>
+        <string>B737W(22K)新疆ACOFF</string>
+        <string>B737W(22K)新疆ACON</string>
+        <string>B747-400</string>
+        <string>B757-新疆</string>
+        <string>B777-200A</string>
+        <string>B777-200B</string>
+        <string>B777-200F</string>
+        <string>B787-8</string>
+        <string>EMB145</string>
+        <string>EMB190</string>
+        <string>EMB190-TO1(新疆)</string>
+        <string>EMB190-TO2(新疆)</string>
+        <string>EMB190-湿跑道(新疆)</string>
+        <string>EMB190-防冰开(新疆)</string>
+        <string>e190-to1</string>
+    </array>
+</plist>

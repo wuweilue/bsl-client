@@ -1,0 +1,9 @@
+<frames>
+	<frame index="0" image="飞行计算器_pad.png" />
+    <frame index="1" image="电子书目录_pad.png" />
+    <frame index="2" image="离线浏览_pad.png" />
+    <frame index="3" image="英文搜索_pad.png" />
+    <frame index="4" image="查询中断_pad.png">
+		<button image="start_zh.png" x="309" y="905" width="150" height="50" action="finishShow:" />
+    </frame>
+</frames>
