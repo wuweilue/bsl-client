@@ -1063,7 +1063,6 @@
 		39D9EA7C17F27C03001ED6F5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */; };
 		39D9EA7D17F27C03001ED6F5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		39D9EA7E17F27C03001ED6F5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		39D9EA7F17F27C03001ED6F5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		39D9EA8017F27C03001ED6F5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C023708B9AC24DB48757A8FC /* libPods.a */; };
 		39D9EA8717F27CA4001ED6F5 /* Config-impc.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FB017E8BFB90067A023 /* Config-impc.m */; };
 		39E050E917F00AEA00BCF7F8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
@@ -1668,7 +1667,6 @@
 		39E0535A17F00AEA00BCF7F8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */; };
 		39E0535B17F00AEA00BCF7F8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		39E0535C17F00AEA00BCF7F8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		39E0535D17F00AEA00BCF7F8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		39E0535E17F00AEA00BCF7F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C023708B9AC24DB48757A8FC /* libPods.a */; };
 		39FF09A517F13CBB0086B76C /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 		39FF09A617F13CBB0086B76C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDC13BBADB100FB74C0 /* Localizable.strings */; };
@@ -2270,7 +2268,6 @@
 		39FF0C1217F13CBB0086B76C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */; };
 		39FF0C1317F13CBB0086B76C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		39FF0C1417F13CBB0086B76C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		39FF0C1517F13CBB0086B76C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		39FF0C1617F13CBB0086B76C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C023708B9AC24DB48757A8FC /* libPods.a */; };
 		39FF0C1D17F14FB10086B76C /* Config-soc.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FB117E8BFB90067A023 /* Config-soc.m */; };
 		39FF0C1E17F173710086B76C /* Main_IphoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D814717E8BFBA0067A023 /* Main_IphoneViewController.m */; };
@@ -2279,7 +2276,6 @@
 		39FF0C2E17F189150086B76C /* www in Resources */ = {isa = PBXBuildFile; fileRef = 39FF0C2C17F189150086B76C /* www */; };
 		5AA0E66D1729F45B000DC89A /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA0E66C1729F45B000DC89A /* OpenAL.framework */; };
 		5AA0E66F1729F460000DC89A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA0E66E1729F460000DC89A /* ImageIO.framework */; };
-		5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
 		D5CB34F865E944C1B7C14CA1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C023708B9AC24DB48757A8FC /* libPods.a */; };
 		F54D82A017E8BFBB0067A023 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7F9817E8BFB90067A023 /* AppDelegate.m */; };
@@ -4250,7 +4246,6 @@
 				301BF5C5109A6A2B0062928A /* SystemConfiguration.framework in Frameworks */,
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */,
-				5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */,
 				D5CB34F865E944C1B7C14CA1 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4278,7 +4273,6 @@
 				39D9EA7C17F27C03001ED6F5 /* SystemConfiguration.framework in Frameworks */,
 				39D9EA7D17F27C03001ED6F5 /* MobileCoreServices.framework in Frameworks */,
 				39D9EA7E17F27C03001ED6F5 /* CoreMedia.framework in Frameworks */,
-				39D9EA7F17F27C03001ED6F5 /* CoreLocation.framework in Frameworks */,
 				39D9EA8017F27C03001ED6F5 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4305,7 +4299,6 @@
 				39E0535A17F00AEA00BCF7F8 /* SystemConfiguration.framework in Frameworks */,
 				39E0535B17F00AEA00BCF7F8 /* MobileCoreServices.framework in Frameworks */,
 				39E0535C17F00AEA00BCF7F8 /* CoreMedia.framework in Frameworks */,
-				39E0535D17F00AEA00BCF7F8 /* CoreLocation.framework in Frameworks */,
 				39E0535E17F00AEA00BCF7F8 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4332,7 +4325,6 @@
 				39FF0C1217F13CBB0086B76C /* SystemConfiguration.framework in Frameworks */,
 				39FF0C1317F13CBB0086B76C /* MobileCoreServices.framework in Frameworks */,
 				39FF0C1417F13CBB0086B76C /* CoreMedia.framework in Frameworks */,
-				39FF0C1517F13CBB0086B76C /* CoreLocation.framework in Frameworks */,
 				39FF0C1617F13CBB0086B76C /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7288,7 +7280,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				TargetAttributes = {
 					39D9E80817F27C03001ED6F5 = {
 						DevelopmentTeam = KMB2BDRT85;
@@ -7793,8 +7785,6 @@
 				18E9C56D1803AB1200B874B8 /* btn_share_gray@2x.png in Resources */,
 				18E9C5951803AB1200B874B8 /* RadioButton-Unselected.png in Resources */,
 				39D9E82217F27C03001ED6F5 /* iphoneAboutViewController.xib in Resources */,
-				39D9E82317F27C03001ED6F5 /* icon_app@2x.png in Resources */,
-				39D9E82417F27C03001ED6F5 /* AnnouncementTableViewController.xib in Resources */,
 				18E9C4F51803AB1200B874B8 /* InfoPlist.strings in Resources */,
 				18E9C5601803AB1200B874B8 /* Button_Orange.png in Resources */,
 				18E9C4FF1803AB1200B874B8 /* PDFDownloadViewCell_Phone.xib in Resources */,
@@ -7812,8 +7802,6 @@
 				39D9E83017F27C03001ED6F5 /* plus_icon.png in Resources */,
 				18E9C4C51803AB1200B874B8 /* Manifest.plist in Resources */,
 				18E9C5751803AB1200B874B8 /* cb_glossy_on.png in Resources */,
-				39D9E83117F27C03001ED6F5 /* icon@2x1..png in Resources */,
-				39D9E83217F27C03001ED6F5 /* logo_pad.png in Resources */,
 				39D9E83317F27C03001ED6F5 /* contact_bg@2x.png in Resources */,
 				18E9C5501803AB1200B874B8 /* alert-view-cancel-button@2x.png in Resources */,
 				39D9E83417F27C03001ED6F5 /* DownloadingTableViewCell.xib in Resources */,
@@ -7865,7 +7853,6 @@
 				18E9C54B1803AB1200B874B8 /* Background_768X1024.png in Resources */,
 				39D9E85817F27C03001ED6F5 /* iphoneLoginViewController_retina4.xib in Resources */,
 				18E9C5611803AB1200B874B8 /* Button_Orange_Pad.png in Resources */,
-				39D9E85917F27C03001ED6F5 /* MessageRecordTableViewController.xib in Resources */,
 				39D9E85A17F27C03001ED6F5 /* ToolViewInputTextHL@2x.png in Resources */,
 				39D9E85B17F27C03001ED6F5 /* default notload.png in Resources */,
 				39D9E85C17F27C03001ED6F5 /* nav_add_btn@2x.png in Resources */,
@@ -7956,7 +7943,6 @@
 				39D9E89B17F27C03001ED6F5 /* switch_btn_left@2x.png in Resources */,
 				18E9C54A1803AB1200B874B8 /* Background_640X940.png in Resources */,
 				39D9E89C17F27C03001ED6F5 /* f014.png in Resources */,
-				39D9E89D17F27C03001ED6F5 /* icon_istation@2x.png in Resources */,
 				18E9C58B1803AB1200B874B8 /* 飞行计算器_phone.png in Resources */,
 				39D9E89E17F27C03001ED6F5 /* f015.png in Resources */,
 				39D9E89F17F27C03001ED6F5 /* f016.png in Resources */,
@@ -7967,7 +7953,6 @@
 				18E9C57C1803AB1200B874B8 /* Icon_member_56X56.png in Resources */,
 				39D9E8A317F27C03001ED6F5 /* options_close@simple@2x.png in Resources */,
 				39D9E8A417F27C03001ED6F5 /* installbtnbg@2x.png in Resources */,
-				39D9E8A517F27C03001ED6F5 /* icon_app.png in Resources */,
 				18E9C5491803AB1200B874B8 /* Background_320X460.png in Resources */,
 				18E9C5931803AB1200B874B8 /* undownload.png in Resources */,
 				39D9E8A617F27C03001ED6F5 /* pic_bg_01.png in Resources */,
@@ -8029,8 +8014,6 @@
 				39D9E8CC17F27C03001ED6F5 /* f044.png in Resources */,
 				39D9E8CD17F27C03001ED6F5 /* f045.png in Resources */,
 				18E9C5841803AB1200B874B8 /* 英文搜索_pad.png in Resources */,
-				39D9E8CE17F27C03001ED6F5 /* Default@2x~iphone.png in Resources */,
-				39D9E8CF17F27C03001ED6F5 /* Default-568h@2x.png in Resources */,
 				39D9E8D017F27C03001ED6F5 /* f046.png in Resources */,
 				18E9C5541803AB1200B874B8 /* button.png in Resources */,
 				39D9E8D117F27C03001ED6F5 /* feedback_button@2x.png in Resources */,
@@ -8147,7 +8130,6 @@
 				39D9E92417F27C03001ED6F5 /* f094.png in Resources */,
 				39D9E92517F27C03001ED6F5 /* f095.png in Resources */,
 				18E9C5511803AB1200B874B8 /* btn_done_down@2x.png in Resources */,
-				39D9E92617F27C03001ED6F5 /* icon@2x.png in Resources */,
 				18E9C4661803AB1200B874B8 /* Calc60.xib in Resources */,
 				39D9E92717F27C03001ED6F5 /* btn_remove.png in Resources */,
 				39D9E92817F27C03001ED6F5 /* Background_Portrait.png in Resources */,
@@ -8297,7 +8279,6 @@
 				39D9E99717F27C03001ED6F5 /* ChatBubbleGray.png in Resources */,
 				39D9E99817F27C03001ED6F5 /* ChatBubbleGreen.png in Resources */,
 				18E9C4CF1803AB1200B874B8 /* planeType.plist in Resources */,
-				39D9E99917F27C03001ED6F5 /* Default~iphone.png in Resources */,
 				39D9E99A17F27C03001ED6F5 /* right_button@2x.png in Resources */,
 				18E9C57F1803AB1200B874B8 /* NavigationBar_Black.png in Resources */,
 				39D9E99B17F27C03001ED6F5 /* chatroom_female_online.jpg in Resources */,
@@ -10674,9 +10655,10 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -10684,8 +10666,11 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
@@ -10693,6 +10678,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,
@@ -10717,9 +10703,10 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -10727,8 +10714,11 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
