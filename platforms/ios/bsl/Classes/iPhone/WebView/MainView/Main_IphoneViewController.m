@@ -29,6 +29,44 @@
 
 @implementation Main_IphoneViewController
 
+-(id)initWithCoder:(NSCoder *)aDecoder{
+    self=[super initWithCoder:aDecoder];
+    if(self){
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.modalPresentationCapturesStatusBarAppearance = NO;
+        }
+
+    }
+    return self;
+}
+
+-(id)init{
+    self=[super init];
+    if(self){
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.modalPresentationCapturesStatusBarAppearance = NO;
+        }
+    }
+    return self;
+}
+
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+    self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self){
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.modalPresentationCapturesStatusBarAppearance = NO;
+        }
+    }
+    return self;
+
+}
+
 - (void)dealloc{
     self.selectedModule=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -133,7 +171,6 @@
     [super viewDidLoad];
     
     self.title=@"";
-    
     if (!aCubeWebViewController) {
         aCubeWebViewController = [[CubeWebViewController alloc]init];
         aCubeWebViewController.title=@"登录";

@@ -67,22 +67,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/AppDelegate.m"
-            timestampString = "402995333.487895"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
-            landmarkName = "-applicationWillEnterForeground:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "bsl/Classes/XMPP/XMPPIMActor.m"
             timestampString = "402915469.648757"
             startingColumnNumber = "9223372036854775807"
@@ -260,28 +244,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "bsl/Classes/iPhone/Landing/CubeWebViewController.m"
-            timestampString = "401969646.397434"
+            timestampString = "403000377.989359"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "-loadWebPageWithModule:didFinishBlock:didErrorBlock:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/AppDelegate.m"
-            timestampString = "402995333.487895"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "406"
-            endingLineNumber = "406"
-            landmarkName = "-applicationDidReceiveMemoryWarning:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -298,6 +266,22 @@
             startingLineNumber = "292"
             endingLineNumber = "292"
             landmarkName = "+grouptChangeRoomName:roomId:block:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bsl/Classes/AppDelegate.m"
+            timestampString = "403000058.831675"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "411"
+            endingLineNumber = "411"
+            landmarkName = "-applicationDidReceiveMemoryWarning:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

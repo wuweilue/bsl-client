@@ -148,6 +148,11 @@ void uncaughtExceptionHandler(NSException*exception){
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        
+        [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    
     self.window.autoresizesSubviews = YES;
     
     //end------

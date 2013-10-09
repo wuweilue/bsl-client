@@ -36,7 +36,12 @@
     if(self){
         self.title=@"即时通讯";
         
-        
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.modalPresentationCapturesStatusBarAppearance = NO;
+        }
+
         
         NSManagedObjectContext* managedObjectContext = [ShareAppDelegate xmpp].managedObjectContext;
         
