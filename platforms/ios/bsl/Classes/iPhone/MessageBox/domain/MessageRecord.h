@@ -29,7 +29,7 @@
 @property (nonatomic, strong) NSNumber *isRead;
 @property (nonatomic, strong) NSString * faceBackId;
 
-+(void)createByApnsInfo:(NSDictionary *)info outputArrayIds:(NSMutableArray*)outputArrayIds;
++(BOOL)createByApnsInfo:(NSDictionary *)info outputArrayIds:(NSMutableArray*)outputArrayIds;
 
 /*
 +(MessageRecord *)createByJSON:(NSString *)jsonString;

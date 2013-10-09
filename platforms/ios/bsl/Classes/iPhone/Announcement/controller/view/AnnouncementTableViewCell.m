@@ -102,6 +102,10 @@
 
     float w=self.frame.size.width;
     
+    if(self.showingDeleteConfirmation){
+        w-=60.0f;
+    }
+    
     float offset=OFFSET;
     if(self.editing){
         offset+=40.0f;

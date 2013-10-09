@@ -424,6 +424,7 @@ var loadModuleList = function(plugin, action, type, callback) {
 $('#top_left_btn')
 	.click(
 		function() {
+			$('#top_left_btn').addClass("disabled");
 			isOver = 0;
 			if ($(this).hasClass('back_bt_class')) {
 				// 返回按键
@@ -443,7 +444,9 @@ $('#top_left_btn')
 				//开启欢迎光临
 				$('.account_content').show();
 				$('.searchContent').css("height", "60px");
+				
 				//返回刷新列表
+				$('#top_left_btn').removeClass("disabled");
 				loadModuleList("CubeModuleList", "mainList", "main", function() {
 					gridLayout();
 					myScroll.refresh();
@@ -453,9 +456,14 @@ $('#top_left_btn')
 			} else {
 
 				// 设置按键
+
 				cordovaExec("CubeModuleOperator", "setting");
+				$('#top_left_btn').removeClass("disabled");
+
 
 			}
+
+
 		});
 
 
@@ -518,7 +526,6 @@ $(".del_content").click(function() {
 		});
 
 		scrollContent_lis.show();
-
 		// end
 	});
 
@@ -721,9 +728,11 @@ $('#gridview_btn').bind('click', function() {
 // 管理按钮
 $('#manager_btn')
 	.click(function() {
+		$('#manager_btn').addClass("disabled");
 		console.log("点击");
 		//清除搜索框内容
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
+			$('#manager_btn').removeClass("disabled");
 			loadModuleList("CubeModuleList", "uninstallList", "uninstall", function() {
 				isOver = 0;
 				$("#searchInput").val("");

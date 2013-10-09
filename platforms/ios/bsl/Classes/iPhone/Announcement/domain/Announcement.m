@@ -56,7 +56,11 @@
 @dynamic recordId;
 
 +(void)requestAnnouncement:(NSDictionary*)data{
-    NSString* recordId=[data objectForKey:@"sendId"];
+    NSDictionary *module = [data objectForKey:@"extras"];
+    NSString* recordId=nil;
+    if (module) {
+        recordId=[module objectForKey:@"announceId"];
+    }
     
     Announcement *announcement = [Announcement insert];
 

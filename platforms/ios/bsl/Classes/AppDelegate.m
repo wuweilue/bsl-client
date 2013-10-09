@@ -152,7 +152,7 @@ void uncaughtExceptionHandler(NSException*exception){
     
     //end------
     //异步加载push actor
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+   // [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad){
         UINavigationController* nav=[[UINavigationController alloc] init];
