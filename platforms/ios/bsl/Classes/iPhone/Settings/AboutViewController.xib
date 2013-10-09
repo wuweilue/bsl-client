@@ -75,6 +75,6 @@
     </objects>
     <resources>
         <image name="homebackImg.png" width="640" height="960"/>
-        <image name="icon_istation.png" width="57" height="57"/>
+        <image name="icon_istation.png" width="287" height="287"/>
     </resources>
 </document>
