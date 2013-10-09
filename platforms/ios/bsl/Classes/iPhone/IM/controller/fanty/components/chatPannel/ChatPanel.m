@@ -212,11 +212,6 @@
 
 #pragma mark method
 
-
--(void)disableChatButton{
-    chatButton.enabled=NO;
-}
-
 -(NSString*)text{
     return textView.text;
 }

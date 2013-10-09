@@ -129,7 +129,6 @@ var data = {
 		"name": "公告",
 		"msgCount": 10,
 		"progress": 0,
-		"sortingWeight": 2,
 		"updatable": true,
 		"build": 4
 	}],
@@ -144,7 +143,6 @@ var data = {
 		"msgCount": 0,
 		"progress": 0,
 		"updatable": false,
-		"sortingWeight": 1,
 		"build": 4
 	}],
 	"基本功能22333": [{
@@ -171,7 +169,6 @@ var data = {
 		"msgCount": 0,
 		"progress": 0,
 		"updatable": false,
-		"sortingWeight": 2,
 		"build": 4
 	}, {
 		"version": "3",
@@ -184,7 +181,6 @@ var data = {
 		"msgCount": 0,
 		"progress": 0,
 		"updatable": false,
-		"sortingWeight": 1,
 		"build": 4
 	}, {
 		"version": "3",
@@ -667,42 +663,9 @@ var loadModuleList = function() {
 	$(".middleContent").append(mainContent);
 
 	var allModuleContentHtml = "";
-	var valueArray = new Array;
-	var keyArray = new Array;
-	var s =3;
-	_.each(data,function(value,key){
-		if(key ==="基本功能22"){
-			keyArray[0] = key;
-			valueArray[0] = value;
-		}else if(key ==="基本功能"){
-			keyArray[1] = key;
-			valueArray[1] = value;
-		}else if(key ==="基本功能22333"){
-			keyArray[2] = key;
-			valueArray[2] = value;
-		}else{
-			keyArray[s] = key;
-			valueArray[s] = value;
-			s++;
-		}
-	});
-	console.log("s = "+s);
-	console.log("keyArray "+keyArray);
-
-
-	var i = 0;
-	_.each(valueArray, function(value) {
-		console.log("key "+keyArray[i]);
+	_.each(data, function(value, key) {
 		var moduleItemHtmlContent = "";
 		var moduleItemTemplate = $("#moduleItemTemplate").html();
-		
-
-
-		value = _.sortBy(value, function(v) {
-			return v.sortingWeight;
-
-		});
-
 		_.each(value, function(value) {
 
 			var mark = value.icon;
@@ -714,22 +677,20 @@ var loadModuleList = function() {
 			}
 
 			value.moduleType = 'main';
-			value.classname = keyArray[i];
+			value.classname = key;
 			var moduleItemHtml = _.template(moduleItemTemplate, value);
 			moduleItemHtmlContent = moduleItemHtmlContent + moduleItemHtml;
 		});
 		//获取模块名
 		var moduleContentTemplate = $("#moduleContentTemplate").html();
 		var moduleContentHtml = _.template(moduleContentTemplate, {
-			'moduleTitle': keyArray[i],
+			'moduleTitle': key,
 			'moduleItem': moduleItemHtmlContent,
 			'moduleType': 'main'
 		});
 		allModuleContentHtml = allModuleContentHtml + moduleContentHtml;
 		//使模块列表滚动
-		i++;
 	});
-	
 	$(".mainContent").find(".scrollContent").append(allModuleContentHtml);
 
 	$(".mainContent").height($(window).height() - 50);

@@ -113,15 +113,12 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"newVersion"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     request = [HTTPRequest requestWithURL:[NSURL URLWithString:url]];
-    __block HTTPRequest* __request=request;
     [request setCompletionBlock:^{
         NSLog(@"[更新下载记录=success]");
-        [__request cancel];
         
     }];
     [request setFailedBlock:^{
         NSLog(@"更新下载记录失败");
-        [__request cancel];
         
     }];
     [request startAsynchronous];

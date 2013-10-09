@@ -94,17 +94,13 @@
 -(void)headerUrl:(NSString*)headerUrl name:(NSString*)name imageFile:(NSString*)imageFile sendDate:(NSDate*)date bubbleType:(NSBubbleType)bubbleType{
     noHeaderView.hidden=NO;
     noContentView.hidden=NO;
-    
     if([headerUrl length]>0)
         [imageView loadImageWithURLString:headerUrl];
     //imageFile=@"T1saYTByxT1RCvBVdK";
     if([imageFile length]>0){
         
         if([[NSFileManager defaultManager] fileExistsAtPath:imageFile]){
-            @autoreleasepool {
-                contentImageView.image=[UIImage imageWithContentsOfFile:imageFile];
-
-            }
+            contentImageView.image=[UIImage imageWithContentsOfFile:imageFile];
         }
         else{
             NSString *url = [ServerAPI urlForAttachmentId:imageFile];

@@ -185,15 +185,15 @@
 
 -(void)removeUserJid:(NSString*)jid{
     BOOL isRemove=NO;
-    [list enumerateObjectsUsingBlock:^(id obj,NSUInteger index,BOOL*stop){
-        GroupSubPanel* subView=obj;
+    for(GroupSubPanel* subView in list){
         if([subView.jid isEqualToString:jid]){
-            [list removeObjectAtIndex:index];
             [subView removeFromSuperview];
-            *stop=YES;
+            [list removeObject:subView];
+            isRemove=YES;
+            
+            break;
         }
-
-    }];
+    }
     if(isRemove){
         [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
             float top=10.0f;

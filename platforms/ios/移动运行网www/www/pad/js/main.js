@@ -1,10 +1,8 @@
 //解决点击延迟问题
 new FastClick(document.body);
-var packageName = "";
+
 var modules;
-var myScroll = new iScroll('mainContent', {
-	checkDOMChanges: true
-});
+
 $("#search_del").click(function() {
 	console.log("点击了图标");
 	$("#searchInput").val("");
@@ -24,10 +22,8 @@ $(window).resize(function() {
 	$(".mainContent").height($(window).height() - 50);
 });
 var refreshMainPage = function() {
-	/*$(".mainContent").html("");
-	$(".mainContent").remove();
-	loadModuleList("CubeModuleList", "mainList", "main");*/
-	$(".home_btn").trigger("click");
+
+	loadModuleList("CubeModuleList", "mainList", "main");
 }
 //封装cordova的执行方法，加上回调函数
 var cordovaExec = function(plugin, action, parameters, callback) {
@@ -102,7 +98,6 @@ var checkModule = function() {
 
 
 var addModule = function(identifier, type, moduleMessage) {
-	console.log("addModuleaddModuleaddModuleaddModuleaddModule");
 	var mm = $.parseJSON(moduleMessage);
 	//如果该模块不存在，则生成
 	if ($(".moduleTitle[modulename='" + mm.category + "']").size() < 1) {
@@ -263,7 +258,7 @@ var getAccountName = function() {
 
 //加载列表，渲染成html
 var loadModuleList = function(plugin, action, type, callback) {
-	$(".mainContent").html("");
+
 	$(".mainContent").remove();
 	var mainContent = $('<div id="mainContent" class="mainContent"><div id="scroller"><ul class="scrollContent nav nav-list bs-docs-sidenav affix-top"></ul></div></div>');
 	$(".middleContent").append(mainContent);
@@ -272,39 +267,9 @@ var loadModuleList = function(plugin, action, type, callback) {
 	cordova.exec(function(data) {
 		data = $.parseJSON(data);
 		//处理成功加载首页模块列表
-		var valueArray = new Array;
-		var keyArray = new Array;
-		var s = 3;
 		_.each(data, function(value, key) {
-			if (key === "首页") {
-				keyArray[0] = key;
-				valueArray[0] = value;
-			} else if (key === "次页") {
-				keyArray[1] = key;
-				valueArray[1] = value;
-			} else if (key === "基本包") {
-				keyArray[2] = key;
-				valueArray[2] = value;
-			} else {
-				keyArray[s] = key;
-				valueArray[s] = value;
-				s++;
-			}
-		});
-		console.log("keyArray0 "+keyArray[0]);
-		console.log("keyArray1 "+keyArray[1]);
-		console.log("valueArray0 "+valueArray[0]);
-		console.log("valueArray1 "+valueArray[1]);
-		var i = 0;
-		_.each(valueArray, function(value) {
 			var moduleItemHtmlContent = "";
 			var moduleItemTemplate = $("#moduleItemTemplate").html();
-
-			value = _.sortBy(value, function(v) {
-				return v.sortingWeight;
-
-			});
-
 			_.each(value, function(value) {
 				value.moduleType = type;
 				//处理，只有在首页的时候才显示有统计数据
@@ -322,14 +287,7 @@ var loadModuleList = function(plugin, action, type, callback) {
 				// if (window.localStorage[mark] !== undefined) {
 				// 	value.icon = window.localStorage[mark];
 				// }
-
-				downloadFile(value.icon, packageName + "/moduleIcon", function(entry) {
-					// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
-					value.icon = entry.fullPath;
-					console.log("下载成功 " + value.icon);
-				});
-
-				value.classname = keyArray[i];
+				value.classname = key;
 				var moduleItemHtml = _.template(moduleItemTemplate, value);
 				moduleItemHtmlContent = moduleItemHtmlContent + moduleItemHtml;
 			});
@@ -337,24 +295,20 @@ var loadModuleList = function(plugin, action, type, callback) {
 			var moduleContentTemplate = $("#moduleContentTemplate").html();
 
 			var moduleContentHtml = _.template(moduleContentTemplate, {
-				'moduleTitle': keyArray[i],
+				'moduleTitle': key,
 				'moduleItem': moduleItemHtmlContent,
 				'moduleType': type
 			});
 			if (moduleItemHtmlContent.trim().length > 0) {
 				allModuleContentHtml = allModuleContentHtml + moduleContentHtml;
 			}
-			i++;
 		});
 		$(".mainContent").find(".scrollContent").append(allModuleContentHtml);
 
 		$(".mainContent").height($(window).height() - 50);
 
 		// if (!browser.versions.android) {
-		myScroll = null;
-		myScroll = new iScroll('mainContent', {
-			checkDOMChanges: true
-		});
+		var myScroll = new iScroll('mainContent');
 		// }
 
 		//如果回调方法不为空，则执行该回调方法
@@ -372,10 +326,6 @@ var loadModuleList = function(plugin, action, type, callback) {
 var triggerBodyClick = function() {
 	setTimeout(function() {
 		$("#mainContent").trigger("click");
-		if (myScroll !== null) {
-			myScroll.refresh();
-			myScroll.scrollTo(0, 1, 200, true);
-		}
 	}, 500);
 };
 
@@ -435,31 +385,11 @@ var app = {
 	receivedEvent: function(id) {
 		socLogin();
 		getAccountName();
-		cordovaExec("CubeModuleOperator", "sync", [], function() {
-			var osPlatform = device.platform;
-			if (osPlatform.toLowerCase() == "android") {
-				cordova.exec(function(data) {
-					packageName = $.parseJSON(data).packageName;
-					console.log("packageName " + packageName);
-					//如果是android，先获取到包名
-					loadModuleList("CubeModuleList", "mainList", "main", function() {
-						myScroll.refresh();
-						checkTheme();
-					});
-				}, function(err) {}, "CubePackageName", "getPackageName", []);
-			} else {
-				loadModuleList("CubeModuleList", "mainList", "main", function() {
-					myScroll.refresh();
-					checkTheme();
-				});
-			}
-		});
-
 		//loadModuleList("CubeModuleList", "mainList", "main");
-		// cordovaExec("CubeModuleOperator", "sync", [], function() {
-		// 	loadModuleList("CubeModuleList", "mainList", "main");
-		// });
-		// checkTheme();
+		cordovaExec("CubeModuleOperator", "sync", [], function() {
+			loadModuleList("CubeModuleList", "mainList", "main");
+		});
+		checkTheme();
 	}
 };
 app.initialize();
@@ -484,8 +414,8 @@ var socLogin = function() {
 		url: "http://10.103.124.104:8080/opws-mobile-web/j_spring_security_check",
 		type: "get",
 		data: {
-			"username": username,
-			"password": password
+			"j_username": username,
+			"j_password": password
 		},
 		dataType: "json",
 		success: function(data, textStatus, jqXHR) {
@@ -496,7 +426,7 @@ var socLogin = function() {
 			if (data.login === true) {
 
 
-				window.localStorage["socUserInfo"] = JSON.stringify(data);
+				window.localStorage["logigMessage"] = JSON.stringify(data);
 				getWeather();
 
 			} else {
@@ -545,9 +475,9 @@ var getWeather = function() {
 			console.log('列表数据加载成功：' + textStatus + " response:[" + data + "]");
 
 
-if (data.weather.rmk) {
+
 			$("#weather").html(data.weather.rmk);
-			$("#degree").html(data.weather.tempreture + "°");}
+			$("#degree").html(data.weather.tempreture + "°");
 
 		},
 		error: function(e, xhr, type) {
@@ -630,7 +560,7 @@ $("#searchBtn").click(function() {
 
 
 	if (keyword) {
-		Toast("航班号或机未号!" + keyword, null);
+	Toast("航班号或机未号!" + keyword, null);
 
 
 		var myDate = new Date();

@@ -23,8 +23,16 @@
  *          _myJid 用户的JID
  *          _block 状态 statue true/false 表示操作是否成功
  */
-+(FormDataRequest*)collectIMFriend:(NSString*)friendJid block:(void (^)(BOOL statue))_block
++(void)collectIMFriend:(UserInfo*)user myJid:(NSString*)_myJid block:(void (^)(BOOL statue))_block
 ;
+
+/**
+ *	@brief	更新收藏好友状态
+ *
+ *	@param 	user 好友信息对象
+ *          _block 状态 statue true/false 表示操作是否成功
+ */
++(void)updateCollectIMFriendStatue:(UserInfo*)user block:(void (^)(BOOL statue))_block;
 
 
 /**
@@ -34,7 +42,7 @@
  *          _block 状态 statue true/false 表示操作是否成功
  *                      friends 用户的收藏好友
  */
-+(HTTPRequest*)getCollectIMFriends:(void (^)(BOOL statue,NSArray*friends))_block;
++(void)getCollectIMFriends:(NSString*)myUserId block:(void (^)(BOOL statue,NSArray*friends))_block;
 
 /**
  *	@brief	删除收藏好友
@@ -43,11 +51,30 @@
  *	@param 	_delUserInfo  删除收藏好友的
  *          _block 状态 statue true/false 表示操作是否成功
  */
-+(HTTPRequest*)deleteCollectIMFriend:(NSString*)friendId block:(void (^)(BOOL statue))_block;
++(void)deleteCollectIMFriend:(NSString*)myUserId deleteUser:(UserInfo*)_delUserInfo block:(void (^)(BOOL statue))_block;
 
 // === === 即时聊天功能 === ===
 
 
+/**
+ *	@brief	向房间中添加成员
+ *
+ *	@param 	userInfo 	群组中添加用户信息
+ *	@param 	_roomId 	房间的id
+ *	@param 	_delUserInfo  删除收藏好友的
+ *          _block 状态 statue true/false 表示操作是否成功
+ */
++(void)grouptAddMember:(UserInfo*)userInfo roomId:(NSString*)_roomId block:(void (^)(BOOL statue))_block
+;
+
+/**
+ *	@brief	更新群组好友状态
+ *
+ *	@param 	userInfo 群成员好友信息
+ *          _block 状态 statue true/false 表示操作是否成功
+ */
++(void)grouptUpdateStatue:(UserInfo*)userInfo block:(void (^)(BOOL statue))_block
+;
 
 /**
  *	@brief	批量添加群成员
@@ -88,6 +115,17 @@
  *          _block 状态 statue true/false 表示操作是否成功
  */
 +(HTTPRequest*)grouptDeleteMember:(NSString*)userId roomId:(NSString*)_roomId block:(void (^)(BOOL statue))_block;
+
+/**
+ *	@brief	批量删除群成员
+ *
+ *	@param 	userinfoArray 	删除成员数组
+ *	@param 	_roomId 	房间ID
+ *          _block 状态 statue true/false 表示操作是否成功
+ */
++(void)grouptDeleteMembers:(NSArray*)userinfoArray roomId:(NSString*)_roomId block:(void (^)(BOOL statue))_block
+;
+
 
 /**
  *	@brief	删除房间

@@ -1,5 +1,5 @@
+//解决点击延迟问题
 new FastClick(document.body);
-var packageName;
 //封装cordova的执行方法，加上回调函数
 var cordovaExec = function(plugin, action, parameters, callback) {
 	cordova.exec(function(data) {
@@ -10,6 +10,8 @@ var cordovaExec = function(plugin, action, parameters, callback) {
 		//alert(err);
 	}, plugin, action, parameters === null || parameters === undefined ? [] : parameters);
 };
+
+
 //首页接受到信息，刷新页面
 var receiveMessage = function(identifier, count, display) {
 	console.log("AAA进入index revceiveMessage count = " + count + identifier + display);
@@ -28,40 +30,28 @@ var receiveMessage = function(identifier, count, display) {
 	} else {
 		$moduleTips.hide();
 	}
-	if (myScroll) {
-		myScroll.refresh();
-		myScroll.scrollTo(0, 1, 200, true);
-	}
-
+	myScroll.refresh();
+	myScroll.scrollTo(0, 1, 200, true);
 };
 //自动更新查新界面
-var refreshMainPage = function(identifier, type, moduleMessage) {
-
-	console.log("refreshMainPage refreshMainPage refreshMainPage refreshMainPage");
-	console.log("进入refreshMainPage" + type + "..." + identifier);
+var refreshMainPage = function() {
 	if ($('#top_left_btn').hasClass('back_bt_class')) {
-
-	} else {
-
-		//主页面
-		console.log("进入main页面");
-
-		/*addModule(identifier, "main", moduleMessage);
-		$("li[identifier='" + identifier + "']").css('opacity', '0.5');*/
-		if (isOver === 0) {
-			isOver = isOver + 1;
-			console.log("刷新。。。。");
-			loadModuleList("CubeModuleList", "mainList", "main", function() {
-				//gridLayout();
-				myScroll.refresh();
-				isOver = isOver - 1;
-			});
+		//管理页面
+		//loadModuleList("CubeModuleList", "installList", "install");
+		var type = $(".buttomContent .buttom_btn_group .btn.active").attr("data");
+		console.log("refreshMainPage type " + type);
+		var t = type;
+		if (type == "upgrade") {
+			type = "upgradable";
 		}
-
-
-
+		
+		loadModuleList("CubeModuleList", type + "List", t,function(){
+			$('.module_div ul li .curd_btn').css('display', 'inline');
+		});
+	} else {
+		//主页面
+		loadModuleList("CubeModuleList", "mainList", "main");
 	}
-
 };
 
 
@@ -99,103 +89,43 @@ var updateProgress = function(identifier, count) {
 	}
 
 };
-
 //模块增删，刷新模块列表(uninstall，install，upgrade)
 var refreshModule = function(identifier, type, moduleMessage) {
 
-	if ($('#top_left_btn').hasClass('back_bt_class')) {
-		console.log("进入refreshModule" + type + "..." + identifier);
+	console.log("进入refreshModule" + type + "..." + identifier);
 
-		if (type === "uninstall") {
-			console.log("进入uninstall");
-			//已安装减一个
-			console.log("已安装页面减一个");
-			$(".module_li[moduletype='install'][identifier='" + identifier + "']").remove();
-			//未安装加一个
-			//addModule(identifier, "uninstall", moduleMessage);
-			console.log("未安装的加一个成功");
-			//更新有则减
-			$(".module_li[moduletype='upgrade'][identifier='" + identifier + "']").remove();
-		} else if (type === "install") {
-			console.log("进入install");
-			//未安装减一个
-			$(".module_li[moduletype='uninstall'][identifier='" + identifier + "']").remove();
-			$(".module_li[moduletype='upgrade'][identifier='" + identifier + "']").remove();
-			//已安装加一个
-			//addModule(identifier, "install", moduleMessage);
-			//更新不变
-		} else if (type === "upgrade") {
-			//已安装替换
-			//addModule(identifier, "install", moduleMessage);
-			//更新减一个
-			$(".module_li[moduletype='upgradable'][identifier='" + identifier + "']").remove();
-			//未安装不变
-		} else if (type === "main") {
-			//addModule(identifier, "main", moduleMessage);
-		}
-
-
-	} else {
-		//主页面
-		console.log("主界面、、");
-		$("li[identifier='" + identifier + "']").css('opacity', '1');
-		//判断模块 hidden
-		var isHidden = $("li[identifier='" + identifier + "']").attr("hidden");
-		console.log("是否显示？？？？" + isHidden);
-		if (isHidden == "true") {
-			$("li[identifier='" + identifier + "']").remove();
-		}
+	if (type === "uninstall") {
+		console.log("进入uninstall");
+		//已安装减一个
+		console.log("已安装页面减一个");
+		$(".module_li[moduletype='install'][identifier='" + identifier + "']").remove();
+		//未安装加一个
+		//addModule(identifier, "uninstall", moduleMessage);
+		console.log("未安装的加一个成功");
+		//更新有则减
+		$(".module_li[moduletype='upgrade'][identifier='" + identifier + "']").remove();
+	} else if (type === "install") {
+		console.log("进入install");
+		//未安装减一个
+		$(".module_li[moduletype='uninstall'][identifier='" + identifier + "']").remove();
+		$(".module_li[moduletype='upgrade'][identifier='" + identifier + "']").remove();
+		//已安装加一个
+		//addModule(identifier, "install", moduleMessage);
+		//更新不变
+	} else if (type === "upgrade") {
+		//已安装替换
+		//addModule(identifier, "install", moduleMessage);
+		//更新减一个
+		$(".module_li[moduletype='upgradable'][identifier='" + identifier + "']").remove();
+		//未安装不变
+	} else if (type === "main") {
+		//addModule(identifier, "main", moduleMessage);
 	}
 	checkModules();
 
 
 };
-var addModule = function(identifier, type, moduleMessage) {
-	var mm = $.parseJSON(moduleMessage);
-	//如果该模块不存在，则生成
-	if ($(".scrollContent_li[modules_title='" + mm.category + "']").size() < 1) {
-		var tag = $(".scrollContent_li").size();
-		//获取模板名
-		var moduleContentTemplate = $("#t2").html();
 
-		var moduleContentHtml = _.template(moduleContentTemplate, {
-			'muduleTitle': mm.category,
-			"tag": tag
-		});
-		$(".mainContent").find(".scrollContent").append(moduleContentHtml);
-	}
-
-	//如果存在，先删除，再添加
-	if ($("li[identifier='" + identifier + "']").size() > 0) {
-		$("li[identifier='" + identifier + "']").remove();
-	}
-
-	var moduleItemTemplate = $("#module_div_ul").html();
-
-	downloadFile(mm.icon, packageName + "/moduleIcon", function(entry) {
-		// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
-		mm.icon = entry.fullPath;
-	});
-
-	mm.releaseNote = subStrByCnLen(mm.releaseNote + "", 21);
-
-	var moduleItemHtml = _.template(moduleItemTemplate, {
-		'icon': mm.icon,
-		'name': mm.name,
-		'moduleType': type,
-		'identifier': mm.identifier,
-		'version': mm.version,
-		'releasenote': mm.releaseNote,
-		'btn_title': changeBtnTitle(type),
-		"updatable": mm.updatable,
-		"local": mm.local,
-		"msgCount": mm.msgCount,
-		"hidden": mm.hidden
-	});
-	$(".scrollContent_li[modules_title='" + mm.category + "']").children('div').children('ul').append(moduleItemHtml);
-	myScroll.refresh();
-
-};
 //检查模块信息的完整性，如果没有模块，则隐藏
 var checkModules = function() {
 	console.log('AAAAAA----检查模块信息的完整性，如果没有模块，则隐藏');
@@ -244,9 +174,11 @@ var changeBtnTitle = function(type) {
 // 选中模块操作菜单，传入需要激活的按钮名称（uninstall，install，upgrade）
 var activeModuleManageBarItem = function(type) {
 	// 移除所有选中
-	$(".buttomContent .buttom_btn_group .btn").removeClass("active");
+	$(".buttomContent .buttom_btn_group .btn").removeClass(
+		"active");
 	// 选中当前点击
-	$(".buttomContent .buttom_btn_group .btn[data='" + type + "']").addClass("active");
+	$(".buttomContent .buttom_btn_group .btn[data='" + type + "']")
+		.addClass("active");
 };
 
 //点击模块的时候触发事件
@@ -254,7 +186,7 @@ var module_all_click = function() {
 	/*$("li[identifier] .module_li_img , li[identifier] .module_push, li[identifier] .detail").bind('click', function() {*/
 	$("li[identifier]").bind('click', function() {
 
-		console.log("模块父类点击");
+		console.log("父类点击");
 		/*var type = $(this).parent(".module_li").attr("moduleType");*/
 		var type = $(this).attr("moduleType");
 		/*var identifier = $(this).parent(".module_li").attr("identifier");*/
@@ -264,13 +196,12 @@ var module_all_click = function() {
 		//var $moduleTips = $(".module_Tips[moduletype='main'][identifier='" + identifier + "']");
 		//$moduleTips.hide();
 		cordovaExec("CubeModuleOperator", "showModule", [identifier, type]);
-	});
+	})
 };
 
 
 //点击curd按钮事件
 var curd_btn_click = function() {
-	console.log("操作按钮点击");
 	$(".module_li .curd_btn").bind('click', function(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -309,7 +240,7 @@ var curd_btn_click = function() {
 
 
 
-	});
+	})
 };
 
 
@@ -341,13 +272,16 @@ var initial = function(type, data) {
 				value.updatable = false;
 			}
 
-			downloadFile(value.icon, packageName + "/moduleIcon", function(entry) {
-				// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
-				value.icon = entry.fullPath;
-			});
-
+			// var mark = value.icon;
+			// if (mark.indexOf("?") > -1) {
+			// 	mark = mark.substring(0, mark.indexOf("?"));
+			// }
+			// if (window.localStorage[mark] !== undefined) {
+			// 	value.icon = window.localStorage[mark];
+			// 	console.log("图片存在，直接缓存拿");
+			// }
 			value.releaseNote = subStrByCnLen(value.releaseNote + "", 21);
-			//console.log("value.releasenote=" + value.releaseNote);
+			console.log("value.releasenote=" + value.releaseNote);
 			$('.module_div_ul[num="' + i + '"]').append(
 				_.template($("#module_div_ul").html(), {
 					'icon': value.icon,
@@ -359,8 +293,7 @@ var initial = function(type, data) {
 					'btn_title': changeBtnTitle(type),
 					"updatable": value.updatable,
 					"local": value.local,
-					"msgCount": value.msgCount,
-					"hidden": value.hidden
+					"msgCount": value.msgCount
 				}));
 		});
 		i = i + 1;
@@ -371,10 +304,7 @@ var initial = function(type, data) {
 
 
 // 加载列表，渲染成html
-var isOver = 0;
 var loadModuleList = function(plugin, action, type, callback) {
-	//if (isOver === 0) {
-	//	isOver = isOver + 1;
 	var accountName = "";
 	//获取用户名
 	cordova.exec(function(account) {
@@ -389,7 +319,7 @@ var loadModuleList = function(plugin, action, type, callback) {
 		accountName = " " + accountName + " ";
 	}
 	$('.account_content').html("<h4>欢迎" + accountName + "登录</h4>");
-	$(".mainContent").html("");
+
 	$(".mainContent").remove();
 
 	var mainContent = $('<div class="mainContent"><ul id="myul" class="scrollContent nav nav-list"></ul>');
@@ -400,31 +330,25 @@ var loadModuleList = function(plugin, action, type, callback) {
 	cordova.exec(function(data) {
 		data = $.parseJSON(data);
 		initial(type, data);
+
 		//绑定点击事件
-		//$("li[identifier]").die('click');
 		module_all_click();
 		curd_btn_click();
-		myScroll.refresh();
+		//myScroll.refresh();
 		checkModules();
-		//isOver = isOver - 1;
 		//如果回调方法不为空，则执行该回调方法
 		if (callback !== undefined) {
 			callback();
 		}
 	}, function(err) {
-		isOver = isOver - 1;
+
 	}, plugin, action, []);
-
-	//}
-
-
 
 };
 // 左边按键--设置、返回
 $('#top_left_btn')
 	.click(
 		function() {
-			isOver = 0;
 			if ($(this).hasClass('back_bt_class')) {
 				// 返回按键
 				$('#top_left_btn').removeClass('back_bt_class');
@@ -439,14 +363,14 @@ $('#top_left_btn')
 				// 删除左边按键class标志
 				$('#top_left_btn').removeClass(
 					'back_bt_class').addClass('btn-primary').addClass('btn').css('text-indent', '0px').css('background', '-webkit-gradient(linear, 10% 100%, 10% 100%, from(#5390d5), to(#60a5e1))').css('border', '2px solid #2a66a7');
-				$('#top_left_btn').css('width', '24px').css('height', '18px').html('<img class="set_img" src="img/set.png" style="top:-2px;">');
+				$('#top_left_btn').css('width', '48px').html('<img class="set_img" src="img/set.png">');
 				//开启欢迎光临
 				$('.account_content').show();
 				$('.searchContent').css("height", "60px");
 				//返回刷新列表
 				loadModuleList("CubeModuleList", "mainList", "main", function() {
 					gridLayout();
-					myScroll.refresh();
+					//myScroll.refresh();
 				});
 
 
@@ -460,47 +384,25 @@ $('#top_left_btn')
 
 
 // 检测屏幕是否伸缩
-var LastHeight = window.screen.availHeight;
 $(window).resize(function() {
 	//$(".mainContent").height($(window).height() - 50);
-	var availHeight = $(window).height();
-	console.log("LastHeight " + LastHeight);
-	console.log("availHeight " + availHeight);
-	if (Math.abs(LastHeight - availHeight) > 100) {
-		if ((LastHeight - availHeight) > 0) {
-			//键盘弹出
-			console.log("键盘弹出了");
-			$('.buttomContent').hide();
-		} else {
-			console.log("键盘隐藏了。。。");
-			//键盘隐藏
-			if ($('#top_left_btn').hasClass('back_bt_class')) {
-				$('.buttomContent').show();
-			}
-		}
-	}
-	LastHeight = availHeight;
 	myScroll.refresh();
 });
-/*$("#searchInput").click(function(e) {
+$("#searchInput").click(function(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	if ($('#top_left_btn').hasClass('back_bt_class')) {
-		var osPlatform = device.platform;
-		if(osPlatform.toLowerCase() == "android"){
-			$('.buttomContent').hide();
-		}
-		
+		$('.buttomContent').hide();
 	}
-});*/
-/*$("body").click(function() {
-	console.log("body click");
+});
+$("body").click(function() {
 	if ($('#top_left_btn').hasClass('back_bt_class')) {
 		$('.buttomContent').show();
 	}
+	$("li[identifier]").focus();
 
-});*/
-$("#wrapper").live("touchend", function() {
+});
+$("body").live("touchend", function() {
 	console.log("body touchend");
 	myScroll.refresh();
 
@@ -509,21 +411,6 @@ $(".del_content").click(function() {
 	console.log("点击了");
 	$("#searchInput").val("");
 	$(".del_content").hide();
-
-	var scrollContent_lis = $('#myul').children('li');
-	$.each(scrollContent_lis, function(index, li) {
-		var module_lis = $(li).children('div').children('ul').children('li');
-		$.each(module_lis, function(index, module_li) {
-			$(module_li).show();
-		});
-
-		scrollContent_lis.show();
-
-		// end
-	});
-
-
-
 });
 // 搜索框事件
 $("#searchInput").live("input propertychange", function() {
@@ -591,6 +478,7 @@ var listLayout = function() {
 	});
 	$("li[identifier]:nth-of-type(even)").live("touchend", function() {
 		if ($('#listview_btn').hasClass("active")) {
+			console.log("avtive f5f5f5");
 			$(this).css("background", "#f5f5f5");
 		} else {
 			console.log("not avtive #fffffff");
@@ -634,7 +522,7 @@ var listLayout = function() {
 				$(this).hide();
 			}
 
-		});
+		})
 	} else {
 		//查看界面
 		//alert("进入查看界面");
@@ -652,12 +540,13 @@ var listLayout = function() {
 	//切换active
 	$('#listview_btn').addClass('active');
 	$('#gridview_btn').removeClass('active');
+	//myScroll.refresh();
 
 	setTimeout(function() {
 		myScroll.refresh();
 		myScroll.scrollTo(0, 0, 200, false);
 	}, 100);
-};
+}
 
 var gridLayout = function() {
 	console.log("gridview");
@@ -721,17 +610,14 @@ $('#gridview_btn').bind('click', function() {
 // 管理按钮
 $('#manager_btn')
 	.click(function() {
-		console.log("点击");
 		//清除搜索框内容
+		$("#searchInput").val("");
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
-			loadModuleList("CubeModuleList", "uninstallList", "uninstall", function() {
-				isOver = 0;
-				$("#searchInput").val("");
-				$('#manager_btn').hide();
+			loadModuleList("CubeModuleList", "installList", "install", function() {
 				//完成后设置listview
 				$('.buttomContent').css('display', 'block');
 				$('#title').html("模块管理");
-
+				$('#manager_btn').hide();
 
 				//关闭欢迎光临
 				$('.account_content').hide();
@@ -743,12 +629,12 @@ $('#manager_btn')
 					.css('width', '50px')
 				//.html(' <i class="icon-arrow-left icon-white"></i>');
 				.css('background', "url('img/back.png') no-repeat")
-					.css('background-size', '50px 32px').html("返回").css('padding-top', '6px')
+					.css('background-size', '50px 30px').html("返回")
 					.css('border', '0px').css('text-align', 'center').css('text-indent', '5px');
 				//设置左边按键class做标志
 				$('#top_left_btn').addClass('back_bt_class');
 				// 处理模块管理问题
-				var type = "uninstall";
+				var type = "install";
 				activeModuleManageBarItem(type);
 				listLayout();
 				myScroll.refresh();
@@ -805,37 +691,13 @@ var app = {
 	},
 	receivedEvent: function(id) {
 
-
-		//loadModuleList("CubeModuleList", "mainList", "main");
+		loadModuleList("CubeModuleList", "mainList", "main");
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
 			//alert(result);
-			var osPlatform = device.platform;
-			if (osPlatform.toLowerCase() == "android") {
-				cordova.exec(function(data) {
-					packageName = $.parseJSON(data).packageName;
-					//如果是android，先获取到包名
-					loadModuleList("CubeModuleList", "mainList", "main", function() {
-						myScroll.refresh();
-					});
-				}, function(err) {
-					console.log("获取Packagename失败");
-				}, "CubePackageName", "getPackageName", []);
-			} else {
-				loadModuleList("CubeModuleList", "mainList", "main", function() {
-					myScroll.refresh();
-				});
-			}
-
-
-
+			loadModuleList("CubeModuleList", "mainList", "main", function() {
+				myScroll.refresh();
+			});
 		});
-		// loadModuleList("CubeModuleList", "mainList", "main");
-		// cordovaExec("CubeModuleOperator", "sync", [], function() {
-		// 	//alert(result);
-		// 	loadModuleList("CubeModuleList", "mainList", "main", function() {
-		// 		myScroll.refresh();
-		// 	});
-		// });
 	}
 };
 app.initialize();

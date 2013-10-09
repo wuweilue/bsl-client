@@ -113,19 +113,15 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
         //init collections
         NSMutableArray *tmp_modules = [[NSMutableArray alloc] init];
         self.modules = tmp_modules;
-        tmp_modules=nil;
         
         NSMutableArray *tmp_updatable_modules = [[NSMutableArray alloc] init];
         self.updatableModules = tmp_updatable_modules;
-        tmp_updatable_modules=nil;
         
         NSMutableArray *tmp_available_modules = [[NSMutableArray alloc] init];
         self.availableModules = tmp_available_modules;
-        tmp_available_modules=nil;
         
         NSMutableArray * tmp_downloading_modules = [[NSMutableArray alloc]init];
         self.downloadingModules = tmp_downloading_modules;
-        tmp_downloading_modules=nil;
         
         //load application
         
@@ -135,8 +131,7 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
             
             //merge runtime_config
             //本地模块升级
-            if (self.installed)
-                [self mergeNewLocalModules];
+            if (self.installed) [self mergeNewLocalModules];
         }else{
             if (self.installed) {
                 NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
@@ -506,7 +501,6 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
         urlString = [urlString stringByAppendingString:@"&sessionKey="];
         urlString = [urlString stringByAppendingString:token];
     }
-    urlString = [urlString stringByReplacingOccurrencesOfString:@"192.168.11.18:18860" withString:@"192.168.11.11:9994"];
     [self syncWithString:urlString token:token];
 }
 
@@ -591,12 +585,6 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
                 continue;
             }
         }
-//        else
-//        {
-//            //测试用删除掉
-//            if([remote_module.local isEqualToString:@"FilghtCaleMenu"])
-//            remote_module.icon = [NSString stringWithFormat:@"local:%@ViewController.png",remote_module.local ];
-//        }
         //获取网络版本CubeModule
         CubeModule *local_module = [self moduleForIdentifier:remote_module.identifier];
         if (local_module != nil)

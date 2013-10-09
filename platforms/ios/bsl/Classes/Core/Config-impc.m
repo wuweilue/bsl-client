@@ -10,7 +10,7 @@ NSString* const kServerURLString = @"http://192.168.11.18:18860";
 NSString* const kServerLoginURLString = @"http://192.168.11.18:18860/csair-extension/api/accounts/login";
 NSString* const  kXMPPHost=@"10.108.68.99";
 NSString* const  kXMPPPushHost =@"192.168.11.18";
-NSString* const  kAPIServerAPI=@"192.168.11.18:18860/csair-im/api";
+NSString* const  kXMPPGroupHost=@"192.168.11.18:9000";
 NSString* const  kXMPPDomin=@"mobile.app";
 NSString* const  kXMPPPushDomin=@"com.csair.impc.test";
 NSString* const  kPushServerRegisterUrl=@"http://192.168.11.18:18860/push/api/checkinservice/checkins";
@@ -23,12 +23,11 @@ NSString* const  kXMPPPusher=@"com.csair.impc";
 NSString* const  kAPPName=@"com.csair.impc";
 NSString* const  kAPPName_sandbox=@"com.csair.impc.sandbox";
 NSString* const  kRequestAnnouncementUrl=@"http://192.168.11.18:18860/comments/api/notices/";
-NSString* const  kDeviceRegisterUrl=@"http://192.168.11.18:18860/devices/register";
-NSString* const  kFeedBackRequestUrl=@"http://192.168.11.18:18860/feedbacks";
-NSString* const  kFeedBackPostUrl=@"http://192.168.11.18:18860/feedbacks";
+NSString* const  kDeviceRegisterUrl=@"http://192.168.11.18:9000/devices/register";
+NSString* const  kFeedBackRequestUrl=@"http://192.168.11.18:9000/feedbacks";
+NSString* const  kFeedBackPostUrl=@"http://192.168.11.18:9000/feedbacks";
 int kXMPPPort= 5222;
 BOOL const kEnablePushNotification = YES;
 
 NSString* const kFileUploadUrl = @"http://192.168.11.18:18860/bsl-web/mam/attachment/clientUpload";
 NSString *const kMUCSevericeDomin=@"conference.mobile.app";
-

@@ -7,23 +7,16 @@
 //
 
 #import "ImageScroller.h"
-#import "AsyncImageView.h"
-#import "ServerAPI.h"
+
 #import <QuartzCore/QuartzCore.h>
 
 @implementation ImageScroller
 
 - (id)initWithFrame:(CGRect)frame{
-    
     self = [super initWithFrame:frame];
     if (self) {
         self.userInteractionEnabled=YES;
-        frame=self.bounds;
-        frame.origin.x=20.0f;
-        frame.origin.y=20.0f;
-        frame.size.width-=40.0f;
-        frame.size.height-=40.0f;
-        imageView=[[UIImageView alloc] initWithFrame:frame];
+        imageView=[[UIImageView alloc] initWithFrame:self.bounds];
         imageView.contentMode=UIViewContentModeScaleAspectFit;
         [self addSubview:imageView];
         

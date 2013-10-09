@@ -74,8 +74,6 @@
         FormDataRequest* request = [FormDataRequest requestWithURL:[NSURL URLWithString:[ServerAPI urlForLogin]]];
         __block FormDataRequest*  __request=request;
 
-        request.timeOutSeconds=200.0f;
-        request.persistentConnectionTimeoutSeconds=200.0f;
         [request setPostValue:kAPPKey forKey:@"appKey"];
         [request setPostValue:userName forKey:@"username"];
         [request setPostValue:userPass forKey:@"password"];
@@ -88,8 +86,6 @@
             if([SVProgressHUD isVisible]){
                 [SVProgressHUD showErrorWithStatus:@"连接服务器失败！"];
             }
-            
-            
             NSMutableDictionary *json = [NSMutableDictionary dictionary];
             [json setValue:[NSNumber numberWithBool:NO] forKey:@"isSuccess"];
             [json setValue:@"连接服务器失败！" forKey:@"message"];
@@ -117,7 +113,6 @@
                 NSLog(@"%@",message);
                 UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"登录失败" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 [alert show];
-                alert=nil;
             }else{
             NSString* messageAlert =   [messageDictionary objectForKey:@"message"];
             NSNumber* number =  [messageDictionary objectForKey:@"result"];

@@ -26,8 +26,6 @@
 @property(nonatomic,strong)NSData *loadedImageData;
 @property(nonatomic,weak)id<AsyncImageViewDelegate> delegate;
 
-+(UIImage*)imageWithThumbnail:(UIImage *)image size:(CGSize)thumbSize;
-
 - (void)loadImageWithURLString:(NSString*)urlString;
 //清理下载
 - (void)cleanupRequest;

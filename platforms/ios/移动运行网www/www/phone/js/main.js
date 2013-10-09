@@ -1,6 +1,5 @@
 //解决点击延迟问题
 new FastClick(document.body);
-var packageName;
 //封装cordova的执行方法，加上回调函数
 var cordovaExec = function(plugin, action, parameters, callback) {
 	cordova.exec(function(data) {
@@ -48,36 +47,8 @@ var loadModuleList = function(plugin, action, type, callback) {
 	// cordova.exec(success,failed,plugin,action,[]);
 	cordova.exec(function(data) {
 		data = $.parseJSON(data);
-
-		var valueArray = new Array;
-		var keyArray = new Array;
-		var s = 3;
-
-		_.each(data, function(value, key) {
-			if (key === "首页") {
-				keyArray[0] = key;
-				valueArray[0] = value;
-			} else if (key === "次页") {
-				keyArray[1] = key;
-				valueArray[1] = value;
-			} else if (key === "基础包") {
-				keyArray[2] = key;
-				valueArray[2] = value;
-			} else {
-
-				keyArray[s] = key;
-				valueArray[s] = value;
-				s++;
-			}
-			console.log(s);
-
-		});
-		console.log("keyArray0 " + keyArray[0]);
-		console.log("keyArray1 " + keyArray[1]);
-		console.log("valueArray0 " + valueArray[0]);
-		console.log("valueArray1 " + valueArray[1]);
 		console.log("AAAAAA-----1DATA");
-		_.each(valueArray, function(value) {
+		_.each(data, function(value, key) {
 			//alert(JSON.stringify(value));
 			var len = value.length;
 			var j = 0;
@@ -90,11 +61,6 @@ var loadModuleList = function(plugin, action, type, callback) {
 				return v.sortingWeight;
 
 			});
-			downloadFile(value.icon + "", packageName + "/moduleIcon", function(entry) {
-				// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
-				value.icon = entry.fullPath;
-			});
-
 			console.log("value2 = " + value.sortingWeight);
 
 			_.each((value), function(value, key) {
@@ -181,7 +147,7 @@ $("#search_btn").click(function() {
 		window.localStorage['com.csair.dynamic-flightDynamic.html'] = JSON.stringify(queryAction);
 
 		console.log(window.location.href);
-		cordovaExec("CubeModuleOperator", "showModule", ["com.csair.dynamic", "main"]);
+	cordovaExec("CubeModuleOperator", "showModule", ["com.csair.dynamic", "main"]);
 		//window.location = "../com.csair.dynamic/index.html#com.csair.dynamic/flightDynamic";
 
 	} else {
@@ -220,11 +186,11 @@ var socLogin = function() {
 
 	$.ajax({
 		timeout: 2000 * 1000,
-		url: "http://58.248.56.101/opws-mobile-web/j_spring_security_check",
+		url: "http://10.103.124.104:8080/opws-mobile-web/j_spring_security_check",
 		type: "get",
 		data: {
-			"username": username,
-			"password": password
+			"j_username": username,
+			"j_password": password
 		},
 		dataType: "json",
 		success: function(data, textStatus, jqXHR) {
@@ -235,17 +201,19 @@ var socLogin = function() {
 			if (data.login === true) {
 
 
-				window.localStorage["socUserInfo"] = JSON.stringify(data);
+				window.localStorage["logigMessage"] = JSON.stringify(data);
 				getWeather();
 
 			} else {
 
 
+				closeLoader();
+
 
 				Toast("登陆失败,请检查用户名和密码!", null);
 			}
 
-			closeLoader();
+
 		},
 		error: function(e, xhr, type) {
 
@@ -272,7 +240,7 @@ var getWeather = function() {
 
 	$.ajax({
 		timeout: 2000 * 1000,
-		url: "http://58.248.56.101/opws-mobile-web/mobile/flightinfo-FlightWeather-findWeather.action",
+		url: "http://10.103.124.104:8080/opws-mobile-web/mobile/flightinfo-FlightWeather-findWeather.action",
 		type: "get",
 		data: {
 			"optArea": base
@@ -281,11 +249,10 @@ var getWeather = function() {
 		success: function(data, textStatus, jqXHR) {
 			console.log('列表数据加载成功：' + textStatus + " response:[" + data + "]");
 
-			if (data.weather.rmk) {
 
-				$("#weather").html(data.weather.rmk);
-				$("#degree").html(data.weather.tempreture + "°");
-			}
+
+			$("#weather").html(data.weather.rmk);
+			$("#degree").html(data.weather.tempreture + "°");
 
 		},
 		error: function(e, xhr, type) {
@@ -299,7 +266,7 @@ var getWeather = function() {
 
 		complete: function(xhr, status) {
 
-			// closeLoader();
+			closeLoader();
 
 
 
@@ -377,53 +344,30 @@ var app = {
 		app.receivedEvent('deviceready');
 	},
 	receivedEvent: function(id) {
-		getDate();
-		//socLogin();
+
+		socLogin();
 		console.info("2222888");
 		//loadModuleList("CubeModuleList", "mainList", "main");
 
 		console.log("4");
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
-			var osPlatform = device.platform;
-			if (osPlatform.toLowerCase() == "android") {
-				cordova.exec(function(data) {
-					packageName = $.parseJSON(data).packageName;
-					//如果是android，先获取到包名
-					loadModuleList("CubeModuleList", "mainList", "main", function() {
-						window.mySwipe = Swipe(document.getElementById('slider'), {
-							continuous: true,
-							callback: function(index, elem) {
-								console.log("index=" + index);
-								var whichPage = index + 1;
-								$("#position").children("li").removeClass("on");
-								$("#position").children("li:nth-child(" + whichPage + ")").addClass("on");
 
-							}
-						});
+			console.log("同步完成");
+			console.log("5");
+			loadModuleList("CubeModuleList", "mainList", "main", function() {
+				window.mySwipe = Swipe(document.getElementById('slider'), {
+					continuous: true,
+					callback: function(index, elem) {
+						console.log("index=" + index);
+						var whichPage = index + 1;
+						$("#position").children("li").removeClass("on");
+						$("#position").children("li:nth-child(" + whichPage + ")").addClass("on");
 
-
-					});
-				}, function(err) {
-					console.log("获取Packagename失败");
-				}, "CubePackageName", "getPackageName", []);
-			} else {
-				loadModuleList("CubeModuleList", "mainList", "main", function() {
-					window.mySwipe = Swipe(document.getElementById('slider'), {
-						continuous: true,
-						callback: function(index, elem) {
-							console.log("index=" + index);
-							var whichPage = index + 1;
-							$("#position").children("li").removeClass("on");
-							$("#position").children("li:nth-child(" + whichPage + ")").addClass("on");
-
-						}
-					});
-
-
+					}
 				});
-			}
 
 
+			});
 
 		});
 

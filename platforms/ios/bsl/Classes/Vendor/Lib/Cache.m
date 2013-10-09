@@ -40,14 +40,10 @@
 
 static inline NSURL* cacheURLForKey(NSString* key)
 {
-    NSString* path=[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-
-    NSURL* nsUrl=[NSURL URLWithString:key];
-    path=[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@",[nsUrl host],[[nsUrl path] stringByReplacingOccurrencesOfString:@"/" withString:@""] ]  ];
-
-    
-//    NSString *encodedKey = [Base64 stringByEncodingData:[key dataUsingEncoding:NSUTF8StringEncoding]];
-    return [NSURL fileURLWithPath:path];
+    NSString *encodedKey = [Base64 stringByEncodingData:[key dataUsingEncoding:NSUTF8StringEncoding]];
+    return [[[NSFileManager applicationDocumentsDirectory]
+             URLByAppendingPathComponent:@"Cache"]
+            URLByAppendingPathComponent:encodedKey];
 }
 
 -(void)setData:(NSData*)aData forKey:(NSString*)aKey

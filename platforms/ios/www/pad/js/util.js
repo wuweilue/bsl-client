@@ -96,11 +96,6 @@ var downloadFile = function(sourceUrl, targetUrl, callback) {
 	}
 
 	fileName = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.lenght);
-	//如果文件名包括.png,替代为.img
-	if(fileName.indexOf(".png") > -1){
-		fileName.replace(/.png/,".img");
-	}
-
 
 	function gotFS(fileSystem) {
 		fileSystem.root.getDirectory(targetUrl, {

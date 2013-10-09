@@ -97,7 +97,6 @@
 - (NSURL *)applicationDocumentsDirectory;
 
 
--(void)teardownStream;
 
 -(BOOL)connect;
 

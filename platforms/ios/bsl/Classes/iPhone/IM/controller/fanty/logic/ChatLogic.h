@@ -34,7 +34,6 @@
 
 -(BOOL)isInFaviorContacts:(NSString*)chatWithUser;
 -(void)addFaviorInContacts:(NSString*)chatWithUser;
--(void)addFaviorersInContacts:(NSArray *)users;
 -(void)removeFaviorInContacts:(NSString*)chatWithUser;
 
 

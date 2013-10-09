@@ -106,17 +106,17 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 }
 
 - (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    del.xmpp.chatDelegate = nil;
 
     [friendListTimeOut invalidate];
     managedObjectContext=nil;
     fetchedResultsController.delegate=nil;
     fetchedResultsController=nil;
     [laterReloadTimer invalidate];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    del.xmpp.chatDelegate = nil;
 }
 
 -(NSDictionary*)friendsList{
@@ -192,72 +192,40 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 -(void)getFriendsUserInfo{
     if(isLoadingUserInfo)return;
     isLoadingUserInfo=YES;
-    NSMutableArray* userIds = [[NSMutableArray alloc]init];
-    NSMutableArray* userSexs=[[NSMutableArray alloc] init];
-
-    for(NSArray* array in [friendsListDict allValues]){
-        for (UserInfo* userInfo in array) {
-            if ([userInfo.userSex length]<1) {
-                [userIds addObject:userInfo.userJid];
+    NSLog(@"读取数组");
+    NSMutableArray* userArray = [[NSMutableArray alloc]init];
+    for ( id <NSFetchedResultsSectionInfo> sectionInfo in [fetchedResultsController sections]) {
+        for (UserInfo* userInfo in [sectionInfo objects]) {
+            if (!userInfo.userSex || userInfo.userSex.length == 0) {
+                [userArray addObject:userInfo];
             }
         }
     }
-    
-    
-    
-    if([userIds count]>0){
-        AppDelegate *del = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-
-        if (!del.xmpp.xmppvCardTempModule) {
-            [del.xmpp newvCard];
-        }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    NSLog(@"读取数组完成 条数为%d",[userArray count]);
+    if([userArray count]>0){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{            
             //开异步读取好友VCard
-            for (NSString* jid in userIds) {
+            AppDelegate *del = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+            for (UserInfo* userInfo in userArray) {
                 if(self.superview==nil)break;
-                XMPPvCardTemp * xmppvCardTemp =[ del.xmpp.xmppvCardTempModule fetchvCardTempForJID:[XMPPJID jidWithString:jid]];
+                if (!del.xmpp.xmppvCardTempModule) {
+                    [del.xmpp newvCard];
+                }
+                XMPPvCardTemp * xmppvCardTemp =[ del.xmpp.xmppvCardTempModule fetchvCardTempForJID:[XMPPJID jidWithString:userInfo.userJid]];
                 NSString*useSex =  [[[xmppvCardTemp elementForName:@"N"] elementForName:@"MIDDLE"] stringValue];
-                if([useSex length]>0)
-                    [userSexs addObject:useSex];
-                else
-                    [userSexs addObject:@""];
+                userInfo.userSex = useSex;
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                if(self.superview==nil)return;
-                for(NSArray* array in [friendsListDict allValues]){
-                    for (UserInfo* userInfo in array) {
-                        if ([userInfo.userSex length]<1) {
-                            [userIds enumerateObjectsUsingBlock:^(id obj,NSUInteger index,BOOL* stop){
-                                if(index<[userSexs count]){
-                                    NSString* jid=obj;
-                                    if([jid isEqualToString:userInfo.userJid]){
-                                        *stop=YES;
-                                        
-                                        userInfo.userSex=[userSexs objectAtIndex:index];
-                                        
-                                    }
-                                }
-                                else{
-                                    *stop=YES;
-                                }
-                            
-                            }];
-                        }
-                    }
-                }
-
-                
-                if([managedObjectContext hasChanges])
-                    [managedObjectContext save:nil];
-                [self delayReloadTimeEvent];
+                [managedObjectContext save:nil];
+//                userArray=nil;
+                [self showLoadData];
                 isLoadingUserInfo=NO;
             });
         });
     }
     else{
-        userIds=nil;
-        userSexs=nil;
+        userArray=nil;
         isLoadingUserInfo=NO;
     }
     
@@ -353,7 +321,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 #pragma mark  catdelegate
 
 -(void)showFriends:(NSXMLElement*)element{
-    if(self.superview==nil)return;
+    
     NSArray *items = [element elementsForName:@"item"];
     for (int textIndex=0 ; textIndex < [items count] ; textIndex ++){
         NSXMLElement *item=(NSXMLElement *)[items objectAtIndex:textIndex];
@@ -373,8 +341,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         NSError *error = nil;
         NSArray *objects = [context executeFetchRequest:request error:&error];
         
-        if ([objects count] >0) {
-        
+        if (objects != nil && [objects count] != 0) {
         }else{
             NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
             [newManagedObject setValue:group forKey:@"userGroup"];
@@ -382,7 +349,10 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
             [newManagedObject setValue:[[item attributeForName:@"jid"] stringValue] forKey:@"userJid"];
             [newManagedObject setValue:[[item attributeForName:@"subscription"] stringValue] forKey:@"userSubscription"];
             // Save the context.
-            [context save:&error];
+            if (![context save:&error]) {
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
         }
         
     }
@@ -394,10 +364,10 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath{
     
-    if(self.superview!=nil){
-        [laterReloadTimer invalidate];
-        laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:0.7f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
-    }
+    
+    
+    [laterReloadTimer invalidate];
+    laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:0.7f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
 }
 
 
@@ -530,8 +500,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 
 -(void)tableView:(UITableView *)__tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [__tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [searchBar resignFirstResponder];
-    if(laterReloadTimer!=nil)return;
+    [searchBar resignFirstResponder];    
     UserInfo* user=[friendList objectAtIndex:[indexPath row]];
     if([self.delegate respondsToSelector:@selector(contactListDidSelected:userInfo:)])
         [self.delegate contactListDidSelected:self userInfo:user];
@@ -551,7 +520,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)__searchBar{
     for(id cc in [__searchBar subviews]){
-        if([cc isKindOfClass:[UIButton class]]){
+        if([cc isKindOfClass:[UIButton class]])
+        {
             UIButton *btn = (UIButton *)cc;
             [btn setTitle:@"取消"  forState:UIControlStateNormal];
         }
