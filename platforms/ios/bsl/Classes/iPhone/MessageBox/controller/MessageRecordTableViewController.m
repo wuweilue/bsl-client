@@ -15,7 +15,7 @@
 #import "MessageRecordTableViewCell.h"
 #import "CubeWebViewController.h"
 #import "AnnouncementTableViewController.h"
-@interface MessageRecordTableViewController ()
+@interface MessageRecordTableViewController ()<UITableViewDataSource,UITableViewDelegate>
 -(void)delayLoadTimerEvent;
 
 @end
@@ -24,35 +24,17 @@
 
 @synthesize presentModulesDic,editing,expandDic;
 @synthesize flagDictionary;
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)init
 {
-    self = [super initWithStyle:style];
+    self = [super init];
     if (self) {
         // Custom initialization
         self.navigationItem.title = @"消息推送";
-       
-        
-       /* //覆盖屏蔽右边控制
-        UIButton *navRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 7, 43, 30)];
-        [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn@2x.png"] forState:UIControlStateNormal];
-        [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn_active@2x.png"] forState:UIControlStateSelected];
-        [navRightButton setTitle:@"编辑" forState:UIControlStateNormal];
-        [[navRightButton titleLabel] setFont:[UIFont systemFontOfSize:13]];
-        [navRightButton addTarget:self action:@selector(edit) forControlEvents:UIControlEventTouchUpInside];
-        
-        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:navRightButton] autorelease];
-        
-        //[self.navigationItem setRightBarButtonItem:rightItem animated:YES];
-        
-        [navRightButton release];*/
         
         editing = NO;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newMessageRevice:) name:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
         
-        //delete  by fanty
-        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteRecord:) name:RECORD_DELETE object:nil];
-
     }
     return self;
 }
@@ -60,17 +42,32 @@
 - (void)viewDidLoad{
     
     [super viewDidLoad];
+    CGRect rect=self.view.frame;
+    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+        rect.size.width =CGRectGetHeight(self.view.frame)/2+2;
+        rect.size.height= CGRectGetWidth(self.view.frame)-self.navigationController.navigationBar.bounds.size.height-44.0f;
+    }
+    else{
+        rect.size.height-=44.0f;
+    }
+    self.view.frame=rect;
+    
+    tableView=[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    tableView.backgroundColor=[UIColor whiteColor];
+    tableView.delegate=self;
+    tableView.dataSource=self;
+    [self.view addSubview:tableView];
+
+    
     [self loadData];
-     [self setExtraCellLineHidden:self.tableView];
+     [self setExtraCellLineHidden:tableView];
     flagDictionary = [[NSMutableDictionary alloc]initWithCapacity:0];
-    /*UIImageView* backgroundView  = [[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)]autorelease];
-     backgroundView.image = [UIImage imageNamed:@"homebackImg.png"];
-     [self.tableView setBackgroundView:backgroundView];*/
 }
 
 -(void)viewWillAppear:(BOOL)animated{
 
-    [self.navigationController.navigationBar setHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [tableView reloadData];
 }
 
 
@@ -79,8 +76,7 @@
     //这里的实现效率很差还会导致卡，更换FMDB后sql语句更新状态效率更高
     //TODO 待优化
     NSArray *systemRecords = [MessageRecord findSystemRecord];
-    for(MessageRecord *record in systemRecords)
-    {
+    for(MessageRecord *record in systemRecords){
         record.isRead = [NSNumber numberWithBool:YES];
         //        [record save];
     }
@@ -114,11 +110,11 @@
     
     if(editing){
         editing = NO;
-        [self.tableView setEditing:NO animated:YES];
+        [tableView setEditing:NO animated:YES];
         
     }else{
         editing = YES;
-        [self.tableView setEditing:YES animated:YES];
+        [tableView setEditing:YES animated:YES];
     }
     
 }
@@ -178,7 +174,7 @@
     delayLoadTimer=nil;
     [self loadData];
     
-    [[self tableView] reloadData];
+    [tableView reloadData];
 
 }
 
@@ -191,15 +187,15 @@
 }
 
 
-- (void)setExtraCellLineHidden: (UITableView *)tableView{
+- (void)setExtraCellLineHidden: (UITableView *)__tableView{
     
     UIView *view =[ [UIView alloc]init];
     
     view.backgroundColor = [UIColor clearColor];
     
-    [tableView setTableFooterView:view];
+    [__tableView setTableFooterView:view];
     
-    [tableView setTableHeaderView:view];
+    [__tableView setTableHeaderView:view];
     
     
 }
@@ -207,14 +203,12 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)__tableView{
     // Return the number of sections.
     return [[presentModulesDic allKeys] count];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)__tableView numberOfRowsInSection:(NSInteger)section{
     // Return the number of rows in the section.
     //[[self.expandDic objectForKey:moduleId] isEqualToNumber:[NSNumber numberWithBool:YES] ]
     
@@ -229,10 +223,10 @@
     
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)__tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    MessageRecordTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    MessageRecordTableViewCell *cell = [__tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[MessageRecordTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
@@ -245,7 +239,7 @@
     if(module){
         [cell configureWithModuleName:module.name reviceTime:messageRecord.reviceTime alert:messageRecord.alert];
     }else{
-        [cell configureWithModuleName:@"系统" reviceTime:messageRecord.reviceTime alert:messageRecord.alert];
+        [cell configureWithModuleName:messageRecord.alert reviceTime:messageRecord.reviceTime alert:messageRecord.content];
     }
     if([messageRecord.isRead intValue] == 0)
     {
@@ -259,9 +253,9 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)__tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [self tableView:__tableView cellForRowAtIndexPath:indexPath];
     
     return cell.frame.size.height;
     
@@ -281,10 +275,10 @@
         [self.expandDic setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInteger:sectionIndex]];
     }
 
-    [[self tableView] reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [tableView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+- (UIView *)tableView:(UITableView *)__tableView viewForHeaderInSection:(NSInteger)section{
     
     MessageRecordHeaderView *headerView = [[MessageRecordHeaderView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 36)];
     headerView.delegate = self;
@@ -298,7 +292,7 @@
     NSArray *array = [presentModulesDic objectForKey:[[presentModulesDic allKeys]objectAtIndex:section]];
     for(MessageRecord *msr in array)
     {
-        if([flagDictionary valueForKey:[NSString stringWithFormat:@"%d",section]] != [NSNumber numberWithBool:YES])
+//        if([flagDictionary valueForKey:[NSString stringWithFormat:@"%d",section]] != [NSNumber numberWithBool:YES])
         {
             if([msr.isRead intValue] == 0)
             {
@@ -409,7 +403,7 @@
    
     [self.expandDic setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInteger:section]];
     
-    [self.tableView deleteSections:set withRowAnimation:UITableViewRowAnimationFade];
+    [tableView deleteSections:set withRowAnimation:UITableViewRowAnimationFade];
     
     //保存数据
     UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"删除成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
@@ -429,7 +423,7 @@
 
 
 // Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)__tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
@@ -451,13 +445,13 @@
 
             [presentModulesDic setObject:newModuleRecords forKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
             
-            MessageRecordHeaderView *headerView  = (MessageRecordHeaderView *)[tableView viewWithTag:indexPath.section + 100];
+            MessageRecordHeaderView *headerView  = (MessageRecordHeaderView *)[__tableView viewWithTag:indexPath.section + 100];
             
             headerView.messageCountLabel.text = [NSString stringWithFormat:@"%d",[newModuleRecords count]];
             
             
         }
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [__tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         
     }
@@ -484,12 +478,26 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)__tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [__tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    
+    
     
     CubeModule *module = [[CubeApplication currentApplication] moduleForIdentifier:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
     MessageRecord *messageRecord = [[presentModulesDic objectForKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    if(![messageRecord.isRead boolValue]){
+        messageRecord.isRead=[NSNumber numberWithBool:YES];
+        messageRecord.isMessageBadge=[NSNumber numberWithInt:0];
+
+        [messageRecord save];
+        
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:[indexPath section]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"module_badgeCount_change" object:nil];
+    }
     if(module.local  && ![module.identifier isEqualToString:@"com.foss.announcement"]){
         NSString* iphoneLocal;
         if ([module.local isEqualToString:@"DetailViewController"]) {

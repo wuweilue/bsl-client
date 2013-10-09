@@ -82,6 +82,8 @@
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
+    [contactListView clear];
+    contactListView=nil;
     // Dispose of any resources that can be recreated.
 }
 
@@ -89,6 +91,8 @@
     if([SVProgressHUD isVisible]){
         [SVProgressHUD dismiss];
     }
+    
+    [contactListView clear];
 
     fetchedResultsController.delegate=nil;
     

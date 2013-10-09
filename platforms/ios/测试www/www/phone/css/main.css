@@ -84,7 +84,7 @@ width: 24px;
 	height: 20px;
 	width: 24px;
 }
-.left_btn:active , .right_btn:active{
+.left_btn:active , .right_btn:active,.left_btn.disabled ,.right_btn.disabled{
 	background:-webkit-gradient(linear, 10% 100%, 10% 100%, from(#67aee2), to(#417dbe));
 	border: 2px solid #3772ba;
 }
@@ -285,6 +285,8 @@ background: #d7d7d7;
 }
 
 .buttomContent .btn-group .btn{
+	padding: 6px 0px 0px 0px;
+	height: 23px;
 	width: 30%;
 	display : block !important;
 	float: left;

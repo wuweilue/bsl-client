@@ -55,132 +55,30 @@
 @dynamic reviceTime;
 @dynamic recordId;
 
-+(void)requestAnnouncement:(NSString *)announcementId{
++(void)requestAnnouncement:(NSDictionary*)data{
+    NSDictionary *module = [data objectForKey:@"extras"];
+    NSString* recordId=nil;
+    if (module) {
+        recordId=[module objectForKey:@"announceId"];
+    }
     
-    HTTPRequest *request = [HTTPRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestAnnouncementUrl,announcementId]]];
-    __block HTTPRequest*  __request=request;
-    [request setRequestMethod:@"GET"];
-    
-    [request setCompletionBlock:^{
-        
-        NSData *data = [__request responseData];
-        
-       // NSString *reponseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        
-        NSError *error = nil;
-        
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-        
-        if(error) {
-            return;
-        }
-        
-        Announcement *announcement = [Announcement insert];
-        
-        NSArray *propertyList = [announcement getPropertyList];
-        
-        for(NSString *each in propertyList){
-            
-            if([dict objectForKey:each])
-                [announcement setValue:[dict objectForKey:each] forKey:each];
-        }
-        
-        //id 要另外设定
-        [announcement setAnnouncementId:[dict objectForKey:@"id"]];
-        
-        [announcement setIsRead:0];
-        
-        [announcement setReviceTime:[NSDate date]];
-        
-        [announcement save];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:ANNOUNCEMENT_DID_SAVE_NOTIFICATION object:nil];
-        
-        
-    }];
-    
-    [request setFailedBlock:^{
-        NSLog(@"cat not get announcement");
-    }];
-    
-    [request startAsynchronous];
-    
-}
+    Announcement *announcement = [Announcement insert];
 
-+(void)requestAnnouncement:(NSString *)announcementId withRecordId:(NSString*)recordId
-{
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestAnnouncementUrl,announcementId]]];
-    
-    __block ASIHTTPRequest* __request=request;
-    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString* token = [userDefaults objectForKey:@"token"];
-    [request setRequestMethod:@"GET"];
-    [request addRequestHeader:@"sessionKey" value:token];
-    
-    [request setCompletionBlock:^{
+    NSArray *propertyList = [announcement getPropertyList];
         
-        NSData *data = [__request responseData];
-        
-       // NSString *reponseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        
-        NSError *error = nil;
-        
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-        
-        if(error) {
-            [__request cancel];
-            return;
-        }
-        
-        Announcement *announcement = [Announcement insert];
-        
-        NSArray *propertyList = [announcement getPropertyList];
-        
-        for(NSString *each in propertyList){
-            
-            if([dict objectForKey:each] && ![[dict objectForKey:each] isEqual:[NSNull null]] ){
-                if (![each isEqualToString:@"level"]) {
-                     [announcement setValue:[dict objectForKey:each] forKey:each];
-                }
-               
+    for(NSString *each in propertyList){
+        if([data objectForKey:each] && ![[data objectForKey:each] isEqual:[NSNull null]] ){
+            if (![each isEqualToString:@"level"]) {
+                [announcement setValue:[data objectForKey:each] forKey:each];
             }
         }
-        /*
-        NSString *content = announcement.content;
-        content = [content stringByReplacingOccurrencesOfString:@"/" withString:@"//"];
-        content = [content stringByReplacingOccurrencesOfString:@"'" withString:@"\""];
-        content = [content stringByReplacingOccurrencesOfString:@"]" withString:@"/]"];
-        content = [content stringByReplacingOccurrencesOfString:@"[" withString:@"/["];
-        content = [content stringByReplacingOccurrencesOfString:@"%" withString:@"/%"];
-        content = [content stringByReplacingOccurrencesOfString:@"&" withString:@"/&"];
-        content = [content stringByReplacingOccurrencesOfString:@")" withString:@"/)"];
-        content = [content stringByReplacingOccurrencesOfString:@"(" withString:@"/("];
-        content = [content stringByReplacingOccurrencesOfString:@"_" withString:@"/_"];
-         */
-        [announcement setRecordId:recordId];
-        //id 要另外设定
-        [announcement setAnnouncementId:[dict objectForKey:@"id"]];
-        
-        [announcement setIsRead:0];
-        
-        [announcement setReviceTime:[NSDate date]];
-        
-        [announcement save];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:ANNOUNCEMENT_DID_SAVE_NOTIFICATION object:nil];
-        
-        [__request cancel];
-
-    }];
+    }
     
-    [request setFailedBlock:^{
-        NSLog(@"cat not get announcement");
-        [__request cancel];
-
-    }];
-    
-    [request startAsynchronous];
-    
+    [announcement setRecordId:recordId];
+    //id 要另外设定
+    [announcement setAnnouncementId:[data objectForKey:@"id"]];
+    [announcement setIsRead:0];
+    [announcement setReviceTime:[NSDate date]];
 }
 
 

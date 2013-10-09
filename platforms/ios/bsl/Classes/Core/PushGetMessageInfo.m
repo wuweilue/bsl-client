@@ -11,6 +11,8 @@
 #import "JSONKit.h"
 #import "MessageRecord.h"
 #import "HTTPRequest.h"
+#import "Announcement.h"
+
 #import "NSManagedObject+Repository.h"
 
 static PushGetMessageInfo* instance=nil;
@@ -18,6 +20,7 @@ static PushGetMessageInfo* instance=nil;
 @interface PushGetMessageInfo()
 -(void)startTimer:(BOOL)callNow;
 -(void)sendFeedBack:(NSMutableArray*)outputArrayIds;
+-(BOOL)checkIsAnnouncementAndInsert:(NSDictionary *)data;
 @end
 
 @implementation PushGetMessageInfo
@@ -92,7 +95,7 @@ static PushGetMessageInfo* instance=nil;
     [formDataRequest setPostValue:ids  forKey:@"sendId"];
     NSString * uuid = [[UIDevice currentDevice] uniqueDeviceIdentifier];
     [formDataRequest setPostValue:uuid forKey:@"deviceId"];
-    [formDataRequest setPostValue:kAPPKey forKey:@"appKey"];
+    [formDataRequest setPostValue:kAPPKey forKey:@"appId"];
     [formDataRequest setRequestMethod:@"PUT"];
     [formDataRequest startAsynchronous];
     __block FormDataRequest *__formDataRequest=formDataRequest;
@@ -113,14 +116,14 @@ static PushGetMessageInfo* instance=nil;
 
 -(void)updatePushMessage{
     [request cancel];
+    request=nil;
     [updateTimer invalidate];
     updateTimer=nil;
-    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString* token = [userDefaults objectForKey:@"deviceToken"];
-    NSString* deviceId = [[UIDevice currentDevice] uniqueDeviceIdentifier];
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/%@/%@/%@",kPushGetMessageUrl,token,deviceId,kAPPKey];
+    NSString* token = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"];
     
     if (token && [token length] > 0 ) {
+        NSString* deviceId = [[UIDevice currentDevice] uniqueDeviceIdentifier];
+        NSString* requestUrl = [NSString stringWithFormat:@"%@/%@/%@/%@",kPushGetMessageUrl,token,deviceId,kAPPKey];
         
         request = [HTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
         __block HTTPRequest* __request=request;
@@ -132,9 +135,14 @@ static PushGetMessageInfo* instance=nil;
                 NSData *data = [__request responseData];
                 NSMutableArray * messageArray = [data objectFromJSONData];
                 NSMutableArray* outputArrayIds=[[NSMutableArray alloc] init];
+                BOOL hasAnnouncemnt=NO;
                 //FMDB 事务
                 for (NSDictionary* dictionary in messageArray) {
-                    [MessageRecord createByApnsInfo:dictionary outputArrayIds:outputArrayIds];
+                    if([MessageRecord createByApnsInfo:dictionary outputArrayIds:outputArrayIds]){
+                        BOOL ret=[objSelf checkIsAnnouncementAndInsert:dictionary];
+                        if(!hasAnnouncemnt)
+                            hasAnnouncemnt=ret;
+                    }                    
                 }
                 if([outputArrayIds count]>0)
                     [objSelf sendFeedBack:outputArrayIds];
@@ -143,6 +151,9 @@ static PushGetMessageInfo* instance=nil;
                     
                     [[NSNotificationCenter defaultCenter] postNotificationName:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
 
+                }
+                if(hasAnnouncemnt){
+                    [[NSNotificationCenter defaultCenter] postNotificationName:ANNOUNCEMENT_DID_SAVE_NOTIFICATION object:nil];
                 }
 
                 startNow=([messageArray count]>0);
@@ -156,5 +167,18 @@ static PushGetMessageInfo* instance=nil;
     }
 
 }
+
+-(BOOL)checkIsAnnouncementAndInsert:(NSDictionary *)data{
+    
+    if([[data objectForKey:@"messageType"] isEqualToString:@"MODULE"]){
+        NSDictionary *module = [data objectForKey:@"extras"];
+        if (module && [[module objectForKey:@"moduleIdentifer"] isEqualToString:@"com.foss.announcement"]) {
+            [Announcement requestAnnouncement:data];
+        }
+        return YES;
+    }
+    return NO;
+}
+
 
 @end

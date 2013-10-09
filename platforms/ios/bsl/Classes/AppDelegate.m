@@ -110,6 +110,8 @@ void uncaughtExceptionHandler(NSException*exception){
     
     [UIApplication sharedApplication].idleTimerDisabled=YES;
     
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
     if (launchOptions){
         //现在每一次开app 都运行接收推送，暂不要这段代码了
         
@@ -118,11 +120,11 @@ void uncaughtExceptionHandler(NSException*exception){
             [[PushGetMessageInfo sharedInstance] updatePushMessage];
         }
         
-    }else{
-         [[UIApplication sharedApplication] cancelAllLocalNotifications];
-         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     }
-    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+
+
     
     UpdateChecker *__uc = [[UpdateChecker alloc] initWithDelegate:nil];
     self.uc=__uc;
@@ -150,7 +152,7 @@ void uncaughtExceptionHandler(NSException*exception){
     
     //end------
     //异步加载push actor
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+   // [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad){
         UINavigationController* nav=[[UINavigationController alloc] init];
@@ -251,7 +253,12 @@ void uncaughtExceptionHandler(NSException*exception){
     if ([self.window.rootViewController class] == [LoginViewController class]) {
         [self.uc check];
     }
-     
+    
+    [[PushGetMessageInfo sharedInstance] updatePushMessage];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
+    
     
     /*
     if([navControl.visibleViewController isKindOfClass:[LoginViewController class]]){

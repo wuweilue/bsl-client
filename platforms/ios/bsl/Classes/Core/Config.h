@@ -16,8 +16,6 @@ extern NSString* const kServerURLString;
 //登陆地址
 extern NSString* const kServerLoginURLString;
 
-//是否起用推送
-extern const BOOL kEnablePushNotification;
 
 //应用的app key
 extern const NSString* const kAPPKey;
@@ -31,15 +29,6 @@ extern NSString* const kAPIServerAPI;
 //xmpp domain
 extern NSString* const kXMPPDomin;
 
-//推送的地址
-extern NSString* const kXMPPPushHost ;
-
-//推送的尾巴名
-extern NSString* const kXMPPPushDomin;
-
-//应用名称
-extern NSString* const kXMPPPusher;
-
 //注册设备
 extern NSString* const kPushServerRegisterUrl;
 
@@ -49,19 +38,11 @@ extern NSString* const kPushServerReceiptsUrl;
 //应用程序名字 可能没用了
 extern NSString* const kAPPName;
 
-//没用了
-extern NSString* const kAPPName_sandbox;
-
 //通告地址
 extern NSString* const kRequestAnnouncementUrl;
 
 //设备注册地址
 extern NSString* const kDeviceRegisterUrl;
-
-//不用了
-extern NSString* const kFeedBackRequestUrl;
-//不用了
-extern NSString* const kFeedBackPostUrl;
 
 //xmpp port
 extern int kXMPPPort;

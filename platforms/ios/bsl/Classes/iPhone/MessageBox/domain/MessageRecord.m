@@ -29,9 +29,9 @@
 @dynamic isMessageBadge;
 @dynamic faceBackId;
 @dynamic isRead;
-+(void)createByApnsInfo:(NSDictionary *)info outputArrayIds:(NSMutableArray*)outputArrayIds{
++(BOOL)createByApnsInfo:(NSDictionary *)info outputArrayIds:(NSMutableArray*)outputArrayIds{
     NSString * mFaceBackId = [info objectForKey:@"sendId"];
-    
+    BOOL ret=NO;
     if ([mFaceBackId length]>0) {
         
         [outputArrayIds addObject:mFaceBackId];
@@ -48,6 +48,7 @@
         if (fetchedPersonArray.count>0) {
 //            [[fetchedPersonArray objectAtIndex:0] sendFeedBack];
         }else{
+            ret=YES;
             message  = (MessageObject *)[NSEntityDescription insertNewObjectForEntityForName:@"MessageRecord" inManagedObjectContext:self.managedObjectContext];
 
             NSDictionary *aps = [info objectForKey:@"aps"];
@@ -81,7 +82,7 @@
                     
                 }
             }
-            if([content isKindOfClass:[NSString class]]){
+            else if([content isKindOfClass:[NSString class]]){
                 [message setContent:content];
             }
             [message setReviceTime:[NSDate date]];
@@ -97,7 +98,7 @@
             [message showAlert];
            [MessageRecord isCommand:info];
             
-            [MessageRecord isAnnouncement:info];
+//            [MessageRecord isAnnouncement:info];
         }
         AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         NSString *module = message.module;
@@ -120,6 +121,8 @@
             }
         }
     }
+    
+    return ret;
 }
 
 /*
@@ -232,26 +235,6 @@
     
 }
 
-+(BOOL)isAnnouncement:(NSDictionary *)data{
-    
-    if([[data objectForKey:@"messageType"] isEqualToString:@"MODULE"]){
-        
-        NSDictionary *module = [data objectForKey:@"extras"];
-        if (module && [[module objectForKey:@"moduleIdentifer"] isEqualToString:@"com.foss.announcement"]) {
-            [Announcement requestAnnouncement:[module objectForKey:@"announceId"] withRecordId:[data objectForKey:@"sendId"]];
-            
-            ;
-        }	
-        //需要支持99发送的公告，99发送的公告缺少announcement字段
-        return YES;
-    }else{
-        
-        return NO;
-    }
-    
-}
-
-
 +(NSArray *)findForModuleIdentifier:(NSString *)identifier{
     
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"reviceTime" ascending:NO];
@@ -354,8 +337,7 @@
     
 }
 
-+(MessageRecord *) findMessageRecordByRecordId:(NSString*)recordId
-{
++(MessageRecord *) findMessageRecordByRecordId:(NSString*)recordId{
     NSArray *array =  [MessageRecord findByPredicate:[NSPredicate predicateWithFormat:@"faceBackId=%@",recordId]];
     if(array && array.count>0)
     {
@@ -364,8 +346,7 @@
     return nil;
 }
 
-+(MessageRecord*) findMessageRecordByAnounceId:(NSString *)announceId
-{
++(MessageRecord*) findMessageRecordByAnounceId:(NSString *)announceId{
     NSArray *array =  [MessageRecord findByPredicate:[NSPredicate predicateWithFormat:@"recordId=%@",announceId]];
     if(array && array.count>0)
     {

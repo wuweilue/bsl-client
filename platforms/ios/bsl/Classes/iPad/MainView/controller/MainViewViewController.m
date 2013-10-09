@@ -20,6 +20,7 @@
 #import "FMDBManager.h"
 #import "FMDatabaseQueue.h"
 #import "HTTPRequest.h"
+#import "Announcement.h"
 
 #define SHOW_DETAILVIEW  @"SHOW_DETAILVIEW"  //展示模块
 
@@ -171,7 +172,7 @@
 -(void)checkModules{
     //检测是否需要自动安装
     
-    NSMutableArray *downloadArray = [[CubeApplication currentApplication] availableModules];
+    NSMutableArray *downloadArray = [[CubeApplication currentApplication] downloadingModules];
     if(downloadArray && downloadArray.count>0)
     {
         NSMutableString *message = [[NSMutableString alloc] init];
@@ -374,7 +375,6 @@
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [[CubeApplication currentApplication] installModule:m];
                 });
-                
             }
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstTime"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -384,7 +384,6 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         return;
     }
-    
     if(alertView.tag == 830)
     {
         NSMutableArray *downloadArray = [[CubeApplication currentApplication] downloadingModules];
