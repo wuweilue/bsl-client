@@ -53,6 +53,8 @@
 #import "PushGetMessageInfo.h"
 
 #import "OperateLog.h"
+#import "IMServerAPI.h"
+#import "ChatLogic.h"
 
 #ifndef _DEBUG
 
@@ -70,6 +72,8 @@ void uncaughtExceptionHandler(NSException*exception){
 @property (assign,nonatomic) CFURLRef soundFileURLRef;
 @property (assign,nonatomic) SystemSoundID soundFileObject;
 
+-(void)postOpreateLog;
+-(void)updateCollectionFriends;
 @end
 @implementation AppDelegate
 
@@ -103,6 +107,9 @@ void uncaughtExceptionHandler(NSException*exception){
  * This is main kick off after the app inits, the views and Settings are setup here. (preferred - iOS4 and up)
  */
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions{
+    
+    [UIApplication sharedApplication].idleTimerDisabled=YES;
+    
     if (launchOptions){
         //现在每一次开app 都运行接收推送，暂不要这段代码了
         
@@ -140,10 +147,7 @@ void uncaughtExceptionHandler(NSException*exception){
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     
     self.window.autoresizesSubviews = YES;
-    //开启定时任务将记录发送给服务端begin
     
-    [NSTimer timerWithTimeInterval:60 target:self selector:@selector(postOpreateLog) userInfo:nil repeats:NO];
-        
     //end------
     //异步加载push actor
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
@@ -158,6 +162,14 @@ void uncaughtExceptionHandler(NSException*exception){
     
     [self showLoginView];
     [self.window makeKeyAndVisible];
+    
+    //开启定时任务将记录发送给服务端begin
+    
+    //[NSTimer timerWithTimeInterval:10.0f target:self selector:@selector(postOpreateLog) userInfo:nil repeats:NO];
+
+    [self performSelector:@selector(postOpreateLog) withObject:nil afterDelay:30.0f];
+    
+    
     return YES;
 }
 
@@ -177,8 +189,9 @@ void uncaughtExceptionHandler(NSException*exception){
         
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
     }
-   
-    [xmpp disConnect];
+  
+    [xmpp teardownStream];
+//    [xmpp disConnect];
     
     if([navControl.viewControllers count]<1){
         if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone){
@@ -299,7 +312,7 @@ void uncaughtExceptionHandler(NSException*exception){
     
     NSMutableDictionary *json = [[NSMutableDictionary alloc] init];
     [json setObject:token forKey:@"pushToken"];
-    NSLog(@"[%@]",NSHomeDirectory());
+
     
 #ifdef _DEBUG
     [json setObject:@"apns_sandbox" forKey:@"channelId"];
@@ -389,7 +402,7 @@ void uncaughtExceptionHandler(NSException*exception){
 -(void)postOpreateLog{
     NSArray * array = [OperateLog findAllLog];
     if([array count]<1){
-        [NSTimer timerWithTimeInterval:60 target:self selector:@selector(postOpreateLog) userInfo:nil repeats:NO];
+        [self performSelector:@selector(postOpreateLog) withObject:nil afterDelay:60.0f];
         return;
     }
     NSMutableArray *dictArray = [[NSMutableArray alloc]initWithCapacity:0];
@@ -405,22 +418,26 @@ void uncaughtExceptionHandler(NSException*exception){
         [dictArray addObject:dictionary];
     }
     NSString *json = [dictArray JSONString];
-    NSLog(@"%@",json);
+//    NSLog(@"%@",json);
+    dictArray=nil;
     
-    FormDataRequest *request =[FormDataRequest requestWithURL:[NSURL URLWithString:[kServerURLString stringByAppendingFormat:@"%s","/monitor/logs"]]];
+    FormDataRequest *request =[FormDataRequest requestWithURL:[NSURL URLWithString:[kServerURLString stringByAppendingFormat:@"%s","/csair-monitor/api/monitor/saveAll"]]];
     [request setPostValue:json forKey:@"postString"];
-    
+//    [request setPostValue:json forKey:@"entitysJson"];
+    [request setPostValue:kAPPKey forKey:@"appKey"];
+    [request setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"token"] forKey:@"sessionKey"];
 
-    request.delegate=self;
+    
     NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dict setObject:array forKey:@"array"];
     [request setUserInfo:dict];
+    dict=nil;
     
     __block FormDataRequest*  __request=request;
     [request setFailedBlock:^{
         NSLog(@"失败");
         
-        [NSTimer timerWithTimeInterval:60 target:self selector:@selector(postOpreateLog) userInfo:nil repeats:NO];
+        [self performSelector:@selector(postOpreateLog) withObject:nil afterDelay:60.0f];
     }];
     
     [request setCompletionBlock:^{
@@ -431,8 +448,8 @@ void uncaughtExceptionHandler(NSException*exception){
             }
             NSLog(@"success.....................");
             
-            [NSTimer timerWithTimeInterval:60 target:self selector:@selector(postOpreateLog) userInfo:nil repeats:NO];
         }
+        [self performSelector:@selector(postOpreateLog) withObject:nil afterDelay:60.0f];
     }];
     
     [request startSynchronous];
@@ -441,60 +458,72 @@ void uncaughtExceptionHandler(NSException*exception){
 }
 
 -(void)updateCheckInTags{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSArray* privileges = [defaults objectForKey:@"privileges"];
-    NSString* updateTags =@"{";
-    if ([privileges count]>0) {
-        NSString* privilegeStr = @"";
-        for (NSDictionary* privilege in privileges) {
-            NSString* name = [privilege objectForKey:@"name"];
-            if ([name length] > 0) {
-                privilegeStr = [privilegeStr stringByAppendingFormat:@"%@,",[privilege objectForKey:@"name"]];
+    @autoreleasepool {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSArray* privileges = [defaults objectForKey:@"privileges"];
+        NSString* updateTags =@"{";
+        if ([privileges count]>0) {
+            NSString* privilegeStr = @"";
+            for (NSDictionary* privilege in privileges) {
+                NSString* name = [privilege objectForKey:@"name"];
+                if ([name length] > 0) {
+                    privilegeStr = [privilegeStr stringByAppendingFormat:@"%@,",[privilege objectForKey:@"name"]];
+                }
+                
             }
+            if ([privilegeStr length] > 0 ) {
+                privilegeStr =  [privilegeStr substringToIndex:[privilegeStr length] -1 ];
+                updateTags = [updateTags stringByAppendingFormat:@"privileges=%@",privilegeStr];
+                updateTags = [updateTags stringByAppendingString:@","];
+                
+            }
+        }
+        if ([updateTags length]> 0) {
+            
+            //暂时屏蔽username，phone连个标签
+            //        NSString* userName =[defaults valueForKey:@"username"] ;
+            NSString* sex = [defaults valueForKey:@"sex"];
+            //        NSString* phone = [defaults valueForKey:@"phone"];
+            
+            
+            //        if (userName) {
+            //            updateTags= [updateTags stringByAppendingFormat:@"userName=%@",userName];
+            //            updateTags = [updateTags stringByAppendingString:@","];
+            //        }
+            if (sex) {
+                updateTags= [updateTags stringByAppendingFormat:@"sex=%@",sex];
+                updateTags = [updateTags stringByAppendingString:@","];
+            }
+            //        if (phone) {
+            //            updateTags= [updateTags stringByAppendingFormat:@"phone=%@",phone];
+            //            updateTags = [updateTags stringByAppendingString:@","];
+            //        }
             
         }
-        if ([privilegeStr length] > 0 ) {
-            privilegeStr =  [privilegeStr substringToIndex:[privilegeStr length] -1 ];
-            updateTags = [updateTags stringByAppendingFormat:@"privileges=%@",privilegeStr];
-            updateTags = [updateTags stringByAppendingString:@","];
-            
+        if ([updateTags length] > 0 ) {
+            updateTags =  [updateTags substringToIndex:[updateTags length] -1 ];
+            updateTags = [updateTags stringByAppendingString:@"}"];
+            NSString* urlStr = kUpdatePushTagsUrl;
+            NSString *deviceID = [[UIDevice currentDevice] uniqueDeviceIdentifier];
+            ASIFormDataRequest * tagRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:urlStr]];
+            [tagRequest setPostValue:deviceID forKey:@"deviceId"];
+            [tagRequest setPostValue:kAPPKey forKey:@"appId"];
+            //        NSLog(@"=====%@",updateTags);
+            [tagRequest setPostValue:updateTags forKey:@"tags"];
+            [tagRequest setRequestMethod:@"PUT"];
+            [tagRequest startAsynchronous];
         }
     }
-    if ([updateTags length]> 0) {
-        
-        //暂时屏蔽username，phone连个标签
-//        NSString* userName =[defaults valueForKey:@"username"] ;
-        NSString* sex = [defaults valueForKey:@"sex"];
-//        NSString* phone = [defaults valueForKey:@"phone"];
-        
-        
-//        if (userName) {
-//            updateTags= [updateTags stringByAppendingFormat:@"userName=%@",userName];
-//            updateTags = [updateTags stringByAppendingString:@","];
-//        }
-        if (sex) {
-            updateTags= [updateTags stringByAppendingFormat:@"sex=%@",sex];
-            updateTags = [updateTags stringByAppendingString:@","];
+}
+
+-(void)updateCollectionFriends{
+    [IMServerAPI getCollectIMFriends:^(BOOL status,NSArray* friends){
+        if(status){
+            ChatLogic* logic=[[ChatLogic alloc] init];
+            [logic addFaviorersInContacts:friends];
+            logic=nil;
         }
-//        if (phone) {
-//            updateTags= [updateTags stringByAppendingFormat:@"phone=%@",phone];
-//            updateTags = [updateTags stringByAppendingString:@","];
-//        }
-        
-    }
-    if ([updateTags length] > 0 ) {
-        updateTags =  [updateTags substringToIndex:[updateTags length] -1 ];
-        updateTags = [updateTags stringByAppendingString:@"}"];
-        NSString* urlStr = kUpdatePushTagsUrl;
-        NSString *deviceID = [[UIDevice currentDevice] uniqueDeviceIdentifier];
-        ASIFormDataRequest * tagRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:urlStr]];
-        [tagRequest setPostValue:deviceID forKey:@"deviceId"];
-        [tagRequest setPostValue:kAPPKey forKey:@"appId"];
-        //        NSLog(@"=====%@",updateTags);
-        [tagRequest setPostValue:updateTags forKey:@"tags"];
-        [tagRequest setRequestMethod:@"PUT"];
-        [tagRequest startAsynchronous];
-    }
+    }];
 }
 
 -(void)didLogin{
@@ -509,12 +538,12 @@ void uncaughtExceptionHandler(NSException*exception){
         [self updateCheckInTags];
     //});
     
+    [self updateCollectionFriends];
     
     //开启访问 获取到未收到的推送信息
     [[PushGetMessageInfo sharedInstance] updatePushMessage];
     [navControl popToRootViewControllerAnimated:NO];
-    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone)
-    {
+    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone){
         //
          UINavigationController *__navControl =[[[NSBundle mainBundle] loadNibNamed:@"MainNewWindow" owner:self options:nil] objectAtIndex:0];
         self.window.rootViewController = __navControl;

@@ -27,7 +27,7 @@
 
 #import"ConfigManager.h"
 #import"AppDelegate.h"
-
+#import"PilotConfigManager.h"
 #import "Config.h"
 #define ShareAppDelegate (AppDelegate*)[[UIApplication sharedApplication] delegate]
 

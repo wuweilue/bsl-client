@@ -42,6 +42,8 @@
 
 -(float)panelHeight;
 
+-(void)disableChatButton;
+
 -(void)hideAllControlPanel;
 
 @end

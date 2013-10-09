@@ -50,7 +50,7 @@
     NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
     [dateformatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *  morelocationString=[dateformatter stringFromDate:senddate];
-    
+    dateformatter=nil;
     [log setDatetime:morelocationString];
     [log save];
 }

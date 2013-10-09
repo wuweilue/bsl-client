@@ -632,19 +632,8 @@ var data = {
 		"progress": 100,
 		"updatable": false,
 		"build": 60
-	}, {
-		"version": "1.0.0.60",
-		"category": "产品演示",
-		"downloadUrl": " ff8080813e1cd6f5013e30c3358701ec",
-		"releaseNote": "1.添加起降状态标志 2.界面调整",
-		"icon": "img/icon-notice.png",
-		"identifier": "com.foss.plane.demo",
-		"name": "前序航班-Demo",
-		"msgCount": 0,
-		"progress": 100,
-		"updatable": false,
-		"build": 60
-	}]
+	}
+	]
 
 };
 
@@ -686,6 +675,13 @@ var loadModuleList = function() {
 			value.name = subStrByCnLen(value.name, 5);
 
 			value.moduleType = 'main';
+
+			// downloadFile(value.icon, "packageName" + "/moduleIcon", function(entry) {
+			// 	// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
+			// 	value.icon = entry.fullPath;
+			// 	console.log("下载成功 " + value.icon);
+			// });
+
 			value.classname = key;
 			var moduleItemHtml = _.template(moduleItemTemplate, value);
 			moduleItemHtmlContent = moduleItemHtmlContent + moduleItemHtml;

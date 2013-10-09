@@ -13,7 +13,7 @@
 
 - (NSString *) stringFromMD5{
     
-    if(self == nil || [self length] == 0)
+    if([self length]<1)
         return nil;
     
     const char *value = [self UTF8String];

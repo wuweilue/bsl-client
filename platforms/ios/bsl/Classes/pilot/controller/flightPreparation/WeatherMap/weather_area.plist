@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>中国区</key>
+        <string>P</string>
+        <key>中南区</key>
+        <string>8</string>
+        <key>北太平洋</key>
+        <string>B</string>
+        <key>欧亚区</key>
+        <string>C</string>
+        <key>欧洲区</key>
+        <string>D</string>
+        <key>中低纬度</key>
+        <string>E</string>
+        <key>亚太区</key>
+        <string>G</string>
+        <key>南亚区</key>
+        <string>Z</string>
+    </dict>
+</plist>

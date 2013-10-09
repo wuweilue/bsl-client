@@ -109,6 +109,7 @@
 
 //同步数据
 -(void)sync:(CDVInvokedUrlCommand*)command{
+    NSLog(@"syncing............");
     self.cdvCommand = command;
     CubeApplication *cubeApp = [CubeApplication currentApplication];
     [cubeApp sync];

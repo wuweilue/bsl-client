@@ -25,8 +25,8 @@ extern const NSString* const kAPPKey;
 //xmpp host
 extern NSString* const kXMPPHost;
 
-// xmpp group host
-extern NSString* const kXMPPGroupHost;
+// 即时通读api
+extern NSString* const kAPIServerAPI;
 
 //xmpp domain
 extern NSString* const kXMPPDomin;

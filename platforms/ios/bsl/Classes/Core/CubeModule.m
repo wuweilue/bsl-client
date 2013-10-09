@@ -55,6 +55,7 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
 @synthesize showIntervalTime;
 @synthesize timeUnit;
 @synthesize autoDownload;
+@synthesize sortingWeight;
 
 
 - (NSString*)description
@@ -298,6 +299,7 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
     module.privileges = [jsonObject objectForKey:@"privileges"];
     module.pushMsgLink = [jsonObject objectForKey:@"pushMsgLink"];
     module.discription = [jsonObject objectForKey:@"discription"];
+    module.sortingWeight = [[jsonObject objectForKey:@"sortingWeight"] intValue];
     module.isAutoShow = [[jsonObject objectForKey:@"isAutoShow"]boolValue];
     module.showPushMsgCount = [[jsonObject objectForKey:@"showPushMsgCount"]integerValue];
     module.showIntervalTime = [[jsonObject valueForKey:@"showIntervalTime"] isEqual:[NSNull null] ] ? 0 : [[jsonObject valueForKey:@"showIntervalTime"] integerValue];
@@ -322,7 +324,7 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
     [json setValue:self.version forKey:@"version"];
     [json setValue:self.category forKey:@"category"];
     [json setValue:self.localImageUrl forKey:@"localImageUrl"];
-    
+    [json setValue:[NSNumber numberWithInteger:self.sortingWeight] forKey:@"sortingWeight"];
     [json setValue:[NSNumber numberWithInteger:self.build] forKey:@"build"];
     [json setValue:[NSNumber numberWithBool:self.installed] forKey:@"installed"];
     [json setValue:self.local forKey:@"local"];

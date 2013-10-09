@@ -15,103 +15,116 @@
 
 #pragma mark --收藏好友
 
-+(void)collectIMFriend:(UserInfo*)user myJid:(NSString*)_myJid block:(void (^)(BOOL statue))_block{
-    NSString* urlStr = @"";
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:user.userJid forKey:@"jid"];
-    [parameters setValue:user.userName forKey:@"username"];
-    [parameters setValue:user.userSex forKey:@"sex"];
-    [parameters setValue:user.userStatue forKey:@"statue"];
-    [parameters setValue:_myJid forKey:@"userId"];
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false);
++(FormDataRequest*)collectIMFriend:(NSString*)friendJid block:(void (^)(BOOL statue))_block{
+    
+    
+    
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/save",kAPIServerAPI];
+    
+    
+    UserInfo* user=[[ShareAppDelegate xmpp] fetchUserFromJid:friendJid];
+    
+    FormDataRequest* request=[FormDataRequest requestWithURL:[NSURL URLWithString:urlStr]];
+    
+    [request setPostValue:user.userJid forKey:@"jid"];
+    [request setPostValue:user.userName forKey:@"username"];
+    [request setPostValue:user.userSex forKey:@"sex"];
+    [request setPostValue:user.userStatue forKey:@"statue"];
+    [request setPostValue:[[ShareAppDelegate xmpp].xmppStream.myJID bare ] forKey:@"userId"];
+    [request setPostValue:kAPPKey forKey:@"appKey"];
+    [request setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"token"] forKey:@"sessionKey"];
+    __block FormDataRequest* __request=request;
+    [request setCompletionBlock:^{
+        _block(YES);
+        [__request cancel];
     }];
+    
+    [request setFailedBlock:^{
+        NSLog(@"error:%@",[__request error]);
+        _block(NO);
+        [__request cancel];
+        
+    }];
+    
+    [request startAsynchronous];
+    
+    return request;
+
+    
+    
 }
 
-+(void)updateCollectIMFriendStatue:(UserInfo*)user block:(void (^)(BOOL statue))_block{
-    NSString* urlStr = @"";
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:user.userStatue forKey:@"statue"];
-    [parameters setValue:user.userJid forKey:@"jid"];
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false);
++(HTTPRequest*)getCollectIMFriends:(void (^)(BOOL statue,NSArray* friends))_block{
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/show/%@?sessionKey=%@&appKey=%@",kAPIServerAPI,[[ShareAppDelegate xmpp].xmppStream.myJID bare ],[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
+    
+    HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
+    __block HTTPRequest* __request=request;
+    
+    [request setCompletionBlock:^{
+        NSArray *dict = [NSJSONSerialization JSONObjectWithData:[__request responseData] options:NSJSONReadingMutableContainers error:nil];
+        _block(YES,dict);
+        [__request cancel];
     }];
+    
+    [request setFailedBlock:^{
+        NSLog(@"error:%@",[__request error]);
+        _block(NO,nil);
+        [__request cancel];
+        
+    }];
+    
+    
+    [request startAsynchronous];
+    
+    return request;
+
 }
 
 
-+(void)getCollectIMFriends:(NSString*)myUserId block:(void (^)(BOOL statue,NSArray* friends))_block{
-    NSString* urlStr = @"";
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:myUserId forKey:@"userId"];
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSArray* friends = responseObject;
-        _block(true,friends);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false,nil);
++(HTTPRequest*)deleteCollectIMFriend:(NSString*)friendId block:(void (^)(BOOL statue))_block{
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/delete/%@/%@?sessionKey=%@&appKey=%@",kAPIServerAPI,[[ShareAppDelegate xmpp].xmppStream.myJID bare ],friendId,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
+    HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
+    __block HTTPRequest* __request=request;
+    
+    [request setCompletionBlock:^{
+        _block(YES);
+        [__request cancel];
     }];
-}
-
-
-+(void)deleteCollectIMFriend:(NSString*)myUserId deleteUser:(UserInfo*)_delUserInfo block:(void (^)(BOOL statue))_block{
-    NSString* urlStr = @"";
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:myUserId forKey:@"userId"];
-    [parameters setValue:_delUserInfo.userJid forKey:@"jid"];
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false);
+    
+    [request setFailedBlock:^{
+        NSLog(@"error:%@",[__request error]);
+        _block(NO);
+        [__request cancel];
+        
     }];
+    
+    
+    [request startAsynchronous];
+    
+    return request;
 }
 
 
 #pragma mark --  群聊功能
 
-+(void)grouptAddMember:(UserInfo *)userInfo roomId:(NSString *)_roomId block:(void (^)(BOOL))_block{
-    
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/addMember",kXMPPGroupHost];
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:_roomId forKey:@"roomId"];
-    [parameters setValue:userInfo.userJid forKey:@"jid"];
-    
-    [parameters setValue:userInfo.userName forKey:@"username"];
-    [parameters setValue:userInfo.userSex forKey:@"sex"];
-    [parameters setValue:userInfo.userStatue forKey:@"statue"];
-    
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false);
-    }];
-}
-
-
-+(void)grouptUpdateStatue:(UserInfo *)userInfo block:(void (^)(BOOL))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/updateStatue",kXMPPGroupHost];
-
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:userInfo.userStatue forKey:@"statue"];
-    [parameters setValue:userInfo.userJid forKey:@"jid"];
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false);
-    }];
-}
 
 +(FormDataRequest*)grouptAddMembers:(NSArray *)userInfoArray roomId:(NSString *)_roomId roomName:(NSString *)_roomName addSelf:(BOOL)addSelf block:(void (^)(BOOL))_block{
     
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/addMembers",kXMPPGroupHost];
+    
+
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/addMembers?sessionKey=%@&appKey=%@",kAPIServerAPI,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
+    
+    
 
     NSMutableArray* userArray = [[NSMutableArray alloc]init];
+    NSString* myJid=[[[ShareAppDelegate xmpp].xmppStream myJID] bare];
     @autoreleasepool {
-        
+
+
         if(addSelf){
-            NSString* myJid=[[[ShareAppDelegate xmpp].xmppStream myJID] bare];
             NSString* name=myJid;
             
             int index=[name rangeOfString:@"@"].location;
@@ -124,6 +137,7 @@
             [dictionary setValue:name forKey:@"username"];
             [dictionary setValue:@"在线" forKey:@"statue"];
             [dictionary setValue:_roomName forKey:@"roomName"];
+            [dictionary setValue:myJid forKey:@"creator"];
             [userArray addObject:dictionary];
 
         }
@@ -140,10 +154,14 @@
             [userArray addObject:dictionary];
         }
     }
-//    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
- //   [parameters setValue:[userArray JSONString] forKey:@"members"];
     
     FormDataRequest* request=[FormDataRequest requestWithURL:[NSURL URLWithString:urlStr]];
+    if(addSelf)
+        [request setPostValue:myJid forKey:@"creator"];
+    [request setPostValue:kAPPKey forKey:@"appKey"];
+    [request setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"token"] forKey:@"sessionKey"];
+    
+    
     __block FormDataRequest* __request=request;
     [request setPostValue:[userArray JSONString] forKey:@"members"];
 
@@ -164,21 +182,13 @@
     
     [request startAsynchronous];
     
-    /*
-    [[AFAppDotNetAPIClient sharedClient]putPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false);
-    }];
-    */
-   // parameters=nil;
-    
     return request;
 }
 
 
 +(HTTPRequest*)grouptGetMembers:(NSString *)_roomId block:(void (^)(BOOL, NSArray *))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/query/%@",kXMPPGroupHost,_roomId];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/query/%@?sessionKey=%@&appKey=%@",kAPIServerAPI,_roomId,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
     
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block HTTPRequest* __request=request;
@@ -198,23 +208,13 @@
     
     
     [request startAsynchronous];
-
-    
-    /*
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true,responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false,nil);
-    }];
-
-     */
     
     return request;
 }
 
 
 +(HTTPRequest*)grouptGetRooms:(NSString *)userJid block:(void (^)(BOOL, NSArray *))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/queryAllRoom/%@",kXMPPGroupHost,userJid];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/queryAllRoom/%@?sessionKey=%@&appKey=%@",kAPIServerAPI,userJid,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
 
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block HTTPRequest* __request=request;
@@ -233,22 +233,15 @@
     }];
     
     [request startAsynchronous];
-    /*
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:userJid forKey:@"jid"];
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true,responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false,nil);
-    }];
-     */
     
     return request;
 }
 
 
 +(HTTPRequest*)grouptDeleteMember:(NSString *)userJid roomId:(NSString *)_roomId block:(void (^)(BOOL))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteMember/%@/%@",kXMPPGroupHost,_roomId,userJid];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteMember/%@/%@?sessionKey=%@&appKey=%@",kAPIServerAPI,_roomId,userJid,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
+
     
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block HTTPRequest* __request=request;
@@ -266,46 +259,14 @@
     }];
     
     [request startAsynchronous];
-
-    
-    /*
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:userinfo.userJid forKey:@"jid"];
-    [parameters setValue:_roomId forKey:@"roomId"];
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false);
-    }];
-     */
     
     return request;
 }
 
-+(void)grouptDeleteMembers:(NSArray *)userInfoArray roomId:(NSString *)_roomId block:(void (^)(BOOL))_block{
-    
-    NSString* urlStr = @"/chat/updateStatue";
-    NSMutableArray* userArray = [[NSMutableArray alloc]init];
-    @autoreleasepool {
-        for (UserInfo* userInfo in userInfoArray) {
-            NSMutableDictionary* dictionary = [[NSMutableDictionary alloc]init];
-            [dictionary setValue:userInfo forKey:@"jid"];
-            [dictionary setValue:userInfo forKey:@"roomId"];
-            [userArray addObject:dictionary];
-        }
-    }
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:[userArray JSONString] forKey:@"members"];
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false);
-    }];
-}
-
 +(HTTPRequest*)grouptDeleteRoom:(NSString *)_roomId block:(void (^)(BOOL))_block{
 
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteRoom/%@",kXMPPGroupHost,_roomId];
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/deleteRoom/%@?sessionKey=%@&appKey=%@",kAPIServerAPI,_roomId,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+    
     
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block HTTPRequest* __request=request;
@@ -323,28 +284,21 @@
     }];
     
     [request startAsynchronous];
-
-    /*
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:_roomId forKey:@"roomId"];
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false);
-    }];
-     */
     
     return request;
 }
 
 +(FormDataRequest*)grouptChangeRoomName:(NSString *)_roomName roomId:(NSString *)_roomId block:(void (^)(BOOL))_block{
-    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/roommember/roomname",kXMPPGroupHost];
-    
+    NSString* urlStr =[NSString stringWithFormat:@"http://%@/chat/roommember/roomname?sessionKey=%@&appKey=%@",kAPIServerAPI,[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
+
     FormDataRequest* request=[FormDataRequest requestWithURL:[NSURL URLWithString:urlStr]];
     __block FormDataRequest* __request=request;
     
     [request setPostValue:_roomId forKey:@"roomId"];
     [request setPostValue:_roomName forKey:@"roomName"];
+    [request setPostValue:kAPPKey forKey:@"appKey"];
+    [request setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"token"] forKey:@"sessionKey"];
+
 
     [request setCompletionBlock:^{
         _block(YES);
@@ -359,16 +313,6 @@
     }];
     
     [request startAsynchronous];
-    /*
-    NSMutableDictionary* parameters = [[NSMutableDictionary alloc]init];
-    [parameters setValue:_roomName forKey:@"roomName"];
-    [parameters setValue:_roomId forKey:@"roomId"];
-    [[AFAppDotNetAPIClient sharedClient]getPath:urlStr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        _block(true);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        _block(false);
-    }];
-     */
     
     return request;
 }

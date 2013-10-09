@@ -41,9 +41,9 @@
                 NSString* moduleIdentifier = module.identifier;
                 int count = [moduleIdentifier  isEqualToString:@"com.foss.message.record"] ? [MessageRecord countAllAtBadge] :[MessageRecord countForModuleIdentifierAtBadge:moduleIdentifier];
                 //判断模块是否需要显示右上角的数字
-                if(module.showPushMsgCount ==1)
+                //if(module.showPushMsgCount ==0)
                 {
-                    [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"receiveMessage('%@',%d);",moduleIdentifier,count]];
+                    [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"receiveMessage('%@',%d,true);",moduleIdentifier,count]];
                 }
                 
             }
@@ -224,8 +224,14 @@
             }else{
                 iphoneLocal = [module.local stringByAppendingString:@"ViewController"];
             }
-            self.navigationController.navigationBar.hidden = NO;
             UIViewController *localController = (UIViewController *)[[NSClassFromString(iphoneLocal) alloc] init];
+            if(localController==nil){
+                UIAlertView* alertView=[[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@模块不存在",module.name] message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alertView show];
+                alertView=nil;
+                return;
+            }
+            self.navigationController.navigationBar.hidden = NO;
             [self.navigationController pushViewController:localController animated:YES];
             return;
         }else{
@@ -545,7 +551,7 @@
             [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
             
             if (!newModule.hidden) {
-                NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage('%@','install','%@');",newModule.identifier,JSO];
+                NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage('%@','main','%@');",newModule.identifier,JSO];
                 [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:mainScript];
             }
             
@@ -582,6 +588,7 @@
         [jsonCube  setObject: [NSNumber numberWithInt:0] forKey:@"progress"];
         //=========================================
         [jsonCube  setObject: [NSNumber numberWithInteger:each.build] forKey:@"build"];
+         [jsonCube setObject:[NSNumber numberWithInt:each.sortingWeight] forKey:@"sortingWeight"];
         if ([self isUpdateModule:each.identifier]) {
             [jsonCube  setObject:  [NSNumber numberWithBool:YES] forKey:@"updatable"];
         }else{

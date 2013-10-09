@@ -12,6 +12,7 @@
 #import "RectangleChat.h"
 #import "XMPPRoom.h"
 #import "MessageRecord.h"
+#import "AsyncImageView.h"
 #import "XMPPSqlManager.h"
 
 @interface ChatLogic()
@@ -354,22 +355,65 @@
     return ([fetchedPersonArray count]>0);
 }
 
+-(void)addFaviorersInContacts:(NSArray *)users{
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"FaviorUserInfo"];
+    fetchRequest.predicate = [NSPredicate predicateWithValue:YES];
+    NSError *error=nil;
+    
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    NSManagedObjectContext* context=[appDelegate xmpp].managedObjectContext;
+    NSArray *fetchResult=[context executeFetchRequest:fetchRequest error:&error];
+    if(!error){
+        for(id obj in fetchResult){
+            [context deleteObject:obj];
+        }
+    }
+    
+    for(NSDictionary* dict in users){
+        NSManagedObject *newManagedObject=[NSEntityDescription insertNewObjectForEntityForName:@"FaviorUserInfo" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
+        
+        NSString* group=[dict objectForKey:@"userGroup"];
+        if(![[group class] isSubclassOfClass:[NSNull class]] &&[group length]>0)
+            [newManagedObject setValue:group forKey:@"userGroup"];
+        [newManagedObject setValue:[dict objectForKey:@"username"] forKey:@"userName"];
+        [newManagedObject setValue:[dict objectForKey:@"jid"] forKey:@"userJid"];
+        
+        NSString* subscription=[dict objectForKey:@"userSubscription"];
+        if(![[subscription class] isSubclassOfClass:[NSNull class]] &&[subscription length]>0)
+            [newManagedObject setValue:subscription forKey:@"userSubscription"];
+        
+        NSString* sex=[dict objectForKey:@"sex"];
+        if(![[sex class] isSubclassOfClass:[NSNull class]] &&[sex length]>0)
+            [newManagedObject setValue:sex forKey:@"userSex"];
+        NSString* status=[dict objectForKey:@"status"];
+        if(![[status class] isSubclassOfClass:[NSNull class]] && [status length]>0)
+            [newManagedObject setValue:[dict objectForKey:@"status"] forKey:@"userStatue"];
+        
+        
+    }
+    
+    [appDelegate.xmpp saveContext];
+
+
+}
+
 -(void)addFaviorInContacts:(NSString*)chatWithUser{
 
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
 
     UserInfo* userInfo=[appDelegate.xmpp fetchUserFromJid:chatWithUser];
-    
-    NSManagedObject *newManagedObject=[NSEntityDescription insertNewObjectForEntityForName:@"FaviorUserInfo" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
-    
-    [newManagedObject setValue:userInfo.userGroup forKey:@"userGroup"];
-    [newManagedObject setValue:userInfo.userName forKey:@"userName"];
-    [newManagedObject setValue:userInfo.userJid forKey:@"userJid"];
-    [newManagedObject setValue:userInfo.userSubscription forKey:@"userSubscription"];
-    [newManagedObject setValue:userInfo.userSex forKey:@"userSex"];
-    [newManagedObject setValue:userInfo.userStatue forKey:@"userStatue"];
-    
-    [appDelegate.xmpp saveContext];
+    if(userInfo!=nil){
+        NSManagedObject *newManagedObject=[NSEntityDescription insertNewObjectForEntityForName:@"FaviorUserInfo" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
+        
+        [newManagedObject setValue:userInfo.userGroup forKey:@"userGroup"];
+        [newManagedObject setValue:userInfo.userName forKey:@"userName"];
+        [newManagedObject setValue:userInfo.userJid forKey:@"userJid"];
+        [newManagedObject setValue:userInfo.userSubscription forKey:@"userSubscription"];
+        [newManagedObject setValue:userInfo.userSex forKey:@"userSex"];
+        [newManagedObject setValue:userInfo.userStatue forKey:@"userStatue"];
+        
+        [appDelegate.xmpp saveContext];
+    }
 }
 
 -(void)removeFaviorInContacts:(NSString*)chatWithUser{
@@ -397,6 +441,8 @@
     NSURL *requestURL = [NSURL URLWithString:[kFileUploadUrl stringByAppendingFormat:@"?sessionKey=%@&&appKey=%@",token,kAPPKey]];
   
     FormDataRequest* request = [FormDataRequest requestWithURL:requestURL];
+    request.timeOutSeconds=10.0f;
+    request.persistentConnectionTimeoutSeconds=10.0f;
     __block FormDataRequest* __request=request;
     request.delegate = self;
     @autoreleasepool {
@@ -427,9 +473,33 @@
             [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
         }
         path = [[path stringByAppendingPathComponent:fileId] stringByAppendingString:@".png"];
-        
-        [imageData writeToFile:path atomically:YES];
+        if(imageData!=nil){
+            
+            @autoreleasepool {
                 
+                UIImage *rawImage = [[UIImage alloc] initWithData:imageData];
+                CGSize size=CGSizeMake(420.0f, 600.0f);
+                if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+                    size=CGSizeMake(800.0f, 640.0f);
+                }
+                if(rawImage!=nil &&(rawImage.size.width>size.width || rawImage.size.height>size.height)){
+                    size.height=size.width/(rawImage.size.width/rawImage.size.height);
+                    UIImage *image=[AsyncImageView imageWithThumbnail:rawImage size:size];
+                    
+                    NSData* newData=UIImagePNGRepresentation(image);
+                    
+                    [newData writeToFile:path atomically:YES];
+                    
+                }
+                else{
+                    [imageData writeToFile:path atomically:YES];
+                    
+                }
+                rawImage=nil;
+                
+            }
+
+        }
         if(finish!=nil)
             finish(fileId,path);
         [__request cancel];
