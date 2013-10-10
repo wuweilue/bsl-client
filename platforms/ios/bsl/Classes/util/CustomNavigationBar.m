@@ -24,7 +24,7 @@
 {
     imageName = (imageName == nil) ? @"nav_bg.png" : imageName;
     UIImage *image = [UIImage imageNamed:imageName];
-    [image drawInRect:CGRectMake(0, 0, 320 ,50)];
+    [image drawInRect:rect];
 }
 
 // Given the prpoer images and cap width, create a variable width back button

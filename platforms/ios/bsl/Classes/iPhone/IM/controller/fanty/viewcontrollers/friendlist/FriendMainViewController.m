@@ -40,7 +40,7 @@
         
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
             self.edgesForExtendedLayout = UIRectEdgeNone;
-            self.extendedLayoutIncludesOpaqueBars = YES;
+            self.extendedLayoutIncludesOpaqueBars = NO;
             self.modalPresentationCapturesStatusBarAppearance = NO;
         }
         
@@ -58,7 +58,7 @@
         NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor1,nil];
         [fetchRequest setSortDescriptors:sortDescriptors];
 
-        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"rectangleTalk"];
+        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:nil];
         fetchedResultsController.delegate = self;
         
         NSError *error = nil;
@@ -81,10 +81,11 @@
     }
     else{
         rect.size.height-=44.0f;
-        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
-            rect.size.height-=20.0f;
-        }
     }
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        rect.size.height-=20.0f;
+    }
+
     self.view.frame=rect;
     [self initTabBar];
     [self openOrCreateListView:1];
@@ -139,18 +140,6 @@
 
 
 -(void)createRrightNavItem{
-    
-    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-        NSString* title=nil;
-        if(tabView.selectedIndex==2){
-            title=(faviorContactView.editing?@"取消":@"编辑");
-        }
-        else{
-            title=@"群聊";
-        }
-        self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(addGroupChatClick)];
-    }
-    else{
         UIButton *navRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 7, 43, 30)];
         //navRightButton.style = UIBarButtonItemStyleBordered;
         [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn.png"] forState:UIControlStateNormal];
@@ -165,7 +154,6 @@
         [[navRightButton titleLabel] setFont:[UIFont systemFontOfSize:13]];
         [navRightButton addTarget:self action:@selector(addGroupChatClick) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightButton];
-    }
 }
 
 -(void)initTabBar{

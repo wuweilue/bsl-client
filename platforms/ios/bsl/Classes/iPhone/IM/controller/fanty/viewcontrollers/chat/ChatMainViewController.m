@@ -85,10 +85,11 @@
     }
     else{
         rect.size.height-=44.0f;
-        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
-            rect.size.height-=20.0f;
-        }
     }
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        rect.size.height-=20.0f;
+    }
+
     self.view.frame=rect;
     
     self.view.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"ChatBackground_00.jpg"]];
@@ -706,23 +707,6 @@
 
 -(void)createRightNavBarButton{
     
-    
-    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-
-        if(!self.isGroupChat){
-            if(![chatLogic isInFaviorContacts:self.messageId]){
-                self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"添加关注" style:UIBarButtonItemStyleBordered target:self action:@selector(rightActionClick)];
-            }
-            else{
-                self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"取消关注" style:UIBarButtonItemStyleBordered target:self action:@selector(rightActionClick)];
-
-            }
-        }
-        else{
-            self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"管理" style:UIBarButtonItemStyleBordered target:self action:@selector(rightGroupClick)];
-        }
-    }
-    else{
         UIButton *navRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 7, 63, 30)];
         
         
@@ -749,7 +733,6 @@
         }
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightButton];
 
-    }
     
 }
 

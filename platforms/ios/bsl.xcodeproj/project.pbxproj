@@ -385,6 +385,7 @@
 		30A0434814DC770100060A13 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434314DC770100060A13 /* Localizable.strings */; };
 		30A0434914DC770100060A13 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		390BA039180649E8000177D8 /* MainViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FE717E8BFBA0067A023 /* MainViewViewController.m */; };
 		3926908C17F51F1C00F1500B /* line_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3926908B17F51F1C00F1500B /* line_shadow@2x.png */; };
 		3926908D17F51F1C00F1500B /* line_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3926908B17F51F1C00F1500B /* line_shadow@2x.png */; };
 		3926908E17F51F1C00F1500B /* line_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3926908B17F51F1C00F1500B /* line_shadow@2x.png */; };
@@ -454,6 +455,12 @@
 		396862A117EE898300C84A6A /* VOIPReceiverVoiceNodeBkgHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968626B17EE898300C84A6A /* VOIPReceiverVoiceNodeBkgHL@2x.png */; };
 		396862A217EE898300C84A6A /* VOIPSenderVoiceNodeBkg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968626C17EE898300C84A6A /* VOIPSenderVoiceNodeBkg@2x.png */; };
 		396862A317EE898300C84A6A /* VOIPSenderVoiceNodeBkgHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968626D17EE898300C84A6A /* VOIPSenderVoiceNodeBkgHL@2x.png */; };
+		39C0B8211806503500668DED /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */; };
+		39C0B8221806503500668DED /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */; };
+		39C0B8231806503500668DED /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */; };
+		39C0B8251806587800668DED /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B8241806587800668DED /* Default-Landscape~ipad.png */; };
+		39C0B8261806587800668DED /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B8241806587800668DED /* Default-Landscape~ipad.png */; };
+		39C0B8271806587800668DED /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B8241806587800668DED /* Default-Landscape~ipad.png */; };
 		39D9E80217F26A87001ED6F5 /* btn_remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 39D9E80017F26A87001ED6F5 /* btn_remove.png */; };
 		39D9E80317F26A87001ED6F5 /* btn_remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 39D9E80017F26A87001ED6F5 /* btn_remove.png */; };
 		39D9E80417F26A87001ED6F5 /* btn_remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 39D9E80017F26A87001ED6F5 /* btn_remove.png */; };
@@ -950,8 +957,6 @@
 		39D9EA0C17F27C03001ED6F5 /* MultiSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80DC17E8BFBA0067A023 /* MultiSelectTableViewCell.m */; };
 		39D9EA0D17F27C03001ED6F5 /* MySelfView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80DF17E8BFBA0067A023 /* MySelfView.m */; };
 		39D9EA0E17F27C03001ED6F5 /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E117E8BFBA0067A023 /* SwipeView.m */; };
-		39D9EA0F17F27C03001ED6F5 /* UIExpandingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E317E8BFBA0067A023 /* UIExpandingTextView.m */; };
-		39D9EA1017F27C03001ED6F5 /* UIExpandingTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E517E8BFBA0067A023 /* UIExpandingTextViewInternal.m */; };
 		39D9EA1117F27C03001ED6F5 /* iphoneLandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E917E8BFBA0067A023 /* iphoneLandingViewController.m */; };
 		39D9EA1217F27C03001ED6F5 /* iphoneVoiceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80ED17E8BFBA0067A023 /* iphoneVoiceDetailViewController.m */; };
 		39D9EA1317F27C03001ED6F5 /* CubeWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80F017E8BFBA0067A023 /* CubeWebViewController.m */; };
@@ -1547,8 +1552,6 @@
 		39E052EA17F00AEA00BCF7F8 /* MultiSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80DC17E8BFBA0067A023 /* MultiSelectTableViewCell.m */; };
 		39E052EB17F00AEA00BCF7F8 /* MySelfView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80DF17E8BFBA0067A023 /* MySelfView.m */; };
 		39E052EC17F00AEA00BCF7F8 /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E117E8BFBA0067A023 /* SwipeView.m */; };
-		39E052ED17F00AEA00BCF7F8 /* UIExpandingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E317E8BFBA0067A023 /* UIExpandingTextView.m */; };
-		39E052EE17F00AEA00BCF7F8 /* UIExpandingTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E517E8BFBA0067A023 /* UIExpandingTextViewInternal.m */; };
 		39E052EF17F00AEA00BCF7F8 /* iphoneLandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E917E8BFBA0067A023 /* iphoneLandingViewController.m */; };
 		39E052F017F00AEA00BCF7F8 /* iphoneVoiceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80ED17E8BFBA0067A023 /* iphoneVoiceDetailViewController.m */; };
 		39E052F117F00AEA00BCF7F8 /* CubeWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80F017E8BFBA0067A023 /* CubeWebViewController.m */; };
@@ -2130,7 +2133,6 @@
 		39FF0B6417F13CBB0086B76C /* UpdateChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FD417E8BFBA0067A023 /* UpdateChecker.m */; };
 		39FF0B6517F13CBB0086B76C /* IconButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FD717E8BFBA0067A023 /* IconButton.m */; };
 		39FF0B6617F13CBB0086B76C /* Login_IpadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FDF17E8BFBA0067A023 /* Login_IpadViewController.m */; };
-		39FF0B6817F13CBB0086B76C /* MainViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FE417E8BFBA0067A023 /* MainViewViewController.m */; };
 		39FF0B6917F13CBB0086B76C /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FEA17E8BFBA0067A023 /* DataViewController.m */; };
 		39FF0B6A17F13CBB0086B76C /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FEC17E8BFBA0067A023 /* MenuViewController.m */; };
 		39FF0B6B17F13CBB0086B76C /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FEE17E8BFBA0067A023 /* RootViewController.m */; };
@@ -2190,8 +2192,6 @@
 		39FF0BA217F13CBB0086B76C /* MultiSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80DC17E8BFBA0067A023 /* MultiSelectTableViewCell.m */; };
 		39FF0BA317F13CBB0086B76C /* MySelfView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80DF17E8BFBA0067A023 /* MySelfView.m */; };
 		39FF0BA417F13CBB0086B76C /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E117E8BFBA0067A023 /* SwipeView.m */; };
-		39FF0BA517F13CBB0086B76C /* UIExpandingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E317E8BFBA0067A023 /* UIExpandingTextView.m */; };
-		39FF0BA617F13CBB0086B76C /* UIExpandingTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E517E8BFBA0067A023 /* UIExpandingTextViewInternal.m */; };
 		39FF0BA717F13CBB0086B76C /* iphoneLandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E917E8BFBA0067A023 /* iphoneLandingViewController.m */; };
 		39FF0BA817F13CBB0086B76C /* iphoneVoiceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80ED17E8BFBA0067A023 /* iphoneVoiceDetailViewController.m */; };
 		39FF0BA917F13CBB0086B76C /* CubeWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80F017E8BFBA0067A023 /* CubeWebViewController.m */; };
@@ -2405,8 +2405,6 @@
 		F54D834F17E8BFBB0067A023 /* MultiSelectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D80DD17E8BFBA0067A023 /* MultiSelectTableViewCell.xib */; };
 		F54D835017E8BFBB0067A023 /* MySelfView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80DF17E8BFBA0067A023 /* MySelfView.m */; };
 		F54D835117E8BFBB0067A023 /* SwipeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E117E8BFBA0067A023 /* SwipeView.m */; };
-		F54D835217E8BFBB0067A023 /* UIExpandingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E317E8BFBA0067A023 /* UIExpandingTextView.m */; };
-		F54D835317E8BFBB0067A023 /* UIExpandingTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E517E8BFBA0067A023 /* UIExpandingTextViewInternal.m */; };
 		F54D835417E8BFBB0067A023 /* iphoneLandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80E917E8BFBA0067A023 /* iphoneLandingViewController.m */; };
 		F54D835517E8BFBB0067A023 /* iphoneLandingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D80EA17E8BFBA0067A023 /* iphoneLandingViewController.xib */; };
 		F54D835617E8BFBB0067A023 /* iphoneLandingViewController_retina4.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D80EB17E8BFBA0067A023 /* iphoneLandingViewController_retina4.xib */; };
@@ -3520,6 +3518,8 @@
 		3968626B17EE898300C84A6A /* VOIPReceiverVoiceNodeBkgHL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VOIPReceiverVoiceNodeBkgHL@2x.png"; sourceTree = "<group>"; };
 		3968626C17EE898300C84A6A /* VOIPSenderVoiceNodeBkg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VOIPSenderVoiceNodeBkg@2x.png"; sourceTree = "<group>"; };
 		3968626D17EE898300C84A6A /* VOIPSenderVoiceNodeBkgHL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VOIPSenderVoiceNodeBkgHL@2x.png"; sourceTree = "<group>"; };
+		39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		39C0B8241806587800668DED /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		39D9E80017F26A87001ED6F5 /* btn_remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_remove.png; sourceTree = "<group>"; };
 		39D9E80117F26A87001ED6F5 /* btn_remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_remove@2x.png"; sourceTree = "<group>"; };
 		39D9EA8517F27C03001ED6F5 /* 南航移动应用.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "南航移动应用.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3751,10 +3751,6 @@
 		F54D80DF17E8BFBA0067A023 /* MySelfView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySelfView.m; sourceTree = "<group>"; };
 		F54D80E017E8BFBA0067A023 /* SwipeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeView.h; sourceTree = "<group>"; };
 		F54D80E117E8BFBA0067A023 /* SwipeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeView.m; sourceTree = "<group>"; };
-		F54D80E217E8BFBA0067A023 /* UIExpandingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIExpandingTextView.h; sourceTree = "<group>"; };
-		F54D80E317E8BFBA0067A023 /* UIExpandingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIExpandingTextView.m; sourceTree = "<group>"; };
-		F54D80E417E8BFBA0067A023 /* UIExpandingTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIExpandingTextViewInternal.h; sourceTree = "<group>"; };
-		F54D80E517E8BFBA0067A023 /* UIExpandingTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIExpandingTextViewInternal.m; sourceTree = "<group>"; };
 		F54D80E817E8BFBA0067A023 /* iphoneLandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iphoneLandingViewController.h; sourceTree = "<group>"; };
 		F54D80E917E8BFBA0067A023 /* iphoneLandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iphoneLandingViewController.m; sourceTree = "<group>"; };
 		F54D80EA17E8BFBA0067A023 /* iphoneLandingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = iphoneLandingViewController.xib; sourceTree = "<group>"; };
@@ -5801,6 +5797,8 @@
 		39F23A671805B2520035FCF8 /* chameleon_default_icon */ = {
 			isa = PBXGroup;
 			children = (
+				39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */,
+				39C0B8241806587800668DED /* Default-Landscape~ipad.png */,
 				39F23A681805B2520035FCF8 /* 114.png */,
 				39F23A691805B2520035FCF8 /* 120.png */,
 				39F23A6A1805B2520035FCF8 /* 144.png */,
@@ -6378,10 +6376,6 @@
 				F54D80DF17E8BFBA0067A023 /* MySelfView.m */,
 				F54D80E017E8BFBA0067A023 /* SwipeView.h */,
 				F54D80E117E8BFBA0067A023 /* SwipeView.m */,
-				F54D80E217E8BFBA0067A023 /* UIExpandingTextView.h */,
-				F54D80E317E8BFBA0067A023 /* UIExpandingTextView.m */,
-				F54D80E417E8BFBA0067A023 /* UIExpandingTextViewInternal.h */,
-				F54D80E517E8BFBA0067A023 /* UIExpandingTextViewInternal.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -7416,6 +7410,7 @@
 				F5A96CDF17F007FC00F9CA68 /* menu_help.png in Resources */,
 				F54D82D517E8BFBB0067A023 /* DownLoadingDetialViewController.xib in Resources */,
 				3968629217EE898300C84A6A /* bottleReceiverVoiceNodePlaying003@2x.png in Resources */,
+				39C0B8251806587800668DED /* Default-Landscape~ipad.png in Resources */,
 				F54D82D717E8BFBB0067A023 /* DownloadingViewController.xib in Resources */,
 				3968627C17EE898300C84A6A /* shake_-transportphoto_without_icon@2x.png in Resources */,
 				F54D82D917E8BFBB0067A023 /* FunctionDetialInfoViewController.xib in Resources */,
@@ -7672,6 +7667,7 @@
 				F54D851717E8C77E0067A023 /* f098.png in Resources */,
 				F54D851817E8C77E0067A023 /* f099.png in Resources */,
 				F54D851917E8C77E0067A023 /* f100.png in Resources */,
+				39C0B8211806503500668DED /* Default-Landscape@2x~ipad.png in Resources */,
 				F54D851A17E8C77E0067A023 /* f101.png in Resources */,
 				F54D851B17E8C77E0067A023 /* f102.png in Resources */,
 				F54D851C17E8C77E0067A023 /* f103.png in Resources */,
@@ -7850,6 +7846,7 @@
 				39D9E82817F27C03001ED6F5 /* DownLoadingDetialViewController.xib in Resources */,
 				39D9E82917F27C03001ED6F5 /* bottleReceiverVoiceNodePlaying003@2x.png in Resources */,
 				18E9C4A21803AB1200B874B8 /* FPDocContentViewController.xib in Resources */,
+				39C0B8271806587800668DED /* Default-Landscape~ipad.png in Resources */,
 				39D9E82A17F27C03001ED6F5 /* DownloadingViewController.xib in Resources */,
 				39D9E82B17F27C03001ED6F5 /* shake_-transportphoto_without_icon@2x.png in Resources */,
 				39D9E82C17F27C03001ED6F5 /* FunctionDetialInfoViewController.xib in Resources */,
@@ -8202,6 +8199,7 @@
 				18E9C4641803AB1200B874B8 /* About.xib in Resources */,
 				39D9E92E17F27C03001ED6F5 /* f099.png in Resources */,
 				39D9E92F17F27C03001ED6F5 /* f100.png in Resources */,
+				39C0B8231806503500668DED /* Default-Landscape@2x~ipad.png in Resources */,
 				39D9E93017F27C03001ED6F5 /* f101.png in Resources */,
 				39D9E93117F27C03001ED6F5 /* f102.png in Resources */,
 				18E9C5561803AB1200B874B8 /* Button_Arrow2X.png in Resources */,
@@ -8414,6 +8412,7 @@
 				39E0510117F00AEA00BCF7F8 /* menu_help.png in Resources */,
 				39E0510317F00AEA00BCF7F8 /* DownLoadingDetialViewController.xib in Resources */,
 				39E0510417F00AEA00BCF7F8 /* bottleReceiverVoiceNodePlaying003@2x.png in Resources */,
+				39C0B8261806587800668DED /* Default-Landscape~ipad.png in Resources */,
 				39E0510517F00AEA00BCF7F8 /* DownloadingViewController.xib in Resources */,
 				39E0510617F00AEA00BCF7F8 /* shake_-transportphoto_without_icon@2x.png in Resources */,
 				39E0510717F00AEA00BCF7F8 /* FunctionDetialInfoViewController.xib in Resources */,
@@ -8670,6 +8669,7 @@
 				39E0520717F00AEA00BCF7F8 /* f098.png in Resources */,
 				39E0520817F00AEA00BCF7F8 /* f099.png in Resources */,
 				39E0520917F00AEA00BCF7F8 /* f100.png in Resources */,
+				39C0B8221806503500668DED /* Default-Landscape@2x~ipad.png in Resources */,
 				39E0520A17F00AEA00BCF7F8 /* f101.png in Resources */,
 				39E0520B17F00AEA00BCF7F8 /* f102.png in Resources */,
 				39E0520C17F00AEA00BCF7F8 /* f103.png in Resources */,
@@ -9504,8 +9504,6 @@
 				F54D834E17E8BFBB0067A023 /* MultiSelectTableViewCell.m in Sources */,
 				F54D835017E8BFBB0067A023 /* MySelfView.m in Sources */,
 				F54D835117E8BFBB0067A023 /* SwipeView.m in Sources */,
-				F54D835217E8BFBB0067A023 /* UIExpandingTextView.m in Sources */,
-				F54D835317E8BFBB0067A023 /* UIExpandingTextViewInternal.m in Sources */,
 				F54D835417E8BFBB0067A023 /* iphoneLandingViewController.m in Sources */,
 				F54D835717E8BFBB0067A023 /* iphoneVoiceDetailViewController.m in Sources */,
 				F54D835917E8BFBB0067A023 /* CubeWebViewController.m in Sources */,
@@ -10079,8 +10077,6 @@
 				39E052EA17F00AEA00BCF7F8 /* MultiSelectTableViewCell.m in Sources */,
 				39E052EB17F00AEA00BCF7F8 /* MySelfView.m in Sources */,
 				39E052EC17F00AEA00BCF7F8 /* SwipeView.m in Sources */,
-				39E052ED17F00AEA00BCF7F8 /* UIExpandingTextView.m in Sources */,
-				39E052EE17F00AEA00BCF7F8 /* UIExpandingTextViewInternal.m in Sources */,
 				39E052EF17F00AEA00BCF7F8 /* iphoneLandingViewController.m in Sources */,
 				39E052F017F00AEA00BCF7F8 /* iphoneVoiceDetailViewController.m in Sources */,
 				39E052F117F00AEA00BCF7F8 /* CubeWebViewController.m in Sources */,
@@ -10204,7 +10200,6 @@
 				39FF0B6417F13CBB0086B76C /* UpdateChecker.m in Sources */,
 				39FF0B6517F13CBB0086B76C /* IconButton.m in Sources */,
 				39FF0B6617F13CBB0086B76C /* Login_IpadViewController.m in Sources */,
-				39FF0B6817F13CBB0086B76C /* MainViewViewController.m in Sources */,
 				39FF0B6917F13CBB0086B76C /* DataViewController.m in Sources */,
 				39FF0B6A17F13CBB0086B76C /* MenuViewController.m in Sources */,
 				39FF0B6B17F13CBB0086B76C /* RootViewController.m in Sources */,
@@ -10264,8 +10259,6 @@
 				39FF0BA217F13CBB0086B76C /* MultiSelectTableViewCell.m in Sources */,
 				39FF0BA317F13CBB0086B76C /* MySelfView.m in Sources */,
 				39FF0BA417F13CBB0086B76C /* SwipeView.m in Sources */,
-				39FF0BA517F13CBB0086B76C /* UIExpandingTextView.m in Sources */,
-				39FF0BA617F13CBB0086B76C /* UIExpandingTextViewInternal.m in Sources */,
 				39FF0BA717F13CBB0086B76C /* iphoneLandingViewController.m in Sources */,
 				39FF0BA817F13CBB0086B76C /* iphoneVoiceDetailViewController.m in Sources */,
 				39FF0BA917F13CBB0086B76C /* CubeWebViewController.m in Sources */,
@@ -10326,6 +10319,7 @@
 				39FF0BE017F13CBB0086B76C /* GMGridView.m in Sources */,
 				39FF0C1E17F173710086B76C /* Main_IphoneViewController.m in Sources */,
 				39FF0BE117F13CBB0086B76C /* GMGridViewCell.m in Sources */,
+				390BA039180649E8000177D8 /* MainViewViewController.m in Sources */,
 				39FF0BE217F13CBB0086B76C /* GMGridViewLayoutStrategies.m in Sources */,
 				39FF0BE317F13CBB0086B76C /* UIGestureRecognizer+GMGridViewAdditions.m in Sources */,
 				39FF0BE417F13CBB0086B76C /* UIView+GMGridViewAdditions.m in Sources */,

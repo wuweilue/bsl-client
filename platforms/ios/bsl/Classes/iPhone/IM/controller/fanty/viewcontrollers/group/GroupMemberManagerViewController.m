@@ -43,7 +43,7 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
         self.title=@"群组管理";
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
             self.edgesForExtendedLayout = UIRectEdgeNone;
-            self.extendedLayoutIncludesOpaqueBars = YES;
+            self.extendedLayoutIncludesOpaqueBars = NO;
             self.modalPresentationCapturesStatusBarAppearance = YES;
         }
 
@@ -421,7 +421,7 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     NSArray *sortDescriptors = @[sortDescriptor,sortDescriptor1,sortDescriptor2];
     [fetechRequest setSortDescriptors:sortDescriptors];
 
-    NSFetchedResultsController* fetchController = [[NSFetchedResultsController alloc]initWithFetchRequest:fetechRequest managedObjectContext:appDelegate.xmpp.managedObjectContext sectionNameKeyPath:@"userGroup" cacheName:@"userGroup"];
+    NSFetchedResultsController* fetchController = [[NSFetchedResultsController alloc]initWithFetchRequest:fetechRequest managedObjectContext:appDelegate.xmpp.managedObjectContext sectionNameKeyPath:@"userGroup" cacheName:nil];
     [fetchController performFetch:NULL];
     
 

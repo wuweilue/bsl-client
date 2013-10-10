@@ -46,14 +46,13 @@
         // Edit the entity name as appropriate.
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"FaviorUserInfo" inManagedObjectContext:managedObjectContext];
         [fetchRequest setEntity:entity];
-        [fetchRequest setFetchBatchSize:20];
         //排序
         
         NSSortDescriptor*sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"userJid"ascending:YES];
         NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor1,nil];
         [fetchRequest setSortDescriptors:sortDescriptors];
         
-        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"faviorUserInfo"];
+        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:nil];
         fetchedResultsController.delegate = self;
         
         [fetchedResultsController performFetch:nil];
@@ -137,7 +136,7 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(self.editing)
+   // if(self.editing)
         return UITableViewCellEditingStyleDelete;
     
     return UITableViewCellEditingStyleNone;

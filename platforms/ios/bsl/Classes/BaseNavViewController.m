@@ -47,11 +47,11 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
-    if (UI_USER_INTERFACE_IDIOM() !=  UIUserInterfaceIdiomPad){
+    //if (UI_USER_INTERFACE_IDIOM() !=  UIUserInterfaceIdiomPad){
         self.delegate=self;
         [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bg.png"] forBarMetrics:UIBarMetricsDefault];
         
-    }
+    //}
 }
 
 - (void)didReceiveMemoryWarning{
@@ -77,9 +77,13 @@
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
-    UIButton* backButton = [self backButtonWith:[UIImage imageNamed:@"nav_back.png"] highlight:[UIImage imageNamed:@"nav_back_active.png"]];
-    viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-
+    if([navigationController.viewControllers count]>1){
+        UIButton* backButton = [self backButtonWith:[UIImage imageNamed:@"nav_back.png"] highlight:[UIImage imageNamed:@"nav_back_active.png"]];
+        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    }
+    else{
+        viewController.navigationItem.leftBarButtonItem=nil;
+    }
 }
 
 

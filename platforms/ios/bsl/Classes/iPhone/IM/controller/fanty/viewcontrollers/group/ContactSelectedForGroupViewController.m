@@ -71,25 +71,15 @@
     
 
     float top=0.0f;
-    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7 && UI_USER_INTERFACE_IDIOM() !=  UIUserInterfaceIdiomPad){
         top=20.0f;
     }
 
     UINavigationItem* navItem=[[UINavigationItem alloc] initWithTitle:self.title];
-
-    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-        navItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(backClick)];
-        bar=[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, top, self.view.frame.size.width, 44.0f)];
-    }
-    else{
         bar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0.0f, top, self.view.frame.size.width, 44.0f)];
-
-        
         UIButton* backButton = [self backButtonWith:[UIImage imageNamed:@"nav_back.png"] highlight:[UIImage imageNamed:@"nav_back_active.png"]];
         [backButton addTarget:self action:@selector(backClick) forControlEvents:UIControlEventTouchUpInside];
         navItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton] ;
-
-    }
 
     [bar pushNavigationItem:navItem animated:NO];
     
@@ -126,6 +116,7 @@
 - (UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
+
 - (BOOL)prefersStatusBarHidden{
     return NO;
 }
@@ -194,7 +185,7 @@
     [searchBar resignFirstResponder];
     
     float top=0.0f;
-    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7 && UI_USER_INTERFACE_IDIOM() !=  UIUserInterfaceIdiomPad){
         top=20.0f;
     }
 
@@ -453,7 +444,7 @@
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)_searchBar{
     
     float top=0.0f;
-    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7 && UI_USER_INTERFACE_IDIOM() !=  UIUserInterfaceIdiomPad){
         top=20.0f;
     }
 

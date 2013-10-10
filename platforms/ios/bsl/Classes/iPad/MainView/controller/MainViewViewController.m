@@ -19,6 +19,7 @@
 #import "AutoShowRecord.h"
 #import "FMDBManager.h"
 #import "FMDatabaseQueue.h"
+#import "BaseNavViewController.h"
 #import "HTTPRequest.h"
 #import "Announcement.h"
 
@@ -28,7 +29,6 @@
 @interface MainViewViewController (){
     BOOL isFirst;
 }
-@property(nonatomic,weak)UIViewController *presentingViewController;
 @property (nonatomic,strong)  UIViewController * detailController;
 @property (nonatomic,strong)  UIViewController * mainController;
 @property (nonatomic,strong)  UIView* detailView;
@@ -40,129 +40,113 @@
 
 @synthesize mainController;
 @synthesize detailController;
-@synthesize presentingViewController;
 @synthesize detailView;
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil finish:(DidFinishWebViewViewBlock)didFinishBlock{
-    self.finishWebViewBlock = didFinishBlock ;
-    self = [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    
-    return self;
-    
-}
-
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        [self.presentedViewController viewWillDisappear:NO];
-        [self.presentedViewController.view removeFromSuperview];
-        [self.presentedViewController viewDidDisappear:NO];
-        
-        if (!skinView) {
-            //读取文件信息
-            @autoreleasepool {
-                NSURL* documentUrl =  [NSFileManager applicationDocumentsDirectory];
-                NSURL* fileUrl = [documentUrl URLByAppendingPathComponent:@"www/pad/theme/theme.json"];
-                NSData* data = [[NSData alloc]initWithContentsOfURL:fileUrl];
-                
-                NSArray *arr = ( NSArray *)[data   mutableObjectFromJSONData ];
-                skinView = [[SkinView alloc]initWithActivityItems:arr];
-                skinView.delegate = self;                
-            }
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+    self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self){
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.modalPresentationCapturesStatusBarAppearance = NO;
         }
         
-        aCubeWebViewController  = [[CubeWebViewController alloc] init];
-        //aCubeWebViewController.title=module.name;
-        //加载本地的登录界面页
-        //设置启动页面
-        aCubeWebViewController.title=@"登录";
-        aCubeWebViewController.wwwFolderName = @"www";
-        aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/main.html"] absoluteString];
-        aCubeWebViewController.view.frame = self.view.frame;
-        aCubeWebViewController.webView.scrollView.bounces=NO;
-        aCubeWebViewController.view.hidden=YES;
-        [self.view addSubview:aCubeWebViewController.view];
 
-        [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/main.html"] absoluteString] didFinishBlock: ^(){
-            [presentingViewController viewWillDisappear:NO];
-            [presentingViewController.view removeFromSuperview];
-            [presentingViewController viewDidDisappear:NO];
-            
-            [aCubeWebViewController viewWillAppear:NO];
-            [aCubeWebViewController viewDidAppear:NO];
-            aCubeWebViewController.view.hidden=NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showView:) name:SHOW_DETAILVIEW object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSetting) name:@"SHOW_SETTING_VIEW" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"module_badgeCount_change" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleDidInstalled:) name:CubeModuleInstallDidFinishNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSkinView) name:@"SHOW_SETTHEME_VIEW" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissView:) name:@"DISMISS_VIEW" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"MESSAGE_RECORD_DID_Change_NOTIFICATION" object:nil];
+        //收到消息时候的广播
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
+        //收到好友消息时候
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleSysFinsh) name:CubeSyncFinishedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleSysFinsh) name:CubeSyncFailedNotification object:nil];
 
-            self.presentingViewController = aCubeWebViewController;
-            [self addBadge];
-            if (self.finishWebViewBlock) {
-                self.finishWebViewBlock();
-                self.finishWebViewBlock = nil;
-            }
-        }didErrorBlock:^(){
-            UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"首页模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alertView show];
-        }];
-        isFullScrean = NO;
     }
+    
     return self;
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    self.view.hidden=YES;
+    
+    //读取文件信息
+    @autoreleasepool {
+        NSURL* documentUrl =  [NSFileManager applicationDocumentsDirectory];
+        NSURL* fileUrl = [documentUrl URLByAppendingPathComponent:@"www/pad/theme/theme.json"];
+        NSData* data = [[NSData alloc]initWithContentsOfURL:fileUrl];
+        
+        NSArray *arr = ( NSArray *)[data   mutableObjectFromJSONData ];
+        skinView = [[SkinView alloc]initWithActivityItems:arr];
+        skinView.delegate = self;
+    }
+    aCubeWebViewController  = [[CubeWebViewController alloc] init];
+    aCubeWebViewController.title=@"登录";
+    aCubeWebViewController.wwwFolderName = @"www";
+    aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/main.html"] absoluteString];
+    
+    CGRect rect=self.view.bounds;
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        rect.origin.y=20.0f;
+        rect.size.height-=20.0f;
+    }
+
+    aCubeWebViewController.view.frame = rect;
+    aCubeWebViewController.webView.scrollView.bounces=NO;
+    aCubeWebViewController.view.hidden=YES;
+    [self.view addSubview:aCubeWebViewController.view];
+
+    [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/main.html"] absoluteString] didFinishBlock: ^(){
+        self.view.hidden=NO;
+        [aCubeWebViewController viewWillAppear:NO];
+        [aCubeWebViewController viewDidAppear:NO];
+        aCubeWebViewController.view.hidden=NO;
+        [self addBadge];
+    }didErrorBlock:^(){
+        UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"首页模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+    }];
+    isFullScrean = NO;
 }
 
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showView:) name:SHOW_DETAILVIEW object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSetting) name:@"SHOW_SETTING_VIEW" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"module_badgeCount_change" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleDidInstalled:) name:CubeModuleInstallDidFinishNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSkinView) name:@"SHOW_SETTHEME_VIEW" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissView:) name:@"DISMISS_VIEW" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"MESSAGE_RECORD_DID_Change_NOTIFICATION" object:nil];
-    //收到消息时候的广播
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
-    //收到好友消息时候
-     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleSysFinsh) name:CubeSyncFinishedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleSysFinsh) name:CubeSyncFailedNotification object:nil];
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+}
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight;
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
+    [skinView removeFromSuperview];
+    skinView=nil;
+
     aCubeWebViewController=nil;
     self.detailController=nil;
     self.mainController=self;
     self.detailView=nil;
     self.selectedModule=nil;
     fullScreanBtn=nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
 }
 
-
-
 - (void)dealloc{
-    [skinView removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.mainController=self;
     
 }
-
 
 -(void)moduleSysFinsh{
     [self checkModules];
@@ -651,6 +635,7 @@
 
     }
     
+    
     CGRect frame = self.view.frame;
     frame.size.width =CGRectGetHeight(self.view.frame)/2+2;
     frame.size.height= CGRectGetWidth(self.view.frame);
@@ -659,7 +644,6 @@
     bCubeWebViewController.title = module.name;
     [bCubeWebViewController loadWebPageWithModule:module  frame:frame  didFinishBlock: ^(){
         //如果webView加载成功  这显示放大缩小按钮
-        
         bCubeWebViewController.webView.scrollView.bounces=NO;
         bCubeWebViewController.closeButton.hidden = NO;
         if (!fullScreanBtn) {
@@ -723,9 +707,16 @@
 //移除之前的view  显示
 -(void)showDetailViewController:(UIViewController*)vc{
     [self addBadge];
+    
+    float top=0.0f;
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        top=20.0f;
+    }
+
     CGRect frame = vc.view.frame;
+    frame.origin.y=top;
     frame.size.width =CGRectGetWidth(self.view.frame)/2+2.0f;
-    frame.size.height= CGRectGetWidth(self.view.frame);
+    frame.size.height= CGRectGetWidth(self.view.frame)-top;
     vc.view.frame = frame;
     
     self.detailController = nil;
@@ -739,7 +730,7 @@
     }
     self.detailView = nil;
     
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+    BaseNavViewController *nav = [[BaseNavViewController alloc]initWithRootViewController:vc];
     self.detailController = nav;
 
     nav.view.frame = frame;
@@ -775,8 +766,11 @@
     
     self.view.userInteractionEnabled=NO;
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^(){
-        self.detailView.frame = CGRectMake(CGRectGetWidth(self.view.bounds) - CGRectGetWidth(vc.view.frame), 0,
-                                      CGRectGetWidth(vc.view.frame), CGRectGetHeight(vc.view.frame));
+        CGRect rect=self.detailView.frame;
+        rect.origin.x=CGRectGetWidth(self.view.bounds) - CGRectGetWidth(vc.view.frame);
+        self.detailView.frame =rect;
+        //CGRectMake(CGRectGetWidth(self.view.bounds) - CGRectGetWidth(vc.view.frame), top,
+          //                            CGRectGetWidth(vc.view.frame), CGRectGetHeight(vc.view.frame));
     
     } completion:^(BOOL finished){
         self.view.userInteractionEnabled=YES;
@@ -813,8 +807,9 @@
         self.view.userInteractionEnabled = NO;
         
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.detailView.frame = CGRectMake(finalX, 0,
-                                          CGRectGetWidth(self.detailView.frame), CGRectGetHeight(self.detailView.frame));
+            CGRect rect=self.detailView.frame;
+            rect.origin.x=finalX;
+            self.detailView.frame=rect;
         } completion:^(BOOL finished) {
             self.view.userInteractionEnabled = YES;
         }];
@@ -826,9 +821,11 @@
     self.view.userInteractionEnabled = NO;
     
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^(){
-        CGFloat detailViewWidth = 520;
-        self.detailView.frame = CGRectMake(CGRectGetWidth(self.view.bounds), 0,
-                                      detailViewWidth, CGRectGetHeight(self.detailView.frame));
+        CGRect rect=self.detailView.frame;
+        rect.origin.x=CGRectGetWidth(self.view.bounds);
+        self.detailView.frame=rect;
+//        self.detailView.frame = CGRectMake(CGRectGetWidth(self.view.bounds), 0,
+//                                      detailViewWidth, CGRectGetHeight(self.detailView.frame));
     } completion:^(BOOL finished){
         if (fullScreanBtn) {
             [fullScreanBtn removeFromSuperview];

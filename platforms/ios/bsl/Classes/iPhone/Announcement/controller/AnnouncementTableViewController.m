@@ -54,11 +54,6 @@
         self.navigationItem.rightBarButtonItem=nil;
         return;
     }
-    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-        NSString* title=(tableView.editing?@"取消":@"编辑");
-        self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStyleBordered target:self action:@selector(rightNavClick)];
-    }
-    else{
         UIButton *navRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 7, 43, 30)];
         //navRightButton.style = UIBarButtonItemStyleBordered;
         [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn.png"] forState:UIControlStateNormal];
@@ -67,7 +62,6 @@
         [[navRightButton titleLabel] setFont:[UIFont systemFontOfSize:13]];
         [navRightButton addTarget:self action:@selector(rightNavClick) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightButton];
-    }
 
 }
 
@@ -82,6 +76,10 @@
     else{
         rect.size.height-=44.0f;
     }
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        rect.size.height-=20.0f;
+    }
+
     self.view.frame=rect;
     
     tableView=[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];

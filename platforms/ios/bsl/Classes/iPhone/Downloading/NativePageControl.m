@@ -18,14 +18,16 @@
 
 - (void) updateDots
 {
-	if (imagePageStateNormal || imagePageStateHightlighted) {
-		NSArray *subView = self.subviews;
-		
-		for (int i = 0; i < [subView count]; i++) {
-			UIImageView *dot = [subView objectAtIndex:i];
-			dot.image = (self.currentPage == i ? imagePageStateHightlighted : imagePageStateNormal);
-		}
-	}
+    if([[[UIDevice currentDevice] systemVersion] floatValue]<7.0f){
+        if (imagePageStateNormal || imagePageStateHightlighted) {
+             NSArray *subView = self.subviews;
+             
+             for (int i = 0; i < [subView count]; i++) {
+             UIImageView *dot = [subView objectAtIndex:i];
+             dot.image = (self.currentPage == i ? imagePageStateHightlighted : imagePageStateNormal);
+             }
+        }
+    }
 }
 
 @end

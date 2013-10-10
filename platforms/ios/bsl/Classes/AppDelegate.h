@@ -45,7 +45,6 @@
 // http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
 
 @property (nonatomic, strong) IBOutlet UIWindow* window;
-@property(nonatomic, strong) UIViewController* mainViewController;
 @property(nonatomic,strong) UINavigationController* navControl;
 //@property (nonatomic, strong) IBOutlet CDVViewController* viewController;
 

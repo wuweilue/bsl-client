@@ -7,7 +7,6 @@
 //
 
 #import "ChatPanel.h"
-#import "UIExpandingTextView.h"
 
 #import "EmoctionPanel.h"
 #import "CameraPanel.h"
@@ -18,7 +17,7 @@
 
 
 
-@interface ChatPanel()<UIExpandingTextViewDelegate,EmoctionPanelDelegate,CameraPanelDelegate>
+@interface ChatPanel()<ScrollTextViewDelegate,EmoctionPanelDelegate,CameraPanelDelegate>
 -(void) keyboardWillShow:(NSNotification *)note;
 -(void) keyboardWillHide:(NSNotification *)note;
 
@@ -140,13 +139,14 @@
 
         }
         textView = [[ScrollTextView alloc]initWithFrame:rect];
-       // textView.delegate = self;
+        textView.delegate = self;
         textView.clipsToBounds=YES;
-       // textView.maximumNumberOfLines = 5;
         textView.font = [UIFont systemFontOfSize:16.0f];
         textView.backgroundColor=[UIColor clearColor];
-      //  textView.delegate=self;
+        textView.textColor=[UIColor blackColor];
         textView.returnKeyType=UIReturnKeySend;
+
+        textView.maxNumberOfLines=5;
         
 
         UIImageView* lineView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"h_line.png"]];
@@ -454,39 +454,27 @@
 
 #pragma mark textview delegate
 
-- (BOOL)expandingTextViewShouldBeginEditing:(UIExpandingTextView *)expandingTextView{
+
+- (BOOL)growingTextViewShouldBeginEditing:(ScrollTextView *)growingTextView{
     [emoctionPanel removeFromSuperview];
     emoctionPanel=nil;
     [camerPanel removeFromSuperview];
     camerPanel=nil;
-
+    
     return YES;
+
 }
 
-- (BOOL)expandingTextView:(UIExpandingTextView *)expandingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)__text{
+- (BOOL)growingTextView:(ScrollTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if(range.location>=self.limitMaxNumber)
         return NO;
     return YES;
-    
-}
 
-- (BOOL)expandingTextViewShouldReturn:(UIExpandingTextView *)expandingTextView{
-    [emoctionPanel removeFromSuperview];
-    emoctionPanel=nil;
-    [camerPanel removeFromSuperview];
-    camerPanel=nil;
-    
-    [expandingTextView resignFirstResponder];
-    
-    if([self.delegate respondsToSelector:@selector(chatPanelDidSend:)])
-        [self.delegate chatPanelDidSend:self];
-
-    return NO;
 }
 
 
-- (void)expandingTextView:(UIExpandingTextView *)expandingTextView willChangeHeight:(float)height{
-    float diff = (expandingTextView.frame.size.height - height);
+- (void)growingTextView:(ScrollTextView *)growingTextView willChangeHeight:(float)height{
+    float diff = (growingTextView.frame.size.height - height);
     CGRect rect=self.frame;
     rect.size.height-=diff;
     rect.origin.y+=diff;
@@ -500,8 +488,24 @@
     textBgViewFrame.size.height-=diff;
     textBgViewFrame.origin.y=(rect.size.height-textBgViewFrame.size.height)*0.5f;
     textBgView.frame=textBgViewFrame;
-    
+
 }
+
+- (BOOL)growingTextViewShouldReturn:(ScrollTextView *)growingTextView{
+    [emoctionPanel removeFromSuperview];
+    emoctionPanel=nil;
+    [camerPanel removeFromSuperview];
+    camerPanel=nil;
+    
+    [growingTextView resignFirstResponder];
+    
+    if([self.delegate respondsToSelector:@selector(chatPanelDidSend:)])
+        [self.delegate chatPanelDidSend:self];
+    
+    return NO;
+
+}
+
 
 #pragma mark emoctionpanel  delegate
 -(void)addEmoction:(EmoctionPanel*)emoction text:(NSString*)___text{
