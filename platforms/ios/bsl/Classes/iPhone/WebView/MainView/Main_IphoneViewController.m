@@ -271,6 +271,7 @@
                 alertView=nil;
                 return;
             }
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
             [self.navigationController pushViewController:localController animated:YES];
             return;
         }else{
