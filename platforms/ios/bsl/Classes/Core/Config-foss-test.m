@@ -6,7 +6,7 @@ NSString* const  kAPIServerAPI=@"10.108.1.217:18860/csair-im/api";
 NSString* const  kXMPPDomin=@"snda-192-168-2-32";
 NSString* const  kPushServerRegisterUrl=@"http://10.108.1.217:18860/push/api/checkinservice/checkins";
 NSString* const kUpdatePushTagsUrl = @"http:///10.108.1.217:18860/push/api/checkinservice/checkins/tags/";
-NSString* const kAPPKey = @"b5131a6065ba2e980f5b2180f5238385";
+NSString* const kAPPKey = @"583683eaeb874b4ce7b81f1d8e5ed687";
 
 NSString* const  kPushServerReceiptsUrl=@"http://10.108.1.217:18860/push/api/receipts";
 NSString* const  kPushGetMessageUrl =@"http://10.108.1.217:18860/push/api/receipts/none-receipts";

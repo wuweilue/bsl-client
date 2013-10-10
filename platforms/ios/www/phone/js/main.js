@@ -53,7 +53,9 @@ var refreshMainPage = function(identifier, type, moduleMessage) {
 			console.log("刷新。。。。");
 			loadModuleList("CubeModuleList", "mainList", "main", function() {
                            //gridLayout();
+                           if (myScroll) {
                            myScroll.refresh();
+                           }
                            isOver = isOver - 1;
                            });
 		}
@@ -193,7 +195,10 @@ var addModule = function(identifier, type, moduleMessage) {
                                     "hidden": mm.hidden
                                     });
 	$(".scrollContent_li[modules_title='" + mm.category + "']").children('div').children('ul').append(moduleItemHtml);
-	myScroll.refresh();
+	if (myScroll) {
+		myScroll.refresh();
+	}
+    
     
 };
 //检查模块信息的完整性，如果没有模块，则隐藏
@@ -253,7 +258,6 @@ var activeModuleManageBarItem = function(type) {
 var module_all_click = function() {
 	/*$("li[identifier] .module_li_img , li[identifier] .module_push, li[identifier] .detail").bind('click', function() {*/
 	$("li[identifier]").bind('click', function() {
-                             
                              console.log("模块父类点击");
                              /*var type = $(this).parent(".module_li").attr("moduleType");*/
                              var type = $(this).attr("moduleType");
@@ -264,6 +268,7 @@ var module_all_click = function() {
                              //var $moduleTips = $(".module_Tips[moduletype='main'][identifier='" + identifier + "']");
                              //$moduleTips.hide();
                              cordovaExec("CubeModuleOperator", "showModule", [identifier, type]);
+                             
                              });
 };
 
@@ -342,8 +347,8 @@ var initial = function(type, data) {
                   }
                   
                   downloadFile(value.icon, packageName + "/moduleIcon", function(entry) {
-                               // document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
                                value.icon = entry.fullPath;
+                               console.log("缓存后的图片地址：" + value.icon);
                                });
                   
                   value.releaseNote = subStrByCnLen(value.releaseNote + "", 21);
@@ -404,10 +409,10 @@ var loadModuleList = function(plugin, action, type, callback) {
                  //$("li[identifier]").die('click');
                  module_all_click();
                  curd_btn_click();
-                 if (myScroll)
-                 {
-                    myScroll.refresh();
+                 if (myScroll) {
+                 myScroll.refresh();
                  }
+                 
                  checkModules();
                  //isOver = isOver - 1;
                  //如果回调方法不为空，则执行该回调方法
@@ -452,8 +457,9 @@ $('#top_left_btn')
        $('#top_left_btn').removeClass("disabled");
        loadModuleList("CubeModuleList", "mainList", "main", function() {
                       gridLayout();
-                      if(myScroll)
+                      if (myScroll) {
                       myScroll.refresh();
+                      }
                       });
        
        
@@ -492,8 +498,9 @@ $(window).resize(function() {
                  }
                  }
                  LastHeight = availHeight;
-                  if(myScroll)
+                 if (myScroll) {
                  myScroll.refresh();
+                 }
                  });
 /*$("#searchInput").click(function(e) {
  e.preventDefault();
@@ -515,7 +522,9 @@ $(window).resize(function() {
  });*/
 $("#wrapper").live("touchend", function() {
                    console.log("body touchend");
+                   if (myScroll) {
                    myScroll.refresh();
+                   }
                    
                    });
 $(".del_content").click(function() {
@@ -580,7 +589,9 @@ $("#searchInput").live("input propertychange", function() {
                        
                        //myScroll.refresh();
                        setTimeout(function() {
+                                  if (myScroll) {
                                   myScroll.refresh();
+                                  }
                                   }, 100);
                        });
 
@@ -666,22 +677,26 @@ var listLayout = function() {
 	$('#gridview_btn').removeClass('active');
     
 	setTimeout(function() {
+               if (myScroll) {
                myScroll.refresh();
                myScroll.scrollTo(0, 0, 200, false);
+               }
+               
                }, 100);
 };
 
 var gridLayout = function() {
 	console.log("gridview");
-    
-    
 	$("li[identifier]").die("touchstart");
 	$("li[identifier]").die("touchend");
 	$("li[identifier]").live("touchstart", function() {
                              $(this).css("background", "-webkit-gradient(linear, 10% 100%, 10% 100%, from(#d7d7d7), to(#c8c8c8))");
+                             //$("li[identifier]").die("touchstart");
+                             
                              });
 	$("li[identifier]").live("touchend", function() {
                              $(this).css("background", "#f5f5f5)");
+                             //$("li[identifier]").live("touchstart", function());
                              });
 	$(".module_li .curd_btn").die("touchstart");
     
@@ -705,8 +720,11 @@ var gridLayout = function() {
 	$('#listview_btn').removeClass('active');
     
 	setTimeout(function() {
+               if (myScroll) {
                myScroll.refresh();
                myScroll.scrollTo(0, 0, 200, false);
+               }
+               
                }, 100);
 }
 
@@ -714,7 +732,9 @@ $('#listview_btn').bind('click', function() {
                         if (!$('#listview_btn').hasClass("active")) {
                         listLayout();
                         setTimeout(function() {
+                                   if (myScroll) {
                                    myScroll.refresh();
+                                   }
                                    }, 100);
                         }
                         
@@ -724,7 +744,9 @@ $('#gridview_btn').bind('click', function() {
                         if (!$('#gridview_btn').hasClass("active")) {
                         gridLayout();
                         setTimeout(function() {
+                                   if (myScroll) {
                                    myScroll.refresh();
+                                   }
                                    }, 100);
                         }
                         
@@ -753,7 +775,7 @@ $('#manager_btn')
                                   $('#top_left_btn .set_img').hide();
                                   $('#top_left_btn')
                                   .removeClass('btn').removeClass('btn-primary')
-                                  .css('height', '32px')
+                                  .css('height', '26px')
                                   .css('width', '50px')
                                   //.html(' <i class="icon-arrow-left icon-white"></i>');
                                   .css('background', "url('img/back.png') no-repeat")
@@ -765,7 +787,9 @@ $('#manager_btn')
                                   var type = "uninstall";
                                   activeModuleManageBarItem(type);
                                   listLayout();
+                                  if (myScroll) {
                                   myScroll.refresh();
+                                  }
                                   
                                   });
                    console.log("同步完成");
@@ -793,7 +817,9 @@ $(".buttomContent .buttom_btn_group .btn").click(function() {
                                                                 if ($('#listview_btn').hasClass('active')) {
                                                                 listLayout();
                                                                 }
+                                                                if (myScroll) {
                                                                 myScroll.refresh();
+                                                                }
                                                                 
                                                                 });
                                                  
@@ -829,15 +855,18 @@ receivedEvent: function(id) {
                              packageName = $.parseJSON(data).packageName;
                              //如果是android，先获取到包名
                              loadModuleList("CubeModuleList", "mainList", "main", function() {
+                                            if (myScroll) {
                                             myScroll.refresh();
+                                            }
                                             });
                              }, function(err) {
                              console.log("获取Packagename失败");
                              }, "CubePackageName", "getPackageName", []);
                 } else {
 				loadModuleList("CubeModuleList", "mainList", "main", function() {
-                               if(myScroll)
+                               if (myScroll) {
                                myScroll.refresh();
+                               }
                                });
                 }
                 

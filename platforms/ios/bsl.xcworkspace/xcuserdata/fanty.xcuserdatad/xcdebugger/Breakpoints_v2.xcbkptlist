@@ -179,28 +179,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/iPhone/WebView/MainView/Main_IphoneViewController.m"
-            timestampString = "403059212.361023"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "495"
-            endingLineNumber = "495"
-            landmarkName = "-alertView:clickedButtonAtIndex:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "bsl/Classes/Core/CubeApplication.m"
-            timestampString = "403013345.210547"
+            timestampString = "403081874.130467"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "394"
-            endingLineNumber = "394"
+            startingLineNumber = "393"
+            endingLineNumber = "393"
             landmarkName = "-uninstallModule:didFinishBlock:"
             landmarkType = "5">
          </BreakpointContent>
@@ -244,11 +228,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "bsl/Classes/Core/CubeApplication.m"
-            timestampString = "403058641.063097"
+            timestampString = "403081874.130467"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "414"
-            endingLineNumber = "414"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
             landmarkName = "-uninstallModule:didFinishBlock:"
             landmarkType = "5">
          </BreakpointContent>
@@ -313,6 +297,22 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "365"
             endingLineNumber = "365"
+            landmarkName = "-alertView:clickedButtonAtIndex:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bsl/Classes/iPhone/WebView/MainView/Main_IphoneViewController.m"
+            timestampString = "403085678.386645"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "495"
+            endingLineNumber = "495"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>

@@ -25,12 +25,14 @@
     UIButton* chatButton;
     UIImageView*  textBgView;
     UIButton* recordButton;
-    ScrollTextView* textView;
+    UIView* textView;
     UIButton* emoctionButton;
     UIButton* addButton;
     
     EmoctionPanel* emoctionPanel;
     CameraPanel* camerPanel;
+    
+    float currentHeight;
 }
 
 @property(nonatomic,weak) id<ChatPanelDelegate> delegate;

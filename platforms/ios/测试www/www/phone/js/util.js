@@ -58,6 +58,7 @@ var Store = {
 
 //下载文件
 var downloadFile = function(sourceUrl, targetUrl, callback) {
+	console.log("图片显示地址：" + sourceUrl);
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, null);
 
 	var fileName = sourceUrl;
@@ -75,9 +76,18 @@ var downloadFile = function(sourceUrl, targetUrl, callback) {
 
 
 	if (fileName.indexOf(".png") > -1) {
+		console.log("替换之前：" + filename);
 		fileName.replace(/.png/, ".img");
+		console.log("替换之后：" + filename);
 	}
 	console.log("filename2 " + fileName);
+	if (fileName == "" || fileName == undefined || fileName == null) {
+		fileName = "img/default_icon2.png";
+		var fileEntry = new Object;
+		fileEntry.fullPath = fileName;
+		showPic(fileEntry);
+		return;
+	}
 
 	function gotFS(fileSystem) {
 		fileSystem.root.getDirectory(targetUrl, {
@@ -89,23 +99,31 @@ var downloadFile = function(sourceUrl, targetUrl, callback) {
 	}
 
 	function writerFile(newFile) {
-		newFile.getFile(fileName, null, showPic, function() {
-			newFile.getFile(fileName, {
-				create: true,
-				exclusive: false
-			}, gotFileEntry, function() {
-				console.log("写图片失败");
+		newFile.getFile(
+			fileName,
+			null,
+			showPic,
+			function() {
+				newFile.getFile(
+					fileName, {
+						create: true,
+						exclusive: false
+					},
+					gotFileEntry,
+					function() {
+
+					});
 			});
-		});
 	}
 
 	function showPic(fileEntry) {
 		//文件存在就直接显示  
-		console.log("文件存在就直接显示");
+		console.log("文件存在就直接显示" + fileEntry.fullPath + ">>>");
 		callback(fileEntry);
 	}
 
 	function gotFileEntry(fileEntry) {
+		console.log("进入gotFileEntry方法");
 		var fileTransfer = new FileTransfer();
 		var uri = encodeURI(sourceUrl);
 		fileTransfer.download(

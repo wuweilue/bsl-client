@@ -193,8 +193,7 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
 #pragma mark - Load Application
 
 //加载配置
--(void)loadApplicatioFromURL:(NSURL*)aurl
-{
+-(void)loadApplicatioFromURL:(NSURL*)aurl{
     //加载应用配置
     NSString *content = [NSString stringWithContentsOfURL:aurl encoding:NSUTF8StringEncoding error:nil];
     NSAssert(content != nil, @"不能解析应用程序描述文件，请检查文件是否存在且语法正确");
