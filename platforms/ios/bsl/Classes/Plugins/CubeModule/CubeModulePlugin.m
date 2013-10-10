@@ -162,7 +162,14 @@
         [jsonCube setObject:[NSNumber numberWithBool:each.hidden] forKey:@"hidden"];
         [jsonCube  setObject:each.releaseNote forKey:@"releaseNote"];
         [jsonCube  setObject:each.category forKey:@"category"];
-        [jsonCube  setObject:[each.iconUrl stringByAppendingFormat:@"?sessionKey=%@&appKey=%@",token,kAPPKey] forKey:@"icon"];
+        if (!each.iconUrl) {
+            [jsonCube  setObject:[@"" stringByAppendingFormat:@"?sessionKey=%@&appKey=%@",token,kAPPKey] forKey:@"icon"];
+        }
+        else
+        {
+            [jsonCube  setObject:[each.iconUrl stringByAppendingFormat:@"?sessionKey=%@&appKey=%@",token,kAPPKey] forKey:@"icon"];
+        }
+        
         [jsonCube  setObject:each.identifier forKey:@"identifier"];
         [jsonCube  setObject:!each.local?@"":each.local forKey:@"local"];
         [jsonCube  setObject:each.name forKey:@"name"];

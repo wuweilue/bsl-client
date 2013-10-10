@@ -9,7 +9,6 @@
 #import "GroupMemberManagerViewController.h"
 #import "GroupPanel.h"
 #import "GroupRoomUserEntity.h"
-#import "InputAlertView.h"
 #import "ContactSelectedForGroupViewController.h"
 #import "ChatLogic.h"
 #import "RoomService.h"
@@ -270,13 +269,11 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if([indexPath section]==1 && !self.isQuit){
-        InputAlertView* alertView=[[InputAlertView alloc] init];
-        alertView.callback=self;
-        [alertView showTitle:@"修改群组名"];
-        [alertView showTextField];
-        [alertView addButtonWithTitle:@"取消"];
-        [alertView addButtonWithTitle:@"确定"];
-        [alertView show];
+        
+        UIAlertView* alert=[[UIAlertView alloc] initWithTitle:@"修改群组名" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.alertViewStyle=UIAlertViewStylePlainTextInput;
+        [alert show];
+        alert=nil;
     }
 }
 
@@ -365,9 +362,9 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
             
         }
         else{
-            InputAlertView* alert=(InputAlertView*)alertView;
-            if([[alert textFieldText] length]>0){
-                self.chatName=[alert textFieldText];
+            UITextField* textField=[alertView textFieldAtIndex:0];
+            if([textField.text length]>0){
+                self.chatName=textField.text;
                 [request cancel];
                 [SVProgressHUD showWithStatus:@"操作执行中..." maskType:SVProgressHUDMaskTypeBlack];
                 request=[IMServerAPI grouptChangeRoomName:self.chatName roomId:self.messageId block:^(BOOL status){
