@@ -12,7 +12,6 @@
 #import "ImageUploaded.h"
 #import "ContactCheckBoxCell.h"
 #import "CustomNavigationBar.h"
-#import "InputAlertView.h"
 #import "SVProgressHUD.h"
 #import "RoomService.h"
 #import "XMPPRoom.h"
@@ -554,13 +553,10 @@
         
     }
     else{
-        InputAlertView* alertView=[[InputAlertView alloc] init];
-        alertView.callback=self;
-        [alertView showTitle:@"请为你的群组起个名字"];
-        [alertView showTextField];
-        [alertView addButtonWithTitle:@"取消"];
-        [alertView addButtonWithTitle:@"确定"];
-        [alertView show];
+        UIAlertView* alert=[[UIAlertView alloc] initWithTitle:@"请为你的群组起个名字" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.alertViewStyle=UIAlertViewStylePlainTextInput;
+        [alert show];
+        alert=nil;
         
     }
 }
@@ -569,9 +565,9 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex==1){
-        InputAlertView* alert=(InputAlertView*)alertView;
-        if([[alert textFieldText] length]>0){
-            [self createGroupAction:[alert textFieldText]];
+        UITextField* textField=[alertView textFieldAtIndex:0];
+        if([textField.text length]>0){
+            [self createGroupAction:textField.text];
         }
         else{
             UIAlertView* alertView=[[UIAlertView alloc] initWithTitle:@"请输入群组名" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];

@@ -567,7 +567,6 @@
 		39D9E9E917F27C03001ED6F5 /* FunctionDetailScrollViewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D802817E8BFBA0067A023 /* FunctionDetailScrollViewWrapper.m */; };
 		39D9E9EA17F27C03001ED6F5 /* IphoneDownloadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D802A17E8BFBA0067A023 /* IphoneDownloadingTableViewCell.m */; };
 		39D9E9EB17F27C03001ED6F5 /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D802E17E8BFBA0067A023 /* MenuView.m */; };
-		39D9E9EC17F27C03001ED6F5 /* InputAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803817E8BFBA0067A023 /* InputAlertView.m */; };
 		39D9E9ED17F27C03001ED6F5 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803B17E8BFBA0067A023 /* ChatCell.m */; };
 		39D9E9EE17F27C03001ED6F5 /* CDVVibration.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C4517F006B400F9CA68 /* CDVVibration.m */; };
 		39D9E9EF17F27C03001ED6F5 /* ChatImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803D17E8BFBA0067A023 /* ChatImageCell.m */; };
@@ -1163,7 +1162,6 @@
 		39E052C417F00AEA00BCF7F8 /* FunctionDetailScrollViewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D802817E8BFBA0067A023 /* FunctionDetailScrollViewWrapper.m */; };
 		39E052C517F00AEA00BCF7F8 /* IphoneDownloadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D802A17E8BFBA0067A023 /* IphoneDownloadingTableViewCell.m */; };
 		39E052C617F00AEA00BCF7F8 /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D802E17E8BFBA0067A023 /* MenuView.m */; };
-		39E052C817F00AEA00BCF7F8 /* InputAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803817E8BFBA0067A023 /* InputAlertView.m */; };
 		39E052C917F00AEA00BCF7F8 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803B17E8BFBA0067A023 /* ChatCell.m */; };
 		39E052CA17F00AEA00BCF7F8 /* CDVVibration.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C4517F006B400F9CA68 /* CDVVibration.m */; };
 		39E052CB17F00AEA00BCF7F8 /* ChatImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803D17E8BFBA0067A023 /* ChatImageCell.m */; };
@@ -1804,7 +1802,6 @@
 		39FF0B7E17F13CBB0086B76C /* FunctionDetailScrollViewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D802817E8BFBA0067A023 /* FunctionDetailScrollViewWrapper.m */; };
 		39FF0B7F17F13CBB0086B76C /* IphoneDownloadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D802A17E8BFBA0067A023 /* IphoneDownloadingTableViewCell.m */; };
 		39FF0B8017F13CBB0086B76C /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D802E17E8BFBA0067A023 /* MenuView.m */; };
-		39FF0B8217F13CBB0086B76C /* InputAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803817E8BFBA0067A023 /* InputAlertView.m */; };
 		39FF0B8317F13CBB0086B76C /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803B17E8BFBA0067A023 /* ChatCell.m */; };
 		39FF0B8417F13CBB0086B76C /* CDVVibration.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C4517F006B400F9CA68 /* CDVVibration.m */; };
 		39FF0B8517F13CBB0086B76C /* ChatImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803D17E8BFBA0067A023 /* ChatImageCell.m */; };
@@ -2018,7 +2015,6 @@
 		F54D82E417E8BFBB0067A023 /* iphoneMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D802C17E8BFBA0067A023 /* iphoneMenuView.xib */; };
 		F54D82E517E8BFBB0067A023 /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D802E17E8BFBA0067A023 /* MenuView.m */; };
 		F54D82E617E8BFBB0067A023 /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D802F17E8BFBA0067A023 /* MenuView.xib */; };
-		F54D82E817E8BFBB0067A023 /* InputAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803817E8BFBA0067A023 /* InputAlertView.m */; };
 		F54D82E917E8BFBB0067A023 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803B17E8BFBA0067A023 /* ChatCell.m */; };
 		F54D82EA17E8BFBB0067A023 /* ChatImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803D17E8BFBA0067A023 /* ChatImageCell.m */; };
 		F54D82EB17E8BFBB0067A023 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D803F17E8BFBA0067A023 /* ContactCell.m */; };
@@ -2766,8 +2762,6 @@
 		F54D802D17E8BFBA0067A023 /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
 		F54D802E17E8BFBA0067A023 /* MenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuView.m; sourceTree = "<group>"; };
 		F54D802F17E8BFBA0067A023 /* MenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuView.xib; sourceTree = "<group>"; };
-		F54D803717E8BFBA0067A023 /* InputAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputAlertView.h; sourceTree = "<group>"; };
-		F54D803817E8BFBA0067A023 /* InputAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputAlertView.m; sourceTree = "<group>"; };
 		F54D803A17E8BFBA0067A023 /* ChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
 		F54D803B17E8BFBA0067A023 /* ChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
 		F54D803C17E8BFBA0067A023 /* ChatImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatImageCell.h; sourceTree = "<group>"; };
@@ -4161,7 +4155,6 @@
 			children = (
 				39F23A371805A6F60035FCF8 /* textview */,
 				3968622E17EE7D7E00C84A6A /* groupPanel */,
-				F54D803617E8BFBA0067A023 /* alertview */,
 				F54D803917E8BFBA0067A023 /* cell */,
 				F54D804617E8BFBA0067A023 /* chatPannel */,
 				F54D804F17E8BFBA0067A023 /* DownloadImage */,
@@ -4172,15 +4165,6 @@
 				F54D805E17E8BFBA0067A023 /* scroller */,
 			);
 			path = components;
-			sourceTree = "<group>";
-		};
-		F54D803617E8BFBA0067A023 /* alertview */ = {
-			isa = PBXGroup;
-			children = (
-				F54D803717E8BFBA0067A023 /* InputAlertView.h */,
-				F54D803817E8BFBA0067A023 /* InputAlertView.m */,
-			);
-			path = alertview;
 			sourceTree = "<group>";
 		};
 		F54D803917E8BFBA0067A023 /* cell */ = {
@@ -7297,7 +7281,6 @@
 				F54D82E117E8BFBB0067A023 /* FunctionDetailScrollViewWrapper.m in Sources */,
 				F54D82E217E8BFBB0067A023 /* IphoneDownloadingTableViewCell.m in Sources */,
 				F54D82E517E8BFBB0067A023 /* MenuView.m in Sources */,
-				F54D82E817E8BFBB0067A023 /* InputAlertView.m in Sources */,
 				F54D82E917E8BFBB0067A023 /* ChatCell.m in Sources */,
 				F5A96C4A17F006B400F9CA68 /* CDVVibration.m in Sources */,
 				F54D82EA17E8BFBB0067A023 /* ChatImageCell.m in Sources */,
@@ -7480,7 +7463,6 @@
 				39D9E9E917F27C03001ED6F5 /* FunctionDetailScrollViewWrapper.m in Sources */,
 				39D9E9EA17F27C03001ED6F5 /* IphoneDownloadingTableViewCell.m in Sources */,
 				39D9E9EB17F27C03001ED6F5 /* MenuView.m in Sources */,
-				39D9E9EC17F27C03001ED6F5 /* InputAlertView.m in Sources */,
 				39D9E9ED17F27C03001ED6F5 /* ChatCell.m in Sources */,
 				39D9E9EE17F27C03001ED6F5 /* CDVVibration.m in Sources */,
 				39D9E9EF17F27C03001ED6F5 /* ChatImageCell.m in Sources */,
@@ -7663,7 +7645,6 @@
 				39E052C417F00AEA00BCF7F8 /* FunctionDetailScrollViewWrapper.m in Sources */,
 				39E052C517F00AEA00BCF7F8 /* IphoneDownloadingTableViewCell.m in Sources */,
 				39E052C617F00AEA00BCF7F8 /* MenuView.m in Sources */,
-				39E052C817F00AEA00BCF7F8 /* InputAlertView.m in Sources */,
 				39E052C917F00AEA00BCF7F8 /* ChatCell.m in Sources */,
 				39E052CA17F00AEA00BCF7F8 /* CDVVibration.m in Sources */,
 				39E052CB17F00AEA00BCF7F8 /* ChatImageCell.m in Sources */,
@@ -7845,7 +7826,6 @@
 				39FF0B7E17F13CBB0086B76C /* FunctionDetailScrollViewWrapper.m in Sources */,
 				39FF0B7F17F13CBB0086B76C /* IphoneDownloadingTableViewCell.m in Sources */,
 				39FF0B8017F13CBB0086B76C /* MenuView.m in Sources */,
-				39FF0B8217F13CBB0086B76C /* InputAlertView.m in Sources */,
 				39FF0B8317F13CBB0086B76C /* ChatCell.m in Sources */,
 				39FF0B8417F13CBB0086B76C /* CDVVibration.m in Sources */,
 				39FF0B8517F13CBB0086B76C /* ChatImageCell.m in Sources */,
