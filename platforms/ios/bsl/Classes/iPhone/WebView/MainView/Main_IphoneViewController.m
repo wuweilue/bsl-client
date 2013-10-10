@@ -29,47 +29,119 @@
 
 @implementation Main_IphoneViewController
 
--(id)initWithCoder:(NSCoder *)aDecoder{
-    self=[super initWithCoder:aDecoder];
-    if(self){
-        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
-            self.edgesForExtendedLayout = UIRectEdgeNone;
-            self.extendedLayoutIncludesOpaqueBars = NO;
-            self.modalPresentationCapturesStatusBarAppearance = NO;
-        }
-
-    }
-    return self;
-}
-
 -(id)init{
     self=[super init];
     if(self){
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
             self.edgesForExtendedLayout = UIRectEdgeNone;
-            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.extendedLayoutIncludesOpaqueBars = YES;
             self.modalPresentationCapturesStatusBarAppearance = NO;
         }
+
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showView:) name:@"SHOW_DETAILVIEW" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSetting) name:@"SHOW_SETTING_VIEW" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"module_badgeCount_change" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleDidInstalled:) name:CubeModuleInstallDidFinishNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"MESSAGE_RECORD_DID_Change_NOTIFICATION" object:nil];
+        //收到消息时候的广播
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
+        //收到好友消息时候
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteModuleFromNotification:) name:KNOTIFICATION_DETIALPAGE_DELETESUCCESS object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissView) name:@"DISMISS_VIEW" object:nil];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleDidInstalled:) name:KNOTIFICATION_DETIALPAGE_INSTALLSUCCESS object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didProgressUpdate:) name:@"queue_module_download_progressupdate" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkModules) name:CubeSyncFinishedNotification object:nil];
+
     }
     return self;
 }
 
--(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
-    self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if(self){
+- (void)viewDidLoad{
+    [super viewDidLoad];
+    
+    if (!aCubeWebViewController) {
+        aCubeWebViewController = [[CubeWebViewController alloc]init];
+        aCubeWebViewController.title=@"登录";
+        aCubeWebViewController.wwwFolderName = @"www";
+        aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString];
+        
+        CGRect rect=self.view.bounds;
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
-            self.edgesForExtendedLayout = UIRectEdgeNone;
-            self.extendedLayoutIncludesOpaqueBars = NO;
-            self.modalPresentationCapturesStatusBarAppearance = NO;
+            rect.origin.y=20.0f;
+            rect.size.height-=20.0f;
+        }
+        aCubeWebViewController.view.frame = rect;
+        [self.view addSubview:aCubeWebViewController.view];
+        aCubeWebViewController.view.hidden=YES;
+        aCubeWebViewController.webView.scrollView.bounces=NO;        
+        [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString] didFinishBlock: ^(){
+            aCubeWebViewController.view.hidden=NO;
+            aCubeWebViewController.closeButton.hidden = YES;
+            [aCubeWebViewController viewWillAppear:NO];
+            [aCubeWebViewController viewDidAppear:NO];
+            
+            [self addBadge];
+        }didErrorBlock:^(){
+            UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"首页模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alertView show];
+        }];
+        
+    }
+    
+    
+    //模块自动加载
+    NSMutableArray * modulesArray = [[CubeApplication currentApplication]modules];
+    for (CubeModule *module in modulesArray) {
+        if([module moduleIsInstalled]&& module.isAutoShow){
+            [self showWebViewModue:module];
+            
         }
     }
-    return self;
-
+	
 }
+
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    [aCubeWebViewController.view removeFromSuperview];
+    aCubeWebViewController=nil;
+    self.selectedModule=nil;
+}
+
 
 - (void)dealloc{
-    self.selectedModule=nil;
+    [aCubeWebViewController.view removeFromSuperview];
+    aCubeWebViewController=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.selectedModule=nil;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+- (BOOL)prefersStatusBarHidden{
+    return NO;
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate) withObject:nil afterDelay:0.8f];
+    }
+
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self addBadge];
+   [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 -(void)addBadge{
@@ -89,34 +161,12 @@
     }
 }
 
-
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+-(void)dismissView{
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate) withObject:nil afterDelay:0.7f];
+    }
 }
 
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden  = YES;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showView:) name:@"SHOW_DETAILVIEW" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSetting) name:@"SHOW_SETTING_VIEW" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"module_badgeCount_change" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleDidInstalled:) name:CubeModuleInstallDidFinishNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"MESSAGE_RECORD_DID_Change_NOTIFICATION" object:nil];
-    //收到消息时候的广播
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
-    //收到好友消息时候
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteModuleFromNotification:) name:KNOTIFICATION_DETIALPAGE_DELETESUCCESS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleDidInstalled:) name:KNOTIFICATION_DETIALPAGE_INSTALLSUCCESS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didProgressUpdate:) name:@"queue_module_download_progressupdate" object:nil];
-    
-    [self addBadge];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkModules) name:CubeSyncFinishedNotification object:nil];
-}
 
 -(void)checkModules{
     //检测是否需要自动安装
@@ -142,8 +192,7 @@
     
 }
 
--(void)checkAutoUpdate
-{
+-(void)checkAutoUpdate{
     NSMutableArray *updateModules = [[CubeApplication currentApplication] updatableModules];
     NSMutableString *message = [[NSMutableString alloc] init];
     if(updateModules.count>0)
@@ -165,52 +214,6 @@
         
     }
 }
-
-
-- (void)viewDidLoad{
-    [super viewDidLoad];
-    
-    self.title=@"";
-    if (!aCubeWebViewController) {
-        aCubeWebViewController = [[CubeWebViewController alloc]init];
-        aCubeWebViewController.title=@"登录";
-        aCubeWebViewController.wwwFolderName = @"www";
-        aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString];
-        aCubeWebViewController.view.frame = self.view.bounds;
-        
-        [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString] didFinishBlock: ^(){
-            aCubeWebViewController.closeButton.hidden = YES;
-            aCubeWebViewController.webView.scrollView.bounces=NO;
-            [aCubeWebViewController viewWillAppear:NO];
-            [self.view addSubview:aCubeWebViewController.view];
-            [aCubeWebViewController viewDidAppear:NO];
-            
-            [self addBadge];
-        }didErrorBlock:^(){
-            UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"首页模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alertView show];
-        }];
-        
-    }
-    
-    
-    //模块自动加载
-    NSMutableArray * modulesArray = [[CubeApplication currentApplication]modules];
-    for (CubeModule *module in modulesArray) {
-        if([module moduleIsInstalled]&& module.isAutoShow){
-            [self showWebViewModue:module];
-            
-        }
-    }
-	
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 #pragma mark - 皮肤功能
 
@@ -268,7 +271,6 @@
                 alertView=nil;
                 return;
             }
-            self.navigationController.navigationBar.hidden = NO;
             [self.navigationController pushViewController:localController animated:YES];
             return;
         }else{
@@ -282,8 +284,7 @@
         [modules addObjectsFromArray:[cubeApp updatableModules]];
         [modules addObjectsFromArray:[cubeApp modules]];
         [modules addObjectsFromArray:[cubeApp availableModules]];
-        self.navigationController.navigationBar.hidden = NO;
-        
+
         DownLoadingDetialViewController *funDetialVC=[[DownLoadingDetialViewController alloc]init];
         //循环已安装列表
         for(CubeModule *each in [cubeApp modules]){
@@ -386,7 +387,6 @@
     bCubeWebViewController.title = module.name;
     [bCubeWebViewController loadWebPageWithModule:module  frame:frame  didFinishBlock: ^(){
         //如果webView加载成功  这显示放大缩小按钮
-        
         bCubeWebViewController.webView.scrollView.bounces=NO;
         [self.navigationController pushViewController:bCubeWebViewController animated:YES];
         bCubeWebViewController.closeButton.hidden = NO;
@@ -399,11 +399,11 @@
 
 
 -(void)showSetting{
-    self.navigationController.navigationBar.hidden = NO;
     SettingMainViewController *settingView = [[SettingMainViewController alloc]initWithNibName:@"SettingMainViewController" bundle:nil];
     settingView.modalPresentationStyle = UIModalPresentationFormSheet;
     settingView.delegate = self;
     [self.navigationController pushViewController:settingView animated:YES];
+    settingView=nil;
 }
 
 
@@ -423,10 +423,8 @@
 
 #pragma mark - alerview Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if(alertView.tag ==829)
-    {
-        if(buttonIndex == 0)
-        {
+    if(alertView.tag ==829){
+        if(buttonIndex == 0){
             NSMutableArray *modules =[[CubeApplication currentApplication ]updatableModules];
             for (CubeModule *m in modules) {
                 m.isDownloading = YES;
@@ -443,8 +441,7 @@
         return;
     }
     
-    if(alertView.tag == 830)
-    {
+    if(alertView.tag == 830){
         NSMutableArray *downloadArray = [[CubeApplication currentApplication] downloadingModules];
         
         if(![[FMDBManager getInstance].database tableExists:@"AutoDownLoadRecord"])
@@ -546,8 +543,21 @@
 
 -(void)deleteModuleFromNotification:(NSNotification*)tion{
     NSString *identifier = [tion object];
+
+    //fanty 发现死循环
+    /*
     [self deleteAtModuleIdentifier:identifier];
+    */
     
+    @autoreleasepool {
+        CubeApplication *cubeApp = [CubeApplication currentApplication];
+        CubeModule *m = [cubeApp moduleForIdentifier:identifier];
+        NSMutableDictionary* moduleDictionary = [self modueToJson:m];
+        NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
+        NSString * javaScript = [NSString stringWithFormat:@"refreshModule('%@','uninstall','%@');",identifier,JSO ];
+        [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
+    }
+
 }
 
 - (void)deleteAtModuleIdentifier:(NSString *)identifier{

@@ -11,6 +11,7 @@
 
 #import "EmoctionPanel.h"
 #import "CameraPanel.h"
+#import "ScrollTextView.h"
 
 #define  PANNEL_HEIGHT  43.0f
 #define  EC_PANEL_height 216.0f
@@ -135,14 +136,16 @@
         
         recordButton.hidden=YES;
         
-        
-        textView = [[UIExpandingTextView alloc]initWithFrame:rect];
-        textView.delegate = self;
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+
+        }
+        textView = [[ScrollTextView alloc]initWithFrame:rect];
+       // textView.delegate = self;
         textView.clipsToBounds=YES;
-        textView.maximumNumberOfLines = 5;
+       // textView.maximumNumberOfLines = 5;
         textView.font = [UIFont systemFontOfSize:16.0f];
         textView.backgroundColor=[UIColor clearColor];
-        textView.delegate=self;
+      //  textView.delegate=self;
         textView.returnKeyType=UIReturnKeySend;
         
 

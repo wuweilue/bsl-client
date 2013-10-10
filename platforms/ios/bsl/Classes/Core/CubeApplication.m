@@ -390,22 +390,21 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
 
 -(void)uninstallModule:(CubeModule*)aCubeModule didFinishBlock:(void (^)(void))callBack
 {
+    //        NSLog(@"deleting",)
+    if ([aCubeModule uninstall]) {
+        [availableModules addObject:aCubeModule];
+        [modules removeObject:aCubeModule];
+    }
     
+    for (int i=0; i<[updatableModules count]; i++) {
+        CubeModule *m = [updatableModules objectAtIndex:i];
+        if ([m.identifier isEqualToString:aCubeModule.identifier]) {
+            [updatableModules removeObject:m];
+        }
+    }
+
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
     dispatch_async(queue, ^{
-        
-        //        NSLog(@"deleting",)
-        if ([aCubeModule uninstall]) {
-            [availableModules addObject:aCubeModule];
-            [modules removeObject:aCubeModule];
-        }
-        
-        for (int i=0; i<[updatableModules count]; i++) {
-            CubeModule *m = [updatableModules objectAtIndex:i];
-            if ([m.identifier isEqualToString:aCubeModule.identifier]) {
-                [updatableModules removeObject:m];
-            }
-        }
         
         [self syncCubeJSONFile];
         

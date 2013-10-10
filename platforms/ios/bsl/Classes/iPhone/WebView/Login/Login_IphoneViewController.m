@@ -18,9 +18,19 @@
 @end
 
 @implementation Login_IphoneViewController
-
-- (void)viewDidLoad
-{
+-(id)init{
+    self=[super init];
+    if(self){
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = YES;
+            self.modalPresentationCapturesStatusBarAppearance = NO;
+        }
+    }
+    
+    return self;
+}
+- (void)viewDidLoad{
     [super viewDidLoad];
 
     aCubeWebViewController  = [[CubeWebViewController alloc] init];
@@ -52,5 +62,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
 
 @end

@@ -40,7 +40,9 @@
         managedObjectContext = [ShareAppDelegate xmpp].managedObjectContext;
         
         
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"FaviorUserInfo"];
+        fetchRequest.predicate = [NSPredicate predicateWithValue:YES];
+
         // Edit the entity name as appropriate.
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"FaviorUserInfo" inManagedObjectContext:managedObjectContext];
         [fetchRequest setEntity:entity];
@@ -60,6 +62,9 @@
             [list addObject:obj];
         }
         
+        
+        
+
         
     }
     return self;
@@ -142,8 +147,11 @@
     
     
     if(editingStyle == UITableViewCellEditingStyleDelete){
+        
         if([self.faviorDelegate respondsToSelector:@selector(faviorContactViewDidDelete:userInfo:)])
             [self.faviorDelegate faviorContactViewDidDelete:self userInfo: [list objectAtIndex:[indexPath row]]];
+        
+        
     }
     
 }

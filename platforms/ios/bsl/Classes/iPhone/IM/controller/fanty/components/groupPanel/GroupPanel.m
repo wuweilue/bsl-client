@@ -184,12 +184,13 @@
 }
 
 -(void)removeUserJid:(NSString*)jid{
-    BOOL isRemove=NO;
+    __block BOOL isRemove=NO;
     [list enumerateObjectsUsingBlock:^(id obj,NSUInteger index,BOOL*stop){
         GroupSubPanel* subView=obj;
         if([subView.jid isEqualToString:jid]){
             [list removeObjectAtIndex:index];
             [subView removeFromSuperview];
+            isRemove=YES;
             *stop=YES;
         }
 

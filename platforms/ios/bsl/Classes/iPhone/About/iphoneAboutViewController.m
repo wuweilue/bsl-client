@@ -18,7 +18,12 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
+         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+         self.edgesForExtendedLayout = UIRectEdgeNone;
+         self.extendedLayoutIncludesOpaqueBars = NO;
+         self.modalPresentationCapturesStatusBarAppearance = YES;
+         }
     }
     return self;
 }
@@ -37,5 +42,14 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+    
+}
+
 
 @end

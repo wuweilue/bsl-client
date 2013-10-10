@@ -28,6 +28,16 @@
 {
     self = [super init];
     if (self) {
+        
+        
+         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+         self.edgesForExtendedLayout = UIRectEdgeNone;
+         self.extendedLayoutIncludesOpaqueBars = NO;
+         self.modalPresentationCapturesStatusBarAppearance = YES;
+         }
+        
+
+        
         // Custom initialization
         self.navigationItem.title = @"消息推送";
         
@@ -93,6 +103,14 @@
         }
     }
     [MessageRecord save];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+    
 }
 
 

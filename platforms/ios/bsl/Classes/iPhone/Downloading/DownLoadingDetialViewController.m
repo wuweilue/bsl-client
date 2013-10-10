@@ -84,6 +84,8 @@ static const NSString *const kLoadIconOperationKey = @"kLoadIconOperationKey";
 {
     
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+
     [self enableDetialInfoNotification];
     }
 

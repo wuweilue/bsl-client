@@ -11,6 +11,7 @@
 @class ChatPanel;
 @class EmoctionPanel;
 @class CameraPanel;
+@class ScrollTextView;
 
 @protocol ChatPanelDelegate <NSObject>
 -(void)chatPanelDidSend:(ChatPanel*)chatPanel;
@@ -25,7 +26,7 @@
     UIButton* chatButton;
     UIImageView*  textBgView;
     UIButton* recordButton;
-    UIExpandingTextView* textView;
+    ScrollTextView* textView;
     UIButton* emoctionButton;
     UIButton* addButton;
     

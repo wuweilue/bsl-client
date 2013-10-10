@@ -45,7 +45,7 @@ void swizzle(Class c, SEL old, SEL new)
 int main(int argc, char* argv[])
 {
     @autoreleasepool {
-        swizzleAllUIViewController();
+//        swizzleAllUIViewController();
         int retVal = UIApplicationMain(argc, argv, nil, @"AppDelegate");
         return retVal;
     }

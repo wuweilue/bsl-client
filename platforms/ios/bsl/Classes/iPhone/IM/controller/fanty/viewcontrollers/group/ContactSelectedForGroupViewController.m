@@ -29,6 +29,8 @@
 
 -(void)createRoomFinishNotification:(NSNotification*)notification;
 -(void)timeOutEvent;
+
+-(UIButton*) backButtonWith:(UIImage*)buttonImage highlight:(UIImage*)backButtonHighlightImage;
 @end
 
 @implementation ContactSelectedForGroupViewController
@@ -40,6 +42,7 @@
 - (id)init{
     self = [super init];
     if (self) {
+        
         self.title=@"选择联系人";
         selectedUserInfos=[[NSMutableArray alloc] initWithCapacity:2];
         
@@ -62,20 +65,27 @@
     self.view.autoresizesSubviews=NO;
     self.view.autoresizingMask=UIViewAutoresizingNone;
     self.view.frame=rect;
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor blackColor];
 
     maxHeight=rect.size.height;
+    
+
+    float top=0.0f;
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        top=20.0f;
+    }
 
     UINavigationItem* navItem=[[UINavigationItem alloc] initWithTitle:self.title];
 
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
         navItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(backClick)];
-        bar=[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 44.0f)];
+        bar=[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, top, self.view.frame.size.width, 44.0f)];
     }
     else{
-        bar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 44.0f)];
+        bar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0.0f, top, self.view.frame.size.width, 44.0f)];
 
-        UIButton* backButton = [((CustomNavigationBar*)bar) backButtonWith:[UIImage imageNamed:@"nav_back@2x.png"] highlight:nil leftCapWidth:14.0];
+        
+        UIButton* backButton = [self backButtonWith:[UIImage imageNamed:@"nav_back.png"] highlight:[UIImage imageNamed:@"nav_back_active.png"]];
         [backButton addTarget:self action:@selector(backClick) forControlEvents:UIControlEventTouchUpInside];
         navItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton] ;
 
@@ -95,7 +105,7 @@
     tableView.delegate=self;
     tableView.showsHorizontalScrollIndicator=NO;
     tableView.showsVerticalScrollIndicator=NO;
-    tableView.backgroundColor=[UIColor clearColor];
+    tableView.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:tableView];
 
     searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 44.0f)];
@@ -112,6 +122,22 @@
     [self loadShowData];
 
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+- (BOOL)prefersStatusBarHidden{
+    return NO;
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+    
+}
+
 
 
 - (void)didReceiveMemoryWarning{
@@ -140,6 +166,20 @@
 
 #pragma mark method
 
+
+-(UIButton*) backButtonWith:(UIImage*)buttonImage highlight:(UIImage*)backButtonHighlightImage {
+    
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
+    button.titleLabel.textColor = [UIColor whiteColor];
+    button.titleLabel.shadowOffset = CGSizeMake(0,-1);
+    button.titleLabel.shadowColor = [UIColor darkGrayColor];
+    button.frame = CGRectMake(0, 0, buttonImage.size.width, buttonImage.size.height);
+    [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    return button;
+}
+
+
 -(void)backClick{
     if([self.delegate respondsToSelector:@selector(dismiss:selectedInfo:)])
         [self.delegate dismiss:self selectedInfo:nil];
@@ -153,9 +193,15 @@
     [searchBar setShowsCancelButton:NO animated:YES];
     [searchBar resignFirstResponder];
     
+    float top=0.0f;
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        top=20.0f;
+    }
+
+    
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
         CGRect rect=bar.frame;
-        rect.origin.y=0.0f;
+        rect.origin.y=top;
         bar.frame=rect;
         
         rect=self.view.bounds;
@@ -168,6 +214,7 @@
         imageUploaded.frame=rect;
 
         fliterBg.alpha=0.0f;
+        bar.alpha=1.0f;
     } completion:^(BOOL finish){
         [fliterBg removeFromSuperview];
         fliterBg=nil;
@@ -405,19 +452,24 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)_searchBar{
     
+    float top=0.0f;
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        top=20.0f;
+    }
 
     [searchBar setShowsCancelButton:YES animated:YES];
     if(fliterBg==nil){
         fliterBg=[UIButton buttonWithType:UIButtonTypeCustom];
         [fliterBg addTarget:self action:@selector(filterClick) forControlEvents:UIControlEventTouchUpInside];
         fliterBg.backgroundColor=[UIColor blackColor];
-        fliterBg.frame=CGRectMake(0.0f, searchBar.frame.size.height, self.view.frame.size.width, maxHeight);
+        fliterBg.frame=CGRectMake(0.0f, top+searchBar.frame.size.height, self.view.frame.size.width, maxHeight);
         [self.view addSubview:fliterBg];
     }
+    
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
     
         CGRect rect=bar.frame;
-        rect.origin.y=-44.0f;
+        rect.origin.y=top-44.0f;
         bar.frame=rect;
         
         rect=self.view.bounds;
@@ -429,6 +481,7 @@
         rect.origin.y=CGRectGetMaxY(tableView.frame);
         imageUploaded.frame=rect;
 
+        bar.alpha=0.0f;
         
     } completion:^(BOOL finish){
     }];

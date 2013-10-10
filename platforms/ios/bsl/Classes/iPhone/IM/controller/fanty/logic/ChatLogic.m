@@ -368,7 +368,8 @@
             [context deleteObject:obj];
         }
     }
-    
+    [appDelegate.xmpp saveContext];
+
     for(NSDictionary* dict in users){
         NSManagedObject *newManagedObject=[NSEntityDescription insertNewObjectForEntityForName:@"FaviorUserInfo" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
         

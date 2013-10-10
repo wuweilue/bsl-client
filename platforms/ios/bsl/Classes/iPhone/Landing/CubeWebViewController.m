@@ -27,11 +27,6 @@
 - (id)init{
     self = [super init];
     if (self) {
-        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
-            self.edgesForExtendedLayout = UIRectEdgeNone;
-            self.extendedLayoutIncludesOpaqueBars = NO;
-            self.modalPresentationCapturesStatusBarAppearance = NO;
-        }
 
         // Uncomment to override the CDVCommandDelegateImpl used
         _commandDelegate = [[CubeCommandDelegate alloc] initWithViewController:self];
@@ -87,7 +82,7 @@
 
 - (void)didClickClose:(id)target
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
 
@@ -230,7 +225,7 @@
     NSLog(@"请求页面: %@", [request URL]);
     if ([@"cube://exit" isEqualToString:[[request URL] absoluteString]]) {
         
-        [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
     }
     NSURL* url = [request URL];
     
@@ -344,7 +339,7 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popToViewController:self.navigationController.topViewController animated:YES];
     }
     self.alertViewLink = nil;
 }

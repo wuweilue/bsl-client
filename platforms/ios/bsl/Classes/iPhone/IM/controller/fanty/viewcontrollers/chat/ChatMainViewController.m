@@ -43,10 +43,11 @@
 - (id)init{
     self = [super init];
     if (self) {
+        
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
             self.edgesForExtendedLayout = UIRectEdgeNone;
             self.extendedLayoutIncludesOpaqueBars = NO;
-            self.modalPresentationCapturesStatusBarAppearance = NO;
+            self.modalPresentationCapturesStatusBarAppearance = YES;
         }
 
         playingIndex=-1;
@@ -84,6 +85,9 @@
     }
     else{
         rect.size.height-=44.0f;
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            rect.size.height-=20.0f;
+        }
     }
     self.view.frame=rect;
     
@@ -106,6 +110,15 @@
     
     [self loadLocalData];
 }
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+    
+}
+
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];

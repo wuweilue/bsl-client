@@ -74,8 +74,8 @@
         FormDataRequest* request = [FormDataRequest requestWithURL:[NSURL URLWithString:[ServerAPI urlForLogin]]];
         __block FormDataRequest*  __request=request;
 
-        request.timeOutSeconds=200.0f;
-        request.persistentConnectionTimeoutSeconds=200.0f;
+        request.timeOutSeconds=120.0f;
+        request.persistentConnectionTimeoutSeconds=120.0f;
         [request setPostValue:kAPPKey forKey:@"appKey"];
         [request setPostValue:userName forKey:@"username"];
         [request setPostValue:userPass forKey:@"password"];
