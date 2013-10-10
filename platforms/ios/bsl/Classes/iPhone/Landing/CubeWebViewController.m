@@ -27,6 +27,12 @@
 - (id)init{
     self = [super init];
     if (self) {
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.modalPresentationCapturesStatusBarAppearance = NO;
+        }
+
         // Uncomment to override the CDVCommandDelegateImpl used
         _commandDelegate = [[CubeCommandDelegate alloc] initWithViewController:self];
         // Uncomment to override the CDVCommandQueue used

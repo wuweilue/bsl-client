@@ -43,6 +43,12 @@
 - (id)init{
     self = [super init];
     if (self) {
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.modalPresentationCapturesStatusBarAppearance = NO;
+        }
+
         playingIndex=-1;
     }
     return self;
