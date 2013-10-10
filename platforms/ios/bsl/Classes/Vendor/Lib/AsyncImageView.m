@@ -13,7 +13,6 @@
 
 @implementation AsyncImageView
 
-@synthesize request = _request;
 @synthesize loadedImageData = _loadedImageData;
 @synthesize delegate;
 
@@ -96,9 +95,9 @@
 }
 
 - (void)cleanupRequest {
-    if (_request != nil) {
-        [_request clearDelegatesAndCancel];
-        _request = nil;
+    if (request != nil) {
+        [request clearDelegatesAndCancel];
+        request = nil;
     }
 }
 
@@ -189,19 +188,6 @@
         
             UIImage *rawImage = [[UIImage alloc] initWithData:data];
             
-           // NSString *osVersion = [[UIDevice currentDevice] systemVersion];
-            
-            //if ([osVersion isEqualToString:@"5.0"]) {
-//                image = rawImage;
-           // }else{
-            /*
-                image = [rawImage resizedImageWithContentMode:UIViewContentModeScaleAspectFill
-                                                       bounds:self.frame.size
-                                         interpolationQuality:kCGInterpolationHigh];
-            */
-             //}
-            
-            
             if (animated) {
                 self.alpha = 0.0;
                 
@@ -219,23 +205,22 @@
         }
         
         if (delegate) {
-            [delegate asyncImageView:self didLoadImageFormURL:[_request originalURL]];
+            [delegate asyncImageView:self didLoadImageFormURL:[request originalURL]];
         }
 
     }
     }
 }
 
-- (void)loadImageWithURLString:(NSString*)urlString
-{
-    if (![urlString isKindOfClass:[NSString class]]) {
-//        DebugLog(@"空URL");
+- (void)loadImageWithURLString:(NSString*)urlString{
+    if (![urlString isKindOfClass:[NSString class]] || [urlString length]<1) {
         [self broken];
+        [self cleanupRequest];
+
         return;
     }
     NSURL *url = [NSURL URLWithString:urlString];
     if (nil == url) {
-//        DebugLog(@"空URL");
         [self broken];
         return;
     }
@@ -244,49 +229,59 @@
     
     //本地文件
     if ([@"file" isEqualToString:url.scheme]) {
-        NSError *error = nil;
-        NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingMappedAlways error:&error];
-        if (!data || error) {
-            [self broken];
-        } else {
-            [self loadImageFromData:data animated:NO];
+        @autoreleasepool {
+
+            NSData* data=[[NSData alloc] initWithContentsOfURL:url options:NSDataReadingMappedAlways error:nil];
+            if (!data) {
+                [self broken];
+            } else {
+                [self loadImageFromData:data animated:NO];
+            }
+            data=nil;
+            
         }
         return;
     }
     
-    NSData *cacheData = [[Cache instance] dataForKey:urlString];
-    if (cacheData) {
-//        DebugLog(@"读取缓存:%@", urlString);
-        [self loadImageFromData:cacheData animated:NO];
-        return;
+    @autoreleasepool {
+        NSData *cacheData = [[Cache instance] dataForKey:urlString];
+        if (cacheData) {
+            [self loadImageFromData:cacheData animated:NO];
+            cacheData=nil;
+            return;
+        }
+        cacheData=nil;
     }
     
     [self cleanupRequest];
     
-    HTTPRequest *request = [[HTTPRequest alloc] initWithURL:url];
+    request = [[HTTPRequest alloc] initWithURL:url];
     __block HTTPRequest*  __request=request;
+    
+    __block AsyncImageView* objSelf=self;
 
     [request setTimeOutSeconds:10];
 
+    
     [request setStartedBlock:^{
     
-        self.image = nil;
-        [self startLoading];
+        objSelf.image = nil;
+        [objSelf startLoading];
 
     }];
     [request setCompletionBlock:^{
         if ([__request responseStatusCode] / 100 != 2) {
             NSLog(@"图片下载失败，响应码：%d",[__request responseStatusCode]);
-            [self stopLoading];
-            [self broken];
-            
-            [self cleanupRequest];
+            [objSelf stopLoading];
+            [objSelf broken];
+            [objSelf cleanupRequest];
             return;
         }
         NSString* urlString=[[__request originalURL] absoluteString];
         
         @autoreleasepool {
-            UIImage *rawImage = [[UIImage alloc] initWithData:[__request responseData]];
+            NSData* downloadData=[__request responseData];
+            UIImage *rawImage = [[UIImage alloc] initWithData:downloadData];
             CGSize size=CGSizeMake(420.0f, 600.0f);
             if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
                 size=CGSizeMake(800.0f, 600.0f);
@@ -296,37 +291,30 @@
                     size.height=size.width/(rawImage.size.width/rawImage.size.height);
                     UIImage *image=[AsyncImageView imageWithThumbnail:rawImage size:size];
                     
-                    NSData* newData=UIImagePNGRepresentation(image);
-                    
-                    [[Cache instance] setData:newData forKey:urlString];
-                    [self loadImageFromData:newData animated:YES];
-
+                    downloadData=nil;
+                    downloadData=UIImagePNGRepresentation(image);
                 }
-                else{
-                    [[Cache instance] setData:[__request responseData] forKey:urlString];
-                    [self loadImageFromData:[__request responseData] animated:YES];
-
-                }
-                
+                [[Cache instance] setData:downloadData forKey:urlString];
+                [objSelf loadImageFromData:downloadData animated:YES];
+                downloadData=nil;
             }
         }
 
-        [self stopLoading];
+        [objSelf stopLoading];
         
-        [self cleanupRequest];
+        [objSelf cleanupRequest];
 
     }];
     [request setFailedBlock:^{
-        [self stopLoading];
-        [self broken];
+        [objSelf stopLoading];
+        [objSelf broken];
         
-        [self cleanupRequest];
+        [objSelf cleanupRequest];
 
     }];
     
     [request startAsynchronous];
     
-    self.request = request;
 }
 
 
