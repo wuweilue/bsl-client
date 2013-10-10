@@ -41,6 +41,12 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     self=[super init];
     if(self){
         self.title=@"群组管理";
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = YES;
+            self.modalPresentationCapturesStatusBarAppearance = YES;
+        }
+
     }
     
     return self;
@@ -66,6 +72,15 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     
     
 }
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+    
+}
+
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
@@ -329,22 +344,23 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
 
             
             request=[IMServerAPI grouptDeleteMember:groupPanel.selectedJid roomId:self.messageId block:^(BOOL status){
-
+                if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+                    [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate) withObject:nil afterDelay:0.6f];
+                }
                 request=nil;
                 if(!status){
                     [SVProgressHUD showErrorWithStatus:@"操作失败，请检查网络！"];
                     return ;
                 }
                 [SVProgressHUD dismiss];
-                
                 ChatLogic* logic=[[ChatLogic alloc] init];
                 logic.roomJID=self.messageId;
                 [logic sendRoomQuitMemberAction:self.messageId userJid:groupPanel.selectedJid];
 
                 [groupPanel removeUserJid:groupPanel.selectedJid];
-
                 logic=nil;
                 
+
             }];
             
         }
@@ -355,6 +371,10 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
                 [request cancel];
                 [SVProgressHUD showWithStatus:@"操作执行中..." maskType:SVProgressHUDMaskTypeBlack];
                 request=[IMServerAPI grouptChangeRoomName:self.chatName roomId:self.messageId block:^(BOOL status){
+                    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+                        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate) withObject:nil afterDelay:0.6f];
+                    }
+
                     request=nil;
                     if(!status){
                         [SVProgressHUD showErrorWithStatus:@"操作失败，请检查网络！"];

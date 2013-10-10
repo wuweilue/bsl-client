@@ -83,14 +83,18 @@
         aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/main.html"] absoluteString];
         aCubeWebViewController.view.frame = self.view.frame;
         aCubeWebViewController.webView.scrollView.bounces=NO;
+        aCubeWebViewController.view.hidden=YES;
+        [self.view addSubview:aCubeWebViewController.view];
+
         [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/main.html"] absoluteString] didFinishBlock: ^(){
             [presentingViewController viewWillDisappear:NO];
             [presentingViewController.view removeFromSuperview];
             [presentingViewController viewDidDisappear:NO];
             
             [aCubeWebViewController viewWillAppear:NO];
-            [self.view addSubview:aCubeWebViewController.view];
             [aCubeWebViewController viewDidAppear:NO];
+            aCubeWebViewController.view.hidden=NO;
+
             self.presentingViewController = aCubeWebViewController;
             [self addBadge];
             if (self.finishWebViewBlock) {

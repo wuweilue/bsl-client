@@ -25,6 +25,12 @@
 - (id)init{
     self = [super init];
     if (self) {
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.modalPresentationCapturesStatusBarAppearance = YES;
+        }
+
         // Custom initialization
         [self.navigationItem setTitle:@"公告"];
         //覆盖屏蔽右边控制
@@ -116,6 +122,14 @@
     [[Announcement managedObjectContext] save:nil];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+
+}
+
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -138,6 +152,12 @@
     
     [delayLoadTimer invalidate];
     delayLoadTimer=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(delayLoadTimerTimerEvent) userInfo:nil repeats:NO];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+
 }
 
 - (void)didReceiveMemoryWarning{

@@ -17,6 +17,7 @@
 #import "RectangleChat.h"
 #import "ChatLogic.h"
 #import "NumberView.h"
+#import "IMServerAPI.h"
 @interface FriendMainViewController ()<ContactListViewDelegate,HeadTabViewDelegte,RecentTalkViewDelegate,FaviorContactViewDelegate,UIPopoverControllerDelegate,ContactSelectedForGroupViewControllerDelegate,NSFetchedResultsControllerDelegate>
 -(void)initTabBar;
 -(void)filterClick;
@@ -36,11 +37,13 @@
     if(self){
         self.title=@"即时通讯";
         
+        
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
             self.edgesForExtendedLayout = UIRectEdgeNone;
-            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.extendedLayoutIncludesOpaqueBars = YES;
             self.modalPresentationCapturesStatusBarAppearance = NO;
         }
+        
 
         
         NSManagedObjectContext* managedObjectContext = [ShareAppDelegate xmpp].managedObjectContext;
@@ -70,6 +73,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+
     CGRect rect=self.view.frame;
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
         rect.size.width =CGRectGetHeight(self.view.frame)/2+2;
@@ -77,13 +81,37 @@
     }
     else{
         rect.size.height-=44.0f;
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            rect.size.height-=20.0f;
+        }
     }
     self.view.frame=rect;
-    self.view.backgroundColor=[UIColor whiteColor];
-    
     [self initTabBar];
     [self openOrCreateListView:1];
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+
+    if(tabView.selectedIndex==0){
+        
+    }
+    else if(tabView.selectedIndex==1){
+        [contactListView loadData];
+    }
+    else{
+    }
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+
+}
+
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
@@ -105,18 +133,6 @@
     popover.delegate=nil;
     [popover dismissPopoverAnimated:NO];
 
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    if(tabView.selectedIndex==0){
-        
-    }
-    else if(tabView.selectedIndex==1){
-        [contactListView loadData];
-    }
-    else{
-    }
 }
 
 #pragma mark method
@@ -421,9 +437,22 @@
 }
 
 -(void)faviorContactViewDidDelete:(FaviorContactView*)recentTalkView userInfo:(UserInfo*)userInfo{
-    ChatLogic* logic=[[ChatLogic alloc] init];
-    [logic removeFaviorInContacts:userInfo.userJid];
-    logic=nil;
+    
+    [SVProgressHUD showWithStatus:@"操作执行中..." maskType:SVProgressHUDMaskTypeBlack];
+    
+    [IMServerAPI deleteCollectIMFriend:userInfo.userJid block:^(BOOL status){
+            
+        if(!status){
+            [SVProgressHUD showErrorWithStatus:@"操作失败，请稍后再试！"];
+        }
+        else{
+            ChatLogic* logic=[[ChatLogic alloc] init];
+            [logic removeFaviorInContacts:userInfo.userJid];
+            logic=nil;
+            [SVProgressHUD showSuccessWithStatus:@"你已取消关注该好友"];
+        }
+    }];
+    
 }
 
 #pragma mark  fetchedresultscontroller  delegate

@@ -84,7 +84,13 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         }
 
         searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 44.0f)];
-        searchBar.barStyle=UIBarStyleBlackTranslucent;
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            searchBar.tintColor=[UIColor grayColor];
+        }
+        else{
+            searchBar.barStyle=UIBarStyleBlackTranslucent;
+        }
+        searchBar.placeholder=@"输入关键字搜索";
         searchBar.delegate=self;
         [self addSubview:searchBar];
         

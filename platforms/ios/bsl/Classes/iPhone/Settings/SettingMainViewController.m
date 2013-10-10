@@ -31,6 +31,16 @@
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
+        
+        
+         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+         self.edgesForExtendedLayout = UIRectEdgeNone;
+         self.extendedLayoutIncludesOpaqueBars = NO;
+         self.modalPresentationCapturesStatusBarAppearance = YES;
+         }
+        
+
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationDidExist) name:@"LOGOUTSENDEXITNOTIFICATION" object:nil];
     }
 
@@ -39,6 +49,8 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    
+    self.view.backgroundColor=[UIColor clearColor];
     
     self.title= @"设置";
     
@@ -124,7 +136,15 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [self.navigationController.navigationBar setHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+    
 }
 
 

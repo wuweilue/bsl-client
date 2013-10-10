@@ -27,11 +27,10 @@
 
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
 
 #import "LoginViewController.h"
 #import "CustomNavigationBar.h"
-
+#import "BaseNavViewController.h"
 #import "HTTPRequest.h"
 #import "ConfigManager.h"
 #import "HTTPRequest.h"
@@ -159,13 +158,13 @@ void uncaughtExceptionHandler(NSException*exception){
     //异步加载push actor
    // [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
-    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad){
-        UINavigationController* nav=[[UINavigationController alloc] init];
+//    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad){
+        BaseNavViewController* nav=[[BaseNavViewController alloc] init];
         [nav setNavigationBarHidden:YES];
         self.navControl=nav;
         self.window.rootViewController=nav;
         nav=nil;
-    }
+//    }
     
     [self showLoginView];
     [self.window makeKeyAndVisible];
@@ -203,8 +202,8 @@ void uncaughtExceptionHandler(NSException*exception){
     if([navControl.viewControllers count]<1){
         if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone){
             Login_IphoneViewController* controller=[[Login_IphoneViewController alloc] init];
-            self.window.rootViewController=controller;
-            //  [navControl pushViewController:controller animated:NO];
+           // self.window.rootViewController=controller;
+              [navControl pushViewController:controller animated:NO];
             controller=nil;
         }else{
             Login_IpadViewController* controller = [[Login_IpadViewController alloc]initWithNibName:@"Login_IpadViewController" bundle:nil];
@@ -556,11 +555,13 @@ void uncaughtExceptionHandler(NSException*exception){
     [[PushGetMessageInfo sharedInstance] updatePushMessage];
     [navControl popToRootViewControllerAnimated:NO];
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone){
-        //
-         UINavigationController *__navControl =[[[NSBundle mainBundle] loadNibNamed:@"MainNewWindow" owner:self options:nil] objectAtIndex:0];
-        self.window.rootViewController = __navControl;
-//        [navControl pushViewController:__navControl animated:NO];
-        __navControl=nil;
+        
+        Main_IphoneViewController* main=[[Main_IphoneViewController alloc] init];
+//         UINavigationController *__navControl =[[[NSBundle mainBundle] loadNibNamed:@"MainNewWindow" owner:self options:nil] objectAtIndex:0];
+//        self.window.rootViewController = __navControl;
+        [self.navControl popToRootViewControllerAnimated:NO];
+        [self.navControl pushViewController:main animated:NO];
+        main=nil;
         //修改为HTML5界面
         if([SVProgressHUD isVisible]){
             [SVProgressHUD dismiss];
