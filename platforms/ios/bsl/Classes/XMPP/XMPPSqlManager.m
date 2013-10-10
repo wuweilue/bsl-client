@@ -50,7 +50,7 @@ sqlite3 * database;
         NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor1,nil];
         [fetchRequest setSortDescriptors:sortDescriptors];
         
-        NSFetchedResultsController* fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[ShareAppDelegate xmpp].managedObjectContext sectionNameKeyPath:nil cacheName:@"rectangleTalk"];
+        NSFetchedResultsController* fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[ShareAppDelegate xmpp].managedObjectContext sectionNameKeyPath:nil cacheName:nil];
         
         [fetchedResultsController performFetch:nil];
         NSArray *contentArray = [fetchedResultsController fetchedObjects];

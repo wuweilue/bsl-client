@@ -60,6 +60,10 @@
     else{
         rect.size.height-=44.0f;
     }
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        rect.size.height-=20.0f;
+    }
+
     self.view.frame=rect;
     
     tableView=[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];

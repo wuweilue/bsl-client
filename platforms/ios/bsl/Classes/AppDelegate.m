@@ -82,7 +82,7 @@ void uncaughtExceptionHandler(NSException*exception){
 @synthesize xmpp;
 @synthesize xmppPustActor;
 @synthesize moduleReceiveMsg;
-@synthesize mainViewController;
+
 - (id)init{
     /** If you need to do any extra app-specific initialization, you can do it here
      *  -jm
@@ -568,15 +568,11 @@ void uncaughtExceptionHandler(NSException*exception){
         }
   
     }else{
-         MainViewViewController * main = [[MainViewViewController alloc]initWithNibName:@"MainViewViewController" bundle:nil finish:^{
-//            self.window.rootViewController = self.mainViewController;
-             [self.navControl popToRootViewControllerAnimated:NO];
-             [self.navControl pushViewController:self.mainViewController animated:NO];
-            if([SVProgressHUD isVisible]){
-                [SVProgressHUD dismiss];
-            }
-        }];
-        self.mainViewController=main;
+        
+        [self.navControl popToRootViewControllerAnimated:NO];
+        
+        MainViewViewController* main=[[MainViewViewController alloc] initWithNibName:@"MainViewViewController" bundle:nil];
+        [self.navControl pushViewController:main animated:NO];
         main=nil;
     }
 }

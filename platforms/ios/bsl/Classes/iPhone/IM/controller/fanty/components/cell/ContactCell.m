@@ -19,8 +19,10 @@
     if (self) {
         self.accessoryType=UITableViewCellAccessoryNone;
         self.selectionStyle=UITableViewCellSelectionStyleBlue;
-        self.backgroundView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"contact_bg.png"]];
 
+        bgView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"contact_bg.png"]];
+        [self addSubview:bgView];
+        
         
         imageView=[[ImageDownloadedView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 37.0f,37.0f)];
         imageView.radius=4.0f;
@@ -60,6 +62,7 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
+    bgView.frame=self.bounds;
     if(self.editing){
         imageView.frame=CGRectMake(50.0f, 10.0f, 37.0f,37.0f);
         if(self.showingDeleteConfirmation){

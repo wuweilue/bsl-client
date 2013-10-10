@@ -20,13 +20,17 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.modalPresentationCapturesStatusBarAppearance = NO;
+        }
+
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     UIImageView* bgImageView =  [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,CGRectGetHeight([[UIScreen mainScreen] bounds]), CGRectGetWidth([[UIScreen mainScreen] bounds]))];
     bgImageView.image = [UIImage imageNamed:@"Default-Landscape~ipad.png"];
@@ -38,12 +42,14 @@
     aCubeWebViewController.title=@"登录";
     aCubeWebViewController.wwwFolderName = @"www";
     aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/login.html"] absoluteString];
-    aCubeWebViewController.view.frame = self.view.frame;
+    aCubeWebViewController.view.frame = self.view.bounds;
+    aCubeWebViewController.webView.scrollView.bounces=NO;
+    [self.view addSubview:aCubeWebViewController.view];
+    aCubeWebViewController.view.hidden=YES;
     [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/login.html"] absoluteString] didFinishBlock: ^(){
+        aCubeWebViewController.view.hidden=NO;
         [aCubeWebViewController viewWillAppear:NO];
-        [self.view addSubview:aCubeWebViewController.view];
         [aCubeWebViewController viewDidAppear:NO];
-        aCubeWebViewController.webView.scrollView.bounces=NO;
     }didErrorBlock:^(){
         UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"登陆模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];

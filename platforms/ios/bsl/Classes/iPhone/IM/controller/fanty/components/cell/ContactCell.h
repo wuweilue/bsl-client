@@ -10,6 +10,7 @@
 @class ImageDownloadedView;
 
 @interface ContactCell : UITableViewCell{
+    UIImageView* bgView;
     ImageDownloadedView* imageView;
     UILabel* nicknameLabel;
     UIImageView* lineView;

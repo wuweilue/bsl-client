@@ -47,11 +47,11 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
-    if (UI_USER_INTERFACE_IDIOM() !=  UIUserInterfaceIdiomPad){
+    //if (UI_USER_INTERFACE_IDIOM() !=  UIUserInterfaceIdiomPad){
         self.delegate=self;
         [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav_bg.png"] forBarMetrics:UIBarMetricsDefault];
         
-    }
+    //}
 }
 
 - (void)didReceiveMemoryWarning{

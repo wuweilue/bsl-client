@@ -254,12 +254,17 @@ static const NSString *const kLoadIconOperationKey = @"kLoadIconOperationKey";
     self.pageControl.currentPage=0;
     self.pageControl.imagePageStateNormal=[UIImage imageNamed:@"scorllview_dot_unchoose.png"];
     self.pageControl.imagePageStateHightlighted=[UIImage imageNamed:@"scorllview_dot_choose.png"];
-    NSArray *subView = self.pageControl.subviews;     // UIPageControl的每个点
-	for (int i = 0; i < [subView count]; i++) {
-		UIImageView *dot = [subView objectAtIndex:i];
-		dot.image = (self.pageControl.currentPage == i ? [UIImage imageNamed:@"scorllview_dot_choose.png"] : [UIImage imageNamed:@"scorllview_dot_unchoose.png"]);
-	}
-    [self addImageViewInScrollView];
+    
+    //ios7 下运行报错
+    if([[[UIDevice currentDevice] systemVersion] floatValue]<7.0f){
+        NSArray *subView = self.pageControl.subviews;     // UIPageControl的每个点
+        for (int i = 0; i < [subView count]; i++) {
+            UIImageView *dot = [subView objectAtIndex:i];
+            dot.image = (self.pageControl.currentPage == i ? [UIImage imageNamed:@"scorllview_dot_choose.png"] : [UIImage imageNamed:@"scorllview_dot_unchoose.png"]);
+        }
+
+    }
+     [self addImageViewInScrollView];
 }
 
 

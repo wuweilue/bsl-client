@@ -44,7 +44,7 @@
         NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor1,nil];
         [fetchRequest setSortDescriptors:sortDescriptors];
         
-        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"rectangleTalk"];
+        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:nil];
         fetchedResultsController.delegate = self;
         
         [fetchedResultsController performFetch:nil];

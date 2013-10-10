@@ -74,7 +74,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         NSArray *sortDescriptors = @[sortDescriptor,sortDescriptor1,sortDescriptor2];
         [fetchRequest setSortDescriptors:sortDescriptors];
         
-        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:@"userGroup" cacheName:@"userGroup"];
+        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:@"userGroup" cacheName:nil];
         fetchedResultsController.delegate = self;
         
         NSError *error = nil;

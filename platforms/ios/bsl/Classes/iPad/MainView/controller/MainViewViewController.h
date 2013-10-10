@@ -20,20 +20,13 @@ typedef void (^DidFinishWebViewViewBlock)(void);
 @interface MainViewViewController : UIViewController<DownloadCellDelegate,SettingMainViewControllerDelegate,SkinViewDelegate,UIGestureRecognizerDelegate>{
     UIViewController * detailController;
     UIViewController * mainController;
-    
     CubeWebViewController *aCubeWebViewController ;
     
     SkinView * skinView;
-
-    
     UIButton* fullScreanBtn;
     BOOL isFullScrean;
     
     int selectedTabIndex;
-    
 }
-@property (nonatomic, copy)  DidFinishWebViewViewBlock finishWebViewBlock;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil finish:(DidFinishWebViewViewBlock)didFinishBlock;
 
 @end
