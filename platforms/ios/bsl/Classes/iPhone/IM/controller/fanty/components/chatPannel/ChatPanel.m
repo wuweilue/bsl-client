@@ -12,12 +12,13 @@
 #import "CameraPanel.h"
 #import "ScrollTextView.h"
 
-#define  PANNEL_HEIGHT  43.0f
+#define  PANNEL_HEIGHT  52.0f
 #define  EC_PANEL_height 216.0f
+#define TEXT_BG_HEIGHT    42.0f
+#define TEXT_VIEW_HEIGHT  36.0f
 
 
-
-@interface ChatPanel()<ScrollTextViewDelegate,EmoctionPanelDelegate,CameraPanelDelegate>
+@interface ChatPanel()<ScrollTextViewDelegate,EmoctionPanelDelegate,CameraPanelDelegate,UITextViewDelegate>
 -(void) keyboardWillShow:(NSNotification *)note;
 -(void) keyboardWillHide:(NSNotification *)note;
 
@@ -43,7 +44,7 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-        self.limitMaxNumber=300;
+        self.limitMaxNumber=200;
         self.backgroundColor=[UIColor colorWithRed:250.0f/255.0f green:249.0f/255.0f blue:245.0f/255.0f alpha:1.0f];
         self.userInteractionEnabled=YES;
         
@@ -118,7 +119,7 @@
         emoctionButton.frame=rect;
         
         rect=textBgView.frame;
-        rect.size.height=34.0f;
+        rect.size.height=TEXT_BG_HEIGHT;
         rect.origin.x=CGRectGetMaxX(chatButton.frame)+2.0f;
         rect.origin.y=(PANNEL_HEIGHT-rect.size.height)*0.5f;
         
@@ -129,25 +130,36 @@
 
         
         rect=textBgView.bounds;
-        rect.size.height=28.0f;
-        rect.origin.y=(textBgView.frame.size.height-rect.size.height)*0.5f-3.0f;
+        rect.size.height=TEXT_VIEW_HEIGHT;
+        rect.origin.y=(textBgView.frame.size.height-rect.size.height)*0.5f;
         
         
         recordButton.hidden=YES;
         
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
-
+            UITextView* __textView=[[UITextView alloc] initWithFrame:rect];
+            __textView.delegate=self;
+            __textView.clipsToBounds=YES;
+            __textView.font = [UIFont systemFontOfSize:16.0f];
+            __textView.backgroundColor=[UIColor clearColor];
+            __textView.textColor=[UIColor blackColor];
+            __textView.returnKeyType=UIReturnKeySend;
+            textView=__textView;
         }
-        textView = [[ScrollTextView alloc]initWithFrame:rect];
-        textView.delegate = self;
-        textView.clipsToBounds=YES;
-        textView.font = [UIFont systemFontOfSize:16.0f];
-        textView.backgroundColor=[UIColor clearColor];
-        textView.textColor=[UIColor blackColor];
-        textView.returnKeyType=UIReturnKeySend;
-
-        textView.maxNumberOfLines=5;
-        
+        else{
+            ScrollTextView* __textView = [[ScrollTextView alloc]initWithFrame:rect];
+            __textView.delegate = self;
+            __textView.clipsToBounds=YES;
+            __textView.font = [UIFont systemFontOfSize:16.0f];
+            __textView.backgroundColor=[UIColor clearColor];
+            __textView.textColor=[UIColor blackColor];
+            __textView.returnKeyType=UIReturnKeySend;
+            
+            __textView.maxNumberOfLines=5;
+            
+            textView=__textView;
+            
+        }
 
         UIImageView* lineView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"h_line.png"]];
         lineView.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
@@ -221,11 +233,25 @@
 }
 
 -(NSString*)text{
-    return textView.text;
+    if([textView isKindOfClass:[ScrollTextView class]])
+        return ((ScrollTextView*)textView).text;
+    else
+        return ((UITextView*)textView).text;
 }
 
 -(void)setText:(NSString *)value{
-    textView.text=value;
+    if([textView isKindOfClass:[ScrollTextView class]])
+        ((ScrollTextView*)textView).text=value;
+    else{
+        UITextView* __textView=(UITextView*)textView;
+        __textView.text=value;
+        [self textViewDidChange:__textView];
+        if(__textView.contentSize.height>TEXT_VIEW_HEIGHT){
+            CGPoint point=__textView.contentOffset;
+            point.y=__textView.contentSize.height-__textView.frame.size.height;
+            [__textView setContentOffset:point animated:YES];
+        }
+    }
 }
 
 -(void)hideAllControlPanel{
@@ -507,16 +533,110 @@
 }
 
 
-#pragma mark emoctionpanel  delegate
--(void)addEmoction:(EmoctionPanel*)emoction text:(NSString*)___text{
+#pragma mark textview delegate
 
-    textView.text = [textView.text stringByAppendingString:___text];
+
+
+- (BOOL)textView:(UITextView *)__textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)__text{
+    
+    if ([__text isEqualToString:@"\n"]) {
+        
+        [emoctionPanel removeFromSuperview];
+        emoctionPanel=nil;
+        [camerPanel removeFromSuperview];
+        camerPanel=nil;
+        
+        [__textView resignFirstResponder];
+        
+        if([self.delegate respondsToSelector:@selector(chatPanelDidSend:)])
+            [self.delegate chatPanelDidSend:self];
+
+        
+        return NO;
+	}
+
+    NSString* tempText=[__textView.text stringByReplacingCharactersInRange:range withString:__text];
+    if([tempText length]>=self.limitMaxNumber)
+        return NO;
+    return YES;
 
 }
 
+- (void)textViewDidChange:(UITextView *)__textView{
+    float height=__textView.contentSize.height;
+    if(height>112.0f)
+        height=112.0f;
+    if(currentHeight==0)
+        currentHeight=height;
+    if(currentHeight!=height){
+        float diff=currentHeight-height;
+        currentHeight=height;
+        
+        CGRect rect=self.frame;
+        rect.size.height-=diff;
+        rect.origin.y+=diff;
+        self.frame = rect;
+        
+        rect=chatPanelBgView.frame;
+        rect.size.height-=diff;
+        chatPanelBgView.frame=rect;
+        
+        CGRect textBgViewFrame=textBgView.frame;
+        textBgViewFrame.size.height-=diff;
+        textBgViewFrame.origin.y=(rect.size.height-textBgViewFrame.size.height)*0.5f;
+        textBgView.frame=textBgViewFrame;
+        
+        rect=textView.frame;
+        rect.size.height-=diff;
+        textView.frame=rect;
+    }
+    
+}
+
+
+
+#pragma mark emoctionpanel  delegate
+-(void)addEmoction:(EmoctionPanel*)emoction text:(NSString*)___text{
+
+    if([textView isKindOfClass:[ScrollTextView class]]){
+        ScrollTextView* __textView=(ScrollTextView*)textView;
+        
+        NSString* tempText=[__textView.text stringByAppendingString:___text];
+        if([tempText length]<self.limitMaxNumber)
+            __textView.text = tempText;
+    }
+    else{
+        UITextView* __textView=(UITextView*)textView;
+        NSString* tempText=[__textView.text stringByAppendingString:___text];
+        if([tempText length]<self.limitMaxNumber)
+            __textView.text = tempText;
+
+        [self textViewDidChange:__textView];
+
+        if(__textView.contentSize.height>TEXT_VIEW_HEIGHT){
+            CGPoint point=__textView.contentOffset;
+            point.y=__textView.contentSize.height-__textView.frame.size.height;
+            [__textView setContentOffset:point animated:YES];
+        }
+
+    }
+}
+
 -(void)deleteEmoction:(EmoctionPanel*)emoction{
-    if([textView.text length] >0){
-        textView.text = [textView.text substringWithRange:NSMakeRange(0, [textView.text length] -1)];
+    if([textView isKindOfClass:[ScrollTextView class]]){
+        ScrollTextView* __textView=(ScrollTextView*)textView;
+        if([__textView.text length] >0){
+            __textView.text = [__textView.text substringWithRange:NSMakeRange(0, [__textView.text length] -1)];
+        }
+    }
+    else{
+        UITextView* __textView=(UITextView*)textView;
+        if([__textView.text length] >0){
+            __textView.text = [__textView.text substringWithRange:NSMakeRange(0, [__textView.text length] -1)];
+            [self textViewDidChange:__textView];
+
+        }
+
     }
 
 }
@@ -559,6 +679,11 @@
 -(void) keyboardWillShow:(NSNotification *)note{
     // get keyboard size and loctaion
     
+    [emoctionPanel removeFromSuperview];
+    emoctionPanel=nil;
+    [camerPanel removeFromSuperview];
+    camerPanel=nil;
+
     
 	CGRect keyboardBounds;
     [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];

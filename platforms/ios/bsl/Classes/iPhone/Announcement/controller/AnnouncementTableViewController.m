@@ -114,10 +114,12 @@
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
+    /*
     for (Announcement *announcement in list) {
         [announcement setIsRead:[NSNumber numberWithBool:YES]];
     }
     [[Announcement managedObjectContext] save:nil];
+     */
 }
 
 -(void)viewDidAppear:(BOOL)animated{

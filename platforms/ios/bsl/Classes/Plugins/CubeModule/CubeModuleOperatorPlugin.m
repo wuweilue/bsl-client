@@ -153,7 +153,7 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    CDVPluginResult*  pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    CDVPluginResult*  pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cdvCommand.callbackId];
 }

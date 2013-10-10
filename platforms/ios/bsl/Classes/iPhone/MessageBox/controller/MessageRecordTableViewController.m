@@ -89,6 +89,7 @@
     [super viewWillDisappear:animated];
     //这里的实现效率很差还会导致卡，更换FMDB后sql语句更新状态效率更高
     //TODO 待优化
+    /*
     NSArray *systemRecords = [MessageRecord findSystemRecord];
     for(MessageRecord *record in systemRecords){
         record.isRead = [NSNumber numberWithBool:YES];
@@ -107,6 +108,7 @@
         }
     }
     [MessageRecord save];
+     */
 }
 
 -(void)viewDidAppear:(BOOL)animated{
