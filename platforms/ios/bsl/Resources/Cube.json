@@ -7,36 +7,7 @@
 	"releaseNote" : "1.1: Speed Boost. 1.0: First Release",
 	"icon" : "http://xxx.com/image/a.png",
 	"modules":[
-               {
-               "identifier" : "com.foss.chat",
-               "name" : "即时通讯",
-               "version" : "3",
-               "build" : 3,
-               "icon" :  "local:icon-im.png",
-               "releaseNote":"为用户提供一个点对点通信平台，支持文字和语音",
-               
-               "local" : "XMPPFriends"
-               },
-               {
-               "identifier" : "com.foss.message.record",
-               "name" : "消息",
-               "version" : "12",
-               "build" : 4,
-               "icon" :  "local:icon-push.png",
-                "releaseNote":"推送航班变更、航班订阅、系统公告等信息",
-               "local" : "MessageRecord",
-               "localImageUrl":"record_1.PNG,record_2.PNG"
-               },
-               {
-               "identifier" : "com.foss.announcement",
-               "name" : "公告",
-               "version" : "3",
-               "build" : 4,
-               "icon" :  "local:icon-announcement.png",
-                "releaseNote":"显示系统公告",
-               "local" : "Announcement"
-               }
-               ],
+    ],
 	"updatableModules":[
     
 	],
