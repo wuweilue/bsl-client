@@ -59,7 +59,7 @@
         [newManagedObject setValue:uqID forKey:@"uqID"];
         [newManagedObject setValue:content forKey:@"content"];
         [newManagedObject setValue:@"notification" forKey:@"type"];
-        [newManagedObject setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+        [newManagedObject setValue:[NSNumber numberWithInt:1] forKey:@"statue"];
 
         [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
         [newManagedObject setValue:messageId forKey:@"messageId"];
@@ -131,7 +131,7 @@
         [newManagedObject setValue:uqID forKey:@"uqID"];
         [newManagedObject setValue:content forKey:@"content"];
         [newManagedObject setValue:@"text" forKey:@"type"];
-        [newManagedObject setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+        [newManagedObject setValue:[NSNumber numberWithInt:1] forKey:@"statue"];
 
         [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
         [newManagedObject setValue:messageId forKey:@"messageId"];
@@ -272,7 +272,7 @@
         NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"MessageEntity" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
         [newManagedObject setValue:uqID forKey:@"uqID"];
         [newManagedObject setValue:path forKey:@"content"];
-        [newManagedObject setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+        [newManagedObject setValue:[NSNumber numberWithInt:1] forKey:@"statue"];
         [newManagedObject setValue:@"image" forKey:@"type"];
         [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
         [newManagedObject setValue:messageId forKey:@"messageId"];
@@ -342,7 +342,7 @@
         [newManagedObject setValue:uqID forKey:@"uqID"];
         [newManagedObject setValue:[urlVoiceFile absoluteString] forKey:@"content"];
         [newManagedObject setValue:@"voice" forKey:@"type"];
-        [newManagedObject setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+        [newManagedObject setValue:[NSNumber numberWithInt:1] forKey:@"statue"];
         [newManagedObject setValue:[NSDate date] forKey:@"sendDate"];
         [newManagedObject setValue:messageId forKey:@"messageId"];
         [newManagedObject setValue:messageId forKey:@"receiveUser"];
