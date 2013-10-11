@@ -38,6 +38,16 @@
     
 }
 
+-(BOOL)checkTheGroupIsConnect{
+    XMPPRoom *room=nil;
+    if(self.roomJID!=nil)
+        room=[[ShareAppDelegate xmpp].roomService findRoomByJid:self.roomJID];
+    
+    if(room!=nil && !room.isJoined)return NO;
+
+    return YES;
+}
+
 -(void)sendNotificationMessage:(NSString* )content messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name  onlyUpdateChat:(BOOL)onlyUpdateChat{
     
     @autoreleasepool {
