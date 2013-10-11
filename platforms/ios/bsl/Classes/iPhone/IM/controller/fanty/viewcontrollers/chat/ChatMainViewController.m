@@ -24,7 +24,9 @@
 #import "XMPPSqlManager.h"
 #import "IMServerAPI.h"
 
-@interface ChatMainViewController ()<TouchScrollerDelegate,UITableViewDataSource,UITableViewDelegate,ChatPanelDelegate,NSFetchedResultsControllerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,RecorderDelegate,UIPopoverControllerDelegate,ChatImageCellDelegate,GroupMemberManagerViewControllerDelegate>
+#import "VoiceUploadManager.h"
+
+@interface ChatMainViewController ()<TouchScrollerDelegate,UITableViewDataSource,UITableViewDelegate,ChatPanelDelegate,NSFetchedResultsControllerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,RecorderDelegate,UIPopoverControllerDelegate,ChatImageCellDelegate,GroupMemberManagerViewControllerDelegate,VoiceUploadManagerDelegate>
 -(void)createRightNavBarButton;
 -(void)initChatPanel;
 -(void)scrollToBottom;
@@ -43,7 +45,7 @@
 - (id)init{
     self = [super init];
     if (self) {
-        
+        [VoiceUploadManager sharedInstance].delegate=self;
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
             self.edgesForExtendedLayout = UIRectEdgeNone;
             self.extendedLayoutIncludesOpaqueBars = NO;
@@ -139,6 +141,8 @@
 }
 
 -(void)dealloc{
+    [VoiceUploadManager sharedInstance].delegate=nil;
+
     self.messageId=nil;
     self.chatName=nil;
     chatLogic=nil;
@@ -213,8 +217,9 @@
             [cell headerUrl:@""];
             [cell name:[messageEntity name]];
             [cell sendDate:messageEntity.sendDate];
-            [cell playAnimated:(playingIndex==[indexPath row])];
+            [cell playAnimated:([messageEntity.statue intValue]==1 && (playingIndex==[indexPath row]))];
             [cell voiceLength:1 animate:NO];
+            cell.status=[messageEntity.statue intValue];
             cell.tag=[indexPath row];
             return cell;
         }
@@ -362,14 +367,8 @@
 
 
         if(addInterval>1.5f){
-            @autoreleasepool {
-                NSData* fileData = [NSData dataWithContentsOfURL:recorder.recordFile];
-                
-                if(![chatLogic sendVoice:[Base64 stringByEncodingData:fileData] urlVoiceFile:recorder.recordFile messageId:self.messageId isGroup:self.isGroupChat name:self.chatName]){
-                    [SVProgressHUD showErrorWithStatus:@"该群组被断开连接，正在尝试重连！"];
-                }
-
-            }
+            if(![[VoiceUploadManager sharedInstance] sendVoice:recorder.recordFile messageId:self.messageId isGroup:self.isGroupChat name:self.chatName uqId:nil])
+                [SVProgressHUD showErrorWithStatus:@"该群组被断开连接，正在尝试重连！"];
         }
         else{
             [SVProgressHUD showErrorWithStatus:@"你讲话的时间太短了！"];
@@ -645,7 +644,35 @@
 
         
     }else if (type==NSFetchedResultsChangeUpdate) {
+        [tableView reloadData];
+    }
+}
 
+
+#pragma mark voiceuploadmanager  delegate
+
+-(void)voiceUploadFinish:(NSString *)messageId finish:(BOOL)finish{
+    if(!finish){
+        [SVProgressHUD showErrorWithStatus:@"语音发送失败！"];
+    }
+}
+
+-(void)voiceDownloadFinish:(NSString*)uqId finish:(BOOL)finish{
+    if(!finish){
+        [SVProgressHUD showErrorWithStatus:@"语音接收失败！"];
+    }
+    else if(playingIndex>-1){
+        
+        for(UITableViewCell* __cell in [tableView visibleCells]){
+            if([__cell isKindOfClass:[VoiceCell class]]){
+                [((VoiceCell*)__cell) playAnimated:NO];
+                if(__cell.tag==playingIndex){
+                    MessageEntity* entity=[messageArray objectAtIndex:playingIndex];
+                    [((VoiceCell*)__cell) playAnimated:YES];
+                    [recorder play:[NSURL URLWithString:entity.content]];
+                }
+            }
+        }
     }
 }
 
@@ -671,6 +698,7 @@
     if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
         cell=(VoiceCell*)cell.superview;
     }
+    
 
     for(UITableViewCell* __cell in [tableView visibleCells]){
         if([__cell isKindOfClass:[VoiceCell class]]){
@@ -686,11 +714,22 @@
         playingIndex=-1;
     }
     else{
-        
         playingIndex=cell.tag;
-        [cell playAnimated:YES];
         MessageEntity* entity=[messageArray objectAtIndex:cell.tag];
-        [recorder play:[NSURL URLWithString:entity.content]];
+        if([entity.statue intValue]==-1 || [entity.statue intValue]==-2){
+            if([entity.sendUser isEqualToString:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]]){
+                playingIndex=-1;
+                if(![[VoiceUploadManager sharedInstance] sendVoice:[NSURL fileURLWithPath:entity.content] messageId:self.messageId isGroup:self.isGroupChat name:self.chatName uqId:entity.uqID])
+                    [SVProgressHUD showErrorWithStatus:@"该群组被断开连接，正在尝试重连！"];
+            }
+            else{
+                [[VoiceUploadManager sharedInstance] receiveVoice:entity.content uqId:entity.uqID messageId:entity.messageId isGroup:self.isGroupChat];
+            }
+        }
+        else{
+            [cell playAnimated:YES];
+            [recorder play:[NSURL URLWithString:entity.content]];
+        }
     }
 }
 

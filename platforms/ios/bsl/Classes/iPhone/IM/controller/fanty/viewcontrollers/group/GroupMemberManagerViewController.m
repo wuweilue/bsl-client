@@ -314,7 +314,7 @@ NSInteger groupMemberContactListViewSort(id obj1, id obj2,void* context){
     
     if([self.delegate respondsToSelector:@selector(deleteMember:)])
         [self.delegate deleteMember:self];
-    [self.navigationController popViewControllerAnimated:YES];
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

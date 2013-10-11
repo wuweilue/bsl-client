@@ -25,8 +25,6 @@
 -(BOOL)sendfile:(NSString* )content path:(NSString*)path messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name;
 
 
--(BOOL)sendVoice:(NSString* )content urlVoiceFile:(NSURL*)urlVoiceFile messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name;
-
 -(BOOL)sendRoomQuitAction:(NSString*)messageId isMyGroup:(BOOL)isMyGroup;
 
 -(BOOL)sendRoomQuitMemberAction:(NSString*)messageId userJid:(NSString*)userJid;

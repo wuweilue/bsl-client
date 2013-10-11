@@ -1302,6 +1302,18 @@
 		39E0535D17F00AEA00BCF7F8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		39E0535E17F00AEA00BCF7F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C023708B9AC24DB48757A8FC /* libPods.a */; };
 		39F029FC18078D3300051656 /* soc_home.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F029FB18078D3300051656 /* soc_home.png */; };
+		39F02A001807C24300051656 /* privacy_tick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F029FF1807C24300051656 /* privacy_tick@2x.png */; };
+		39F02A011807C24300051656 /* privacy_tick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F029FF1807C24300051656 /* privacy_tick@2x.png */; };
+		39F02A021807C24300051656 /* privacy_tick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F029FF1807C24300051656 /* privacy_tick@2x.png */; };
+		39F02A031807C24300051656 /* privacy_tick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F029FF1807C24300051656 /* privacy_tick@2x.png */; };
+		39F02A051807C24F00051656 /* warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F02A041807C24F00051656 /* warning@2x.png */; };
+		39F02A061807C24F00051656 /* warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F02A041807C24F00051656 /* warning@2x.png */; };
+		39F02A071807C24F00051656 /* warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F02A041807C24F00051656 /* warning@2x.png */; };
+		39F02A081807C24F00051656 /* warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F02A041807C24F00051656 /* warning@2x.png */; };
+		39F02A0C1807C3B300051656 /* VoiceUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F02A0B1807C3B300051656 /* VoiceUploadManager.m */; };
+		39F02A0D1807C3B300051656 /* VoiceUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F02A0B1807C3B300051656 /* VoiceUploadManager.m */; };
+		39F02A0E1807C3B300051656 /* VoiceUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F02A0B1807C3B300051656 /* VoiceUploadManager.m */; };
+		39F02A0F1807C3B300051656 /* VoiceUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F02A0B1807C3B300051656 /* VoiceUploadManager.m */; };
 		39F23A3A1805A6F60035FCF8 /* ScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F23A391805A6F60035FCF8 /* ScrollTextView.m */; };
 		39F23A3B1805A6F60035FCF8 /* ScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F23A391805A6F60035FCF8 /* ScrollTextView.m */; };
 		39F23A3C1805A6F60035FCF8 /* ScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F23A391805A6F60035FCF8 /* ScrollTextView.m */; };
@@ -2599,6 +2611,10 @@
 		39E0536317F00AEA00BCF7F8 /* 变色龙IOS测试.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "变色龙IOS测试.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E0536417F00AEC00BCF7F8 /* bsl copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "bsl copy-Info.plist"; path = "/Users/fanty/Documents/project/temp/bsl-client/platforms/ios/bsl copy-Info.plist"; sourceTree = "<absolute>"; };
 		39F029FB18078D3300051656 /* soc_home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = soc_home.png; sourceTree = "<group>"; };
+		39F029FF1807C24300051656 /* privacy_tick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "privacy_tick@2x.png"; sourceTree = "<group>"; };
+		39F02A041807C24F00051656 /* warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning@2x.png"; sourceTree = "<group>"; };
+		39F02A0A1807C3B300051656 /* VoiceUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceUploadManager.h; sourceTree = "<group>"; };
+		39F02A0B1807C3B300051656 /* VoiceUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceUploadManager.m; sourceTree = "<group>"; };
 		39F23A381805A6F60035FCF8 /* ScrollTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollTextView.h; sourceTree = "<group>"; };
 		39F23A391805A6F60035FCF8 /* ScrollTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollTextView.m; sourceTree = "<group>"; };
 		39F23A681805B2520035FCF8 /* 114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 114.png; sourceTree = "<group>"; };
@@ -4253,6 +4269,8 @@
 				F54D806317E8BFBA0067A023 /* ChatLogic.m */,
 				F54D806417E8BFBA0067A023 /* Recorder.h */,
 				F54D806517E8BFBA0067A023 /* Recorder.m */,
+				39F02A0A1807C3B300051656 /* VoiceUploadManager.h */,
+				39F02A0B1807C3B300051656 /* VoiceUploadManager.m */,
 			);
 			path = logic;
 			sourceTree = "<group>";
@@ -5082,6 +5100,8 @@
 			isa = PBXGroup;
 			children = (
 				F5A96C4C17F007FC00F9CA68 /* announcement_local.png */,
+				39F02A041807C24F00051656 /* warning@2x.png */,
+				39F029FF1807C24300051656 /* privacy_tick@2x.png */,
 				F5A96C4D17F007FC00F9CA68 /* avatar_msg.png */,
 				3926908B17F51F1C00F1500B /* line_shadow@2x.png */,
 				F5A96C4E17F007FC00F9CA68 /* Background_Landscape.png */,
@@ -5502,6 +5522,7 @@
 				39F23A8A1805B2520035FCF8 /* Default.png in Resources */,
 				F54D84D517E8C77E0067A023 /* f032.png in Resources */,
 				F54D84D617E8C77E0067A023 /* f033.png in Resources */,
+				39F02A051807C24F00051656 /* warning@2x.png in Resources */,
 				3926908C17F51F1C00F1500B /* line_shadow@2x.png in Resources */,
 				F54D84D717E8C77E0067A023 /* f034.png in Resources */,
 				3968628217EE898300C84A6A /* ToolViewEmotionHL@2x.png in Resources */,
@@ -5751,6 +5772,7 @@
 				F54D856F17E8C77E0067A023 /* voiceSend.png in Resources */,
 				F54D857017E8C77E0067A023 /* voiceSend_select.png in Resources */,
 				F54D857117E8C77E0067A023 /* xmpp_01.png in Resources */,
+				39F02A001807C24300051656 /* privacy_tick@2x.png in Resources */,
 				F54D857217E8C77E0067A023 /* xmpp_02.png in Resources */,
 				F54D857317E8C77E0067A023 /* xmpp_arrow.png in Resources */,
 				F54D857417E8C77E0067A023 /* xmpp_user.png in Resources */,
@@ -5928,6 +5950,7 @@
 				39F23A8C1805B2520035FCF8 /* Default.png in Resources */,
 				39D9E8BA17F27C03001ED6F5 /* f032.png in Resources */,
 				39D9E8BB17F27C03001ED6F5 /* f033.png in Resources */,
+				39F02A081807C24F00051656 /* warning@2x.png in Resources */,
 				3926908F17F51F1C00F1500B /* line_shadow@2x.png in Resources */,
 				39D9E8BC17F27C03001ED6F5 /* f034.png in Resources */,
 				39D9E8BD17F27C03001ED6F5 /* ToolViewEmotionHL@2x.png in Resources */,
@@ -6177,6 +6200,7 @@
 				39D9E9B317F27C03001ED6F5 /* voiceSend.png in Resources */,
 				39D9E9B417F27C03001ED6F5 /* voiceSend_select.png in Resources */,
 				39D9E9B517F27C03001ED6F5 /* xmpp_01.png in Resources */,
+				39F02A031807C24300051656 /* privacy_tick@2x.png in Resources */,
 				39D9E9B617F27C03001ED6F5 /* xmpp_02.png in Resources */,
 				39D9E9B717F27C03001ED6F5 /* xmpp_arrow.png in Resources */,
 				39D9E9B817F27C03001ED6F5 /* xmpp_user.png in Resources */,
@@ -6354,6 +6378,7 @@
 				39F23A8B1805B2520035FCF8 /* Default.png in Resources */,
 				39E0519717F00AEA00BCF7F8 /* f032.png in Resources */,
 				39E0519817F00AEA00BCF7F8 /* f033.png in Resources */,
+				39F02A061807C24F00051656 /* warning@2x.png in Resources */,
 				3926908D17F51F1C00F1500B /* line_shadow@2x.png in Resources */,
 				39E0519917F00AEA00BCF7F8 /* f034.png in Resources */,
 				39E0519A17F00AEA00BCF7F8 /* ToolViewEmotionHL@2x.png in Resources */,
@@ -6603,6 +6628,7 @@
 				39E0528D17F00AEA00BCF7F8 /* voiceSend.png in Resources */,
 				39E0528E17F00AEA00BCF7F8 /* voiceSend_select.png in Resources */,
 				39E0528F17F00AEA00BCF7F8 /* xmpp_01.png in Resources */,
+				39F02A011807C24300051656 /* privacy_tick@2x.png in Resources */,
 				39E0529017F00AEA00BCF7F8 /* xmpp_02.png in Resources */,
 				39E0529117F00AEA00BCF7F8 /* xmpp_arrow.png in Resources */,
 				39E0529217F00AEA00BCF7F8 /* xmpp_user.png in Resources */,
@@ -6665,6 +6691,7 @@
 				39FF09DB17F13CBB0086B76C /* iphoneLandingViewController_retina4.xib in Resources */,
 				39FF09DC17F13CBB0086B76C /* iphoneVoiceDetailViewController.xib in Resources */,
 				39FF09DD17F13CBB0086B76C /* DetailViewController.xib in Resources */,
+				39F02A021807C24300051656 /* privacy_tick@2x.png in Resources */,
 				39FF09DE17F13CBB0086B76C /* iphoneLadingViewNew.xib in Resources */,
 				39FF09DF17F13CBB0086B76C /* iphoneMsgListCell.xib in Resources */,
 				39FF09E017F13CBB0086B76C /* local_icon.png in Resources */,
@@ -6853,6 +6880,7 @@
 				39FF0A9517F13CBB0086B76C /* f071.png in Resources */,
 				39FF0A9617F13CBB0086B76C /* f072.png in Resources */,
 				39FF0A9717F13CBB0086B76C /* f073.png in Resources */,
+				39F02A071807C24F00051656 /* warning@2x.png in Resources */,
 				39FF0A9817F13CBB0086B76C /* f074.png in Resources */,
 				39FF0A9917F13CBB0086B76C /* f075.png in Resources */,
 				39FF0A9A17F13CBB0086B76C /* f076.png in Resources */,
@@ -7327,6 +7355,7 @@
 				F54D837617E8BFBB0067A023 /* RemoteDebuggerViewController.m in Sources */,
 				3968622A17EE7D1D00C84A6A /* ContactListView.m in Sources */,
 				F54D837717E8BFBB0067A023 /* DownloadedAsync.m in Sources */,
+				39F02A0C1807C3B300051656 /* VoiceUploadManager.m in Sources */,
 				F54D837817E8BFBB0067A023 /* ThreadTask.m in Sources */,
 				F54D837917E8BFBB0067A023 /* AboutViewController.m in Sources */,
 				F54D837D17E8BFBB0067A023 /* SettingMainViewController.m in Sources */,
@@ -7507,6 +7536,7 @@
 				39D9EA2417F27C03001ED6F5 /* RemoteDebuggerViewController.m in Sources */,
 				39D9EA2517F27C03001ED6F5 /* ContactListView.m in Sources */,
 				39D9EA2617F27C03001ED6F5 /* DownloadedAsync.m in Sources */,
+				39F02A0F1807C3B300051656 /* VoiceUploadManager.m in Sources */,
 				39D9EA2717F27C03001ED6F5 /* ThreadTask.m in Sources */,
 				39D9EA2817F27C03001ED6F5 /* AboutViewController.m in Sources */,
 				39D9EA2917F27C03001ED6F5 /* SettingMainViewController.m in Sources */,
@@ -7687,6 +7717,7 @@
 				39E0530217F00AEA00BCF7F8 /* RemoteDebuggerViewController.m in Sources */,
 				39E0530317F00AEA00BCF7F8 /* ContactListView.m in Sources */,
 				39E0530417F00AEA00BCF7F8 /* DownloadedAsync.m in Sources */,
+				39F02A0D1807C3B300051656 /* VoiceUploadManager.m in Sources */,
 				39E0530517F00AEA00BCF7F8 /* ThreadTask.m in Sources */,
 				39E0530617F00AEA00BCF7F8 /* AboutViewController.m in Sources */,
 				39E0530717F00AEA00BCF7F8 /* SettingMainViewController.m in Sources */,
@@ -7867,6 +7898,7 @@
 				39FF0BBB17F13CBB0086B76C /* ContactListView.m in Sources */,
 				39FF0BBC17F13CBB0086B76C /* DownloadedAsync.m in Sources */,
 				39FF0BBD17F13CBB0086B76C /* ThreadTask.m in Sources */,
+				39F02A0E1807C3B300051656 /* VoiceUploadManager.m in Sources */,
 				39FF0BBE17F13CBB0086B76C /* AboutViewController.m in Sources */,
 				39FF0BBF17F13CBB0086B76C /* SettingMainViewController.m in Sources */,
 				39FF0BC017F13CBB0086B76C /* CDVFileTransfer.m in Sources */,

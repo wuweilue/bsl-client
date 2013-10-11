@@ -17,18 +17,18 @@
     UIButton* button;
     UIImageView* voiceImageView;
     UILabel* dateLabel;
-    
+    UIView* statusView;
     float voiceWidth;
 }
 
 @property(nonatomic,assign)NSBubbleType type;
+@property(nonatomic,assign)int status;
 
 -(void)headerUrl:(NSString*)headerUrl;
 -(void)voiceLength:(float)voiceLegth animate:(BOOL)animate;
 -(void)playAnimated:(BOOL)play;
 -(void)name:(NSString*)name;
 -(void)sendDate:(NSDate*)date;
-
 +(float)cellHeight:(NSBubbleType)type;
 
 -(void)addVoiceButton:(id)target action:(SEL)action;
