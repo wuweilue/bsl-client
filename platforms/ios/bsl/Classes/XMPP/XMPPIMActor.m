@@ -228,7 +228,7 @@
     }
     userId = [userId stringByAppendingFormat:@"@%@",kXMPPDomin];
     
-    [xmppStream setMyJID:[XMPPJID jidWithString:userId resource:@"Cube_Client11"]];
+    [xmppStream setMyJID:[XMPPJID jidWithString:userId resource:@"Cube_Client"]];
     
     [xmppStream setHostName:kXMPPHost];
 	[xmppStream setHostPort:kXMPPPort];
