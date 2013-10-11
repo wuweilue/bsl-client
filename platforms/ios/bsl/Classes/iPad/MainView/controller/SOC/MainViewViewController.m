@@ -62,6 +62,8 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleDidInstalled:) name:CubeModuleInstallDidFinishNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSkinView) name:@"SHOW_SETTHEME_VIEW" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissView:) name:@"DISMISS_VIEW" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(POPdismissView) name:@"POP_DISMISS_VIEW" object:nil];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"MESSAGE_RECORD_DID_Change_NOTIFICATION" object:nil];
         //收到消息时候的广播
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
@@ -327,8 +329,12 @@
     if(selectedTabIndex!=[number intValue])
         [self dismissDetailViewController];
     selectedTabIndex=[number intValue];
-    
 }
+
+-(void)POPdismissView{
+    [self dismissDetailViewController];
+}
+
 
 
 -(void)addBadge{

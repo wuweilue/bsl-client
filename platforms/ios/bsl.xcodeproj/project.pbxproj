@@ -2351,6 +2351,10 @@
 		F54D857217E8C77E0067A023 /* xmpp_02.png in Resources */ = {isa = PBXBuildFile; fileRef = F54D84A217E8C77E0067A023 /* xmpp_02.png */; };
 		F54D857317E8C77E0067A023 /* xmpp_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F54D84A317E8C77E0067A023 /* xmpp_arrow.png */; };
 		F54D857417E8C77E0067A023 /* xmpp_user.png in Resources */ = {isa = PBXBuildFile; fileRef = F54D84A417E8C77E0067A023 /* xmpp_user.png */; };
+		F552F75D1807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */; };
+		F552F75E1807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */; };
+		F552F75F1807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */; };
+		F552F7601807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */; };
 		F5A96C4617F006B400F9CA68 /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C3917F006B400F9CA68 /* CDVDevice.m */; };
 		F5A96C4717F006B400F9CA68 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C3C17F006B400F9CA68 /* CDVNotification.m */; };
 		F5A96C4817F006B400F9CA68 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C3F17F006B400F9CA68 /* CDVFile.m */; };
@@ -3214,6 +3218,7 @@
 		F54D84A217E8C77E0067A023 /* xmpp_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xmpp_02.png; sourceTree = "<group>"; };
 		F54D84A317E8C77E0067A023 /* xmpp_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xmpp_arrow.png; sourceTree = "<group>"; };
 		F54D84A417E8C77E0067A023 /* xmpp_user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xmpp_user.png; sourceTree = "<group>"; };
+		F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_bg_pad@2x.png"; sourceTree = "<group>"; };
 		F5A96C3817F006B400F9CA68 /* CDVDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVDevice.h; sourceTree = "<group>"; };
 		F5A96C3917F006B400F9CA68 /* CDVDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVDevice.m; sourceTree = "<group>"; };
 		F5A96C3B17F006B400F9CA68 /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVNotification.h; sourceTree = "<group>"; };
@@ -5081,6 +5086,7 @@
 		F5A96C4B17F007FB00F9CA68 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */,
 				F5A96C4C17F007FC00F9CA68 /* announcement_local.png */,
 				F5A96C4D17F007FC00F9CA68 /* avatar_msg.png */,
 				3926908B17F51F1C00F1500B /* line_shadow@2x.png */,
@@ -5690,6 +5696,7 @@
 				F5A96CCC17F007FC00F9CA68 /* installbtn_updatable.png in Resources */,
 				F5A96CDA17F007FC00F9CA68 /* menu_button.png in Resources */,
 				F54D854B17E8C77E0067A023 /* laba.png in Resources */,
+				F552F75D1807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */,
 				F54D854C17E8C77E0067A023 /* voice_local_btn.png in Resources */,
 				F5A96CAE17F007FC00F9CA68 /* avatar_msg.png in Resources */,
 				F54D854D17E8C77E0067A023 /* amp_land_1.png in Resources */,
@@ -6116,6 +6123,7 @@
 				39D9E97517F27C03001ED6F5 /* installbtn_updatable.png in Resources */,
 				39D9E97617F27C03001ED6F5 /* menu_button.png in Resources */,
 				39D9E97717F27C03001ED6F5 /* laba.png in Resources */,
+				F552F7601807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */,
 				39D9E97817F27C03001ED6F5 /* voice_local_btn.png in Resources */,
 				39D9E97917F27C03001ED6F5 /* avatar_msg.png in Resources */,
 				39D9E97A17F27C03001ED6F5 /* amp_land_1.png in Resources */,
@@ -6542,6 +6550,7 @@
 				39E0524F17F00AEA00BCF7F8 /* installbtn_updatable.png in Resources */,
 				39E0525017F00AEA00BCF7F8 /* menu_button.png in Resources */,
 				39E0525117F00AEA00BCF7F8 /* laba.png in Resources */,
+				F552F75E1807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */,
 				39E0525217F00AEA00BCF7F8 /* voice_local_btn.png in Resources */,
 				39E0525317F00AEA00BCF7F8 /* avatar_msg.png in Resources */,
 				39E0525417F00AEA00BCF7F8 /* amp_land_1.png in Resources */,
@@ -6943,6 +6952,7 @@
 				39FF0AF017F13CBB0086B76C /* login_select.png in Resources */,
 				39FF0AF117F13CBB0086B76C /* announcement_local.png in Resources */,
 				39FF0AF217F13CBB0086B76C /* login_title.png in Resources */,
+				F552F75F1807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */,
 				39FF0AF317F13CBB0086B76C /* messageDeleteSelect.png in Resources */,
 				39FF0AF417F13CBB0086B76C /* login_view.jpg in Resources */,
 				39FF0AF517F13CBB0086B76C /* online.png in Resources */,
