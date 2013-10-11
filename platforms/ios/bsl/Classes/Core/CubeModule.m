@@ -302,6 +302,7 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
     module.localImageUrl = [jsonObject objectForKey:@"localImageUrl"];
     module.category = [jsonObject objectForKey:@"category"];
     module.privileges = [jsonObject objectForKey:@"privileges"];
+    
     module.pushMsgLink = [jsonObject objectForKey:@"pushMsgLink"];
     module.discription = [jsonObject objectForKey:@"discription"];
     module.sortingWeight = [[jsonObject objectForKey:@"sortingWeight"] intValue];

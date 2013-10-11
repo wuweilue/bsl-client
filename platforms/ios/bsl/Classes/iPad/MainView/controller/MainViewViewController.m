@@ -33,7 +33,7 @@
 @property (nonatomic,strong)  UIViewController * mainController;
 @property (nonatomic,strong)  UIView* detailView;
 @property (strong, nonatomic) NSString *selectedModule;
-
+@property(strong,nonatomic) id selfObj;
 @end
 
 @implementation MainViewViewController
@@ -41,11 +41,14 @@
 @synthesize mainController;
 @synthesize detailController;
 @synthesize detailView;
+@synthesize navController;
 
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self=[super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self){
+        
+        
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
             self.edgesForExtendedLayout = UIRectEdgeNone;
             self.extendedLayoutIncludesOpaqueBars = NO;
@@ -74,8 +77,9 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.view.hidden=YES;
-    
+
+    self.selfObj=self;
+
     //读取文件信息
     @autoreleasepool {
         NSURL* documentUrl =  [NSFileManager applicationDocumentsDirectory];
@@ -99,18 +103,23 @@
 
     aCubeWebViewController.view.frame = rect;
     aCubeWebViewController.webView.scrollView.bounces=NO;
-    aCubeWebViewController.view.hidden=YES;
+
     [self.view addSubview:aCubeWebViewController.view];
 
     [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/main.html"] absoluteString] didFinishBlock: ^(){
-        self.view.hidden=NO;
+
+        [self.navController pushViewController:self animated:NO];
+        self.navController=nil;
         [aCubeWebViewController viewWillAppear:NO];
         [aCubeWebViewController viewDidAppear:NO];
         aCubeWebViewController.view.hidden=NO;
         [self addBadge];
+        self.selfObj=nil;
     }didErrorBlock:^(){
         UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"首页模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
+        self.navController=nil;
+        self.selfObj=nil;
     }];
     isFullScrean = NO;
 }
