@@ -2596,7 +2596,7 @@
 		39D9E80117F26A87001ED6F5 /* btn_remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_remove@2x.png"; sourceTree = "<group>"; };
 		39D9EA8517F27C03001ED6F5 /* 南航移动应用.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "南航移动应用.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39D9EA8617F27C05001ED6F5 /* bsl copy3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "bsl copy3-Info.plist"; path = "/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl copy3-Info.plist"; sourceTree = "<absolute>"; };
-		39E0536317F00AEA00BCF7F8 /* 变色龙.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "变色龙.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		39E0536317F00AEA00BCF7F8 /* 变色龙IOS测试.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "变色龙IOS测试.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E0536417F00AEC00BCF7F8 /* bsl copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "bsl copy-Info.plist"; path = "/Users/fanty/Documents/project/temp/bsl-client/platforms/ios/bsl copy-Info.plist"; sourceTree = "<absolute>"; };
 		39F029FB18078D3300051656 /* soc_home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = soc_home.png; sourceTree = "<group>"; };
 		39F23A381805A6F60035FCF8 /* ScrollTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollTextView.h; sourceTree = "<group>"; };
@@ -3466,7 +3466,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* chameleon.app */,
-				39E0536317F00AEA00BCF7F8 /* 变色龙.app */,
+				39E0536317F00AEA00BCF7F8 /* 变色龙IOS测试.app */,
 				39FF0C1B17F13CBB0086B76C /* 移动运行网2.0.app */,
 				39D9EA8517F27C03001ED6F5 /* 南航移动应用.app */,
 			);
@@ -5247,7 +5247,7 @@
 			);
 			name = bsl_fanty_test;
 			productName = bsl;
-			productReference = 39E0536317F00AEA00BCF7F8 /* 变色龙.app */;
+			productReference = 39E0536317F00AEA00BCF7F8 /* 变色龙IOS测试.app */;
 			productType = "com.apple.product-type.application";
 		};
 		39FF099F17F13CBB0086B76C /* 移动运行网 */ = {
@@ -8157,7 +8157,7 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "变色龙";
+				PRODUCT_NAME = "变色龙IOS测试";
 				PROVISIONING_PROFILE = "114E349F-5E87-4AED-913E-2A70E4CA88C8";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -8189,7 +8189,7 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "变色龙";
+				PRODUCT_NAME = "变色龙IOS测试";
 				PROVISIONING_PROFILE = "114E349F-5E87-4AED-913E-2A70E4CA88C8";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
