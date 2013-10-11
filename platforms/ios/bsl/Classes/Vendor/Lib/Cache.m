@@ -38,8 +38,7 @@
     return self;
 }
 
-static inline NSURL* cacheURLForKey(NSString* key)
-{
+static inline NSURL* cacheURLForKey(NSString* key){
     NSString* path=[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 
     NSURL* nsUrl=[NSURL URLWithString:key];
@@ -50,8 +49,7 @@ static inline NSURL* cacheURLForKey(NSString* key)
     return [NSURL fileURLWithPath:path];
 }
 
--(void)setData:(NSData*)aData forKey:(NSString*)aKey
-{
+-(void)setData:(NSData*)aData forKey:(NSString*)aKey{
     NSError *error = nil;
     if(![aData writeToURL:cacheURLForKey(aKey) options:NSDataWritingAtomic error:&error])
     {
@@ -59,11 +57,11 @@ static inline NSURL* cacheURLForKey(NSString* key)
     }
 }
 
--(NSData*)dataForKey:(NSString*)aKey
-{
+
+-(NSData*)dataForKey:(NSString*)aKey{
     NSURL *cacheURL = cacheURLForKey(aKey);
     
-    return [NSData dataWithContentsOfURL:cacheURL];
+    return [[NSData alloc] initWithContentsOfURL:cacheURL];
 }
 
 @end

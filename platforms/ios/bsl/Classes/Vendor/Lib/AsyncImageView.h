@@ -12,8 +12,6 @@
 @class HTTPRequest;
 @interface AsyncImageView : UIImageView {
     
-    HTTPRequest *_request;
-    
     UIActivityIndicatorView* indicator;
     
     NSData *_loadedImageData;
@@ -21,8 +19,9 @@
     BOOL _loaded;
     NSMutableDictionary *_userInfo;
     id<AsyncImageViewDelegate> __weak delegate;
+    
+    HTTPRequest *request;
 }
-@property(nonatomic,strong)HTTPRequest *request;
 @property(nonatomic,strong)NSData *loadedImageData;
 @property(nonatomic,weak)id<AsyncImageViewDelegate> delegate;
 
@@ -36,9 +35,6 @@
 - (void)stopLoading;
 - (void)broken;
 
-//处理图像
-//-(UIImage*)processImage:(UIImage*)aImage;
-//异步加载图像
 - (void)loadImageFromData:(NSData*)data animated:(BOOL)animated;
 
 @end

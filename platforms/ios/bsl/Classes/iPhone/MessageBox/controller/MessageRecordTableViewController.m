@@ -9,7 +9,6 @@
 #import "MessageRecordTableViewController.h"
 #import "CubeApplication.h"
 #import "MessageRecordHeaderView.h"
-#import "Cache.h"
 #import "CubeModule.h"
 #import "MessageRecord.h"
 #import "MessageRecordTableViewCell.h"

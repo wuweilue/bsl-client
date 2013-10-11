@@ -7,7 +7,6 @@
 //
 
 #import "MessageRecordHeaderView.h"
-#import "Cache.h"
 
 @implementation MessageRecordHeaderView
 @synthesize isDeleteStatue;

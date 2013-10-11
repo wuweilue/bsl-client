@@ -1019,7 +1019,6 @@
 		39D9EA4E17F27C03001ED6F5 /* UIView+GMGridViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81A717E8BFBB0067A023 /* UIView+GMGridViewAdditions.m */; };
 		39D9EA4F17F27C03001ED6F5 /* NSString+MD5Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AA17E8BFBB0067A023 /* NSString+MD5Addition.m */; };
 		39D9EA5017F27C03001ED6F5 /* UIDevice+IdentifierAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AC17E8BFBB0067A023 /* UIDevice+IdentifierAddition.m */; };
-		39D9EA5117F27C03001ED6F5 /* AJNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AF17E8BFBB0067A023 /* AJNotificationView.m */; };
 		39D9EA5217F27C03001ED6F5 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B117E8BFBB0067A023 /* AsyncImageView.m */; };
 		39D9EA5317F27C03001ED6F5 /* Cache.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B317E8BFBB0067A023 /* Cache.m */; };
 		39D9EA5417F27C03001ED6F5 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B517E8BFBB0067A023 /* DownloadManager.m */; };
@@ -1613,7 +1612,6 @@
 		39E0532C17F00AEA00BCF7F8 /* UIView+GMGridViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81A717E8BFBB0067A023 /* UIView+GMGridViewAdditions.m */; };
 		39E0532D17F00AEA00BCF7F8 /* NSString+MD5Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AA17E8BFBB0067A023 /* NSString+MD5Addition.m */; };
 		39E0532E17F00AEA00BCF7F8 /* UIDevice+IdentifierAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AC17E8BFBB0067A023 /* UIDevice+IdentifierAddition.m */; };
-		39E0532F17F00AEA00BCF7F8 /* AJNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AF17E8BFBB0067A023 /* AJNotificationView.m */; };
 		39E0533017F00AEA00BCF7F8 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B117E8BFBB0067A023 /* AsyncImageView.m */; };
 		39E0533117F00AEA00BCF7F8 /* Cache.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B317E8BFBB0067A023 /* Cache.m */; };
 		39E0533217F00AEA00BCF7F8 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B517E8BFBB0067A023 /* DownloadManager.m */; };
@@ -2251,7 +2249,6 @@
 		39FF0BE417F13CBB0086B76C /* UIView+GMGridViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81A717E8BFBB0067A023 /* UIView+GMGridViewAdditions.m */; };
 		39FF0BE517F13CBB0086B76C /* NSString+MD5Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AA17E8BFBB0067A023 /* NSString+MD5Addition.m */; };
 		39FF0BE617F13CBB0086B76C /* UIDevice+IdentifierAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AC17E8BFBB0067A023 /* UIDevice+IdentifierAddition.m */; };
-		39FF0BE717F13CBB0086B76C /* AJNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AF17E8BFBB0067A023 /* AJNotificationView.m */; };
 		39FF0BE817F13CBB0086B76C /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B117E8BFBB0067A023 /* AsyncImageView.m */; };
 		39FF0BE917F13CBB0086B76C /* Cache.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B317E8BFBB0067A023 /* Cache.m */; };
 		39FF0BEA17F13CBB0086B76C /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B517E8BFBB0067A023 /* DownloadManager.m */; };
@@ -2477,7 +2474,6 @@
 		F54D83A817E8BFBB0067A023 /* UIView+GMGridViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81A717E8BFBB0067A023 /* UIView+GMGridViewAdditions.m */; };
 		F54D83A917E8BFBB0067A023 /* NSString+MD5Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AA17E8BFBB0067A023 /* NSString+MD5Addition.m */; };
 		F54D83AA17E8BFBB0067A023 /* UIDevice+IdentifierAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AC17E8BFBB0067A023 /* UIDevice+IdentifierAddition.m */; };
-		F54D83AB17E8BFBB0067A023 /* AJNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81AF17E8BFBB0067A023 /* AJNotificationView.m */; };
 		F54D83AC17E8BFBB0067A023 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B117E8BFBB0067A023 /* AsyncImageView.m */; };
 		F54D83AD17E8BFBC0067A023 /* Cache.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B317E8BFBB0067A023 /* Cache.m */; };
 		F54D83AE17E8BFBC0067A023 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D81B517E8BFBB0067A023 /* DownloadManager.m */; };
@@ -3881,8 +3877,6 @@
 		F54D81AA17E8BFBB0067A023 /* NSString+MD5Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5Addition.m"; sourceTree = "<group>"; };
 		F54D81AB17E8BFBB0067A023 /* UIDevice+IdentifierAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+IdentifierAddition.h"; sourceTree = "<group>"; };
 		F54D81AC17E8BFBB0067A023 /* UIDevice+IdentifierAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+IdentifierAddition.m"; sourceTree = "<group>"; };
-		F54D81AE17E8BFBB0067A023 /* AJNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJNotificationView.h; sourceTree = "<group>"; };
-		F54D81AF17E8BFBB0067A023 /* AJNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJNotificationView.m; sourceTree = "<group>"; };
 		F54D81B017E8BFBB0067A023 /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
 		F54D81B117E8BFBB0067A023 /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
 		F54D81B217E8BFBB0067A023 /* Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cache.h; sourceTree = "<group>"; };
@@ -6755,8 +6749,6 @@
 		F54D81AD17E8BFBB0067A023 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				F54D81AE17E8BFBB0067A023 /* AJNotificationView.h */,
-				F54D81AF17E8BFBB0067A023 /* AJNotificationView.m */,
 				F54D81B017E8BFBB0067A023 /* AsyncImageView.h */,
 				F54D81B117E8BFBB0067A023 /* AsyncImageView.m */,
 				F54D81B217E8BFBB0067A023 /* Cache.h */,
@@ -9551,7 +9543,6 @@
 				F54D83A817E8BFBB0067A023 /* UIView+GMGridViewAdditions.m in Sources */,
 				F54D83A917E8BFBB0067A023 /* NSString+MD5Addition.m in Sources */,
 				F54D83AA17E8BFBB0067A023 /* UIDevice+IdentifierAddition.m in Sources */,
-				F54D83AB17E8BFBB0067A023 /* AJNotificationView.m in Sources */,
 				F54D83AC17E8BFBB0067A023 /* AsyncImageView.m in Sources */,
 				F54D83AD17E8BFBC0067A023 /* Cache.m in Sources */,
 				F54D83AE17E8BFBC0067A023 /* DownloadManager.m in Sources */,
@@ -9902,7 +9893,6 @@
 				39D9EA4E17F27C03001ED6F5 /* UIView+GMGridViewAdditions.m in Sources */,
 				39D9EA4F17F27C03001ED6F5 /* NSString+MD5Addition.m in Sources */,
 				39D9EA5017F27C03001ED6F5 /* UIDevice+IdentifierAddition.m in Sources */,
-				39D9EA5117F27C03001ED6F5 /* AJNotificationView.m in Sources */,
 				39D9EA5217F27C03001ED6F5 /* AsyncImageView.m in Sources */,
 				39D9EA5317F27C03001ED6F5 /* Cache.m in Sources */,
 				39D9EA5417F27C03001ED6F5 /* DownloadManager.m in Sources */,
@@ -10120,7 +10110,6 @@
 				39E0532C17F00AEA00BCF7F8 /* UIView+GMGridViewAdditions.m in Sources */,
 				39E0532D17F00AEA00BCF7F8 /* NSString+MD5Addition.m in Sources */,
 				39E0532E17F00AEA00BCF7F8 /* UIDevice+IdentifierAddition.m in Sources */,
-				39E0532F17F00AEA00BCF7F8 /* AJNotificationView.m in Sources */,
 				39E0533017F00AEA00BCF7F8 /* AsyncImageView.m in Sources */,
 				39E0533117F00AEA00BCF7F8 /* Cache.m in Sources */,
 				39E0533217F00AEA00BCF7F8 /* DownloadManager.m in Sources */,
@@ -10303,7 +10292,6 @@
 				39FF0BE417F13CBB0086B76C /* UIView+GMGridViewAdditions.m in Sources */,
 				39FF0BE517F13CBB0086B76C /* NSString+MD5Addition.m in Sources */,
 				39FF0BE617F13CBB0086B76C /* UIDevice+IdentifierAddition.m in Sources */,
-				39FF0BE717F13CBB0086B76C /* AJNotificationView.m in Sources */,
 				39FF0BE817F13CBB0086B76C /* AsyncImageView.m in Sources */,
 				39FF0BE917F13CBB0086B76C /* Cache.m in Sources */,
 				39FF0BEA17F13CBB0086B76C /* DownloadManager.m in Sources */,
