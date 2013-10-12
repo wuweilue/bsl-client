@@ -188,7 +188,7 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
 -(BOOL)uninstall
 {
     if ([[NSFileManager defaultManager] fileExistsAtPath:[[self runtimeURL] path]]) {
-         [[NSFileManager defaultManager] removeItemAtPath:[[self runtimeURL] path] error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:[[self runtimeURL] path] error:nil];
         return YES;
     }
     return  YES;

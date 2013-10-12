@@ -62,8 +62,12 @@
     __block HTTPRequest* __request=request;
     
     [request setCompletionBlock:^{
-        NSArray *dict = [NSJSONSerialization JSONObjectWithData:[__request responseData] options:NSJSONReadingMutableContainers error:nil];
-        _block(YES,dict);
+        NSError* error=nil;
+        NSArray *dict = [NSJSONSerialization JSONObjectWithData:[__request responseData] options:NSJSONReadingMutableContainers error:&error];
+        if(error!=nil)
+            _block(NO,dict);
+        else
+            _block(YES,dict);
         [__request cancel];
     }];
     
@@ -194,8 +198,13 @@
     __block HTTPRequest* __request=request;
     
     [request setCompletionBlock:^{
-        NSArray *dict = [NSJSONSerialization JSONObjectWithData:[__request responseData] options:NSJSONReadingMutableContainers error:nil];
-        _block(YES,dict);
+        NSError* error=nil;
+
+        NSArray *dict = [NSJSONSerialization JSONObjectWithData:[__request responseData] options:NSJSONReadingMutableContainers error:&error];
+        if(error!=nil)
+            _block(NO,nil);
+        else
+            _block(YES,dict);
         [__request cancel];
     }];
     
@@ -220,8 +229,12 @@
     __block HTTPRequest* __request=request;
     
     [request setCompletionBlock:^{
-        NSArray *dict = [NSJSONSerialization JSONObjectWithData:[__request responseData] options:NSJSONReadingMutableContainers error:nil];
-        _block(YES,dict);
+        NSError* error=nil;
+        NSArray *dict = [NSJSONSerialization JSONObjectWithData:[__request responseData] options:NSJSONReadingMutableContainers error:&error];
+        if(error!=nil)
+            _block(NO,nil);
+        else
+            _block(YES,dict);
         [__request cancel];
     }];
     

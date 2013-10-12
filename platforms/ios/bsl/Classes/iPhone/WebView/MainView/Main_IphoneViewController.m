@@ -31,6 +31,8 @@
 @interface Main_IphoneViewController ()<DownloadCellDelegate,SettingMainViewControllerDelegate,UIGestureRecognizerDelegate,KKProgressToolbarDelegate>{
     KKProgressToolbar* statusToolbar;
     BOOL isFirst;
+    
+    CubeWebViewController *bCubeWebViewController;
     int allDownCount;
 }
 
@@ -113,15 +115,16 @@
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
-    [aCubeWebViewController.view removeFromSuperview];
     aCubeWebViewController=nil;
+    
+    bCubeWebViewController=nil;
     self.selectedModule=nil;
 }
 
 
 - (void)dealloc{
-    [aCubeWebViewController.view removeFromSuperview];
     aCubeWebViewController=nil;
+    bCubeWebViewController=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.selectedModule=nil;
 }
@@ -505,7 +508,9 @@
     frame.size.width =CGRectGetHeight(self.view.frame)/2+2;
     frame.size.height= CGRectGetWidth(self.view.frame);
     
-    CubeWebViewController *bCubeWebViewController  = [[CubeWebViewController alloc] init];
+    [bCubeWebViewController.view removeFromSuperview];
+    bCubeWebViewController=nil;
+    bCubeWebViewController  = [[CubeWebViewController alloc] init];
     //记录html5模块点击begin
     [OperateLog recordOperateLog:module];
     //end
@@ -515,10 +520,12 @@
         bCubeWebViewController.webView.scrollView.bounces=NO;
         [self.navigationController pushViewController:bCubeWebViewController animated:YES];
         bCubeWebViewController.closeButton.hidden = NO;
+        bCubeWebViewController=nil;
     }didErrorBlock:^(){
         NSLog(@"error loading %@", bCubeWebViewController.webView.request.URL);
         UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@模块加载失败。",bCubeWebViewController.title] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
+        bCubeWebViewController=nil;
     }];
 }
 
@@ -578,17 +585,16 @@
             [[FMDBManager getInstance] createTable:(@"AutoDownLoadRecord") withObject:record];
             record=nil;
         }
-        if(downloadArray && downloadArray.count>0)
-        {
+        if(downloadArray && downloadArray.count>0){
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             NSMutableArray *records = [[NSMutableArray alloc]initWithCapacity:0];
-            for(CubeModule *module in downloadArray)
-            {
+            for(CubeModule *module in downloadArray){
                 AutoDownLoadRecord *record = [[AutoDownLoadRecord alloc]init];
                 [record setHasShow:@"1"];
                 [record setIdentifier:module.identifier];
                 [record setUserName:[defaults valueForKey:@"username"]];
                 [records addObject:record];
+                record=nil;
             }
             [[FMDBManager getInstance] batchInsertToTable:records withtableName:@"AutoDownLoadRecord"];
             //                [copyArray release];
@@ -601,8 +607,7 @@
             {
                
                 allDownCount = downloadArray.count;
-                for(CubeModule *module in downloadArray)
-                {
+                for(CubeModule *module in downloadArray){
                     module.isDownloading = YES;
                     [[CubeApplication currentApplication] installModule:module];
                 }
@@ -622,12 +627,10 @@
         {
             
             CubeApplication *cubeApp = [CubeApplication currentApplication];
-            for(CubeModule *module in downloadArray)
-            {
+            for(CubeModule *module in downloadArray){
                 [[cubeApp availableModules] removeObject:module];
                 module.isDownloading = NO;
                 [cubeApp uninstallModule:module];
-                
             }
             [[[CubeApplication currentApplication] downloadingModules] removeAllObjects];
             return;
