@@ -89,16 +89,6 @@
 
     }];
     
-    
-    //模块自动加载
-    NSMutableArray * modulesArray = [[CubeApplication currentApplication]modules];
-    for (CubeModule *module in modulesArray) {
-        if([module moduleIsInstalled]&& module.isAutoShow){
-            [self showWebViewModue:module];
-            
-        }
-    }
-	
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
