@@ -24,9 +24,12 @@
 
 
 @interface Main_IphoneViewController ()<DownloadCellDelegate,SettingMainViewControllerDelegate,UIGestureRecognizerDelegate>
+@property(strong,nonatomic) id selfObj;
+
 @end
 
 @implementation Main_IphoneViewController
+@synthesize navController;
 
 -(id)init{
     self=[super init];
@@ -53,34 +56,38 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    self.selfObj=self;
 
-    if (!aCubeWebViewController) {
-        aCubeWebViewController = [[CubeWebViewController alloc]init];
-        aCubeWebViewController.title=@"登录";
-        aCubeWebViewController.wwwFolderName = @"www";
-        aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString];
-        CGRect rect=self.view.bounds;
-        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
-            rect.origin.y=20.0f;
-            rect.size.height-=20.0f;
-        }
-        aCubeWebViewController.view.frame = rect;
-        [self.view addSubview:aCubeWebViewController.view];
-        aCubeWebViewController.view.hidden=YES;
-        aCubeWebViewController.webView.scrollView.bounces=NO;
-
-        [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString] didFinishBlock: ^(){
-            aCubeWebViewController.view.hidden=NO;
-            aCubeWebViewController.closeButton.hidden = YES;
-            [aCubeWebViewController viewWillAppear:NO];
-            [aCubeWebViewController viewDidAppear:NO];
-            [self addBadge];
-        }didErrorBlock:^(){
-            UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"首页模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alertView show];
-        }];
-        
+    aCubeWebViewController = [[CubeWebViewController alloc]init];
+    aCubeWebViewController.title=@"登录";
+    aCubeWebViewController.wwwFolderName = @"www";
+    aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString];
+    CGRect rect=self.view.bounds;
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        rect.origin.y=20.0f;
+        rect.size.height-=20.0f;
     }
+    aCubeWebViewController.view.frame = rect;
+    [self.view addSubview:aCubeWebViewController.view];
+    aCubeWebViewController.webView.scrollView.bounces=NO;
+    
+    [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString] didFinishBlock: ^(){
+        [self.navController pushViewController:self animated:NO];
+        self.navController=nil;
+        aCubeWebViewController.closeButton.hidden = YES;
+        [aCubeWebViewController viewWillAppear:NO];
+        [aCubeWebViewController viewDidAppear:NO];
+        [self addBadge];
+        self.selfObj=nil;
+
+    }didErrorBlock:^(){
+        UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"首页模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+        
+        self.navController=nil;
+        self.selfObj=nil;
+
+    }];
     
     
     //模块自动加载

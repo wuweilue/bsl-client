@@ -54,7 +54,7 @@
 #import "OperateLog.h"
 #import "IMServerAPI.h"
 #import "ChatLogic.h"
-
+#import "JSONKit.h"
 //#ifndef _DEBUG
 
 //#define _DEBUG
@@ -556,18 +556,15 @@ void uncaughtExceptionHandler(NSException*exception){
     [[PushGetMessageInfo sharedInstance] updatePushMessage];
     [navControl popToRootViewControllerAnimated:NO];
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone){
+        [self.navControl popToRootViewControllerAnimated:NO];
         
         Main_IphoneViewController* main=[[Main_IphoneViewController alloc] init];
 //         UINavigationController *__navControl =[[[NSBundle mainBundle] loadNibNamed:@"MainNewWindow" owner:self options:nil] objectAtIndex:0];
 //        self.window.rootViewController = __navControl;
-        [self.navControl popToRootViewControllerAnimated:NO];
-        [self.navControl pushViewController:main animated:NO];
-        main=nil;
-        //修改为HTML5界面
-        if([SVProgressHUD isVisible]){
-            [SVProgressHUD dismiss];
-        }
-  
+        main.navController=self.navControl;
+        UIView* view=main.view;
+        view=nil;
+        main=nil;  
     }else{
         
         [self.navControl popToRootViewControllerAnimated:NO];

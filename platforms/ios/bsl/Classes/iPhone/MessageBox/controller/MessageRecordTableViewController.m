@@ -408,8 +408,6 @@
         // Delete the row from the data source
         
         NSMutableArray *moduleRecords = [presentModulesDic objectForKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
-        
-                
         NSArray *newModuleRecords = [MessageRecord findForModuleIdentifier:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
         //删除的是本地模块
         MessageRecord *record = [moduleRecords objectAtIndex:indexPath.row];
@@ -417,20 +415,15 @@
         
         if(newModuleRecords.count == 0 ){
            [presentModulesDic setObject:[MessageRecord findSystemRecord] forKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
-           
-
         }else{
-           
-
             [presentModulesDic setObject:newModuleRecords forKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
             
             MessageRecordHeaderView *headerView  = (MessageRecordHeaderView *)[__tableView viewWithTag:indexPath.section + 100];
             
             headerView.messageCountLabel.text = [NSString stringWithFormat:@"%d",[newModuleRecords count]];
-            
-            
         }
-        [__tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self delayLoadTimerEvent];
+        //[__tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         
     }
