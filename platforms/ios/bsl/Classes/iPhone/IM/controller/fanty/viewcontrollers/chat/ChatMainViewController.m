@@ -682,6 +682,10 @@
 -(void)voiceButtonClick:(UIButton*)button{
     [chatPanel resignFirstResponder];
     VoiceCell* cell=(VoiceCell*)button.superview;
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        cell=(VoiceCell*)cell.superview;
+    }
+
     for(UITableViewCell* __cell in [tableView visibleCells]){
         if([__cell isKindOfClass:[VoiceCell class]]){
             [((VoiceCell*)__cell) playAnimated:NO];
