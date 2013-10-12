@@ -86,10 +86,7 @@
  */
 -(void)mainList:(CDVInvokedUrlCommand*)command
 {
-    
-    
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_VIEW" object:[NSNumber numberWithInt:0]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DISMISS_VIEW" object:[NSNumber numberWithInt:1]];
     CubeApplication *cubeApp = [CubeApplication currentApplication];
     //循环获取所有安装模块的category
     NSMutableDictionary *moduleCategoryDictionary = [self getCategoryFromArray:cubeApp.modules];
@@ -164,9 +161,10 @@
         [jsonCube  setObject:each.category forKey:@"category"];
         if ([each.local length]>0) {
             [jsonCube  setObject:each.iconUrl forKey:@"icon"];
-            }else{
-                [jsonCube  setObject:[each.iconUrl stringByAppendingFormat:@"?sessionKey=%@&appKey=%@",token,kAPPKey] forKey:@"icon"];
-            }
+        }else{
+            [jsonCube  setObject:[each.iconUrl stringByAppendingFormat:@"?sessionKey=%@&appKey=%@",token,kAPPKey] forKey:@"icon"];
+        }
+
         [jsonCube  setObject:each.identifier forKey:@"identifier"];
         [jsonCube  setObject:!each.local?@"":each.local forKey:@"local"];
         [jsonCube  setObject:each.name forKey:@"name"];

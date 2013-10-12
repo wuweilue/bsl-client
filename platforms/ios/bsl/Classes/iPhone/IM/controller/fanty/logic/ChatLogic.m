@@ -17,6 +17,7 @@
 
 @interface ChatLogic()
 -(NSString*)juingNewId;
+@property(nonatomic,strong) HTTPRequest* request;
 @end
 
 @implementation ChatLogic
@@ -30,6 +31,8 @@
 }
 
 -(void)dealloc{
+    
+    [self.request cancel];
     self.roomJID=nil;
 }
 
@@ -389,80 +392,75 @@
      NSString* token=[[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
     NSURL *requestURL = [NSURL URLWithString:[kFileUploadUrl stringByAppendingFormat:@"?sessionKey=%@&&appKey=%@",token,kAPPKey]];
   
-    FormDataRequest* request = [FormDataRequest requestWithURL:requestURL];
-    request.timeOutSeconds=10.0f;
-    request.persistentConnectionTimeoutSeconds=10.0f;
-    __block FormDataRequest* __request=request;
-    request.delegate = self;
+    [self.request cancel];
+    self.request = [FormDataRequest requestWithURL:requestURL];
+    self.request.timeOutSeconds=10.0f;
+    self.request.persistentConnectionTimeoutSeconds=10.0f;
+    __block FormDataRequest* __request=(FormDataRequest*)self.request;
+    __block ChatLogic* objSelf=self;
     @autoreleasepool {
+        CGSize size=CGSizeMake(640.0f, 960.0f);
+        if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+            size=CGSizeMake(1024.0f, 768.0f);
+        }
+
+        if((image.size.width>size.width || image.size.height>size.height)){
+            size.height=size.width/(image.size.width/image.size.height);
+            image=[AsyncImageView imageWithThumbnail:image size:size];
+        }
+        
         NSData *imageData = UIImagePNGRepresentation(image);
 
         
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithCapacity:0];
         [dict setObject:imageData forKey:@"file"];
-        [request setUserInfo:dict];
+        [__request setUserInfo:dict];
         
-        [request setData:imageData forKey:@"file"];
+        [__request setData:imageData forKey:@"file"];
         dict=nil;
         imageData=nil;
+        
     }
 
-    [request setCompletionBlock:^{
+    [self.request setCompletionBlock:^{
         
+        NSDictionary *dict = [[__request responseString] objectFromJSONString];
         
-        NSString *resultStr = [__request responseString];
         NSData *imageData = [[__request userInfo] valueForKey:@"file"];
-        NSDictionary *dict = [resultStr objectFromJSONString];
         NSString *fileId = [dict valueForKey:@"id"];
+
         
-        NSString* path=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        path=[path stringByAppendingPathComponent:[[[ShareAppDelegate xmpp].xmppStream myJID]bare]];
+        NSString* path=[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        path=[path stringByAppendingPathComponent:@"images"];
         NSFileManager* fileManager=[NSFileManager defaultManager];
         if(![fileManager fileExistsAtPath:path]){
             [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
         }
         path = [[path stringByAppendingPathComponent:fileId] stringByAppendingString:@".png"];
         if(imageData!=nil){
-            
-            @autoreleasepool {
-                
-                UIImage *rawImage = [[UIImage alloc] initWithData:imageData];
-                CGSize size=CGSizeMake(420.0f, 600.0f);
-                if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-                    size=CGSizeMake(800.0f, 640.0f);
-                }
-                if(rawImage!=nil &&(rawImage.size.width>size.width || rawImage.size.height>size.height)){
-                    size.height=size.width/(rawImage.size.width/rawImage.size.height);
-                    UIImage *image=[AsyncImageView imageWithThumbnail:rawImage size:size];
-                    
-                    NSData* newData=UIImagePNGRepresentation(image);
-                    
-                    [newData writeToFile:path atomically:YES];
-                    
-                }
-                else{
-                    [imageData writeToFile:path atomically:YES];
-                    
-                }
-                rawImage=nil;
-                
-            }
-
+            [imageData writeToFile:path atomically:YES];
         }
+        
         if(finish!=nil)
             finish(fileId,path);
-        [__request cancel];
+
+        [objSelf.request cancel];
     }];
     
-    [request setFailedBlock:^{
+    [self.request setFailedBlock:^{
         if(finish!=nil)
             finish(nil,nil);
-        [__request cancel];
+
+        [objSelf.request cancel];
     }];
     
-    [request startAsynchronous];
+    [self.request startAsynchronous];
         
     return YES;
+}
+
+-(void)cancel{
+    [self.request cancel];
 }
 
 @end

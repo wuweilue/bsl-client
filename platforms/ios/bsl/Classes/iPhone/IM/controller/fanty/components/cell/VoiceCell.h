@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ChatCell.h"
 
-@class AsyncImageView;
+@class ImageDownloadedView;
 @interface VoiceCell : UITableViewCell{
-    AsyncImageView* imageView;
+    ImageDownloadedView* imageView;
     UILabel* nameLabel;
     UIImageView* noHeaderView;
     UIButton* button;

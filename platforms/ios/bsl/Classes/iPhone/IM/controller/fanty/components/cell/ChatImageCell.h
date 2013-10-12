@@ -11,23 +11,22 @@
 
 
 @class ChatImageCell;
-@class AsyncImageView;
+@class ImageDownloadedView;
 
 @protocol ChatImageCellDelegate <NSObject>
 
--(void)chatImageCellDidSelect:(ChatImageCell*)cell image:(UIImage*)image;
+-(void)chatImageCellDidSelect:(ChatImageCell*)cell url:(NSString*)url;
 
 @end
 
 @interface ChatImageCell : UITableViewCell{
-    AsyncImageView* imageView;
-    UIImageView* noHeaderView;
+    ImageDownloadedView* imageView;
 
     UIButton* avatorView;
     UIImageView* bubbleView;
     UILabel* nameLabel;
 
-    AsyncImageView* contentImageView;
+    ImageDownloadedView* contentImageView;
     
     UIImageView* noContentView;
     UILabel* dateLabel;

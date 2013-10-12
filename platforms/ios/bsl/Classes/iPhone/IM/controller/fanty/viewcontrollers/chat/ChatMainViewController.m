@@ -26,6 +26,8 @@
 
 #import "VoiceUploadManager.h"
 
+#import "GTGZImageDownloadedManager.h"
+
 @interface ChatMainViewController ()<TouchScrollerDelegate,UITableViewDataSource,UITableViewDelegate,ChatPanelDelegate,NSFetchedResultsControllerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,RecorderDelegate,UIPopoverControllerDelegate,ChatImageCellDelegate,GroupMemberManagerViewControllerDelegate,VoiceUploadManagerDelegate>
 -(void)createRightNavBarButton;
 -(void)initChatPanel;
@@ -59,6 +61,8 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    
+    [[GTGZImageDownloadedManager sharedInstance] removeAll];
     
     self.title=self.chatName;
     
@@ -112,6 +116,20 @@
     [self.view addSubview:chatPanel];
     
     [self loadLocalData];
+    
+    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+        UIView* vv=[[UIView alloc] initWithFrame:CGRectMake(floor(0.0f), floor(0.0f), floor(self.view.frame.size.width), floor(44.0f))];
+        
+        UILabel*label = [[UILabel alloc]initWithFrame:CGRectMake(floor(-80.0f), floor(0.0f), floor(self.view.frame.size.width), floor(44.0f))];
+        label.text = self.title;
+        label.font =[UIFont boldSystemFontOfSize:20];
+        label.textColor= [UIColor whiteColor];
+        label.backgroundColor = [UIColor clearColor];
+        label.textAlignment =NSTextAlignmentCenter;
+        [vv addSubview:label];
+        self.navigationItem.titleView= vv;
+    }
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -125,9 +143,13 @@
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
+    
+    [[GTGZImageDownloadedManager sharedInstance] removeAll];
+    
     tableView=nil;
     chatPanel=nil;
 
+    [chatLogic cancel];
     chatLogic=nil;
     messageArray=nil;
         
@@ -141,6 +163,7 @@
 }
 
 -(void)dealloc{
+    [[GTGZImageDownloadedManager sharedInstance] removeAll];
     [VoiceUploadManager sharedInstance].delegate=nil;
 
     self.messageId=nil;
@@ -417,10 +440,10 @@
 
 #pragma mark  chatimagecell delegate
 
--(void)chatImageCellDidSelect:(ChatImageCell *)cell image:(UIImage *)image{
+-(void)chatImageCellDidSelect:(ChatImageCell *)cell url:(NSString *)url{
     AppDelegate* appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
     ImageScroller* view=[[ImageScroller alloc] initWithFrame:appDelegate.window.rootViewController.view.bounds];
-    [view showImage:image];
+    [view showImage:url];
     [view showInView:appDelegate.window.rootViewController.view];
     
     view=nil;
