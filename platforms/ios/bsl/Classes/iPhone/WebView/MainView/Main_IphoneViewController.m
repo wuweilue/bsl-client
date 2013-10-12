@@ -25,7 +25,9 @@
 #import "SettingMainViewController.h"
 
 
-@interface Main_IphoneViewController ()<DownloadCellDelegate,SettingMainViewControllerDelegate,UIGestureRecognizerDelegate>
+@interface Main_IphoneViewController ()<DownloadCellDelegate,SettingMainViewControllerDelegate,UIGestureRecognizerDelegate>{
+    BOOL isFirst;
+}
 @end
 
 @implementation Main_IphoneViewController
@@ -54,8 +56,6 @@
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleDidInstalled:) name:KNOTIFICATION_DETIALPAGE_INSTALLSUCCESS object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didProgressUpdate:) name:@"queue_module_download_progressupdate" object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkModules) name:CubeSyncFinishedNotification object:nil];
         
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleSysFinsh) name:CubeSyncFinishedNotification object:nil];
@@ -163,6 +163,14 @@
 }
 
 
+-(void)moduleSysFinsh{
+    [self checkModules];
+    if (!isFirst) {
+        [self autoShowModule];
+        isFirst = true;
+    }
+}
+
 -(void)checkModules{
     //检测是否需要自动安装
     [self autoShowModule];
@@ -210,7 +218,6 @@
         
     }
 }
-
 
 //异步判断哪个模块打开
 -(void)autoShowModule
@@ -295,12 +302,11 @@
             }
         }
     }
-    
-    
 }
+
+
 -(void)updateAuthoShowTime:(NSString*)identifier
 {
-    
     long currentTime = [[NSDate date]timeIntervalSince1970];
     NSString *userName = [[NSUserDefaults standardUserDefaults]valueForKey:@"username"];
     NSString *sql = [NSString stringWithFormat:@"update AutoShowRecord set showTime='%ld' where identifier='%@' and userName='%@'",currentTime,identifier,userName];
