@@ -139,8 +139,7 @@
         self.navigationItem.titleView= vv;
     }
 }
-
-
+    
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
