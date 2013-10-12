@@ -24,9 +24,14 @@
 #import "DownLoadingDetialViewController.h"
 #import "SettingMainViewController.h"
 
+#import "KKProgressToolbar.h"
+#import "CudeModuleDownDictionary.h"
 
-@interface Main_IphoneViewController ()<DownloadCellDelegate,SettingMainViewControllerDelegate,UIGestureRecognizerDelegate>{
+
+@interface Main_IphoneViewController ()<DownloadCellDelegate,SettingMainViewControllerDelegate,UIGestureRecognizerDelegate,KKProgressToolbarDelegate>{
+    KKProgressToolbar* statusToolbar;
     BOOL isFirst;
+    int allDownCount;
 }
 
 @property(strong,nonatomic) id selfObj;
@@ -101,9 +106,9 @@
         [alertView show];
         self.navController=nil;
         self.selfObj=nil;
-        
     }];
 	
+    
 }
 
 - (void)didReceiveMemoryWarning{
@@ -133,7 +138,6 @@
     if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
         [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate) withObject:nil afterDelay:0.8f];
     }
-
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -157,7 +161,6 @@
                 {
                     [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"receiveMessage('%@',%d,true);",moduleIdentifier,count]];
                 }
-                
             }
         }
     }
@@ -593,9 +596,11 @@
         //        });
         if(buttonIndex == 0)
         {
+            
             if(downloadArray && downloadArray.count>0)
             {
-                
+               
+                allDownCount = downloadArray.count;
                 for(CubeModule *module in downloadArray)
                 {
                     module.isDownloading = YES;
@@ -603,6 +608,12 @@
                 }
                 [[[CubeApplication currentApplication] downloadingModules] removeAllObjects];
                 
+                CGRect statusToolbarFrame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44);
+                statusToolbar = [[KKProgressToolbar alloc] initWithFrame:statusToolbarFrame];
+                statusToolbar.actionDelegate = self;
+                [self.view addSubview:statusToolbar];
+                
+                 [self startUILoading];
             }
             return;
             
@@ -651,9 +662,7 @@
             am.isDownloading = YES;
             [[CubeApplication currentApplication] installModule:am];
         }
-        
     }
-    
 }
 
 
@@ -704,11 +713,20 @@
     NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
     NSString * javaScript = [NSString stringWithFormat:@"refreshModule('%@','install','%@');",m.identifier,JSO];
     [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
-    
 }
 
 -(void)moduleDidInstalled:(NSNotification*)note
 {
+    if (statusToolbar) {
+        int count = [self getDownMouleCount];
+        NSLog(@"count =%d , allcount =%d   last = %d",count,allDownCount,allDownCount - count);
+        if ( count <= 0 ) {
+            [self stopUILoading];
+        }else{
+            [self startUILoading];
+        }
+    }
+    
     CubeModule *newModule = [note object];
     if (newModule) {
         @autoreleasepool {
@@ -729,9 +747,11 @@
             }
             
             JSO=nil;
-            
         }
     }
+    
+    
+    
 }
 
 
@@ -784,6 +804,34 @@
     }
     return NO;
 }
+    
+    
+#pragma mark -- KKProgressToolbar delegate
+- (void)didCancelButtonPressed:(KKProgressToolbar *)toolbar {
+    [statusToolbar hide:YES completion:^(BOOL finished) {
+        
+    }];
+}
 
-
+-(void)startUILoading{
+    int count =[self getDownMouleCount];
+    
+    statusToolbar.statusLabel.text = [NSString stringWithFormat:@"正在下载... %d/%d",(allDownCount - count) ,allDownCount];
+    statusToolbar.progressBar.progress = count/allDownCount;
+    
+    [statusToolbar show:YES completion:^(BOOL finished) {
+        
+    }];
+}
+    
+-(void)stopUILoading{
+    [statusToolbar hide:YES completion:^(BOOL finished) {
+        [statusToolbar removeFromSuperview];
+        statusToolbar = nil;
+    }];
+}
+-(int)getDownMouleCount{
+    return [[CudeModuleDownDictionary shareModuleDownDictionary]  count];
+}
+    
 @end

@@ -2371,6 +2371,10 @@
 		F552F75E1807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */; };
 		F552F75F1807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */; };
 		F552F7601807DBDC009A5EFE /* nav_bg_pad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */; };
+		F5730F3018093BAB00E4541D /* KKProgressToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F5730F2E18093BAB00E4541D /* KKProgressToolbar.m */; };
+		F5730F3118093BAB00E4541D /* KKProgressToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F5730F2E18093BAB00E4541D /* KKProgressToolbar.m */; };
+		F5730F3218093BAB00E4541D /* KKProgressToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F5730F2E18093BAB00E4541D /* KKProgressToolbar.m */; };
+		F5730F3318093BAB00E4541D /* KKProgressToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F5730F2E18093BAB00E4541D /* KKProgressToolbar.m */; };
 		F5A96C4617F006B400F9CA68 /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C3917F006B400F9CA68 /* CDVDevice.m */; };
 		F5A96C4717F006B400F9CA68 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C3C17F006B400F9CA68 /* CDVNotification.m */; };
 		F5A96C4817F006B400F9CA68 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C3F17F006B400F9CA68 /* CDVFile.m */; };
@@ -3239,6 +3243,8 @@
 		F54D84A317E8C77E0067A023 /* xmpp_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xmpp_arrow.png; sourceTree = "<group>"; };
 		F54D84A417E8C77E0067A023 /* xmpp_user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xmpp_user.png; sourceTree = "<group>"; };
 		F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_bg_pad@2x.png"; sourceTree = "<group>"; };
+		F5730F2E18093BAB00E4541D /* KKProgressToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKProgressToolbar.m; sourceTree = "<group>"; };
+		F5730F2F18093BAB00E4541D /* KKProgressToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKProgressToolbar.h; sourceTree = "<group>"; };
 		F5A96C3817F006B400F9CA68 /* CDVDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVDevice.h; sourceTree = "<group>"; };
 		F5A96C3917F006B400F9CA68 /* CDVDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVDevice.m; sourceTree = "<group>"; };
 		F5A96C3B17F006B400F9CA68 /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVNotification.h; sourceTree = "<group>"; };
@@ -5040,6 +5046,8 @@
 		F5730F2D18093BA200E4541D /* KKProgressToolbar */ = {
 			isa = PBXGroup;
 			children = (
+				F5730F2F18093BAB00E4541D /* KKProgressToolbar.h */,
+				F5730F2E18093BAB00E4541D /* KKProgressToolbar.m */,
 			);
 			path = KKProgressToolbar;
 			sourceTree = "<group>";
@@ -7386,6 +7394,7 @@
 				F54D839B17E8BFBB0067A023 /* SVSegmentedThumb.m in Sources */,
 				F54D839C17E8BFBB0067A023 /* SwitchButton.m in Sources */,
 				F54D839D17E8BFBB0067A023 /* UIColor+expanded.m in Sources */,
+				F5730F3018093BAB00E4541D /* KKProgressToolbar.m in Sources */,
 				F54D839E17E8BFBB0067A023 /* UIView+CG.m in Sources */,
 				F54D839F17E8BFBB0067A023 /* AFAppDotNetAPIClient.m in Sources */,
 				3968622B17EE7D1D00C84A6A /* FaviorContactView.m in Sources */,
@@ -7568,6 +7577,7 @@
 				39D9EA4317F27C03001ED6F5 /* SVSegmentedThumb.m in Sources */,
 				39D9EA4417F27C03001ED6F5 /* SwitchButton.m in Sources */,
 				39D9EA4517F27C03001ED6F5 /* UIColor+expanded.m in Sources */,
+				F5730F3318093BAB00E4541D /* KKProgressToolbar.m in Sources */,
 				39D9EA4617F27C03001ED6F5 /* UIView+CG.m in Sources */,
 				39D9EA4717F27C03001ED6F5 /* AFAppDotNetAPIClient.m in Sources */,
 				39D9EA4817F27C03001ED6F5 /* FaviorContactView.m in Sources */,
@@ -7750,6 +7760,7 @@
 				39E0532117F00AEA00BCF7F8 /* SVSegmentedThumb.m in Sources */,
 				39E0532217F00AEA00BCF7F8 /* SwitchButton.m in Sources */,
 				39E0532317F00AEA00BCF7F8 /* UIColor+expanded.m in Sources */,
+				F5730F3118093BAB00E4541D /* KKProgressToolbar.m in Sources */,
 				39E0532417F00AEA00BCF7F8 /* UIView+CG.m in Sources */,
 				39E0532517F00AEA00BCF7F8 /* AFAppDotNetAPIClient.m in Sources */,
 				39E0532617F00AEA00BCF7F8 /* FaviorContactView.m in Sources */,
@@ -7932,6 +7943,7 @@
 				39FF0BD917F13CBB0086B76C /* SVSegmentedThumb.m in Sources */,
 				39FF0BDA17F13CBB0086B76C /* SwitchButton.m in Sources */,
 				39FF0BDB17F13CBB0086B76C /* UIColor+expanded.m in Sources */,
+				F5730F3218093BAB00E4541D /* KKProgressToolbar.m in Sources */,
 				39FF0BDC17F13CBB0086B76C /* UIView+CG.m in Sources */,
 				39FF0C1D17F14FB10086B76C /* Config-soc.m in Sources */,
 				39FF0BDD17F13CBB0086B76C /* AFAppDotNetAPIClient.m in Sources */,
