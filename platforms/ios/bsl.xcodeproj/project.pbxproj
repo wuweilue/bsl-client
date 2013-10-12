@@ -4647,6 +4647,7 @@
 		F54D817C17E8BFBB0067A023 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				F5730F2D18093BA200E4541D /* KKProgressToolbar */,
 				F54D817D17E8BFBB0067A023 /* AFAppDotNetAPIClient.h */,
 				F54D817E17E8BFBB0067A023 /* AFAppDotNetAPIClient.m */,
 				F54D819417E8BFBB0067A023 /* AsyncSocket */,
@@ -5034,6 +5035,13 @@
 				F54D84A417E8C77E0067A023 /* xmpp_user.png */,
 			);
 			path = xmpp;
+			sourceTree = "<group>";
+		};
+		F5730F2D18093BA200E4541D /* KKProgressToolbar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = KKProgressToolbar;
 			sourceTree = "<group>";
 		};
 		F5A96C3717F006B400F9CA68 /* org.apache.cordova.core.device */ = {
