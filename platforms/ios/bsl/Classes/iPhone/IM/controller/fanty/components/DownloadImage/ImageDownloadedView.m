@@ -163,6 +163,7 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     if(status!=ImageViewDownloadedStatusFinish){
+        
         if(self.showLoading){
             if(activityView==nil){
                 activityView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -175,17 +176,14 @@
             rect.origin.x=(self.frame.size.width-rect.size.width)*0.5f;
             rect.origin.y=(self.frame.size.height-rect.size.height)*0.5f;
             activityView.frame=rect;
+        }        
+        if(loadingView==nil){
+            loadingView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:self.loadingImageName]];
+            loadingView.clipsToBounds=YES;
+            [self addSubview:loadingView];
         }
-        else{
-            if(loadingView==nil){
-                loadingView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:self.loadingImageName]];
-                loadingView.clipsToBounds=YES;
-                [self addSubview:loadingView];
-            }
-            [self sendSubviewToBack:loadingView];
-            loadingView.frame=self.bounds;
-        }
-        
+        [self sendSubviewToBack:loadingView];
+        loadingView.frame=self.bounds;
     }
     else{
         [activityView stopAnimating];

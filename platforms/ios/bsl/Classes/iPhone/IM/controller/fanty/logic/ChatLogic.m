@@ -401,7 +401,7 @@
     @autoreleasepool {
         CGSize size=CGSizeMake(640.0f, 960.0f);
         if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-            size=CGSizeMake(1024.0f, 768.0f);
+            size=CGSizeMake(960.0f, 700.0f);
         }
 
         if((image.size.width>size.width || image.size.height>size.height)){

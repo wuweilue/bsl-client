@@ -53,15 +53,12 @@
         
         [self addSubview:avatorView];
 
-        noContentView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shake_-transportphoto_without_icon.png"]];
-        noContentView.frame=CGRectMake(6.0f, 6.0f, avatorView.frame.size.width-12.0f, avatorView.frame.size.height-12.0f);
         
         contentImageView=[[ImageDownloadedView alloc] initWithFrame:avatorView.bounds];
-        
+        contentImageView.loadingImageName=@"shake_-transportphoto_without_icon.png";
         contentImageView.showLoading=YES;
         [avatorView addSubview:contentImageView];
         
-        [avatorView addSubview:noContentView];
         
         
         dateLabel=[[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 150.0f, 20.0f)];
@@ -92,7 +89,6 @@
         url=[url stringByAppendingFormat:@"?sessionKey=%@&appKey=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"token"],kAPPKey];
         [contentImageView setUrl:url];
     }
-    noContentView.hidden=(contentImageView.image!=nil);
     
     nameLabel.text=name;
     NSDateFormatter* formatter=[[NSDateFormatter alloc] init];

@@ -28,7 +28,6 @@
 
     ImageDownloadedView* contentImageView;
     
-    UIImageView* noContentView;
     UILabel* dateLabel;
 
 }
