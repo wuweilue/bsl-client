@@ -55,11 +55,11 @@
 #import "IMServerAPI.h"
 #import "ChatLogic.h"
 #import "JSONKit.h"
-//#ifndef _DEBUG
+#ifndef _DEBUG
 
-//#define _DEBUG
+#define _DEBUG
 
-//#endif
+#endif
 
 void uncaughtExceptionHandler(NSException*exception){
     NSLog(@"CRASH: %@", exception);

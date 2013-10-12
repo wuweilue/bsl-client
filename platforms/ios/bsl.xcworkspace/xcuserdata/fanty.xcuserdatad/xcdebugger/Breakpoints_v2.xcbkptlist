@@ -185,22 +185,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/iPhone/WebView/MainView/Main_IphoneViewController.m"
-            timestampString = "403251672.424639"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "554"
-            endingLineNumber = "554"
-            landmarkName = "-alertView:clickedButtonAtIndex:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "bsl/Classes/Core/CubeApplication.m"
             timestampString = "403081874.130467"
             startingColumnNumber = "9223372036854775807"
@@ -361,6 +345,36 @@
             endingLineNumber = "299"
             landmarkName = "-loadImageWithURLString:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__41-[AsyncImageView loadImageWithURLString:]_block_invoke105"
+                  moduleName = "&#21464;&#33394;&#40857;IOS&#27979;&#35797;"
+                  urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/Vendor/Lib/AsyncImageView.m"
+                  timestampString = "403253214.832595"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "299"
+                  endingLineNumber = "299"
+                  offsetFromSymbolStart = "844">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__41-[AsyncImageView loadImageWithURLString:]_block_invoke105"
+                  moduleName = "&#21464;&#33394;&#40857;IOS&#27979;&#35797;"
+                  urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/Vendor/Lib/AsyncImageView.m"
+                  timestampString = "403253217.941117"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "299"
+                  endingLineNumber = "299"
+                  offsetFromSymbolStart = "840">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -377,6 +391,36 @@
             endingLineNumber = "289"
             landmarkName = "-loadImageWithURLString:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__41-[AsyncImageView loadImageWithURLString:]_block_invoke105"
+                  moduleName = "&#21464;&#33394;&#40857;IOS&#27979;&#35797;"
+                  urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/Vendor/Lib/AsyncImageView.m"
+                  timestampString = "403253214.832942"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "289"
+                  endingLineNumber = "289"
+                  offsetFromSymbolStart = "830">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__41-[AsyncImageView loadImageWithURLString:]_block_invoke105"
+                  moduleName = "&#21464;&#33394;&#40857;IOS&#27979;&#35797;"
+                  urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/Vendor/Lib/AsyncImageView.m"
+                  timestampString = "403253217.941667"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "289"
+                  endingLineNumber = "289"
+                  offsetFromSymbolStart = "826">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

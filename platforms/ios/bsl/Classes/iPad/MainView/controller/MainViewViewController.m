@@ -180,7 +180,11 @@
 -(void)checkModules{
     //检测是否需要自动安装
     
+#ifndef MOBILE_BSL
     NSMutableArray *downloadArray = [[CubeApplication currentApplication] downloadingModules];
+#else
+    NSMutableArray *downloadArray = [[CubeApplication currentApplication] availableModules];
+#endif
     if(downloadArray && downloadArray.count>0)
     {
         NSMutableString *message = [[NSMutableString alloc] init];
@@ -394,7 +398,11 @@
     }
     if(alertView.tag == 830)
     {
+#ifndef MOBILE_BSL
         NSMutableArray *downloadArray = [[CubeApplication currentApplication] downloadingModules];
+#else
+        NSMutableArray *downloadArray = [[CubeApplication currentApplication] availableModules];
+#endif
         
 //        [self.navigationController setNavigationBarHidden:NO animated:YES];
 //        self.navigationItem.hidesBackButton =YES;
