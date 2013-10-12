@@ -186,7 +186,7 @@
 
 -(void)checkModules{
     //检测是否需要自动安装
-    [self autoShowModule];
+    
     
     @autoreleasepool {
 #ifndef MOBILE_BSL
@@ -818,12 +818,9 @@
 
 -(void)startUILoading{
     int count =[self getDownMouleCount];
-    
     statusToolbar.statusLabel.text = [NSString stringWithFormat:@"正在下载... %d/%d",(allDownCount - count) ,allDownCount];
     statusToolbar.progressBar.progress = count/allDownCount;
-    
     [statusToolbar show:YES completion:^(BOOL finished) {
-        
     }];
 }
     
