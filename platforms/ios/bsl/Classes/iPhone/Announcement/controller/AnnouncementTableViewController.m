@@ -12,7 +12,6 @@
 #import "Announcement.h"
 #import "MessageRecord.h"
 
-#define RECORD_DELETE @"RECORD_DELETE"
 @interface AnnouncementTableViewController ()<UITableViewDataSource,UITableViewDelegate>
 -(void)createRrightNavItem;
 -(void)rightNavClick;

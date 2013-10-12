@@ -346,6 +346,8 @@
             [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"receiveMessage('%@',%d,true);",moduleIdentifier,count]];
         }
     }
+    NSLog(@"addBadge end");
+
 }
 
 -(void)showSetting{
@@ -375,9 +377,6 @@
                     [[CubeApplication currentApplication] installModule:m];
                 });
             }
-            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstTime"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            return;
         }
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstTime"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -512,8 +511,8 @@
             }
             UIViewController* controller=self.detailController;
             if([controller isKindOfClass:[UINavigationController class]]){
-                UINavigationController* navController=(UINavigationController*)self.detailController;
-                controller=[navController topViewController];
+                UINavigationController* __navController=(UINavigationController*)self.detailController;
+                controller=[__navController topViewController];
             }
             if([controller isKindOfClass:NSClassFromString(iphoneLocal)]){
                 return;
@@ -533,8 +532,8 @@
         
         UIViewController* controller=self.detailController;
         if([controller isKindOfClass:[UINavigationController class]]){
-            UINavigationController* navController=(UINavigationController*)self.detailController;
-            controller=[navController topViewController];
+            UINavigationController* __navController=(UINavigationController*)self.detailController;
+            controller=[__navController topViewController];
         }
         if([controller isKindOfClass:[DownLoadingDetialViewController class]]){
             
@@ -594,8 +593,8 @@
 -(void)showWebViewModue:(CubeModule*)module{
     UIViewController* controller=self.detailController;
     if([controller isKindOfClass:[UINavigationController class]]){
-        UINavigationController* navController=(UINavigationController*)self.detailController;
-        controller=[navController topViewController];
+        UINavigationController* __navController=(UINavigationController*)self.detailController;
+        controller=[__navController topViewController];
     }
 
     if([controller isKindOfClass:[CubeWebViewController class]]){
