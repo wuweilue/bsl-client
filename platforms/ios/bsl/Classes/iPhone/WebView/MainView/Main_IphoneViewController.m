@@ -298,6 +298,24 @@
     
     
 }
+-(void)updateAuthoShowTime:(NSString*)identifier
+{
+    
+    long currentTime = [[NSDate date]timeIntervalSince1970];
+    NSString *userName = [[NSUserDefaults standardUserDefaults]valueForKey:@"username"];
+    NSString *sql = [NSString stringWithFormat:@"update AutoShowRecord set showTime='%ld' where identifier='%@' and userName='%@'",currentTime,identifier,userName];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        FMDatabase *database = [[FMDBManager getInstance]database ];
+        if (![database open])
+        {
+            [database open];
+        }
+        [database executeUpdate:sql];
+        
+    });
+    
+}
+
 
 
 #pragma mark - 皮肤功能
