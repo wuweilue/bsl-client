@@ -176,14 +176,14 @@
 -(void)moduleSysFinsh{
     [self checkModules];
     if (!isFirst) {
+        //检测是否需要自动安装
         [self autoShowModule];
         isFirst = true;
     }
 }
 
 -(void)checkModules{
-    //检测是否需要自动安装
-    [self autoShowModule];
+    
     
     @autoreleasepool {
 #ifndef MOBILE_BSL
