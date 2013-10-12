@@ -592,7 +592,6 @@
 		39D9EA0317F27C03001ED6F5 /* NSMutableArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80BA17E8BFBA0067A023 /* NSMutableArray+Additions.m */; };
 		39D9EA0417F27C03001ED6F5 /* UIScrollView+SpiralPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80BC17E8BFBA0067A023 /* UIScrollView+SpiralPullToRefresh.m */; };
 		39D9EA0517F27C03001ED6F5 /* XMPPShowImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80C517E8BFBA0067A023 /* XMPPShowImageViewController.m */; };
-		39D9EA0617F27C03001ED6F5 /* ChatRoomMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80CC17E8BFBA0067A023 /* ChatRoomMessage.m */; };
 		39D9EA0717F27C03001ED6F5 /* IMServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80CF17E8BFBA0067A023 /* IMServerAPI.m */; };
 		39D9EA0817F27C03001ED6F5 /* AudioView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80D217E8BFBA0067A023 /* AudioView.m */; };
 		39D9EA0917F27C03001ED6F5 /* GroupPeopleViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80D417E8BFBA0067A023 /* GroupPeopleViewViewController.m */; };
@@ -1185,7 +1184,6 @@
 		39E052E017F00AEA00BCF7F8 /* NSMutableArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80BA17E8BFBA0067A023 /* NSMutableArray+Additions.m */; };
 		39E052E117F00AEA00BCF7F8 /* UIScrollView+SpiralPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80BC17E8BFBA0067A023 /* UIScrollView+SpiralPullToRefresh.m */; };
 		39E052E217F00AEA00BCF7F8 /* XMPPShowImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80C517E8BFBA0067A023 /* XMPPShowImageViewController.m */; };
-		39E052E417F00AEA00BCF7F8 /* ChatRoomMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80CC17E8BFBA0067A023 /* ChatRoomMessage.m */; };
 		39E052E517F00AEA00BCF7F8 /* IMServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80CF17E8BFBA0067A023 /* IMServerAPI.m */; };
 		39E052E617F00AEA00BCF7F8 /* AudioView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80D217E8BFBA0067A023 /* AudioView.m */; };
 		39E052E717F00AEA00BCF7F8 /* GroupPeopleViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80D417E8BFBA0067A023 /* GroupPeopleViewViewController.m */; };
@@ -1844,7 +1842,6 @@
 		39FF0B9917F13CBB0086B76C /* NSMutableArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80BA17E8BFBA0067A023 /* NSMutableArray+Additions.m */; };
 		39FF0B9A17F13CBB0086B76C /* UIScrollView+SpiralPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80BC17E8BFBA0067A023 /* UIScrollView+SpiralPullToRefresh.m */; };
 		39FF0B9B17F13CBB0086B76C /* XMPPShowImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80C517E8BFBA0067A023 /* XMPPShowImageViewController.m */; };
-		39FF0B9C17F13CBB0086B76C /* ChatRoomMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80CC17E8BFBA0067A023 /* ChatRoomMessage.m */; };
 		39FF0B9D17F13CBB0086B76C /* IMServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80CF17E8BFBA0067A023 /* IMServerAPI.m */; };
 		39FF0B9E17F13CBB0086B76C /* AudioView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80D217E8BFBA0067A023 /* AudioView.m */; };
 		39FF0B9F17F13CBB0086B76C /* GroupPeopleViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80D417E8BFBA0067A023 /* GroupPeopleViewViewController.m */; };
@@ -2053,7 +2050,6 @@
 		F54D833C17E8BFBB0067A023 /* UIScrollView+SpiralPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80BC17E8BFBA0067A023 /* UIScrollView+SpiralPullToRefresh.m */; };
 		F54D834217E8BFBB0067A023 /* XMPPShowImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80C517E8BFBA0067A023 /* XMPPShowImageViewController.m */; };
 		F54D834317E8BFBB0067A023 /* XMPPShowImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D80C617E8BFBA0067A023 /* XMPPShowImageViewController.xib */; };
-		F54D834617E8BFBB0067A023 /* ChatRoomMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80CC17E8BFBA0067A023 /* ChatRoomMessage.m */; };
 		F54D834717E8BFBB0067A023 /* IMServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80CF17E8BFBA0067A023 /* IMServerAPI.m */; };
 		F54D834817E8BFBB0067A023 /* AudioView.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80D217E8BFBA0067A023 /* AudioView.m */; };
 		F54D834917E8BFBB0067A023 /* GroupPeopleViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D80D417E8BFBA0067A023 /* GroupPeopleViewViewController.m */; };
@@ -2833,8 +2829,6 @@
 		F54D80C417E8BFBA0067A023 /* XMPPShowImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPShowImageViewController.h; sourceTree = "<group>"; };
 		F54D80C517E8BFBA0067A023 /* XMPPShowImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPShowImageViewController.m; sourceTree = "<group>"; };
 		F54D80C617E8BFBA0067A023 /* XMPPShowImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XMPPShowImageViewController.xib; sourceTree = "<group>"; };
-		F54D80CB17E8BFBA0067A023 /* ChatRoomMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatRoomMessage.h; sourceTree = "<group>"; };
-		F54D80CC17E8BFBA0067A023 /* ChatRoomMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatRoomMessage.m; sourceTree = "<group>"; };
 		F54D80CE17E8BFBA0067A023 /* IMServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMServerAPI.h; sourceTree = "<group>"; };
 		F54D80CF17E8BFBA0067A023 /* IMServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMServerAPI.m; sourceTree = "<group>"; };
 		F54D80D117E8BFBA0067A023 /* AudioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioView.h; sourceTree = "<group>"; };
@@ -4141,7 +4135,6 @@
 			isa = PBXGroup;
 			children = (
 				F54D803117E8BFBA0067A023 /* controller */,
-				F54D80CA17E8BFBA0067A023 /* Entity */,
 				F54D80CD17E8BFBA0067A023 /* tool */,
 				F54D80D017E8BFBA0067A023 /* view */,
 			);
@@ -4326,15 +4319,6 @@
 				3968622917EE7D1D00C84A6A /* RecentTalkView.m */,
 			);
 			path = friendlist;
-			sourceTree = "<group>";
-		};
-		F54D80CA17E8BFBA0067A023 /* Entity */ = {
-			isa = PBXGroup;
-			children = (
-				F54D80CB17E8BFBA0067A023 /* ChatRoomMessage.h */,
-				F54D80CC17E8BFBA0067A023 /* ChatRoomMessage.m */,
-			);
-			path = Entity;
 			sourceTree = "<group>";
 		};
 		F54D80CD17E8BFBA0067A023 /* tool */ = {
@@ -7352,7 +7336,6 @@
 				F54D833B17E8BFBB0067A023 /* NSMutableArray+Additions.m in Sources */,
 				F54D833C17E8BFBB0067A023 /* UIScrollView+SpiralPullToRefresh.m in Sources */,
 				F54D834217E8BFBB0067A023 /* XMPPShowImageViewController.m in Sources */,
-				F54D834617E8BFBB0067A023 /* ChatRoomMessage.m in Sources */,
 				F54D834717E8BFBB0067A023 /* IMServerAPI.m in Sources */,
 				F54D834817E8BFBB0067A023 /* AudioView.m in Sources */,
 				F54D834917E8BFBB0067A023 /* GroupPeopleViewViewController.m in Sources */,
@@ -7535,7 +7518,6 @@
 				39D9EA0317F27C03001ED6F5 /* NSMutableArray+Additions.m in Sources */,
 				39D9EA0417F27C03001ED6F5 /* UIScrollView+SpiralPullToRefresh.m in Sources */,
 				39D9EA0517F27C03001ED6F5 /* XMPPShowImageViewController.m in Sources */,
-				39D9EA0617F27C03001ED6F5 /* ChatRoomMessage.m in Sources */,
 				39D9EA0717F27C03001ED6F5 /* IMServerAPI.m in Sources */,
 				39D9EA0817F27C03001ED6F5 /* AudioView.m in Sources */,
 				39D9EA0917F27C03001ED6F5 /* GroupPeopleViewViewController.m in Sources */,
@@ -7718,7 +7700,6 @@
 				39E052E017F00AEA00BCF7F8 /* NSMutableArray+Additions.m in Sources */,
 				39E052E117F00AEA00BCF7F8 /* UIScrollView+SpiralPullToRefresh.m in Sources */,
 				39E052E217F00AEA00BCF7F8 /* XMPPShowImageViewController.m in Sources */,
-				39E052E417F00AEA00BCF7F8 /* ChatRoomMessage.m in Sources */,
 				39E052E517F00AEA00BCF7F8 /* IMServerAPI.m in Sources */,
 				39E052E617F00AEA00BCF7F8 /* AudioView.m in Sources */,
 				39E052E717F00AEA00BCF7F8 /* GroupPeopleViewViewController.m in Sources */,
@@ -7900,7 +7881,6 @@
 				39FF0B9917F13CBB0086B76C /* NSMutableArray+Additions.m in Sources */,
 				39FF0B9A17F13CBB0086B76C /* UIScrollView+SpiralPullToRefresh.m in Sources */,
 				39FF0B9B17F13CBB0086B76C /* XMPPShowImageViewController.m in Sources */,
-				39FF0B9C17F13CBB0086B76C /* ChatRoomMessage.m in Sources */,
 				39FF0B9D17F13CBB0086B76C /* IMServerAPI.m in Sources */,
 				39FF0B9E17F13CBB0086B76C /* AudioView.m in Sources */,
 				39FF0B9F17F13CBB0086B76C /* GroupPeopleViewViewController.m in Sources */,

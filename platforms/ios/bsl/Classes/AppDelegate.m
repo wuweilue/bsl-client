@@ -80,7 +80,6 @@ void uncaughtExceptionHandler(NSException*exception){
 @synthesize navControl;
 @synthesize uc;
 @synthesize xmpp;
-@synthesize xmppPustActor;
 @synthesize moduleReceiveMsg;
 
 - (id)init{
@@ -108,7 +107,6 @@ void uncaughtExceptionHandler(NSException*exception){
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions{
     
     [UIApplication sharedApplication].idleTimerDisabled=YES;
-    
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
     if (launchOptions){
@@ -134,7 +132,8 @@ void uncaughtExceptionHandler(NSException*exception){
     [self referencePushSound];
     
 //    [self registerDevice];
-    self.downQueueActor = [[DownQueueActor alloc]init];
+    //项目发现未见有使用该代码
+//    self.downQueueActor = [[DownQueueActor alloc]init];
     CubeApplication *cubeApp = [CubeApplication currentApplication];
     
     if(!cubeApp.installed){
@@ -151,6 +150,8 @@ void uncaughtExceptionHandler(NSException*exception){
         
         [application setStatusBarStyle:UIStatusBarStyleLightContent];
     }
+    
+    
     
     self.window.autoresizesSubviews = YES;
     
