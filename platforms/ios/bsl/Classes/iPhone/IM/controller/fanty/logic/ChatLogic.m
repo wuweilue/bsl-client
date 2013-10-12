@@ -319,6 +319,16 @@
 
     for(NSDictionary* dict in users){
         if(![dict isKindOfClass:[NSDictionary class]])continue;
+        
+        NSString* username=[dict objectForKey:@"username"];
+        NSString* jid=[dict objectForKey:@"jid"];
+        
+        if([[jid class] isSubclassOfClass:[NSNull class]]  || [jid length]<1)
+            continue;
+
+        if([[username class] isSubclassOfClass:[NSNull class]]  || [username length]<1)continue;
+
+        
         NSManagedObject *newManagedObject=[NSEntityDescription insertNewObjectForEntityForName:@"FaviorUserInfo" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
         
         /*
@@ -326,9 +336,9 @@
         if(![[group class] isSubclassOfClass:[NSNull class]] &&[group length]>0)
             [newManagedObject setValue:group forKey:@"userGroup"];
         */
-        NSString* username=[dict objectForKey:@"username"];
-        [newManagedObject setValue:([username length]>0?username:@"") forKey:@"userName"];
-        [newManagedObject setValue:[dict objectForKey:@"jid"] forKey:@"userJid"];
+        
+        [newManagedObject setValue:username forKey:@"userName"];
+        [newManagedObject setValue:jid forKey:@"userJid"];
         
         /*
         NSString* subscription=[dict objectForKey:@"userSubscription"];
