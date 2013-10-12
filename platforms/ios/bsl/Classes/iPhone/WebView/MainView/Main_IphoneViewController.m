@@ -27,6 +27,8 @@
 
 @interface Main_IphoneViewController ()<DownloadCellDelegate,SettingMainViewControllerDelegate,UIGestureRecognizerDelegate>{
     BOOL isFirst;
+    
+    CubeWebViewController *bCubeWebViewController;
 }
 
 @property(strong,nonatomic) id selfObj;
@@ -108,15 +110,16 @@
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
-    [aCubeWebViewController.view removeFromSuperview];
     aCubeWebViewController=nil;
+    
+    bCubeWebViewController=nil;
     self.selectedModule=nil;
 }
 
 
 - (void)dealloc{
-    [aCubeWebViewController.view removeFromSuperview];
     aCubeWebViewController=nil;
+    bCubeWebViewController=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.selectedModule=nil;
 }
@@ -502,7 +505,9 @@
     frame.size.width =CGRectGetHeight(self.view.frame)/2+2;
     frame.size.height= CGRectGetWidth(self.view.frame);
     
-    CubeWebViewController *bCubeWebViewController  = [[CubeWebViewController alloc] init];
+    [bCubeWebViewController.view removeFromSuperview];
+    bCubeWebViewController=nil;
+    bCubeWebViewController  = [[CubeWebViewController alloc] init];
     //记录html5模块点击begin
     [OperateLog recordOperateLog:module];
     //end
@@ -512,10 +517,12 @@
         bCubeWebViewController.webView.scrollView.bounces=NO;
         [self.navigationController pushViewController:bCubeWebViewController animated:YES];
         bCubeWebViewController.closeButton.hidden = NO;
+        bCubeWebViewController=nil;
     }didErrorBlock:^(){
         NSLog(@"error loading %@", bCubeWebViewController.webView.request.URL);
         UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@模块加载失败。",bCubeWebViewController.title] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
+        bCubeWebViewController=nil;
     }];
 }
 
