@@ -709,7 +709,7 @@
 -(void)deleteMember:(GroupMemberManagerViewController *)controller{
     self.isQuit=YES;
     [chatPanel hideAllControlPanel];
-
+    [self createRightNavBarButton];
 }
 
 #pragma mark method
@@ -803,6 +803,11 @@
 
 -(void)createRightNavBarButton{
     
+    if(self.isQuit){
+        self.navigationItem.rightBarButtonItem=nil;
+        
+    }
+    else{
         UIButton *navRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 7, 63, 30)];
         
         
@@ -828,8 +833,7 @@
             
         }
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightButton];
-
-    
+    }
 }
 
 
