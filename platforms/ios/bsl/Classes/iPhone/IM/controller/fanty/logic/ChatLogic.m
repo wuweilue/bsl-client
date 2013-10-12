@@ -318,6 +318,7 @@
     [appDelegate.xmpp saveContext];
 
     for(NSDictionary* dict in users){
+        if(![dict isKindOfClass:[NSDictionary class]])continue;
         NSManagedObject *newManagedObject=[NSEntityDescription insertNewObjectForEntityForName:@"FaviorUserInfo" inManagedObjectContext:appDelegate.xmpp.managedObjectContext];
         
         /*
@@ -325,7 +326,8 @@
         if(![[group class] isSubclassOfClass:[NSNull class]] &&[group length]>0)
             [newManagedObject setValue:group forKey:@"userGroup"];
         */
-        [newManagedObject setValue:[dict objectForKey:@"username"] forKey:@"userName"];
+        NSString* username=[dict objectForKey:@"username"];
+        [newManagedObject setValue:([username length]>0?username:@"") forKey:@"userName"];
         [newManagedObject setValue:[dict objectForKey:@"jid"] forKey:@"userJid"];
         
         /*
