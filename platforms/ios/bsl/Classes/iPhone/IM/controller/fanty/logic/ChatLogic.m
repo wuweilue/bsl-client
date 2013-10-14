@@ -437,9 +437,16 @@
     [self.request setCompletionBlock:^{
         
         NSDictionary *dict = [[__request responseString] objectFromJSONString];
+        NSString *fileId = [dict valueForKey:@"id"];
+        
+        if(![fileId isKindOfClass:[NSString class]] || [fileId length]<1){
+            if(finish!=nil)
+                finish(nil,nil);
+            [objSelf.request cancel];
+            return ;
+        }
         
         NSData *imageData = [[__request userInfo] valueForKey:@"file"];
-        NSString *fileId = [dict valueForKey:@"id"];
 
         
         NSString* path=[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
