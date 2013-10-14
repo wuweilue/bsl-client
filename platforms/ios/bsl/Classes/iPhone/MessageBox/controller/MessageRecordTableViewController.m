@@ -411,10 +411,14 @@
         [record remove];
         [MessageRecord save];
         
-        if(newModuleRecords.count <2 ){
+        if(newModuleRecords.count <1 ){
            [presentModulesDic setObject:[MessageRecord findSystemRecord] forKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
             
-            [expandDic setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInteger:[indexPath section]]];
+            if([moduleRecords count]<2){
+                [expandDic setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInteger:[indexPath section]]];
+            }
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"module_badgeCount_change" object:nil];
 
             
         }else{

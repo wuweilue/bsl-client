@@ -98,6 +98,10 @@
             Announcement *announcement=obj;
             if([announcement.recordId isEqualToString:self.recordId]){
                 slideIndex = index;
+                if(![announcement.isRead boolValue]){
+                    announcement.isRead=[NSNumber numberWithBool:YES];
+                    [announcement save];
+                }
                 *stop=YES;
             }
         }];
