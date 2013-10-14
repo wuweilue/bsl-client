@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class SkinView;
+
 @class CubeWebViewController;
 
 @interface Main_IphoneViewController : UIViewController{
