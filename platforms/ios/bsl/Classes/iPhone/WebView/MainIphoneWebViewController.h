@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainIphoneWebViewController : UIViewController
 
-@end
+@class CubeWebViewController;
+@interface MainIphoneWebViewController : UIViewController{
+    CubeWebViewController *aCubeWebViewController;
+}
+
+@property(nonatomic,strong) UINavigationController* navController;
+
+@property (strong, nonatomic) NSString *selectedModule;
