@@ -334,6 +334,7 @@
 -(void)moduleInstallFail{
     [SVProgressHUD showErrorWithStatus:@"模块操作失败！"];
 }
+
 -(void)updateAuthoShowTime:(NSString*)identifier{
     long currentTime = [[NSDate date]timeIntervalSince1970];
     NSString *userName = [[NSUserDefaults standardUserDefaults]valueForKey:@"username"];
