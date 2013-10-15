@@ -915,7 +915,7 @@
 }
 
 -(void)moduleInstallFail{
-    [SVProgressHUD showErrorWithStatus:@"模块操作失败！"];
+    [SVProgressHUD showErrorWithStatus:@"网络连接失败，请稍后重试！"];
 }
 
 
