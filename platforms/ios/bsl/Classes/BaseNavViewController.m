@@ -79,7 +79,8 @@
 }
 
 -(void)didClickBack{
-    [self popViewControllerAnimated:YES];
+    if([self.viewControllers count]>2)
+        [self popViewControllerAnimated:YES];
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{

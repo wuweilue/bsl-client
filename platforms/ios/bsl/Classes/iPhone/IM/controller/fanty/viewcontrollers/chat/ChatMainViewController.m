@@ -36,6 +36,10 @@
 -(void)voiceButtonClick:(UIButton*)cell;
 -(void)rightActionClick;
 -(void)rightGroupClick;
+
+-(void) keyboardWillShow:(NSNotification *)note;
+-(void) keyboardWillHide:(NSNotification *)note;
+
 @end
 
 @implementation ChatMainViewController
@@ -55,6 +59,17 @@
         }
 
         playingIndex=-1;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(keyboardWillShow:)
+													 name:UIKeyboardWillShowNotification
+												   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(keyboardWillHide:)
+													 name:UIKeyboardWillHideNotification
+												   object:nil];
+
     }
     return self;
 }
@@ -163,6 +178,7 @@
 }
 
 -(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[GTGZImageDownloadedManager sharedInstance] removeAll];
     [VoiceUploadManager sharedInstance].delegate=nil;
 
@@ -715,6 +731,52 @@
     [chatPanel hideAllControlPanel];
     [self createRightNavBarButton];
 }
+
+
+#pragma mark  notification
+-(void) keyboardWillShow:(NSNotification *)note{
+    // get keyboard size and loctaion
+
+	CGRect keyboardBounds;
+    [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    
+    
+	CGRect containerFrame = tableView.frame;
+    
+
+    containerFrame.size.height-=keyboardBounds.size.height;
+    
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+	
+	tableView.frame=containerFrame;
+	[UIView commitAnimations];
+}
+
+-(void) keyboardWillHide:(NSNotification *)note{
+    CGRect keyboardBounds;
+    [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    
+	CGRect containerFrame = tableView.frame;
+    
+    containerFrame.size.height+=keyboardBounds.size.height;
+    
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+	
+	tableView.frame=containerFrame;
+	[UIView commitAnimations];
+}
+
+
 
 #pragma mark method
 
