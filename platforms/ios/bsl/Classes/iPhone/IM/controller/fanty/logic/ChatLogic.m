@@ -269,6 +269,9 @@
         
         //发送消息
         [appDelegate.xmpp.xmppStream sendElement:message];
+        
+        
+        
     }
     
     @autoreleasepool {

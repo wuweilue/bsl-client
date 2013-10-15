@@ -26,6 +26,10 @@
     
 }
 -(void)delayLoadTimerEvent;
+
+-(void)createRrightNavItem;
+-(void)rightNavClick;
+
 @end
 
 @implementation MessageRecordTableViewController
@@ -188,6 +192,8 @@
         }
     }
     
+    [self createRrightNavItem];
+
 }
 
 -(void)delayLoadTimerEvent{
@@ -201,6 +207,30 @@
     [delayLoadTimer invalidate];
     delayLoadTimer=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(delayLoadTimerEvent) userInfo:nil repeats:NO];
 }
+
+-(void)rightNavClick{
+    //    tableView.editing=!tableView.editing;
+    [tableView setEditing:!tableView.editing animated:YES];
+    [self createRrightNavItem];
+    
+}
+
+-(void)createRrightNavItem{
+    if([presentModulesDic count]<1){
+        self.navigationItem.rightBarButtonItem=nil;
+        return;
+    }
+    UIButton *navRightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 7, 43, 30)];
+    //navRightButton.style = UIBarButtonItemStyleBordered;
+    [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn.png"] forState:UIControlStateNormal];
+    [navRightButton setBackgroundImage:[UIImage imageNamed:@"nav_add_btn_active.png"] forState:UIControlStateSelected];
+    [navRightButton setTitle:(tableView.editing?@"取消":@"编辑") forState:UIControlStateNormal];
+    [[navRightButton titleLabel] setFont:[UIFont systemFontOfSize:13]];
+    [navRightButton addTarget:self action:@selector(rightNavClick) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:navRightButton];
+    
+}
+
 
 #pragma mark - Table view data source
 
@@ -376,14 +406,11 @@
         }
     }
     
-   int section =  [[presentModulesDic  allKeys] indexOfObject:moduleIdendity];
-    
     [presentModulesDic removeObjectForKey:moduleIdendity];
-    NSIndexSet *set = [NSIndexSet indexSetWithIndex:section];
-   
-    [expandDic setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInteger:section]];
+    [self delayLoadTimerEvent];
     
-    [tableView deleteSections:set withRowAnimation:UITableViewRowAnimationFade];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"module_badgeCount_change" object:nil];
+
     
     //保存数据
     UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"删除成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
@@ -395,10 +422,11 @@
 }
 
 
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (UITableViewCellEditingStyle)tableView:(UITableView *)__tableView
+           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(__tableView.editing)
+        return UITableViewCellEditingStyleDelete;
+    return UITableViewCellEditingStyleNone;
 }
 
 
@@ -414,10 +442,14 @@
         [record remove];
         [MessageRecord save];
         
-        if(newModuleRecords.count <2 ){
+        if(newModuleRecords.count <1 ){
            [presentModulesDic setObject:[MessageRecord findSystemRecord] forKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
             
-            [expandDic setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInteger:[indexPath section]]];
+            if([moduleRecords count]<2){
+                [expandDic setObject:[NSNumber numberWithBool:NO] forKey:[NSNumber numberWithInteger:[indexPath section]]];
+            }
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"module_badgeCount_change" object:nil];
 
             
         }else{

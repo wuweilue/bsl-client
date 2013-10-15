@@ -100,7 +100,10 @@ static VoiceUploadManager* instance=nil;
         
         NSDictionary *dict = [[requestT responseString] objectFromJSONString];
         NSString *fileId = [dict valueForKey:@"id"];
-        [objSelf finishAndSendXmpp:fileId];
+        if(![fileId isKindOfClass:[NSString class]] || [fileId length]<1)
+            [objSelf failed];
+        else
+            [objSelf finishAndSendXmpp:fileId];
     }];
     
     [request setFailedBlock:^{
@@ -156,7 +159,7 @@ static VoiceUploadManager* instance=nil;
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
 
     if(self.isGroup){
-        XMPPRoom *room=[[appDelegate xmpp].roomService findRoomByJid:self.messageId];
+        room=[[appDelegate xmpp].roomService findRoomByJid:self.messageId];
         if(room!=nil && !room.isJoined){
             [self failed];
             return;

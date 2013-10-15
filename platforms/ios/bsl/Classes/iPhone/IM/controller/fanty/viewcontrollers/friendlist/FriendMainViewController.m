@@ -80,6 +80,11 @@
 
     self.view.frame=rect;
     [self initTabBar];
+    
+    
+    tableViewHeight=self.view.frame.size.height-CGRectGetMaxY(tabView.frame);
+
+    
     [self openOrCreateListView:1];
     
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
@@ -94,6 +99,8 @@
         [vv addSubview:label];
         self.navigationItem.titleView= vv;
     }
+    
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -152,6 +159,10 @@
         if(tabView.selectedIndex==2){
             [navRightButton setTitle:(faviorContactView.editing?@"取消":@"编辑") forState:UIControlStateNormal];
         }
+        else if(tabView.selectedIndex==0){
+            [navRightButton setTitle:(recentTalkView.editing?@"取消":@"编辑") forState:UIControlStateNormal];
+
+        }
         else{
             [navRightButton setTitle:@"群聊" forState:UIControlStateNormal];
             
@@ -185,9 +196,10 @@
     contactListView.hidden=YES;
     faviorContactView.hidden=YES;
     [self filterClick];
+
     if(tab==0){
         if(recentTalkView==nil){
-            recentTalkView=[[RecentTalkView alloc] initWithFrame:CGRectMake(0.0f, CGRectGetMaxY(tabView.frame), self.view.frame.size.width, self.view.frame.size.height-CGRectGetMaxY(tabView.frame)) style:UITableViewStylePlain];
+            recentTalkView=[[RecentTalkView alloc] initWithFrame:CGRectMake(0.0f, CGRectGetMaxY(tabView.frame), self.view.frame.size.width, tableViewHeight) style:UITableViewStylePlain];
             recentTalkView.rectentDelegate=self;
             [self.view addSubview:recentTalkView];
         }
@@ -196,7 +208,8 @@
     }
     else if(tab==1){
         if(contactListView==nil){
-            contactListView=[[ContactListView alloc] initWithFrame:CGRectMake(0.0f, CGRectGetMaxY(tabView.frame), self.view.frame.size.width, self.view.frame.size.height-CGRectGetMaxY(tabView.frame))];
+            
+            contactListView=[[ContactListView alloc] initWithFrame:CGRectMake(0.0f, CGRectGetMaxY(tabView.frame), self.view.frame.size.width, tableViewHeight)];
             contactListView.delegate=self;
             [self.view addSubview:contactListView];
             
@@ -206,15 +219,17 @@
     }
     else if(tab==2){
         if(faviorContactView==nil){
-            faviorContactView=[[FaviorContactView alloc] initWithFrame:CGRectMake(0.0f, CGRectGetMaxY(tabView.frame), self.view.frame.size.width, self.view.frame.size.height-CGRectGetMaxY(tabView.frame)) style:UITableViewStylePlain];
+            faviorContactView=[[FaviorContactView alloc] initWithFrame:CGRectMake(0.0f, CGRectGetMaxY(tabView.frame), self.view.frame.size.width, tableViewHeight) style:UITableViewStylePlain];
             faviorContactView.faviorDelegate=self;
             [self.view addSubview:faviorContactView];
         }
         faviorContactView.hidden=NO;
     }
-    if(tab!=2){
+    if(tab!=0){
+        [recentTalkView setEditing:NO animated:NO];
+    }
+    else if(tab!=2){
         [faviorContactView setEditing:NO animated:NO];
-        [faviorContactView layoutTableCell];
     }
     [self createRrightNavItem];
 
@@ -242,9 +257,14 @@
     if(tabView.selectedIndex==2){
         
         [faviorContactView setEditing:!faviorContactView.editing animated:YES];
-        [faviorContactView layoutTableCell];
         [self createRrightNavItem];
         return;
+    }
+    else if(tabView.selectedIndex==0){
+        [recentTalkView setEditing:!recentTalkView.editing animated:YES];
+        [self createRrightNavItem];
+        return;
+
     }
     
     AppDelegate* appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
