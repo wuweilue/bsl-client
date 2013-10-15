@@ -61,7 +61,10 @@
         //收到消息时候的广播
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
         //收到好友消息时候
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleInstallFail) name:CubeModuleDownloadDidFailNotification object:nil];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteModuleFromNotification:) name:KNOTIFICATION_DETIALPAGE_DELETESUCCESS object:nil];
+        
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissView) name:@"DISMISS_VIEW" object:nil];
 
@@ -229,7 +232,7 @@
             NSMutableString *message = [[NSMutableString alloc] init];
             [message appendString:@"以下模块可以更新:\n"];
             for(CubeModule *module in updateModules){
-                [message appendFormat:@"%@\n", module.name];
+                [message appendFormat:@"%@ %@\n", module.name,module.version];
             }
             //        [defaults setBool:NO forKey:@"firstTime"];
             if(![defaults boolForKey:@"firstTime"]){
@@ -328,7 +331,9 @@
     }
 }
 
-
+-(void)moduleInstallFail{
+    [SVProgressHUD showErrorWithStatus:@"模块操作失败！"];
+}
 -(void)updateAuthoShowTime:(NSString*)identifier{
     long currentTime = [[NSDate date]timeIntervalSince1970];
     NSString *userName = [[NSUserDefaults standardUserDefaults]valueForKey:@"username"];
