@@ -819,7 +819,9 @@
 -(void)startUILoading{
     int count =[self getDownMouleCount];
     statusToolbar.statusLabel.text = [NSString stringWithFormat:@"正在下载... %d/%d",(allDownCount - count) ,allDownCount];
-    statusToolbar.progressBar.progress = count/allDownCount;
+    
+    
+    statusToolbar.progressBar.progress = 1-(float)count/(float)allDownCount;
     [statusToolbar show:YES completion:^(BOOL finished) {
     }];
 }

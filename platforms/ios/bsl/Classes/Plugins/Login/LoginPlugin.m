@@ -9,8 +9,8 @@
 #import "LoginPlugin.h"
 #import "JSONKit.h"
 #import "UIDevice+IdentifierAddition.h"
-#import "HTTPRequest.h"
 #import "ServerAPI.h"
+#import "HTTPRequest.h"
 
 @implementation LoginPlugin
 /**
@@ -62,7 +62,7 @@
     NSString* userSwithch =  [command.arguments objectAtIndex:2];
     
     if ([userName isEqualToString:@""] || [userPass isEqualToString:@""]) {
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:@"用户名或密码不能为空！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:@"用户名或密码不能为空！" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
         
         CDVPluginResult*  pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
@@ -71,7 +71,13 @@
         if(![SVProgressHUD isVisible]){
             [SVProgressHUD showWithStatus:@"正在登录..."  maskType:SVProgressHUDMaskTypeGradient ];
         }
+        
+        [httRequest setCompletionBlock:nil];
+        [httRequest setFailedBlock:nil];
+        [httRequest cancel];
+
         FormDataRequest* request = [FormDataRequest requestWithURL:[NSURL URLWithString:[ServerAPI urlForLogin]]];
+        httRequest=request;
         __block FormDataRequest*  __request=request;
 
         request.timeOutSeconds=120.0f;
@@ -85,6 +91,7 @@
         
 
         [request setFailedBlock:^{
+            httRequest=nil;
             if([SVProgressHUD isVisible]){
                 [SVProgressHUD showErrorWithStatus:@"连接服务器失败！"];
             }
@@ -100,6 +107,7 @@
         }];
         
         [request setCompletionBlock:^{
+            httRequest=nil;
             if([__request responseStatusCode] == 404){
                 [SVProgressHUD showErrorWithStatus:@"连接服务器失败！" ];
 
@@ -115,7 +123,7 @@
                 }
 
                 NSLog(@"%@",message);
-                UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"登录失败" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"登录失败" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 [alert show];
                 alert=nil;
             }else{

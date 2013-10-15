@@ -4,17 +4,17 @@
 <head>
 <meta charset="utf-8">
 <title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no,target-densitydpi=150">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no,target-densitydpi=low-dpi">
 <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta content="black" name="apple-mobile-web-app-status-bar-style" />
 <meta name="description" content="">
 <meta name="author" content="Gorphen Su">
 <!-- Le styles -->
-<link href="css/main.css" rel="stylesheet">
-<link rel="stylesheet" media="screen and (max-width:320px)" href="css/small.css">
-<script type="text/javascript" src="../cordova.js"></script>
 
+<link href="css/main.css" rel="stylesheet">
+
+<script type="text/javascript" src="../cordova.js"></script>
 </head>
 <body>
 <header>
@@ -25,43 +25,20 @@
 		<img src="img/set.png"/>
 	</div>
 </header>
-
-
-
-<div id="loader" style="display:none" class="loader">
-
-<div class="cube-loader-mask"></div>
-<div class="cube-flight-loader"><img class="cube-flight-loader-flight"><div class="cube-flight-loader-box"><a class="" href="javascript:void(0)"></a></div></div>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="content">
 	<!-- 天气 -->
   <div class="weather_content">
   	<div class="degree">
-  		<span id="degree"></span>
+  		28
   	</div>
   	<div class="circle">
-  		
+  		°
   	</div>
-  <!-- 	<div class="range">
+  	<div class="range">
   		25°- 31°
-  	</div> -->
+  	</div>
   	<div class="more">
-  		<span id="base"></span>&nbsp;<span id="weather"></span>&nbsp;<span id="date"></span>
+  		广州&nbsp;阴转小雨&nbsp;7月12日&nbsp;周五
   	</div>
   </div>
 
@@ -99,7 +76,7 @@
     <div class="module_li_img">
         <img src="<%=icon%>" alt="" onerror="this.src='img/default_icon2.png'">
         <div class="module_Tips" moduletype="<%=moduleType%>" identifier="<%=identifier%>"  <%if(msgCount!==0  && moduleType ==="main"){%>style="display:inline"<%}else{%>style="display:none"<%}%>><%=msgCount%>
-      </div>
+			</div>
     </div>
         
     </div>
@@ -109,16 +86,14 @@
   </li>
 </script>
 <script src="vendor/zepto/zepto.js"></script>
-<script src="vendor/zepto/touch.js"></script>
+<!-- <script src="vendor/zepto/touch.js"></script> -->
 <script src="vendor/underscore-min.js"></script>
 <script src="vendor/swipe.js"></script>
 <script type="text/javascript" src="vendor/fastclick/fastclick.js"></script>
 <script src="js/util.js"></script>
 <script src="js/main.js"></script>
-<!--<script type="text/javascript">
-alert(window.devicePixelRatio);
-alert("screen.width="+screen.width);
-</script>-->
+
+
 
  <!-- <ul id="myul" class="scrollContent"> -->
           
