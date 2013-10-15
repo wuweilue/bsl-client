@@ -23,7 +23,7 @@
 {
     @autoreleasepool {
         NSUserDefaults* defaults  = [NSUserDefaults standardUserDefaults];
-   Boolean switchIsOn = [defaults boolForKey:@"switchIsOn"] ;
+        Boolean switchIsOn = [defaults boolForKey:@"switchIsOn"] ;
         
         NSMutableDictionary *json = [NSMutableDictionary dictionary];
         [json setValue:[defaults objectForKey:@"username"] forKey:@"username"];
@@ -114,13 +114,14 @@
                 [__request cancel];
                 return ;
             }
+            if([SVProgressHUD isVisible]){
+                [SVProgressHUD dismiss];
+            }
+
             NSData* data = [__request responseData];
             NSDictionary* messageDictionary = [data objectFromJSONData];
             NSString* message = [messageDictionary objectForKey:@"message"];
             if (message !=nil) {
-                if([SVProgressHUD isVisible]){
-                    [SVProgressHUD dismiss];
-                }
 
                 NSLog(@"%@",message);
                 UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"登录失败" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
@@ -138,7 +139,7 @@
                     [defaults setObject:userName forKey:@"username"];
                     [defaults setObject:userPass forKey:@"password"];
                 }else{
-                    [defaults setObject:@"" forKey:@"username"];
+                    [defaults setObject:userName forKey:@"username"];
                     [defaults setObject:@"" forKey:@"password"];
                     [defaults setBool:NO forKey:@"switchIsOn"];
                 }
@@ -160,10 +161,6 @@
                 [appDelegate didLogin];
 
             }else{
-                if([SVProgressHUD isVisible]){
-                    [SVProgressHUD dismiss];
-                }
-
                 if ([messageAlert length] <= 0) {
                     messageAlert = @"服务器出错，请联系管理员！";
                 }
