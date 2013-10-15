@@ -13,8 +13,9 @@
 
 
 
-@interface Login_IphoneViewController ()
-
+@interface Login_IphoneViewController (){
+    BOOL isDisappear;
+}
 @end
 
 @implementation Login_IphoneViewController
@@ -75,12 +76,25 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    if (isDisappear) {
+        NSURL *url =[NSURL URLWithString: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/login.html"]absoluteString]];
+        NSURLRequest *request =[NSURLRequest requestWithURL:url];
+        [aCubeWebViewController.webView loadRequest:request];
+        isDisappear = false;
+    }
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    isDisappear = true;
 }
 
 

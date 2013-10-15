@@ -23,7 +23,7 @@
 {
     @autoreleasepool {
         NSUserDefaults* defaults  = [NSUserDefaults standardUserDefaults];
-   Boolean switchIsOn = [defaults boolForKey:@"switchIsOn"] ;
+        Boolean switchIsOn = [defaults boolForKey:@"switchIsOn"] ;
         
         NSMutableDictionary *json = [NSMutableDictionary dictionary];
         [json setValue:[defaults objectForKey:@"username"] forKey:@"username"];
@@ -130,7 +130,7 @@
                     [defaults setObject:userName forKey:@"username"];
                     [defaults setObject:userPass forKey:@"password"];
                 }else{
-                    [defaults setObject:@"" forKey:@"username"];
+                    [defaults setObject:userName forKey:@"username"];
                     [defaults setObject:@"" forKey:@"password"];
                     [defaults setBool:NO forKey:@"switchIsOn"];
                 }
