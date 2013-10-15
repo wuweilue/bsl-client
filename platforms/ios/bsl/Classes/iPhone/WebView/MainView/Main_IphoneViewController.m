@@ -84,17 +84,6 @@
     
     aCubeWebViewController.title=@"登录";
     aCubeWebViewController.wwwFolderName = @"www";
-
-   
-    
-    CGRect rect=self.view.bounds;
-    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
-        rect.origin.y=20.0f;
-        rect.size.height-=20.0f;
-    }
-    aCubeWebViewController.view.frame = rect;
-    [self.view addSubview:aCubeWebViewController.view];
-    aCubeWebViewController.webView.scrollView.bounces=NO;
     NSURL* fileUrl = [[NSURL alloc]init];
 #ifdef MOBILE_BSL
     aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"home/index.html"] absoluteString];
@@ -103,7 +92,14 @@
     aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString];
     fileUrl =[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"];
 #endif
-    
+    CGRect rect=self.view.bounds;
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+        rect.origin.y=20.0f;
+        rect.size.height-=20.0f;
+    }
+    aCubeWebViewController.view.frame = rect;
+    [self.view addSubview:aCubeWebViewController.view];
+    aCubeWebViewController.webView.scrollView.bounces=NO;
     [aCubeWebViewController loadWebPageWithUrl: [fileUrl absoluteString] didFinishBlock: ^(){
         [self.navController pushViewController:self animated:NO];
         self.navController=nil;

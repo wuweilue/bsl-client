@@ -2343,10 +2343,6 @@
 		F5730F3118093BAB00E4541D /* KKProgressToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F5730F2E18093BAB00E4541D /* KKProgressToolbar.m */; };
 		F5730F3218093BAB00E4541D /* KKProgressToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F5730F2E18093BAB00E4541D /* KKProgressToolbar.m */; };
 		F5730F3318093BAB00E4541D /* KKProgressToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F5730F2E18093BAB00E4541D /* KKProgressToolbar.m */; };
-		F590806D180B8F14004891BB /* MainIphoneWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F590806C180B8F14004891BB /* MainIphoneWebViewController.m */; };
-		F590806E180B8F14004891BB /* MainIphoneWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F590806C180B8F14004891BB /* MainIphoneWebViewController.m */; };
-		F590806F180B8F14004891BB /* MainIphoneWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F590806C180B8F14004891BB /* MainIphoneWebViewController.m */; };
-		F5908070180B8F14004891BB /* MainIphoneWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F590806C180B8F14004891BB /* MainIphoneWebViewController.m */; };
 		F5A96C4617F006B400F9CA68 /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C3917F006B400F9CA68 /* CDVDevice.m */; };
 		F5A96C4717F006B400F9CA68 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C3C17F006B400F9CA68 /* CDVNotification.m */; };
 		F5A96C4817F006B400F9CA68 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A96C3F17F006B400F9CA68 /* CDVFile.m */; };
@@ -3203,8 +3199,6 @@
 		F552F75C1807DBDC009A5EFE /* nav_bg_pad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_bg_pad@2x.png"; sourceTree = "<group>"; };
 		F5730F2E18093BAB00E4541D /* KKProgressToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKProgressToolbar.m; sourceTree = "<group>"; };
 		F5730F2F18093BAB00E4541D /* KKProgressToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKProgressToolbar.h; sourceTree = "<group>"; };
-		F590806B180B8F14004891BB /* MainIphoneWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainIphoneWebViewController.h; sourceTree = "<group>"; };
-		F590806C180B8F14004891BB /* MainIphoneWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainIphoneWebViewController.m; sourceTree = "<group>"; };
 		F5A96C3817F006B400F9CA68 /* CDVDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVDevice.h; sourceTree = "<group>"; };
 		F5A96C3917F006B400F9CA68 /* CDVDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVDevice.m; sourceTree = "<group>"; };
 		F5A96C3B17F006B400F9CA68 /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVNotification.h; sourceTree = "<group>"; };
@@ -4500,8 +4494,6 @@
 			children = (
 				F54D814017E8BFBA0067A023 /* Login */,
 				F54D814317E8BFBA0067A023 /* MainView */,
-				F590806B180B8F14004891BB /* MainIphoneWebViewController.h */,
-				F590806C180B8F14004891BB /* MainIphoneWebViewController.m */,
 			);
 			path = WebView;
 			sourceTree = "<group>";
@@ -7242,7 +7234,6 @@
 				F54D836317E8BFBB0067A023 /* RatingView.m in Sources */,
 				F54D836417E8BFBB0067A023 /* VoiceModule.m in Sources */,
 				F54D836517E8BFBB0067A023 /* VVMessageCell.m in Sources */,
-				F590806D180B8F14004891BB /* MainIphoneWebViewController.m in Sources */,
 				F5A96C4617F006B400F9CA68 /* CDVDevice.m in Sources */,
 				F54D836D17E8BFBB0067A023 /* LoginViewController.m in Sources */,
 				F54D836E17E8BFBB0067A023 /* MessageRecordTableViewController.m in Sources */,
@@ -7420,7 +7411,6 @@
 				39D9EA1A17F27C03001ED6F5 /* RatingView.m in Sources */,
 				39D9EA1B17F27C03001ED6F5 /* VoiceModule.m in Sources */,
 				39D9EA1C17F27C03001ED6F5 /* VVMessageCell.m in Sources */,
-				F5908070180B8F14004891BB /* MainIphoneWebViewController.m in Sources */,
 				39D9EA1D17F27C03001ED6F5 /* CDVDevice.m in Sources */,
 				39D9EA1E17F27C03001ED6F5 /* LoginViewController.m in Sources */,
 				39D9EA1F17F27C03001ED6F5 /* MessageRecordTableViewController.m in Sources */,
@@ -7598,7 +7588,6 @@
 				39E052F817F00AEA00BCF7F8 /* RatingView.m in Sources */,
 				39E052F917F00AEA00BCF7F8 /* VoiceModule.m in Sources */,
 				39E052FA17F00AEA00BCF7F8 /* VVMessageCell.m in Sources */,
-				F590806E180B8F14004891BB /* MainIphoneWebViewController.m in Sources */,
 				39E052FB17F00AEA00BCF7F8 /* CDVDevice.m in Sources */,
 				39E052FC17F00AEA00BCF7F8 /* LoginViewController.m in Sources */,
 				39E052FD17F00AEA00BCF7F8 /* MessageRecordTableViewController.m in Sources */,
@@ -7776,7 +7765,6 @@
 				39FF0BB017F13CBB0086B76C /* RatingView.m in Sources */,
 				39FF0BB117F13CBB0086B76C /* VoiceModule.m in Sources */,
 				39FF0BB217F13CBB0086B76C /* VVMessageCell.m in Sources */,
-				F590806F180B8F14004891BB /* MainIphoneWebViewController.m in Sources */,
 				39FF0BB317F13CBB0086B76C /* CDVDevice.m in Sources */,
 				39FF0BB417F13CBB0086B76C /* LoginViewController.m in Sources */,
 				39FF0BB517F13CBB0086B76C /* MessageRecordTableViewController.m in Sources */,
