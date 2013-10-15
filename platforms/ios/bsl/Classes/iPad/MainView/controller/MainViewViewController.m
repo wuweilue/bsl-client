@@ -59,7 +59,8 @@
             self.extendedLayoutIncludesOpaqueBars = NO;
             self.modalPresentationCapturesStatusBarAppearance = NO;
         }
-        
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cubeSyncClick) name:CubeSyncClickNotification object:nil];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showView:) name:SHOW_DETAILVIEW object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSetting) name:@"SHOW_SETTING_VIEW" object:nil];
@@ -335,6 +336,12 @@
         [database executeUpdate:sql];
  
     });
+
+}
+
+-(void)cubeSyncClick{
+    [self dismissDetailViewController];
+    selectedTabIndex=-1;
 
 }
 

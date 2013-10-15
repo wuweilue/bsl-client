@@ -35,7 +35,11 @@
     [request setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"token"] forKey:@"sessionKey"];
     __block FormDataRequest* __request=request;
     [request setCompletionBlock:^{
-        _block(YES);
+        const char* str=[[__request responseString] UTF8String];
+        if(str==nil || strstr(str, "\"success\"")==nil)
+            _block(NO);
+        else
+            _block(YES);
         [__request cancel];
     }];
     
@@ -93,7 +97,11 @@
     __block HTTPRequest* __request=request;
     
     [request setCompletionBlock:^{
-        _block(YES);
+        const char* str=[[__request responseString] UTF8String];
+        if(str==nil || strstr(str, "\"success\"")==nil)
+            _block(NO);
+        else
+            _block(YES);
         [__request cancel];
     }];
     
@@ -172,7 +180,11 @@
     userArray=nil;
     
     [request setCompletionBlock:^{
-        _block(true);
+        const char* str=[[__request responseString] UTF8String];
+        if(str==nil || strstr(str, "\"success\"")==nil)
+            _block(NO);
+        else
+            _block(true);
         [__request cancel];
     }];
     
@@ -260,7 +272,11 @@
     __block HTTPRequest* __request=request;
     
     [request setCompletionBlock:^{
-        _block(YES);
+        const char* str=[[__request responseString] UTF8String];
+        if(str==nil || strstr(str, "\"success\"")==nil)
+            _block(NO);
+        else
+            _block(YES);
         [__request cancel];
     }];
     
@@ -285,7 +301,11 @@
     __block HTTPRequest* __request=request;
     
     [request setCompletionBlock:^{
-        _block(YES);
+        const char* str=[[__request responseString] UTF8String];
+        if(str==nil || strstr(str, "\"success\"")==nil)
+            _block(NO);
+        else
+            _block(YES);
         [__request cancel];
     }];
     
@@ -314,6 +334,10 @@
 
 
     [request setCompletionBlock:^{
+        const char* str=[[__request responseString] UTF8String];
+        if(str==nil || strstr(str, "\"success\"")==nil)
+            _block(NO);
+        else
         _block(YES);
         [__request cancel];
     }];

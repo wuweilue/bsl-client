@@ -20,7 +20,7 @@
 #import "AutoDownLoadRecord.h"
 #import "OperateLog.h"
 #import "AutoShowRecord.h"
-
+#import "SVProgressHUD.h"
 #import "DownLoadingDetialViewController.h"
 #import "SettingMainViewController.h"
 
@@ -42,7 +42,7 @@
 
 @implementation Main_IphoneViewController
 @synthesize navController;
-
+@synthesize aCubeWebViewController;
 -(id)init{
     self=[super init];
     if(self){
@@ -81,9 +81,11 @@
     self.selfObj=self;
 
     aCubeWebViewController = [[CubeWebViewController alloc]init];
+    
     aCubeWebViewController.title=@"登录";
     aCubeWebViewController.wwwFolderName = @"www";
-    aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString];
+
+   
     
     CGRect rect=self.view.bounds;
     if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
@@ -93,10 +95,19 @@
     aCubeWebViewController.view.frame = rect;
     [self.view addSubview:aCubeWebViewController.view];
     aCubeWebViewController.webView.scrollView.bounces=NO;
-    [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString] didFinishBlock: ^(){
+    NSURL* fileUrl = [[NSURL alloc]init];
+#ifdef MOBILE_BSL
+    aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"home/index.html"] absoluteString];
+    fileUrl = [[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"home/index.html"];
+#else
+    aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"] absoluteString];
+    fileUrl =[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/index.html"];
+#endif
+    
+    [aCubeWebViewController loadWebPageWithUrl: [fileUrl absoluteString] didFinishBlock: ^(){
         [self.navController pushViewController:self animated:NO];
         self.navController=nil;
-        
+        [SVProgressHUD dismiss];
         aCubeWebViewController.closeButton.hidden = YES;
         [aCubeWebViewController viewWillAppear:NO];
         [aCubeWebViewController viewDidAppear:NO];
@@ -186,7 +197,7 @@
 }
 
 -(void)checkModules{
-    
+    //检测是否需要自动安装
     
     @autoreleasepool {
 #ifndef MOBILE_BSL
@@ -333,12 +344,8 @@
             [database open];
         }
         [database executeUpdate:sql];
-        
     });
-    
 }
-
-
 
 #pragma mark - 皮肤功能
 
