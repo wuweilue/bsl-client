@@ -439,7 +439,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "733"
             endingLineNumber = "733"
-            landmarkName = "-deleteAtModuleIdentifier:"
+            landmarkName = "-deleteModuleFromNotification:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

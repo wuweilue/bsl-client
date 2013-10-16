@@ -56,6 +56,8 @@
 
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showView:) name:@"SHOW_DETAILVIEW" object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showMainView) name:@"SHOW_MAINVIEW" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSetting) name:@"SHOW_SETTING_VIEW" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"module_badgeCount_change" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleDidInstalled:) name:CubeModuleInstallDidFinishNotification object:nil];
@@ -172,6 +174,12 @@
     [super viewWillAppear:animated];
     [self addBadge];
    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+
+//SHOW_MAINVIEW
+-(void)showMainView{
+    aCubeWebViewController.closeButton.hidden = YES;
 }
 
 -(void)addBadge{
