@@ -726,8 +726,7 @@
     [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
 }
 
--(void)moduleDidInstalled:(NSNotification*)note
-{
+-(void)moduleDidInstalled:(NSNotification*)note{
     if (statusToolbar) {
         int count = [self getDownMouleCount];
         NSLog(@"count =%d , allcount =%d   last = %d",count,allDownCount,allDownCount - count);
