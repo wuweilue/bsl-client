@@ -18,7 +18,7 @@ extern NSString* const kServerLoginURLString;
 
 
 //应用的app key
-extern const NSString* const kAPPKey;
+extern NSString* const kAPPKey;
 
 //xmpp host
 extern NSString* const kXMPPHost;

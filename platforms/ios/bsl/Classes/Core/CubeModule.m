@@ -131,6 +131,8 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
     } else {
         if ( self.isDownloading == 0 || self.isDownloading) {
             NSString* downUrl = [ServerAPI urlForAttachmentId:bundle];
+            
+
             NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
             NSString *token =  [defaults objectForKey:@"token"];
             downUrl= [downUrl stringByAppendingString:@"?sessionKey="];
