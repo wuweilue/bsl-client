@@ -11,7 +11,7 @@
 #import "NSFileManager+Extra.h"
 
 @interface Login_IpadViewController (){
-    //BOOL isDisappear;
+    BOOL isDisappear;
 }
 
 @end
@@ -78,7 +78,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    /*
+    
     if (isDisappear) {
         
         NSURL *url =[NSURL URLWithString: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/login.html"]absoluteString]];
@@ -87,14 +87,14 @@
         isDisappear = false;
      
     }
-    */
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     
     
-    //isDisappear = true;
+    isDisappear = YES;
 }
 
 
