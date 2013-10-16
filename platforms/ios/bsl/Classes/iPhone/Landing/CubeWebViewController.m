@@ -44,8 +44,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone){
@@ -81,6 +80,8 @@
 
 -(void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
+    [self.alertViewLink dismissWithClickedButtonIndex:0 animated:NO];
+    self.alertViewLink=nil;
     closeButton=nil;
     [cubeWebViewController.view removeFromSuperview];
     cubeWebViewController=nil;
@@ -88,6 +89,9 @@
 
 
 - (void)dealloc{
+    [self.alertViewLink dismissWithClickedButtonIndex:0 animated:NO];
+    self.alertViewLink=nil;
+
     [cubeWebViewController.view removeFromSuperview];
     cubeWebViewController=nil;
     if([_commandDelegate respondsToSelector:@selector(setViewController:)])
@@ -95,8 +99,7 @@
     //[_commandDelegate release];
 }
 
-- (void)didClickClose:(id)target
-{
+- (void)didClickClose:(id)target{
     
     
 #if MOBILE_BSL
@@ -110,8 +113,9 @@
         [iphoneViewController.aCubeWebViewController.webView loadRequest:request];
     }
 #endif
-    if([self.navigationController.viewControllers count]>2)
-        [self.navigationController popViewControllerAnimated:YES];
+    if([self.navigationController.viewControllers count]>2){
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+    }
     
 }
 
@@ -151,8 +155,7 @@
 
 - (void)loadWebPageWithModule:(CubeModule *)module frame:(CGRect)frame
                didFinishBlock:(DidFinishPreloadBlock)didFinishBlock
-                didErrorBlock:(DidErrorPreloadBlock)didErrorBolock
-{
+                didErrorBlock:(DidErrorPreloadBlock)didErrorBolock{
     
     
     
@@ -252,13 +255,14 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    
 
     NSLog(@"请求页面: %@", [request URL]);
     if ([@"cube://exit" isEqualToString:[[request URL] absoluteString]]) {
         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 
+        return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
     }
+    
     NSURL* url = [request URL];
 
     if ([[url absoluteString] rangeOfString:@"cube-action"].location != NSNotFound) {
@@ -389,7 +393,9 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
-        [self.navigationController popToViewController:self.navigationController.topViewController animated:YES];
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+
+//        [self.navigationController popToViewController:self.navigationController.topViewController animated:YES];
     }
     self.alertViewLink = nil;
 }

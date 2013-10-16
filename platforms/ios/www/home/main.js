@@ -1,8 +1,18 @@
-define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/zepto', 'home/vendor/zepto/touch', 'home/vendor/underscore-min', 'home/vendor/swipe', 'home/vendor/fastclick/fastclick', 'js/util.js'
+define(['text!home/main.html', 
+    // 'com.csair.base/urlConfig', 
+    'home/vendor/zepto/zepto', 
+    'home/vendor/zepto/touch', 
+    'home/vendor/underscore-min', 
+    'home/vendor/swipe', 
+    'home/vendor/fastclick/fastclick', 
+    'js/util.js'
     /* ,'../cordova'*/
 
 
-], function(demoIndexTemplate, UrlConfig) {
+], function(demoIndexTemplate
+            // , UrlConfig
+
+            ) {
 
     var View = Piece.View.extend({
 
@@ -11,7 +21,7 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
 
         events: {
 
-
+            "click header": 'test'
 
         },
 
@@ -21,7 +31,10 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
             // "List:select flightstatus-list": "onItemSelect"
         },
 
-        packageName: null,
+        
+        test:function(){
+            refreshMainPage();
+        },
         cordovaExec: function(plugin, action, parameters, callback) {
             cordova.exec(function(data) {
                 if (callback !== undefined) {
@@ -32,7 +45,8 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
             }, plugin, action, parameters === null || parameters === undefined ? [] : parameters);
         },
         refreshMainPage: function() {
-            this.loadModuleList("CubeModuleList", "mainList", "main", function() {
+
+            loadModuleList("CubeModuleList", "mainList", "main", function() {
                 window.mySwipe = Swipe(document.getElementById('slider'), {
                     continuous: true,
                     callback: function(index, elem) {
@@ -63,10 +77,8 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
 
         loadModuleList: function(plugin, action, type, callback) {
 
-            var that = this;
-            var me = this;
-            if (that.isOver === 0) {
-                that.isOver = that.isOver + 1;
+                                 if (isOver === 0) {
+                isOver = isOver + 1;
                 var i = 0;
                 $("#swipe").html("");
                 $("#position").html("");
@@ -116,7 +128,7 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
                             return v.sortingWeight;
 
                         });
-                        downloadFile(value.icon + "", that.packageName + "/moduleIcon", function(entry) {
+                        downloadFile(value.icon + "", packageName + "/moduleIcon", function(entry) {
                             // document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
                             value.icon = entry.fullPath;
                         });
@@ -149,13 +161,14 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
                     if (callback !== undefined) {
                         callback();
                     }
-                    that.isOver = that.isOver - 1;
+                    isOver = isOver - 1;
                 }, function(err) {
                     alert("获取页面出错");
                 }, plugin, action, []);
 
             }
-        },
+
+                                 },
 
         getWeather: function() {
             if (window.localStorage["socUserInfo"]) {
@@ -190,13 +203,11 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
                         console.log(data.weather.rmk);
 
                         if (data.weather.rmk) {
-                            alert(2)
                             $("#weather").html(data.weather.rmk);
 
                         }
 
                         if (data.weather.tempreture) {
-                            alert(1)
                             $("#degree").html(data.weather.tempreture + "°");
                         }
 
@@ -344,6 +355,7 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
 
         accessModuleByPiece:function(tirgger,that){
             console.log("模块点击");
+                                 Piece.Session.deleteObject('moduleIndex');
                 var type = "main";
                 var identifier = $(tirgger).attr("identifier");
                 console.log("module_click----" + identifier); /*var type = $(this).attr("moduleType");*/
@@ -408,9 +420,22 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
         },
 
         onShow: function() {
+
             var that = this;
             var me = this;
+
+
+            window.refreshMainPage = this.refreshMainPage;
+            window.receiveMessage = this.receiveMessage;  
+            window.loadModuleList = this.loadModuleList;
+
+            
+            
+
+
+
             new FastClick(document.body);
+            
             //封装cordova的执行方法，加上回调函数
 
 
@@ -421,6 +446,7 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
             // });
             //搜索按键
             $("#search_btn").click(function() {
+
                 //搜索事件
                 var keyword = $("#search_input").val();
                 console.log("点击了搜索按键：keyword=" + keyword);
@@ -459,8 +485,14 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
                     window.localStorage['com.csair.dynamic-flightDynamic.html'] = JSON.stringify(queryAction);
 
                     console.log(window.location.href);
-                    that.cordovaExec("CubeModuleOperator", "showModule", ["com.csair.dynamic", "main"]);
-                    //window.location = "../com.csair.dynamic/index.html#com.csair.dynamic/flightDynamic";
+                    if(isLoadModuleByPiece){
+                    that.container.navigateForResult('/'+identifier+'/index', {
+                                    trigger: true
+                            }, '/com.csair.home/main', this.onGotResult);
+                    }else{
+                        that.cordovaExec("CubeModuleOperator", "showModule", ["com.csair.dynamic", "main"]);
+                    }
+                        //window.location = "../com.csair.dynamic/index.html#com.csair.dynamic/flightDynamic";
 
                 } else {
 
@@ -471,7 +503,7 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
 
             });
 
-
+            
             //机场天气模块点击
 
             $("#weatherContent").click(function() {
@@ -480,14 +512,19 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
                 var type = "main";
                 var identifier = "com.csair.airport";
                 console.log("module_click----" + identifier); /*var type = $(this).attr("moduleType");*/
-
-                that.cordovaExec("CubeModuleOperator", "showModule", [identifier, type]);
+                if(isLoadModuleByPiece){
+                    that.container.navigateForResult('/'+identifier+'/index', {
+                                trigger: true
+                        }, '/com.csair.home/main', this.onGotResult);
+                }else{
+                    that.cordovaExec("CubeModuleOperator", "showModule", [identifier, type]);
+                }
+                
             });
 
             //模块点击
-            var isLoadModuleByPiece = true;
             $("li[identifier]").live("click", function() {
-                if(isLoadModuleByPieceisLoadModuleByPiece){
+                if(isLoadModuleByPiece){
                     that.accessModuleByPiece(this,that);
                 }else{
                     that.accessModuleByApp(this,that);
@@ -548,9 +585,9 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
                 var osPlatform = device.platform;
                 if (osPlatform.toLowerCase() == "android") {
                     cordova.exec(function(data) {
-                        that.packageName = $.parseJSON(data).packageName;
+                        packageName = $.parseJSON(data).packageName;
                         //如果是android，先获取到包名
-                        that.loadModuleList("CubeModuleList", "mainList", "main", function() {
+                        loadModuleList("CubeModuleList", "mainList", "main", function() {
                             window.mySwipe = Swipe(document.getElementById('slider'), {
                                 continuous: true,
                                 callback: function(index, elem) {
@@ -568,7 +605,7 @@ define(['text!home/main.html', 'com.csair.base/urlConfig', 'home/vendor/zepto/ze
                         console.log("获取Packagename失败");
                     }, "CubePackageName", "getPackageName", []);
                 } else {
-                    that.loadModuleList("CubeModuleList", "mainList", "main", function() {
+                    loadModuleList("CubeModuleList", "mainList", "main", function() {
                         window.mySwipe = Swipe(document.getElementById('slider'), {
                             continuous: true,
                             callback: function(index, elem) {
