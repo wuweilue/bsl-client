@@ -81,9 +81,9 @@
     
     if (isDisappear) {
         
-        NSURL *url =[NSURL URLWithString: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/login.html"]absoluteString]];
-        NSURLRequest *request =[NSURLRequest requestWithURL:url];
-        [aCubeWebViewController.webView loadRequest:request];
+       // NSURL *url =[NSURL URLWithString: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/login.html"]absoluteString]];
+       // NSURLRequest *request =[NSURLRequest requestWithURL:url];
+       // [aCubeWebViewController.webView loadRequest:request];
         isDisappear = false;
      
     }
