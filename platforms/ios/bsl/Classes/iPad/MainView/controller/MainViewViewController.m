@@ -61,7 +61,7 @@
         }
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cubeSyncClick:) name:CubeSyncClickNotification object:nil];
-
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showMainView) name:@"SHOW_MAINVIEW" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showView:) name:SHOW_DETAILVIEW object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSetting) name:@"SHOW_SETTING_VIEW" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:@"module_badgeCount_change" object:nil];
@@ -354,6 +354,12 @@
 }
 -(void)POPdismissView{
     [self dismissDetailViewController];
+}
+
+
+//SHOW_MAINVIEW
+-(void)showMainView{
+    aCubeWebViewController.closeButton.hidden = YES;
 }
 
 -(void)addBadge{
