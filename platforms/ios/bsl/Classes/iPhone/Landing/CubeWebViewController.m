@@ -30,6 +30,7 @@
 @implementation CubeWebViewController
 
 @synthesize closeButton;
+@synthesize showCloseButton;
 @synthesize alwaysShowNavigationBar;
 
 - (id)init{
@@ -53,17 +54,19 @@
 #else
         UIImage *image = [UIImage imageNamed:@"home.png"];
 #endif
-        closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [closeButton setImage:image forState:UIControlStateNormal];
-        if(iPhone5){
-            closeButton.frame = CGRectMake(10, 405+88, 45, 45);
-        }else{
-            closeButton.frame = CGRectMake(10, 405, 45, 45);
+        if(self.showCloseButton){
+            closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [closeButton setImage:image forState:UIControlStateNormal];
+            if(iPhone5){
+                closeButton.frame = CGRectMake(10, 405+88, 45, 45);
+            }else{
+                closeButton.frame = CGRectMake(10, 405, 45, 45);
+            }
+            
+            [closeButton addTarget:self action:@selector(didClickClose:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:closeButton];
         }
-        
-        [closeButton addTarget:self action:@selector(didClickClose:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.view addSubview:closeButton];
         
     }else{
         //        UIImage *image = [UIImage imageNamed:@"home.png"];
@@ -255,16 +258,16 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    
+    NSURL* url = [request URL];
 
-    NSLog(@"请求页面: %@", [request URL]);
-    if ([@"cube://exit" isEqualToString:[[request URL] absoluteString]]) {
+    NSLog(@"请求页面: %@", url);
+    if ([@"cube://exit" isEqualToString:[url absoluteString]]) {
         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 
         return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
     }
     
-    NSURL* url = [request URL];
-
     if ([[url absoluteString] rangeOfString:@"cube-action"].location != NSNotFound) {
         
         NSRange range = [[url absoluteString] rangeOfString:@"cube-action"];
