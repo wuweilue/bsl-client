@@ -18,8 +18,13 @@ $('#username, #password').click(function(e) {
 });
 
 var clearPsw = function(){
-    var isChecked = $("#isRemember").attr("checked");
-    if(!isChecked){
+
+    var isRemember = $('#isRemember:checked').val();
+	if (isRemember === undefined) {
+		//alert("")
+		isRemember = "false";
+	}
+    if(isRemember==="false"){
         $("#password").val("");
     }
 };

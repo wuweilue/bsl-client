@@ -127,9 +127,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
-        [self setNeedsStatusBarAppearanceUpdate];
-    }
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
         UIView* vv=[[UIView alloc] initWithFrame:CGRectMake(floor(0.0f), floor(0.0f), floor(self.view.frame.size.width), floor(44.0f))];
         
@@ -197,8 +194,7 @@
 - (CGFloat)tableView:(UITableView *)__tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Announcement* announcent = [list objectAtIndex:[indexPath section]];
 
-//    UITableViewCell* cell=[__tableView cellForRowAtIndexPath:indexPath];
-    return [AnnouncementTableViewCell cellHeight:announcent.content width:__tableView.frame.size.width editing:__tableView.editing]+10.0f;
+    return [AnnouncementTableViewCell cellHeight:announcent.content width:__tableView.frame.size.width editing:__tableView.editing];
 }
 
 
