@@ -676,7 +676,7 @@
             for(CubeModule *module in downloadArray){
                 [[cubeApp availableModules] removeObject:module];
                 module.isDownloading = NO;
-                [cubeApp uninstallModule:module];
+//                [cubeApp uninstallModule:module];
             }
             [[[CubeApplication currentApplication] downloadingModules] removeAllObjects];
             return;
