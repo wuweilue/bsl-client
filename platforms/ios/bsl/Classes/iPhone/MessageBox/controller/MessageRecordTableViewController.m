@@ -267,7 +267,7 @@
     
     MessageRecord *messageRecord = [[presentModulesDic objectForKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
 
-    return [MessageRecordCell cellHeight:messageRecord.content width:__tableView.frame.size.width];
+    return [MessageRecordCell cellHeight:messageRecord.alert content:messageRecord.content width:__tableView.frame.size.width];
     
 }
 
