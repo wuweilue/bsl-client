@@ -17,10 +17,13 @@ $('#username, #password').click(function(e) {
 	e.stopPropagation();
 });
 
-/*$('#username, #password').blur(function() {
-	console.log("input blur");
-	$(this).next(".del_content").hide();
-});*/
+var clearPsw = function(){
+    var isChecked = $("#isRemember").attr("checked");
+    if(!isChecked){
+        $("#password").val("");
+    }
+    
+};
 
 $("#username_del").click(function() {
 	$(this).hide();
