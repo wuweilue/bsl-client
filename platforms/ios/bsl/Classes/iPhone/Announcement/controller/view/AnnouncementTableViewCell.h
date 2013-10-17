@@ -10,6 +10,7 @@
 #import "Announcement.h"
 
 @interface AnnouncementTableViewCell : UITableViewCell{
+    UIView* bgView;
     UILabel* titleLabel;
     UILabel* contentLabel;
     UILabel* isReadLabel;

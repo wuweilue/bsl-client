@@ -17,13 +17,17 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        bgView=[[UIView alloc] init];
+        bgView.backgroundColor=[UIColor clearColor];
+        bgView.clipsToBounds=YES;
+        [self addSubview:bgView];
         
         titleLabel=[[UILabel alloc] init];
         titleLabel.numberOfLines=1;
         titleLabel.font=[UIFont boldSystemFontOfSize:19.0f];
         titleLabel.backgroundColor=[UIColor clearColor];
         titleLabel.textColor=[UIColor blackColor];
-        [self addSubview:titleLabel];
+        [bgView addSubview:titleLabel];
         
         
         contentLabel=[[UILabel alloc] init];
@@ -31,7 +35,7 @@
         contentLabel.font=[UIFont systemFontOfSize:16.0f];
         contentLabel.backgroundColor=[UIColor clearColor];
         contentLabel.textColor=[UIColor blackColor];
-        [self addSubview:contentLabel];
+        [bgView addSubview:contentLabel];
         
         isReadLabel=[[UILabel alloc] init];
         isReadLabel.numberOfLines=1;
@@ -39,12 +43,12 @@
         isReadLabel.font=[UIFont boldSystemFontOfSize:15.0f];
         isReadLabel.backgroundColor=[UIColor clearColor];
         isReadLabel.textColor=[UIColor blackColor];
-        [self addSubview:isReadLabel];
+        [bgView addSubview:isReadLabel];
         
         
         lineView=[[UIView alloc] init];
         lineView.backgroundColor=[UIColor lightGrayColor];
-        [self addSubview:lineView];
+        [bgView addSubview:lineView];
         
 
         timeLabel=[[UILabel alloc] init];
@@ -53,7 +57,7 @@
         timeLabel.font=[UIFont systemFontOfSize:15.0f];
         timeLabel.backgroundColor=[UIColor clearColor];
         timeLabel.textColor=[UIColor blackColor];
-        [self addSubview:timeLabel];
+        [bgView addSubview:timeLabel];
         
     }
     return self;
@@ -118,6 +122,7 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
+    bgView.frame=self.bounds;
 
     float w=self.frame.size.width;
     
