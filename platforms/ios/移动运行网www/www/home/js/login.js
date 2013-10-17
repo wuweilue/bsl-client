@@ -63,6 +63,18 @@ console.log("变色龙平台登陆开始");
 
 };
 
+var clearPsw = function(){
+    
+    var isRemember = $('#isRemember:checked').val();
+	if (isRemember === undefined) {
+		//alert("")
+		isRemember = "false";
+	}
+    alert(isRemember);
+    if(isRemember==="false"){
+        $("#password").val("");
+    }
+};
 
 
 //移动运行网登陆

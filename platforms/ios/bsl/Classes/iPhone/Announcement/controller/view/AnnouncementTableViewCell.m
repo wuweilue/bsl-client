@@ -80,7 +80,7 @@
     [contentLabel sizeToFit];
     height+=contentLabel.frame.size.height+3.0f+20.0f;
     contentLabel=nil;
-    return height;
+    return height+15.0f;
 }
 
 -(void)title:(NSString*)title content:(NSString*)content time:(NSDate*)time isRead:(BOOL)isRead {
@@ -122,7 +122,10 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    bgView.frame=self.bounds;
+    
+    CGRect rect=self.bounds;
+    rect.size.height-=15.0f;
+    bgView.frame=rect;
 
     float w=self.frame.size.width;
     
