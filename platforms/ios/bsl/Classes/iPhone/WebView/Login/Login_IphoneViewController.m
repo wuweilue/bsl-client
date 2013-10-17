@@ -41,7 +41,7 @@
         img = [UIImage imageNamed:@"Default.png"];
     UIImageView* bgImageView =  [[UIImageView alloc]initWithImage:img];
     if([[[UIDevice currentDevice] systemVersion] floatValue]<7.0f){
-        CGRect rect=bgImageView.bounds;
+        CGRect rect=bgImageView.frame;
         rect.origin.y-=20.0f;
         bgImageView.frame=rect;
     }

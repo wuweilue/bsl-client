@@ -935,8 +935,21 @@
 
 
 
--(void)moduleDidInstalled:(NSNotification*)note
-{
+-(void)moduleDidInstalled:(NSNotification*)note{
+    /*
+    if (statusToolbar) {
+        
+        int count = [self getDownMouleCount];
+        NSLog(@"count =%d , allcount =%d   last = %d",count,allDownCount,allDownCount - count);
+        if ( count <= 0 ) {
+            [self stopUILoading];
+        }else{
+            [self startUILoading];
+        }
+
+    }
+     */
+    
     CubeModule *newModule = [note object];
     if (newModule) {
         @autoreleasepool {
@@ -948,10 +961,15 @@
             }else{
                 javaScript = [NSString stringWithFormat:@"refreshModule('%@','install','%@');",newModule.identifier,JSO];
             }
-            JSO=nil;
             newModule.installType = nil;
             [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
             
+            if (!newModule.hidden) {
+                NSString * mainScript = [NSString stringWithFormat:@"refreshMainPage('%@','main','%@');",newModule.identifier,JSO];
+                [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:mainScript];
+            }
+            
+            JSO=nil;
         }
     }
 }

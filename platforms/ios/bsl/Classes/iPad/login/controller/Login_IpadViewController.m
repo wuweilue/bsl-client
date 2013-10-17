@@ -37,6 +37,11 @@
     
     UIImage* img=[UIImage imageNamed:@"Default-Landscape~ipad.png"];
     UIImageView* bgImageView =  [[UIImageView alloc]initWithImage:img];
+    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7.0f){
+        CGRect rect=bgImageView.frame;
+        rect.size.height+=20.0f;
+        bgImageView.frame=rect;
+    }
 
     [self.view addSubview:bgImageView];
 
