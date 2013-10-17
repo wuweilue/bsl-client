@@ -40,13 +40,17 @@
     else
         img = [UIImage imageNamed:@"Default.png"];
     UIImageView* bgImageView =  [[UIImageView alloc]initWithImage:img];
-    CGRect rect=bgImageView.bounds;
-    rect.origin.y-=20.0f;
-    bgImageView.frame=rect;
+    if([[[UIDevice currentDevice] systemVersion] floatValue]<7.0f){
+        CGRect rect=bgImageView.bounds;
+        rect.origin.y-=20.0f;
+        bgImageView.frame=rect;
+    }
 
     [self.view addSubview:bgImageView];
 
-
+    
+    [aCubeWebViewController.view removeFromSuperview];
+    aCubeWebViewController=nil;
     aCubeWebViewController  = [[CubeWebViewController alloc] init];
     //aCubeWebViewController.title=module.name;
     //加载本地的登录界面页
@@ -54,17 +58,16 @@
     aCubeWebViewController.title=@"登录";
     aCubeWebViewController.wwwFolderName = @"www";
     aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/login.html"] absoluteString];
-    
+    [self.view addSubview:aCubeWebViewController.view];
     aCubeWebViewController.view.frame = self.view.bounds;
     aCubeWebViewController.view.hidden=YES;
+    aCubeWebViewController.webView.scrollView.bounces=NO;
     NSLog(@"start load WebView date = %@",[NSDate date]);
     [aCubeWebViewController loadWebPageWithUrl: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/login.html"] absoluteString] didFinishBlock: ^(){
         aCubeWebViewController.view.hidden=NO;
         aCubeWebViewController.closeButton.hidden = YES;
         [aCubeWebViewController viewWillAppear:NO];
-        [self.view addSubview:aCubeWebViewController.view];
         [aCubeWebViewController viewDidAppear:NO];
-        aCubeWebViewController.webView.scrollView.bounces=NO;
         NSLog(@"finish load WebView date = %@",[NSDate date]);
     }didErrorBlock:^(){
         aCubeWebViewController.closeButton.hidden = YES;
@@ -73,21 +76,24 @@
     }];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
-    
+    [aCubeWebViewController.view removeFromSuperview];
+    aCubeWebViewController=nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     if (isDisappear) {
-        NSURL *url =[NSURL URLWithString: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/login.html"]absoluteString]];
-        NSURLRequest *request =[NSURLRequest requestWithURL:url];
-        [aCubeWebViewController.webView loadRequest:request];
+//        [aCubeWebViewController.webView reload];
+        //NSURL *url =[NSURL URLWithString: [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"phone/login.html"]absoluteString]];
+        //NSURLRequest *request =[NSURLRequest requestWithURL:url];
+        //[aCubeWebViewController.webView loadRequest:request];
         isDisappear = false;
     }
+    
+    [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:@"clearPsw()"];
     
 }
 

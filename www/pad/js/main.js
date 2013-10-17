@@ -24,10 +24,6 @@ $("#search_del").click(function() {
 	});
 });
 
-// 检测屏幕是否伸缩
-$(window).resize(function() {
-	$(".mainContent").height($(window).height() - 50);
-});
 
 //封装cordova的执行方法，加上回调函数
 var cordovaExec = function(plugin, action, parameters, callback) {
@@ -210,8 +206,12 @@ $(".menuItem").tap(function() {
 		//非管理页面，隐藏管理菜单
 		$(".moduleManageBar").css("display", "none");
 		//$('.account_content').show();
+		//隐藏右边fragment
+		cordovaExec("CubeModuleOperator", "fragmenthide",[]);
 		//点击首页，加载首页已安装模块列表
 		loadModuleList("CubeModuleList", "mainList", "main");
+
+
 	} else if (type === "module") {
 		$(".moduleManageBar").css("display", "block");
 		//$('.account_content').hide();
@@ -255,12 +255,38 @@ $(".moduleManageBar .manager-btn").click(function() {
 	}
 });
 
+
+
+// 检测屏幕是否伸缩
+var LastHeight = window.screen.availHeight;
+$(window).resize(function() {
+	//$(".mainContent").height($(window).height() - 50);
+	var availHeight = $(window).height();
+	console.log("LastHeight " + LastHeight);
+	console.log("availHeight " + availHeight);
+	if (Math.abs(LastHeight - availHeight) > 100) {
+		if ((LastHeight - availHeight) > 0) {
+			//键盘弹出
+			console.log("键盘弹出了");
+			$(".bottomMenu").hide();
+		} else {
+			console.log("键盘隐藏了。。。");
+			//键盘隐藏
+				$(".bottomMenu").show();
+		}
+	}
+	LastHeight = availHeight;
+	if (myScroll) {
+		myScroll.refresh();
+	}
+});
+
 //搜索框事件
-$("#searchInput").focusin(function() {
+/*$("#searchInput").focusin(function() {
 	$(".bottomMenu").hide();
 }).focusout(function() {
 	$(".bottomMenu").show();
-});
+});*/
 
 $("#searchInput").live("input propertychange", function() {
 	var me = $(this);
@@ -358,18 +384,15 @@ var loadModuleList = function(plugin, action, type, callback) {
 					value.releaseNote = subStrByCnLen(value.releaseNote, 25);
 					// packageName
 
-<<<<<<< .mine
 					/*downloadFile(value.icon, packageName + "/moduleIcon", function(entry) {
 						value.icon = entry.fullPath;
 						console.log("下载成功 " + value.icon);
 					});*/
-=======
 					// downloadFile(value.icon, packageName + "/moduleIcon", function(entry) {
 					// 	// document.body.innerHTML = "<img src  = " + entry.fullPath + ">";
 					// 	value.icon = entry.fullPath;
 					// 	console.log("下载成功 " + value.icon);
 					// });
->>>>>>> .r4129
 
 					value.classname = key;
 					var moduleItemHtml = _.template(moduleItemTemplate, value);

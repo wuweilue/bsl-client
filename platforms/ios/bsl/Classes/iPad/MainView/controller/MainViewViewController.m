@@ -33,6 +33,8 @@
     BOOL isFirst;
     
     CubeWebViewController *bCubeWebViewController;
+    
+    UIAlertView* singleAlert;
 }
 @property (nonatomic,strong)  UIViewController * detailController;
 @property (nonatomic,strong)  UIViewController * mainController;
@@ -99,6 +101,7 @@
         skinView.delegate = self;
     }
     aCubeWebViewController  = [[CubeWebViewController alloc] init];
+    aCubeWebViewController.showCloseButton=YES;
     aCubeWebViewController.title=@"登录";
     aCubeWebViewController.wwwFolderName = @"www";
     aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"pad/main.html"] absoluteString];
@@ -155,6 +158,8 @@
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
+    [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+    singleAlert=nil;
     [skinView removeFromSuperview];
     skinView=nil;
 
@@ -168,6 +173,9 @@
 }
 
 - (void)dealloc{
+    [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+    singleAlert=nil;
+
     aCubeWebViewController=nil;
     bCubeWebViewController=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -196,13 +204,13 @@
     {
         NSMutableString *message = [[NSMutableString alloc] init];
         [message appendString:@"检测到有以下模块需要下载:\n"];
-        for(CubeModule *module in downloadArray)
-        {
+        for(CubeModule *module in downloadArray){
             [message appendFormat:@"%@\n", module.name];
         }
-        UIAlertView *alertView  =[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"立即下载" otherButtonTitles:@"取消",nil];
-        alertView.tag =830;
-        [alertView show];
+        [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+        singleAlert  =[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"立即下载" otherButtonTitles:@"取消",nil];
+        singleAlert.tag =830;
+        [singleAlert show];
         return;
     }
     else
@@ -227,9 +235,10 @@
         if(![defaults boolForKey:@"firstTime"])
         {
             [defaults setBool:YES forKey:@"firstTime"];
-            UIAlertView *alertView  =[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消",nil];
-            alertView.tag =829;
-            [alertView show];
+            [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+            singleAlert  =[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消",nil];
+            singleAlert.tag =829;
+            [singleAlert show];
         }
     
     }
@@ -328,7 +337,7 @@
     long currentTime = [[NSDate date]timeIntervalSince1970];
     NSString *userName = [[NSUserDefaults standardUserDefaults]valueForKey:@"username"];
     NSString *sql = [NSString stringWithFormat:@"update AutoShowRecord set showTime='%ld' where identifier='%@' and userName='%@'",currentTime,identifier,userName];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         FMDatabase *database = [[FMDBManager getInstance]database ];
         if (![database open])
         {
@@ -336,7 +345,7 @@
         }
         [database executeUpdate:sql];
  
-    });
+//    });
 
 }
 
@@ -391,22 +400,20 @@
 }
 
 -(void)ExitLogin{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"是否确认退出登录?" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
-    alert.tag = 1;
-    [alert show];
+    [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+    singleAlert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"是否确认退出登录?" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
+    singleAlert.tag = 1;
+    [singleAlert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if(alertView.tag ==829)
-    {
-        if(buttonIndex == 0)
-        {
+    singleAlert=nil;
+    if(alertView.tag ==829){
+        if(buttonIndex == 0){
             NSMutableArray *modules =[[CubeApplication currentApplication ]updatableModules];
             for (CubeModule *m in modules) {
                 m.isDownloading = YES;
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[CubeApplication currentApplication] installModule:m];
-                });
+                [[CubeApplication currentApplication] installModule:m];
             }
         }
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstTime"];
@@ -491,7 +498,7 @@
 
 -(void)logout{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGOUTSENDEXITNOTIFICATION" object:nil];
-    [(AppDelegate *)[UIApplication sharedApplication].delegate showLoginView];
+    [(AppDelegate *)[UIApplication sharedApplication].delegate showLoginView:NO];
     [self.presentedViewController dismissViewControllerAnimated:NO completion:^{}];
 //    [self dismissViewControllerAnimated:NO completion:^{}];
 }
@@ -673,11 +680,12 @@
                 
             }
             self.selectedModule = module.identifier;
-            UIAlertView *dependsAlert = [[UIAlertView alloc] initWithTitle:@"缺少依赖模块"
+            [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+            singleAlert = [[UIAlertView alloc] initWithTitle:@"缺少依赖模块"
                                                                    message:message
                                                                   delegate:self
                                                          cancelButtonTitle:@"确定" otherButtonTitles:/*@"安装", */nil];
-            [dependsAlert show];
+            [singleAlert show];
             
             message=nil;
             return;
@@ -693,6 +701,7 @@
     [bCubeWebViewController.view removeFromSuperview];
     bCubeWebViewController=nil;
     bCubeWebViewController  = [[CubeWebViewController alloc] init];
+    bCubeWebViewController.showCloseButton=YES;
     bCubeWebViewController.title = module.name;
     [bCubeWebViewController loadWebPageWithModule:module  frame:frame  didFinishBlock: ^(){
         //如果webView加载成功  这显示放大缩小按钮

@@ -74,11 +74,8 @@
         if(!onlyUpdateChat){
             [appDelegate.xmpp newRectangleMessage:messageId name:name content:content contentType:RectangleChatContentTypeMessage isGroup:isGroup createrJid:nil];
             [appDelegate.xmpp saveContext];
-        }
-        
-        if(!onlyUpdateChat)
             [MessageRecord createModuleBadge:@"com.foss.chat" num: [XMPPSqlManager getMessageCount]];
-
+        }
     }
 
 }
@@ -414,9 +411,9 @@
     __block FormDataRequest* __request=(FormDataRequest*)self.request;
     __block ChatLogic* objSelf=self;
     @autoreleasepool {
-        CGSize size=CGSizeMake(450.0f, 600.0f);
+        CGSize size=CGSizeMake(460.0f, 620.0f);
         if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-            size=CGSizeMake(960.0f, 700.0f);
+            size=CGSizeMake(1024.0f, 748.0f);
         }
 
         if((image.size.width>size.width || image.size.height>size.height)){

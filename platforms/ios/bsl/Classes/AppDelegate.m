@@ -167,7 +167,7 @@ void uncaughtExceptionHandler(NSException*exception){
         nav=nil;
 //    }
     
-    [self showLoginView];
+    [self showLoginView:YES];
     [self.window makeKeyAndVisible];
     
     //开启定时任务将记录发送给服务端begin
@@ -185,7 +185,7 @@ void uncaughtExceptionHandler(NSException*exception){
 
 }
 
--(void)showLoginView{
+-(void)showLoginView:(BOOL)newLogin{
 
     [self.navControl popToRootViewControllerAnimated:NO];
 
@@ -199,7 +199,7 @@ void uncaughtExceptionHandler(NSException*exception){
   
     [xmpp teardownStream];
 //    [xmpp disConnect];
-    
+//    if(!newLogin)return;
     if([navControl.viewControllers count]<1){
         if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone){
             Login_IphoneViewController* controller=[[Login_IphoneViewController alloc] init];
@@ -215,6 +215,7 @@ void uncaughtExceptionHandler(NSException*exception){
             controller=nil;
         }
     }
+    
 
 }
 
@@ -227,7 +228,8 @@ void uncaughtExceptionHandler(NSException*exception){
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag == 100 && buttonIndex == 0) {
-        [self showLoginView];
+
+        [self showLoginView:NO];
     }
 }
 
@@ -275,7 +277,7 @@ void uncaughtExceptionHandler(NSException*exception){
 }
 
 
-
+/*
 -(void)registerDevice{
     
     __block FormDataRequest *request = [FormDataRequest requestWithURL:[NSURL URLWithString:kDeviceRegisterUrl]];
@@ -295,6 +297,7 @@ void uncaughtExceptionHandler(NSException*exception){
     [request startAsynchronous];
     
 }
+ */
 
 //加入apns推送功能
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
@@ -489,7 +492,7 @@ void uncaughtExceptionHandler(NSException*exception){
         [self performSelector:@selector(postOpreateLog) withObject:nil afterDelay:60.0f];
     }];
     
-    [request startSynchronous];
+    [request startAsynchronous];
     //    [request release];
     
 }
@@ -627,14 +630,14 @@ void uncaughtExceptionHandler(NSException*exception){
 -(void)setupUnsucces{
     NSString *message = [NSString stringWithFormat:@"ICube后台服务初始化失败"];
     
-    UIAlertView *msg = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    UIAlertView *msg = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [msg show];
 }
 
 -(void)setupError:(NSError*)aError{
     NSString *message = [NSString stringWithFormat:@"服务器出错,无法连接"];
     
-    UIAlertView *msg = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    UIAlertView *msg = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [msg show];
 }
 

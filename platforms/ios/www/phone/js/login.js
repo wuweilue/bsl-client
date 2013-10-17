@@ -18,6 +18,13 @@ $('#username,#password').click(function(e) {
 	e.stopPropagation();
 });
 
+var clearPsw = function(){
+    var isChecked = $("#isRemember").attr("checked");
+    if(!isChecked){
+        $("#password").val("");
+    }
+};
+
 $("#username_del").click(function() {
 	$(this).parent().hide();
 	$("#username").val("");
@@ -38,6 +45,8 @@ $("#username,#password").live("input propertychange", function() {
 $("body").click(function() {
 	$(".del_content").hide();
 });
+
+
 
 $("#LoginBtn").click(function() {
 	$(this).disabled = "disabled";

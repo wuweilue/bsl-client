@@ -16,7 +16,9 @@
 
 #define returnHomeStr @"home/index.html#home/main"
 
-@interface CubeWebViewController ()
+@interface CubeWebViewController (){
+    CubeWebViewController *cubeWebViewController;
+}
 
 @property (weak,nonatomic) UIAlertView *alertViewLink;
 
@@ -27,6 +29,8 @@
 
 @implementation CubeWebViewController
 
+@synthesize closeButton;
+@synthesize showCloseButton;
 @synthesize alwaysShowNavigationBar;
 
 - (id)init{
@@ -41,8 +45,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPhone){
@@ -51,17 +54,19 @@
 #else
         UIImage *image = [UIImage imageNamed:@"home.png"];
 #endif
-        self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.closeButton setImage:image forState:UIControlStateNormal];
-        if(iPhone5){
-            self.closeButton.frame = CGRectMake(10, 405+88, 45, 45);
-        }else{
-            self.closeButton.frame = CGRectMake(10, 405, 45, 45);
+        if(self.showCloseButton){
+            closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [closeButton setImage:image forState:UIControlStateNormal];
+            if(iPhone5){
+                closeButton.frame = CGRectMake(10, 405+88, 45, 45);
+            }else{
+                closeButton.frame = CGRectMake(10, 405, 45, 45);
+            }
+            
+            [closeButton addTarget:self action:@selector(didClickClose:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:closeButton];
         }
-        
-        [self.closeButton addTarget:self action:@selector(didClickClose:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.view addSubview:self.closeButton];
         
     }else{
         //        UIImage *image = [UIImage imageNamed:@"home.png"];
@@ -78,18 +83,26 @@
 
 -(void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
-    self.closeButton=nil;
+    [self.alertViewLink dismissWithClickedButtonIndex:0 animated:NO];
+    self.alertViewLink=nil;
+    closeButton=nil;
+    [cubeWebViewController.view removeFromSuperview];
+    cubeWebViewController=nil;
 }
 
 
 - (void)dealloc{
+    [self.alertViewLink dismissWithClickedButtonIndex:0 animated:NO];
+    self.alertViewLink=nil;
+
+    [cubeWebViewController.view removeFromSuperview];
+    cubeWebViewController=nil;
     if([_commandDelegate respondsToSelector:@selector(setViewController:)])
         [_commandDelegate performSelector:@selector(setViewController:) withObject:nil];
     //[_commandDelegate release];
 }
 
-- (void)didClickClose:(id)target
-{
+- (void)didClickClose:(id)target{
     
     
 #if MOBILE_BSL
@@ -103,8 +116,10 @@
         [iphoneViewController.aCubeWebViewController.webView loadRequest:request];
     }
 #endif
+    if([self.navigationController.viewControllers count]>2){
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+    }
     
-    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
 
@@ -143,8 +158,7 @@
 
 - (void)loadWebPageWithModule:(CubeModule *)module frame:(CGRect)frame
                didFinishBlock:(DidFinishPreloadBlock)didFinishBlock
-                didErrorBlock:(DidErrorPreloadBlock)didErrorBolock
-{
+                didErrorBlock:(DidErrorPreloadBlock)didErrorBolock{
     
     
     
@@ -245,14 +259,15 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     
-
-    NSLog(@"请求页面: %@", [request URL]);
-    if ([@"cube://exit" isEqualToString:[[request URL] absoluteString]]) {
-        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-
-    }
     NSURL* url = [request URL];
 
+    NSLog(@"请求页面: %@", url);
+    if ([@"cube://exit" isEqualToString:[url absoluteString]]) {
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+
+        return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+    }
+    
     if ([[url absoluteString] rangeOfString:@"cube-action"].location != NSNotFound) {
         
         NSRange range = [[url absoluteString] rangeOfString:@"cube-action"];
@@ -265,7 +280,7 @@
         
         
         if ([@"pop" isEqualToString:action]) {
-            if([self.navigationController.viewControllers count]>1){
+            if([self.navigationController.viewControllers count]>2){
                 [self.navigationController popViewControllerAnimated:YES];
             }else{
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"POP_DISMISS_VIEW" object:nil];
@@ -278,32 +293,32 @@
             
             NSString *path = url.path;
             NSRange range = [path rangeOfString:@"www/"];
-            if(range.location != NSNotFound)
-            {
+            if(range.location != NSNotFound){
                 path = [path substringFromIndex:range.location + range.length];
                 NSRange range2 = [path rangeOfString:@"/"];;
                 path = [path substringToIndex:range2.location];
-                dispatch_async(dispatch_get_main_queue(), ^{
+                //dispatch_async(dispatch_get_main_queue(), ^{
                     [OperateLog recordOperateLogWithIdentifier:path];
-                });
+                //});
             }
             
             NSURLRequest *newRequest = [NSURLRequest requestWithURL:url cachePolicy:[request cachePolicy] timeoutInterval:[request timeoutInterval]];
             
-            CubeWebViewController *cubeWebViewController  = [[CubeWebViewController alloc] init];
-            
+            [cubeWebViewController.view removeFromSuperview];
+            cubeWebViewController=nil;
+            cubeWebViewController  = [[CubeWebViewController alloc] init];
+            cubeWebViewController.alwaysShowNavigationBar=self.alwaysShowNavigationBar;
             NSLog(@"CubeWebViewController: %@", cubeWebViewController);
             
             cubeWebViewController.webView.scrollView.bounces=NO;
             
             [cubeWebViewController loadWebPageWithUrl: [newRequest.URL absoluteString] didFinishBlock: ^(){
                 NSLog(@"加载完毕: %@", [[newRequest URL] absoluteString]);
-                if(!self.alwaysShowNavigationBar)
-                    [self.navigationController.navigationBar setHidden:YES];
                 
                 [self.navigationController pushViewController:cubeWebViewController animated:YES];
+                cubeWebViewController=nil;
             }didErrorBlock:^(){
-                
+                cubeWebViewController=nil;
             }];
         }
         return NO;
@@ -314,9 +329,9 @@
         NSRange range = [requestUrlStr rangeOfString:returnHomeStr];
         
         if([requestUrlStr length] == range.location+range.length){
-            self.closeButton.hidden = YES;
+            closeButton.hidden = YES;
         }else{
-            self.closeButton.hidden = NO;
+            closeButton.hidden = NO;
         }
     }
     #endif
@@ -362,7 +377,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     if(!self.alwaysShowNavigationBar)
-        [self.navigationController.navigationBar setHidden:YES];
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 
@@ -381,7 +396,9 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
-        [self.navigationController popToViewController:self.navigationController.topViewController animated:YES];
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+
+//        [self.navigationController popToViewController:self.navigationController.topViewController animated:YES];
     }
     self.alertViewLink = nil;
 }

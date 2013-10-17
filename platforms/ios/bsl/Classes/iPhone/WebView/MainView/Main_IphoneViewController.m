@@ -34,6 +34,8 @@
     
     CubeWebViewController *bCubeWebViewController;
     int allDownCount;
+    
+    UIAlertView*  singleAlert;
 }
 
 @property(strong,nonatomic) id selfObj;
@@ -86,7 +88,7 @@
     self.selfObj=self;
 
     aCubeWebViewController = [[CubeWebViewController alloc]init];
-    
+    aCubeWebViewController.showCloseButton=YES;
     aCubeWebViewController.title=@"登录";
     aCubeWebViewController.wwwFolderName = @"www";
     NSURL* fileUrl = [[NSURL alloc]init];
@@ -114,7 +116,7 @@
         [aCubeWebViewController viewDidAppear:NO];
         [self addBadge];
         self.selfObj=nil;
-        
+
     }didErrorBlock:^(){
         UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"首页模块加载失败。" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
@@ -127,6 +129,10 @@
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
+    
+    [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+    singleAlert=nil;
+    
     aCubeWebViewController=nil;
     
     bCubeWebViewController=nil;
@@ -134,7 +140,12 @@
 }
 
 
+
+
 - (void)dealloc{
+    [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+    singleAlert=nil;
+
     aCubeWebViewController=nil;
     bCubeWebViewController=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -218,9 +229,12 @@
             for(CubeModule *module in downloadArray){
                 [message appendFormat:@"%@\n", module.name];
             }
-            UIAlertView *alertView  =[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"立即下载" otherButtonTitles:@"取消",nil];
-            alertView.tag =830;
-            [alertView show];
+            
+            [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+            
+            singleAlert  =[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"立即下载" otherButtonTitles:@"取消",nil];
+            singleAlert.tag =830;
+            [singleAlert show];
             
             return;
         }
@@ -245,9 +259,10 @@
             //        [defaults setBool:NO forKey:@"firstTime"];
             if(![defaults boolForKey:@"firstTime"]){
                 [defaults setBool:YES forKey:@"firstTime"];
-                UIAlertView *alertView  =[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消",nil];
-                alertView.tag =829;
-                [alertView show];
+                [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+                singleAlert  =[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消",nil];
+                singleAlert.tag =829;
+                [singleAlert show];
             }
             message=nil;
         }
@@ -347,14 +362,14 @@
     long currentTime = [[NSDate date]timeIntervalSince1970];
     NSString *userName = [[NSUserDefaults standardUserDefaults]valueForKey:@"username"];
     NSString *sql = [NSString stringWithFormat:@"update AutoShowRecord set showTime='%ld' where identifier='%@' and userName='%@'",currentTime,identifier,userName];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         FMDatabase *database = [[FMDBManager getInstance]database ];
         if (![database open])
         {
             [database open];
         }
         [database executeUpdate:sql];
-    });
+    //});
 }
 
 #pragma mark - 皮肤功能
@@ -511,12 +526,13 @@
             }
             
             self.selectedModule = module.identifier;
-            UIAlertView *dependsAlert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@ 缺少依赖模块",module.name]
+            [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+            singleAlert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@ 缺少依赖模块",module.name]
                                                                    message:message
                                                                   delegate:self
                                                          cancelButtonTitle:@"确定" otherButtonTitles:/*@"安装", */nil];
-            [dependsAlert show];
-            dependsAlert=nil;
+            [singleAlert show];
+            singleAlert=nil;
             return;
         }
     }
@@ -528,6 +544,7 @@
     [bCubeWebViewController.view removeFromSuperview];
     bCubeWebViewController=nil;
     bCubeWebViewController  = [[CubeWebViewController alloc] init];
+    bCubeWebViewController.showCloseButton=YES;
     //记录html5模块点击begin
     [OperateLog recordOperateLog:module];
     //end
@@ -559,19 +576,21 @@
 
 #pragma mark - SettingView delegate
 -(void)ExitLogin{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"是否确认退出登录?" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
-    alert.tag = 1;
-    [alert show];
+    [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+    singleAlert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"是否确认退出登录?" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
+    singleAlert.tag = 1;
+    [singleAlert show];
 }
 
 #pragma mark - 退出登陆
 -(void)logout{
-    [(AppDelegate *)[UIApplication sharedApplication].delegate showLoginView];
+    [(AppDelegate *)[UIApplication sharedApplication].delegate showLoginView:NO];
 }
 
 
 #pragma mark - alerview Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    singleAlert=nil;
     if(alertView.tag ==829){
         if(buttonIndex == 0){
             NSMutableArray *modules =[[CubeApplication currentApplication ]updatableModules];
@@ -735,8 +754,7 @@
     [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
 }
 
--(void)moduleDidInstalled:(NSNotification*)note
-{
+-(void)moduleDidInstalled:(NSNotification*)note{
     if (statusToolbar) {
         int count = [self getDownMouleCount];
         NSLog(@"count =%d , allcount =%d   last = %d",count,allDownCount,allDownCount - count);
@@ -836,7 +854,9 @@
 -(void)startUILoading{
     int count =[self getDownMouleCount];
     statusToolbar.statusLabel.text = [NSString stringWithFormat:@"正在下载... %d/%d",(allDownCount - count) ,allDownCount];
-    statusToolbar.progressBar.progress = count/allDownCount;
+    
+    
+    statusToolbar.progressBar.progress = 1-(float)count/(float)allDownCount;
     [statusToolbar show:YES completion:^(BOOL finished) {
     }];
 }

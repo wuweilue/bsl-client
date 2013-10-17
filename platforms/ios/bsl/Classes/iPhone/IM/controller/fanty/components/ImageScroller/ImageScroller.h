@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @interface ImageScroller : UIView{
+    UIScrollView* scrollView;
     UIImageView* imageView;
 }
 

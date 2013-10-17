@@ -59,16 +59,16 @@
         }
 
         playingIndex=-1;
-        
         [[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(keyboardWillShow:)
-													 name:UIKeyboardWillShowNotification
-												   object:nil];
-        
+                                                     selector:@selector(keyboardWillShow:)
+                                                         name:UIKeyboardWillShowNotification
+                                                       object:nil];
+            
         [[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(keyboardWillHide:)
-													 name:UIKeyboardWillHideNotification
-												   object:nil];
+                                                     selector:@selector(keyboardWillHide:)
+                                                         name:UIKeyboardWillHideNotification
+                                                       object:nil];
+
 
     }
     return self;
@@ -201,7 +201,7 @@
 
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    [chatPanel resignFirstResponder];
+    //[chatPanel resignFirstResponder];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -682,7 +682,8 @@
         
         if([rectChat.isQuit boolValue]){
             [chatPanel hideAllControlPanel];
-            [self.navigationController popViewControllerAnimated:YES];
+            self.navigationItem.rightBarButtonItem=nil;
+            //[self.navigationController popViewControllerAnimated:YES];
         }
 
         
@@ -741,20 +742,20 @@
     [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
     NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
-    
-    
-	CGRect containerFrame = tableView.frame;
-    
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
 
-    containerFrame.size.height-=keyboardBounds.size.height;
+    
     
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:[duration doubleValue]];
     [UIView setAnimationCurve:[curve intValue]];
+    
+    CGRect containerFrame = tableView.frame;
+    containerFrame.size.height-=keyboardBounds.size.height;
+    tableView.frame=containerFrame;
 	
-	tableView.frame=containerFrame;
-	[UIView commitAnimations];
+    [UIView commitAnimations];
 }
 
 -(void) keyboardWillHide:(NSNotification *)note{
@@ -762,18 +763,18 @@
     [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
     NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
-    
-	CGRect containerFrame = tableView.frame;
-    
-    containerFrame.size.height+=keyboardBounds.size.height;
-    
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:[duration doubleValue]];
     [UIView setAnimationCurve:[curve intValue]];
 	
-	tableView.frame=containerFrame;
-	[UIView commitAnimations];
+    CGRect containerFrame = tableView.frame;
+    containerFrame.size.height+=keyboardBounds.size.height;
+    tableView.frame=containerFrame;
+	
+    [UIView commitAnimations];
 }
 
 
