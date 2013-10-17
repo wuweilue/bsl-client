@@ -1,5 +1,9 @@
 var window_height = $(window).height();
-
+window.addEventListener("keydown", function(evt) {
+	if (evt.keyCode === 13) {
+		$("#LoginBtn").trigger("click");
+	}
+});
 $("body").click(function() {
 	$(".del_content").hide();
 	console.log("body click");
@@ -13,10 +17,17 @@ $('#username, #password').click(function(e) {
 	e.stopPropagation();
 });
 
-/*$('#username, #password').blur(function() {
-	console.log("input blur");
-	$(this).next(".del_content").hide();
-});*/
+var clearPsw = function(){
+
+    var isRemember = $('#isRemember:checked').val();
+	if (isRemember === undefined) {
+		//alert("")
+		isRemember = "false";
+	}
+    if(isRemember==="false"){
+        $("#password").val("");
+    }
+};
 
 $("#username_del").click(function() {
 	$(this).hide();
@@ -42,8 +53,6 @@ $("#LoginBtn").click(function() {
 	var username = $("#username").val();
 	var password = $("#password").val();
 	var isRemember = $('#isRemember:checked').val();
-	window.localStorage["username"] =username;
-	window.localStorage["password"] =password;
 
 	/*if (username === "" || username === null) {
 		showAlert("账号不能为空", null, "提示", "确定");
@@ -85,7 +94,6 @@ $("#LoginBtn").click(function() {
 
 var app = {
 	initialize: function() {
-        alert('login init!!!');
 		this.bindEvents();
 	},
 	bindEvents: function() {
