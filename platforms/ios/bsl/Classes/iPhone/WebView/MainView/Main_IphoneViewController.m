@@ -365,7 +365,8 @@
     CubeModule* cube = [tion object];
     NSString * javaScript = [NSString stringWithFormat:@"updateProgress('%@',%d);",cube.identifier,101];
     [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
-    [SVProgressHUD showErrorWithStatus:@"网络连接失败，请稍后重试！"];
+    if(![SVProgressHUD isVisible])
+        [SVProgressHUD showErrorWithStatus:@"网络连接失败，请稍后重试！"];
 }
 
 -(void)updateAuthoShowTime:(NSString*)identifier{
