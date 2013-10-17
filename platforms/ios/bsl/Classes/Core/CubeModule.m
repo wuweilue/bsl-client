@@ -56,7 +56,14 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
 @synthesize timeUnit;
 @synthesize autoDownload;
 @synthesize sortingWeight;
+@synthesize busiDetail;
+@synthesize moduleBadge;
 
+-(id)init{
+    self=[super init];
+    self.moduleBadge = @"1";
+    return self;
+}
 
 - (NSString*)description{
     return [NSString stringWithFormat:@"Cube Module[%@|%@]: v%@ - build %d", name, identifier, version , build];
@@ -421,6 +428,8 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
     module.discription = [jsonObject objectForKey:@"discription"];
     module.sortingWeight = [[jsonObject objectForKey:@"sortingWeight"] intValue];
     module.isAutoShow = [[jsonObject objectForKey:@"isAutoShow"]boolValue];
+    module.busiDetail = [[jsonObject objectForKey:@"busiDetail"]boolValue];
+    module.moduleBadge = [jsonObject objectForKey:@"moduleBadge"];
     module.showPushMsgCount = [[jsonObject objectForKey:@"showPushMsgCount"]integerValue];
     module.showIntervalTime = [[jsonObject valueForKey:@"showIntervalTime"] isEqual:[NSNull null] ] ? 0 : [[jsonObject valueForKey:@"showIntervalTime"] integerValue];
     
@@ -464,6 +473,12 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
         [json setValue:self.pushMsgLink forKey:@"pushMsgLink"];
     
     [json setValue:[NSNumber numberWithBool:self.isAutoShow ]forKey:@"isAutoShow"];
+    [json setValue:[NSNumber numberWithBool:self.busiDetail ]forKey:@"busiDetail"];
+    [json setValue:self.moduleBadge forKey:@"moduleBadge"];
+    
+    
+    
+    
     [json setValue:[NSNumber numberWithBool:self.showPushMsgCount] forKey:@"showPushMsgCount"];
     
     //是否隐藏

@@ -69,6 +69,19 @@
             }else if ([messageType isEqualToString:@"MODULE"] ) {
                 NSDictionary *module = [info objectForKey:@"extras"];
                 if (module) {
+                    NSNumber* num = [module objectForKey:@"moduleBadge"];
+                    NSString* identifier =   [module objectForKey:@"moduleIdentifer"];
+                    CubeApplication* cubeApp = [CubeApplication currentApplication];
+                    CubeModule* module1 = [cubeApp moduleForIdentifier:identifier];
+                    if ([num boolValue]) {
+                        if (module1) {
+                            module1.moduleBadge = @"";
+                        }
+                    }else{
+                        if (module1) {
+                            module1.moduleBadge = @"1";
+                        }
+                    }
                     [message setModule:[module objectForKey:@"moduleIdentifer"]];
                     [message setRecordId:[module objectForKey:@"announceId"]];
                 }

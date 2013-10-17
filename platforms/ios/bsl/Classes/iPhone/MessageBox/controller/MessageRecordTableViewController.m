@@ -493,6 +493,8 @@
     
     
     CubeModule *module = [[CubeApplication currentApplication] moduleForIdentifier:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
+    NSDictionary* diction =[[presentModulesDic objectForKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    
     MessageRecord *messageRecord = [[presentModulesDic objectForKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     if(![messageRecord.isRead boolValue]){
         messageRecord.isRead=[NSNumber numberWithBool:YES];

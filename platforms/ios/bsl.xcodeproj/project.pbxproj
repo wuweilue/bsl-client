@@ -123,7 +123,6 @@
 		39D9E81517F27C03001ED6F5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		39D9E81617F27C03001ED6F5 /* AlbumListLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968623B17EE898300C84A6A /* AlbumListLine@2x.png */; };
 		39D9E81917F27C03001ED6F5 /* Login_IpadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FE017E8BFBA0067A023 /* Login_IpadViewController.xib */; };
-		39D9E81A17F27C03001ED6F5 /* MainViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FE517E8BFBA0067A023 /* MainViewViewController.xib */; };
 		39D9E81B17F27C03001ED6F5 /* DetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FF817E8BFBA0067A023 /* DetailView.xib */; };
 		39D9E81C17F27C03001ED6F5 /* viewDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FFB17E8BFBA0067A023 /* viewDetail.xib */; };
 		39D9E81D17F27C03001ED6F5 /* ToolViewBkg_Black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968624817EE898300C84A6A /* ToolViewBkg_Black@2x.png */; };
@@ -690,7 +689,6 @@
 		39E050F017F00AEA00BCF7F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		39E050F117F00AEA00BCF7F8 /* AlbumListLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968623B17EE898300C84A6A /* AlbumListLine@2x.png */; };
 		39E050F417F00AEA00BCF7F8 /* Login_IpadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FE017E8BFBA0067A023 /* Login_IpadViewController.xib */; };
-		39E050F517F00AEA00BCF7F8 /* MainViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FE517E8BFBA0067A023 /* MainViewViewController.xib */; };
 		39E050F617F00AEA00BCF7F8 /* DetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FF817E8BFBA0067A023 /* DetailView.xib */; };
 		39E050F717F00AEA00BCF7F8 /* viewDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FFB17E8BFBA0067A023 /* viewDetail.xib */; };
 		39E050F817F00AEA00BCF7F8 /* ToolViewBkg_Black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968624817EE898300C84A6A /* ToolViewBkg_Black@2x.png */; };
@@ -1254,7 +1252,6 @@
 		39E9C407180EBAAA004CEF1D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		39E9C408180EBAAA004CEF1D /* AlbumListLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968623B17EE898300C84A6A /* AlbumListLine@2x.png */; };
 		39E9C409180EBAAA004CEF1D /* Login_IpadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FE017E8BFBA0067A023 /* Login_IpadViewController.xib */; };
-		39E9C40A180EBAAA004CEF1D /* MainViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FE517E8BFBA0067A023 /* MainViewViewController.xib */; };
 		39E9C40B180EBAAA004CEF1D /* DetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FF817E8BFBA0067A023 /* DetailView.xib */; };
 		39E9C40C180EBAAA004CEF1D /* viewDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FFB17E8BFBA0067A023 /* viewDetail.xib */; };
 		39E9C40D180EBAAA004CEF1D /* ToolViewBkg_Black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968624817EE898300C84A6A /* ToolViewBkg_Black@2x.png */; };
@@ -1910,7 +1907,6 @@
 		39FF09AC17F13CBB0086B76C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		39FF09AD17F13CBB0086B76C /* AlbumListLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968623B17EE898300C84A6A /* AlbumListLine@2x.png */; };
 		39FF09B017F13CBB0086B76C /* Login_IpadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FE017E8BFBA0067A023 /* Login_IpadViewController.xib */; };
-		39FF09B117F13CBB0086B76C /* MainViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FE517E8BFBA0067A023 /* MainViewViewController.xib */; };
 		39FF09B217F13CBB0086B76C /* DetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FF817E8BFBA0067A023 /* DetailView.xib */; };
 		39FF09B317F13CBB0086B76C /* viewDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FFB17E8BFBA0067A023 /* viewDetail.xib */; };
 		39FF09B417F13CBB0086B76C /* ToolViewBkg_Black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968624817EE898300C84A6A /* ToolViewBkg_Black@2x.png */; };
@@ -2492,7 +2488,6 @@
 		F54D82BD17E8BFBB0067A023 /* Login_IpadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FDF17E8BFBA0067A023 /* Login_IpadViewController.m */; };
 		F54D82BE17E8BFBB0067A023 /* Login_IpadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FE017E8BFBA0067A023 /* Login_IpadViewController.xib */; };
 		F54D82BF17E8BFBB0067A023 /* MainViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FE417E8BFBA0067A023 /* MainViewViewController.m */; };
-		F54D82C017E8BFBB0067A023 /* MainViewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F54D7FE517E8BFBA0067A023 /* MainViewViewController.xib */; };
 		F54D82C217E8BFBB0067A023 /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FEA17E8BFBA0067A023 /* DataViewController.m */; };
 		F54D82C317E8BFBB0067A023 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FEC17E8BFBA0067A023 /* MenuViewController.m */; };
 		F54D82C417E8BFBB0067A023 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FEE17E8BFBA0067A023 /* RootViewController.m */; };
@@ -3209,7 +3204,6 @@
 		F54D7FE017E8BFBA0067A023 /* Login_IpadViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Login_IpadViewController.xib; sourceTree = "<group>"; };
 		F54D7FE317E8BFBA0067A023 /* MainViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewViewController.h; sourceTree = "<group>"; };
 		F54D7FE417E8BFBA0067A023 /* MainViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewViewController.m; sourceTree = "<group>"; };
-		F54D7FE517E8BFBA0067A023 /* MainViewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewViewController.xib; sourceTree = "<group>"; };
 		F54D7FE917E8BFBA0067A023 /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
 		F54D7FEA17E8BFBA0067A023 /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
 		F54D7FEB17E8BFBA0067A023 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
@@ -3801,6 +3795,7 @@
 		F5A96CAA17F007FC00F9CA68 /* top_bar_bg@simple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "top_bar_bg@simple.png"; sourceTree = "<group>"; };
 		F5A96CAB17F007FC00F9CA68 /* top_bar_bg@simple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "top_bar_bg@simple@2x.png"; sourceTree = "<group>"; };
 		F5A96CAC17F007FC00F9CA68 /* voice_server_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voice_server_btn.png; sourceTree = "<group>"; };
+		F5F9260418100A20004B3015 /* cube1017.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = cube1017.xcdatamodel; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = bsl/config.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -4448,7 +4443,6 @@
 			children = (
 				F54D7FE317E8BFBA0067A023 /* MainViewViewController.h */,
 				F54D7FE417E8BFBA0067A023 /* MainViewViewController.m */,
-				F54D7FE517E8BFBA0067A023 /* MainViewViewController.xib */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -5790,7 +5784,6 @@
 				30A0434914DC770100060A13 /* Localizable.strings in Resources */,
 				3968627417EE898300C84A6A /* AlbumListLine@2x.png in Resources */,
 				F54D82BE17E8BFBB0067A023 /* Login_IpadViewController.xib in Resources */,
-				F54D82C017E8BFBB0067A023 /* MainViewViewController.xib in Resources */,
 				F54D82C917E8BFBB0067A023 /* DetailView.xib in Resources */,
 				F54D82CB17E8BFBB0067A023 /* viewDetail.xib in Resources */,
 				3968628017EE898300C84A6A /* ToolViewBkg_Black@2x.png in Resources */,
@@ -6201,7 +6194,6 @@
 				39D9E81517F27C03001ED6F5 /* Localizable.strings in Resources */,
 				39D9E81617F27C03001ED6F5 /* AlbumListLine@2x.png in Resources */,
 				39D9E81917F27C03001ED6F5 /* Login_IpadViewController.xib in Resources */,
-				39D9E81A17F27C03001ED6F5 /* MainViewViewController.xib in Resources */,
 				39D9E81B17F27C03001ED6F5 /* DetailView.xib in Resources */,
 				39D9E81C17F27C03001ED6F5 /* viewDetail.xib in Resources */,
 				39D9E81D17F27C03001ED6F5 /* ToolViewBkg_Black@2x.png in Resources */,
@@ -6612,7 +6604,6 @@
 				39E050F017F00AEA00BCF7F8 /* Localizable.strings in Resources */,
 				39E050F117F00AEA00BCF7F8 /* AlbumListLine@2x.png in Resources */,
 				39E050F417F00AEA00BCF7F8 /* Login_IpadViewController.xib in Resources */,
-				39E050F517F00AEA00BCF7F8 /* MainViewViewController.xib in Resources */,
 				39E050F617F00AEA00BCF7F8 /* DetailView.xib in Resources */,
 				39E050F717F00AEA00BCF7F8 /* viewDetail.xib in Resources */,
 				39E050F817F00AEA00BCF7F8 /* ToolViewBkg_Black@2x.png in Resources */,
@@ -7023,7 +7014,6 @@
 				39E9C407180EBAAA004CEF1D /* Localizable.strings in Resources */,
 				39E9C408180EBAAA004CEF1D /* AlbumListLine@2x.png in Resources */,
 				39E9C409180EBAAA004CEF1D /* Login_IpadViewController.xib in Resources */,
-				39E9C40A180EBAAA004CEF1D /* MainViewViewController.xib in Resources */,
 				39E9C40B180EBAAA004CEF1D /* DetailView.xib in Resources */,
 				39E9C40C180EBAAA004CEF1D /* viewDetail.xib in Resources */,
 				39E9C40D180EBAAA004CEF1D /* ToolViewBkg_Black@2x.png in Resources */,
@@ -7433,7 +7423,6 @@
 				39FF09AC17F13CBB0086B76C /* Localizable.strings in Resources */,
 				39FF09AD17F13CBB0086B76C /* AlbumListLine@2x.png in Resources */,
 				39FF09B017F13CBB0086B76C /* Login_IpadViewController.xib in Resources */,
-				39FF09B117F13CBB0086B76C /* MainViewViewController.xib in Resources */,
 				39FF09B217F13CBB0086B76C /* DetailView.xib in Resources */,
 				39FF09B317F13CBB0086B76C /* viewDetail.xib in Resources */,
 				39FF09B417F13CBB0086B76C /* ToolViewBkg_Black@2x.png in Resources */,
@@ -9147,7 +9136,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "变色龙IOS测试";
-				PROVISIONING_PROFILE = "CC5F5963-C1CD-48A7-85C2-09DBBEB54204";
+				PROVISIONING_PROFILE = "114E349F-5E87-4AED-913E-2A70E4CA88C8";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -9179,7 +9168,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "变色龙IOS测试";
-				PROVISIONING_PROFILE = "CC5F5963-C1CD-48A7-85C2-09DBBEB54204";
+				PROVISIONING_PROFILE = "114E349F-5E87-4AED-913E-2A70E4CA88C8";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -9294,7 +9283,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "移动运行网2.0";
-				PROVISIONING_PROFILE = "B869874C-EE33-4FC2-8B98-3C1304017796";
+				PROVISIONING_PROFILE = "114E349F-5E87-4AED-913E-2A70E4CA88C8";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -9331,7 +9320,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "移动运行网2.0";
-				PROVISIONING_PROFILE = "B869874C-EE33-4FC2-8B98-3C1304017796";
+				PROVISIONING_PROFILE = "114E349F-5E87-4AED-913E-2A70E4CA88C8";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -9492,6 +9481,7 @@
 				F54D7FB817E8BFBA0067A023 /* cube0808.xcdatamodel */,
 				F54D7FB917E8BFBA0067A023 /* cube0827.xcdatamodel */,
 				F54D7FBA17E8BFBA0067A023 /* cube0911.xcdatamodel */,
+				F5F9260418100A20004B3015 /* cube1017.xcdatamodel */,
 			);
 			currentVersion = F54D7FBA17E8BFBA0067A023 /* cube0911.xcdatamodel */;
 			path = cube.xcdatamodeld;

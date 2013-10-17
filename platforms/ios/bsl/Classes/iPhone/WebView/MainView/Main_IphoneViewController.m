@@ -186,9 +186,11 @@
                 NSString* moduleIdentifier = module.identifier;
                 int count = [moduleIdentifier  isEqualToString:@"com.foss.message.record"] ? [MessageRecord countAllAtBadge] :[MessageRecord countForModuleIdentifierAtBadge:moduleIdentifier];
                 //判断模块是否需要显示右上角的数字
-                //if(module.showPushMsgCount ==0)
+                if(![module.moduleBadge isEqualToString:@"1"])
                 {
                     [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"receiveMessage('%@',%d,true);",moduleIdentifier,count]];
+                }else{
+                    [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"receiveMessage('%@',%d,true);",moduleIdentifier,0]];
                 }
             }
         }
@@ -821,13 +823,16 @@
         [jsonCube  setObject:!each.local?@"":each.local forKey:@"local"];
         [jsonCube  setObject:each.name forKey:@"name"];
         //=========================================
-        
         int count = 0 ;
-        if ([each.identifier  isEqualToString:@"com.foss.message.record"]) {
-            count  =[MessageRecord countAllAtBadge];
-        }else{
-            count = [MessageRecord countForModuleIdentifierAtBadge:each.identifier];
-        }[jsonCube  setObject: [NSNumber numberWithInt:count] forKey:@"msgCount"];
+        if (![each.moduleBadge isEqualToString:@"1"]) {
+            
+            if ([each.identifier  isEqualToString:@"com.foss.message.record"]) {
+                count  =[MessageRecord countAllAtBadge];
+            }else{
+                count = [MessageRecord countForModuleIdentifierAtBadge:each.identifier];
+            }
+        }
+       [jsonCube  setObject: [NSNumber numberWithInt:count] forKey:@"msgCount"];
         [jsonCube  setObject: [NSNumber numberWithInt:0] forKey:@"progress"];
         //=========================================
         [jsonCube  setObject: [NSNumber numberWithInteger:each.build] forKey:@"build"];
