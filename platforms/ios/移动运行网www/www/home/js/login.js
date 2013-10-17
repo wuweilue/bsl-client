@@ -70,7 +70,6 @@ var clearPsw = function(){
 		//alert("")
 		isRemember = "false";
 	}
-    alert(isRemember);
     if(isRemember==="false"){
         $("#password").val("");
     }
