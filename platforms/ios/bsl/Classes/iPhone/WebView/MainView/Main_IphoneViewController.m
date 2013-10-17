@@ -65,7 +65,7 @@
         //收到消息时候的广播
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addBadge) name:MESSAGE_RECORD_DID_SAVE_NOTIFICATION object:nil];
         //收到好友消息时候
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleInstallFail) name:CubeModuleDownloadDidFailNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moduleInstallFail:) name:CubeModuleDownloadDidFailNotification object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteModuleFromNotification:) name:KNOTIFICATION_DETIALPAGE_DELETESUCCESS object:nil];
         
@@ -354,7 +354,10 @@
     }
 }
 
--(void)moduleInstallFail{
+-(void)moduleInstallFail:(NSNotification*)tion{
+    CubeModule* cube = [tion object];
+    NSString * javaScript = [NSString stringWithFormat:@"updateProgress('%@',%d);",cube.identifier,101];
+    [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
     [SVProgressHUD showErrorWithStatus:@"网络连接失败，请稍后重试！"];
 }
 
