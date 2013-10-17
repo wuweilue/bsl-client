@@ -30,7 +30,12 @@ $("body").css({
 	'height':bodyHeight+'px',
 	'min-height':bodyHeight+'px'
 });
-
+var clearPsw = function(){
+    var isChecked = $("#isRemember").attr("checked");
+    if(!isChecked){
+        $("#password").val("");
+    }
+};
 var app = {
 	initialize: function() {
 		this.bindEvents();
@@ -44,10 +49,11 @@ var app = {
 	receivedEvent: function(id) {
 		cordova.exec(function(data) {
 			data = $.parseJSON(data);
-			$("#username").val(data.username);
-			$("#password").val(data.password);
+                     $("#username").val(data.username);
+                     $("#password").val(data.password);
 			if (data.isRemember === true) {
 				$("#isRemember").attr("checked", 'checked');
+                     
 			}
 		}, function(err) {
 			alert(err);

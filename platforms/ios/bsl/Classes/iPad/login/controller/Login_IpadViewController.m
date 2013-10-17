@@ -87,6 +87,7 @@
         isDisappear = false;
      
     }
+    [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:@"clearPsw()"];
 
 }
 
