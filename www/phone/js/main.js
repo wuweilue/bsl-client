@@ -538,6 +538,10 @@ var loadModuleList = function(plugin, action, type, callback) {
 
 
 };
+var backToMain = function(){
+	$(".back_btn").trigger("click");
+}
+
 // 左边按键--设置、返回
 $('#top_left_btn')
 	.bind("click",
@@ -548,6 +552,8 @@ $('#top_left_btn')
 				// 返回按键
 
 				$('#top_left_btn').removeClass('back_bt_class');
+				$('#top_left_btn').removeClass("back_btn");
+				$('#top_left_btn').addClass("left_btn");
 				//alert("shanchu le back_bt_class");
 				$('.buttomContent').css('display', 'none');
 
@@ -557,8 +563,7 @@ $('#top_left_btn')
 				//$('#top_left_btn').addClass("btn").css("background","url('img/settingbutton.ing') no-repeat").css("width","24px").css("height","24px");
 
 				//$('#top_left_btn').addClass("left_btn").addClass("btn");
-				$('#top_left_btn').removeClass("back_btn");
-				$('#top_left_btn').addClass("left_btn");
+				
 				
 
 				//开启欢迎光临
@@ -580,7 +585,6 @@ $('#top_left_btn')
 
 				// 设置按键
 				$('#top_left_btn').removeClass("disabled");
-
 				cordovaExec("CubeModuleOperator", "setting");
 
 
@@ -908,6 +912,7 @@ $('#manager_btn')
 				var type = "uninstall";
 				activeModuleManageBarItem(type);
 				listLayout();
+				cordovaExec("CubeModuleOperator", "manager");
 				if (myScroll) {
 					myScroll.refresh();
 					console.log("同步后刷新界面");
