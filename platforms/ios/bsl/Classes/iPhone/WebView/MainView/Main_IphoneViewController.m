@@ -161,9 +161,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
-        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate) withObject:nil afterDelay:0.8f];
-    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -733,6 +730,8 @@
         NSString* JSO=   [[NSString alloc] initWithData:moduleDictionary.JSONData encoding:NSUTF8StringEncoding];
         NSString * javaScript = [NSString stringWithFormat:@"refreshModule('%@','uninstall','%@');",identifier,JSO ];
         [aCubeWebViewController.webView stringByEvaluatingJavaScriptFromString:javaScript];
+        JSO=nil;
+        javaScript=nil;
     }
 
 }
