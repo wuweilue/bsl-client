@@ -57,7 +57,9 @@ $("body").click(function() {
 $("#LoginBtn").click(function() {
 	$(this).disabled = "disabled";
 	var username = $("#username").val();
-
+	if($("#password").val()=="" || $("#password").val()==null ||$("#password").val()==undefined){
+		myPsw = null;
+	}
 	if(myPsw!=null && myPsw!=""){
 		var password = myPsw;
 	}else{

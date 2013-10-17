@@ -878,7 +878,7 @@ $('#manager_btn')
 		console.log("点击");
 
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
-			console.log("1111");
+			console.log("开始同步");
 			$('#manager_btn').removeClass("disabled");
 			loadModuleList("CubeModuleList", "uninstallList", "uninstall", function() {
 				console.log("222");
