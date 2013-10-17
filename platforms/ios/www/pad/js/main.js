@@ -35,6 +35,13 @@ var cordovaExec = function(plugin, action, parameters, callback) {
 		//alert(err);
 	}, plugin, action, parameters === null || parameters === undefined ? [] : parameters);
 };
+var isKeyboardShow = function(isShow) {
+	if (isShow) {
+		$(".bottomMenu").hide();
+	} else {
+		$(".bottomMenu").show();
+	}
+}
 
 
 //自动更新查新界面
@@ -506,14 +513,12 @@ var app = {
 					loadModuleList("CubeModuleList", "mainList", "main", function() {
 						myScroll.refresh();
 						checkTheme();
-                                   $(".bottomMenu").show();
 					});
 				}, function(err) {}, "CubePackageName", "getPackageName", []);
 			} else {
 				loadModuleList("CubeModuleList", "mainList", "main", function() {
 					myScroll.refresh();
 					checkTheme();
-                               $(".bottomMenu").show();
 				});
 			}
 		});

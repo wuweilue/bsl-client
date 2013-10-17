@@ -22,7 +22,6 @@ var clearPsw = function(){
     if(!isChecked){
         $("#password").val("");
     }
-    
 };
 
 $("#username_del").click(function() {
