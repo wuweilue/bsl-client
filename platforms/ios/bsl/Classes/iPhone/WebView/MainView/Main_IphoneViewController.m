@@ -177,6 +177,7 @@
 //SHOW_MAINVIEW
 -(void)showMainView{
     aCubeWebViewController.closeButton.hidden = YES;
+    [aCubeWebViewController reloadHomePage];
 }
 
 -(void)addBadge{
