@@ -14,7 +14,7 @@
 #import "Main_IphoneViewController.h"
 
 
-#define returnHomeStr @"home/index.html"
+#define returnHomeStr @"home/index.html#home/main"
 
 @interface CubeWebViewController (){
     CubeWebViewController *cubeWebViewController;
@@ -119,27 +119,6 @@
     if([self.navigationController.viewControllers count]>2){
         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
     }
-    
-}
-
--(void)reloadHomePage{
-    
-    /*
-
-    
-    const char* str=[[[[self.webView request] URL] absoluteString] UTF8String];
-    if(str!=nil && strstr(str, "www/home/index.html")!=nil){
-        return;
-    }
-    */
-    
-    if(![self.webView canGoForward]){
-        return;
-    }
-    
-    //[self.webView stringByEvaluatingJavaScriptFromString:@"window.location.replace(0);window.location.reload()"];
-
-
     
 }
 
@@ -360,8 +339,6 @@
     
     return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
 }
-
-
 - (void)loadWebPageWithUrl:(NSString *)fileUrl didFinishBlock:(DidFinishPreloadBlock)didFinishBlock didErrorBlock:(DidErrorPreloadBlock)didErrorBolock;
 {
     if (fileUrl != nil) {

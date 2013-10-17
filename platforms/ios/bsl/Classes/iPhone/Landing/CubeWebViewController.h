@@ -18,7 +18,6 @@ typedef void (^DidErrorPreloadBlock)(void);
 @property(nonatomic,assign) BOOL showCloseButton;
 @property(nonatomic,assign) BOOL alwaysShowNavigationBar;
 
--(void)reloadHomePage;
 - (void)loadWebPageWithModule:(CubeModule *)module
                didFinishBlock:(DidFinishPreloadBlock)didFinishBlock
                 didErrorBlock:(DidErrorPreloadBlock)didErrorBolock;
