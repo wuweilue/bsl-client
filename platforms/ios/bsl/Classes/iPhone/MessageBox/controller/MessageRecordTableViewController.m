@@ -539,7 +539,8 @@
     
     
     //判断不是本地模块
-    if ([messageRecord.allContent  boolValue] ) {
+   
+    if ( [messageRecord.allContent length]>0 && [messageRecord.allContent  boolValue] ) {
         @autoreleasepool {
             NSDictionary *missingModules = [module missingDependencies];
             NSArray *needInstall = [missingModules objectForKey:kMissingDependencyNeedInstallKey];
