@@ -402,7 +402,9 @@ var initial = function(type, data) {
 
 
 
-	/*<!--     
+	
+
+			/*<!--     
     //把data转换成array
 	var array = [];
 	for(var category in data){
@@ -429,16 +431,16 @@ var initial = function(type, data) {
 		}));
 		_.each((data), function(value, key) {
      -->*/
-	//<!--
-	_.each(data, function(value, key) {
+    //<!--
+     _.each(data, function(value, key) {
+           
+        $("#myul").append(_.template($("#t2").html(), {
+                                        'muduleTitle': key,
+                                        'tag': i
+                                        }));
+        _.each((value), function(value, key) {
 
-		$("#myul").append(_.template($("#t2").html(), {
-			'muduleTitle': key,
-			'tag': i
-		}));
-		_.each((value), function(value, key) {
-
-			//-->
+    //-->
 
 
 			console.log('AAAAAAAA identifier icon = ' + value.identifier + " -- " + value.icon);
@@ -538,10 +540,6 @@ var loadModuleList = function(plugin, action, type, callback) {
 
 
 };
-var backToMain = function(){
-	$(".back_btn").trigger("click");
-}
-
 // 左边按键--设置、返回
 $('#top_left_btn')
 	.bind("click",
@@ -552,8 +550,6 @@ $('#top_left_btn')
 				// 返回按键
 
 				$('#top_left_btn').removeClass('back_bt_class');
-				$('#top_left_btn').removeClass("back_btn");
-				$('#top_left_btn').addClass("left_btn");
 				//alert("shanchu le back_bt_class");
 				$('.buttomContent').css('display', 'none');
 
@@ -563,8 +559,8 @@ $('#top_left_btn')
 				//$('#top_left_btn').addClass("btn").css("background","url('img/settingbutton.ing') no-repeat").css("width","24px").css("height","24px");
 
 				//$('#top_left_btn').addClass("left_btn").addClass("btn");
-				
-				
+				$('#top_left_btn').addClass("left_btn");
+				$('#top_left_btn').removeClass("back_btn");
 
 				//开启欢迎光临
 				//$('.account_content').show();
@@ -585,6 +581,7 @@ $('#top_left_btn')
 
 				// 设置按键
 				$('#top_left_btn').removeClass("disabled");
+				
 				cordovaExec("CubeModuleOperator", "setting");
 
 
@@ -768,7 +765,7 @@ var listLayout = function() {
 		$('.module_div ul li .icon-chevron-right').css('display', 'none');
 		//显示 curd_btn
 		$('.module_div ul li .curd_btn').css('display', 'inline');
-
+		$('.detail .module_li_titlename').css('top', '0px').css('font-size', '1.2em');
 
 		//禁止本地模块curd_btn显示
 		$.each($('.module_div ul .module_li .curd_btn'), function(index, item) {
@@ -876,16 +873,12 @@ $('#gridview_btn').bind('click', function() {
 // 管理按钮
 $('#manager_btn')
 	.click(function() {
-		console.log("点击管理按键");
-
 		$('#manager_btn').addClass("disabled");
 		console.log("点击");
 
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
-			console.log("开始同步");
 			$('#manager_btn').removeClass("disabled");
 			loadModuleList("CubeModuleList", "uninstallList", "uninstall", function() {
-				console.log("222");
 				isOver = 0;
 				$("#searchInput").val("");
 				$('#manager_btn').hide();
@@ -902,20 +895,18 @@ $('#manager_btn')
 				//设置左边按键class做标志
 
 				//$('#top_left_btn').removeClass("btn").css("background","url('img/nav_back@2x.ing') no-repeat").css("height","32px").css("width","48px");
-				$('#top_left_btn').removeClass("left_btn");
+
 				$('#top_left_btn').addClass("back_btn");
 				//$('#top_left_btn').removeClass("left_btn").removeClass("btn");
-				
+				$('#top_left_btn').removeClass("left_btn");
 
 				$('#top_left_btn').addClass('back_bt_class');
 				// 处理模块管理问题
 				var type = "uninstall";
 				activeModuleManageBarItem(type);
 				listLayout();
-				cordovaExec("CubeModuleOperator", "manager");
 				if (myScroll) {
 					myScroll.refresh();
-					console.log("同步后刷新界面");
 				}
 
 			});
