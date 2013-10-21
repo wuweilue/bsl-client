@@ -104,7 +104,7 @@ var loadLogin = function(){
 var app = {
 	initialize: function() {
 		this.bindEvents();
-		loadLogin();
+		//loadLogin();
 	},
 	bindEvents: function() {
 		document.addEventListener('deviceready', this.onDeviceReady, false);
