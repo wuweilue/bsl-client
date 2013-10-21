@@ -219,8 +219,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    id obj=[messageArray objectAtIndex:[indexPath row]];
-    if([[obj class] isSubclassOfClass:[MessageEntity class]]){
+    //id obj=[messageArray objectAtIndex:[indexPath row]];
+    //if([[obj class] isSubclassOfClass:[MessageEntity class]]){
         MessageEntity *messageEntity = (MessageEntity*)[messageArray objectAtIndex:[indexPath row]];
         
         if([messageEntity.type isEqualToString:@"voice"]){
@@ -232,17 +232,17 @@
         else{
             return [ChatCell cellHeight:messageEntity.content bubbleType:([messageEntity.sendUser isEqualToString:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]]?BubbleTypeMine:BubbleTypeSomeoneElse) emoctionList:emoctionList]+10.0f;
         }
-    }
-    else{
-        return 30.0f;
-    }
+    //}
+    //else{
+    //    return 30.0f;
+    //}
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    id obj=[messageArray objectAtIndex:[indexPath row]];
+    //id obj=[messageArray objectAtIndex:[indexPath row]];
     
-    if([[obj class] isSubclassOfClass:[MessageEntity class]]){
+    //if([[obj class] isSubclassOfClass:[MessageEntity class]]){
         MessageEntity *messageEntity = (MessageEntity*)[messageArray objectAtIndex:[indexPath row]];
 
         if([messageEntity.type isEqualToString:@"voice"]){
@@ -308,7 +308,8 @@
             return cell;
 
         }
-    }
+    //}
+    /*
     else if([[obj class] isSubclassOfClass:[NSString class]]){
         UITableViewCell *cell = (UITableViewCell*)[_tableView dequeueReusableCellWithIdentifier:@"date_cell"];
         if(cell == nil){
@@ -322,6 +323,7 @@
         return cell;
     }
     return nil;
+     */
 }
 
 
@@ -638,7 +640,7 @@
        
         NSMutableArray* indexPathArray=[NSMutableArray arrayWithCapacity:1];
         
-        
+        /*
         // 暂作保留
         if(messageEntity.receiveDate!=nil){
             BOOL addDate=YES;
@@ -665,6 +667,7 @@
 
             }
         }
+         */
         
         [messageArray addObject:messageEntity];
 
@@ -942,10 +945,13 @@
     
     //把消息都保存在messageArray中
     NSArray *contentArray = [fetchController fetchedObjects];
-    messageArray = [[NSMutableArray alloc] initWithCapacity:3];
+    messageArray=nil;
+    messageArray = [[NSMutableArray alloc] initWithArray:contentArray];
     
+    /*
     for(MessageEntity* messageEntity in contentArray){
         // 暂作保留
+        
         if(messageEntity.receiveDate!=nil){
             BOOL addDate=YES;
             
@@ -971,6 +977,7 @@
         [messageArray addObject:messageEntity];
 
     }
+     */
     
     
     RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
