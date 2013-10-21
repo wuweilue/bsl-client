@@ -106,6 +106,8 @@
 		396862A117EE898300C84A6A /* VOIPReceiverVoiceNodeBkgHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968626B17EE898300C84A6A /* VOIPReceiverVoiceNodeBkgHL@2x.png */; };
 		396862A217EE898300C84A6A /* VOIPSenderVoiceNodeBkg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968626C17EE898300C84A6A /* VOIPSenderVoiceNodeBkg@2x.png */; };
 		396862A317EE898300C84A6A /* VOIPSenderVoiceNodeBkgHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968626D17EE898300C84A6A /* VOIPSenderVoiceNodeBkgHL@2x.png */; };
+		397642121814BA8200C3DD75 /* local_module.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1801377B17F3D1AA00261B66 /* local_module.plist */; };
+		397642131814BA8200C3DD75 /* local_module.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1801377B17F3D1AA00261B66 /* local_module.plist */; };
 		39C0B8211806503500668DED /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */; };
 		39C0B8221806503500668DED /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */; };
 		39C0B8231806503500668DED /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */; };
@@ -7258,6 +7260,7 @@
 				39E9C4FA180EBAAA004CEF1D /* f087.png in Resources */,
 				39E9C4FB180EBAAA004CEF1D /* VOIPReceiverVoiceNodeBkg@2x.png in Resources */,
 				39E9C4FC180EBAAA004CEF1D /* f088.png in Resources */,
+				397642131814BA8200C3DD75 /* local_module.plist in Resources */,
 				39E9C4FD180EBAAA004CEF1D /* Default@2x.png in Resources */,
 				39E9C4FE180EBAAA004CEF1D /* nav_back@2x.png in Resources */,
 				39E9C4FF180EBAAA004CEF1D /* StarsBackground.png in Resources */,
@@ -7668,6 +7671,7 @@
 				39FF0AAB17F13CBB0086B76C /* f087.png in Resources */,
 				39FF0AAC17F13CBB0086B76C /* VOIPReceiverVoiceNodeBkg@2x.png in Resources */,
 				39FF0AAD17F13CBB0086B76C /* f088.png in Resources */,
+				397642121814BA8200C3DD75 /* local_module.plist in Resources */,
 				39F23AA81805B2600035FCF8 /* Default@2x.png in Resources */,
 				39FF0AAE17F13CBB0086B76C /* nav_back@2x.png in Resources */,
 				39FF0AAF17F13CBB0086B76C /* StarsBackground.png in Resources */,
