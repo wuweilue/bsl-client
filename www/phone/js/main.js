@@ -48,6 +48,8 @@ var refreshMainPage = function(identifier, type, moduleMessage) {
 
 		/*addModule(identifier, "main", moduleMessage);
 		$("li[identifier='" + identifier + "']").css('opacity', '0.5');*/
+
+
 		if (isOver === 0) {
 			isOver = isOver + 1;
 			console.log("刷新。。。。");
@@ -59,9 +61,6 @@ var refreshMainPage = function(identifier, type, moduleMessage) {
 				isOver = isOver - 1;
 			});
 		}
-
-
-
 	}
 
 };
@@ -155,7 +154,7 @@ var refreshModule = function(identifier, type, moduleMessage) {
 	} else {
 		//主页面
 		console.log("主界面、、");
-		$("li[identifier='" + identifier + "']").css('opacity', '1');
+		//$("li[identifier='" + identifier + "']").css('opacity', '1');
 		//判断模块 hidden
 		var isHidden = $("li[identifier='" + identifier + "']").attr("hidden");
 		console.log("是否显示？？？？" + isHidden);
