@@ -5721,6 +5721,9 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = XDTMM97Z68;
+					};
 					39D9E80817F27C03001ED6F5 = {
 						DevelopmentTeam = KMB2BDRT85;
 					};
@@ -8989,7 +8992,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -9012,7 +9015,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "变色龙";
-				PROVISIONING_PROFILE = "5C89342D-7C7E-4CBC-8F50-98F0EEFE4754";
+				PROVISIONING_PROFILE = "10E5E3A1-938F-4B8C-925C-E240DD3AE01F";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -9023,7 +9026,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -9044,7 +9047,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "变色龙";
-				PROVISIONING_PROFILE = "5C89342D-7C7E-4CBC-8F50-98F0EEFE4754";
+				PROVISIONING_PROFILE = "10E5E3A1-938F-4B8C-925C-E240DD3AE01F";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -9121,7 +9124,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -9144,7 +9147,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "变色龙IOS测试";
-				PROVISIONING_PROFILE = "C2B15530-FD96-45A6-859F-19FF3D860357";
+				PROVISIONING_PROFILE = "279674E0-D55D-4A06-A89F-44B32F8556F4";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -9155,7 +9158,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -9176,7 +9179,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "变色龙IOS测试";
-				PROVISIONING_PROFILE = "C2B15530-FD96-45A6-859F-19FF3D860357";
+				PROVISIONING_PROFILE = "279674E0-D55D-4A06-A89F-44B32F8556F4";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
