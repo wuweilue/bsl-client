@@ -41,7 +41,7 @@
 -(void) keyboardWillHide:(NSNotification *)note;
 
 -(void)iMOffLine;
--(void)iMOnLine;
+-(void)IMOnLine;
 @end
 
 @implementation ChatMainViewController
@@ -794,7 +794,7 @@
 
 }
 
--(void)iMOnLine{
+-(void)IMOnLine{
     AppDelegate* appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
     chatPanel.onlineStatus=[[appDelegate xmpp] isConnected];
     

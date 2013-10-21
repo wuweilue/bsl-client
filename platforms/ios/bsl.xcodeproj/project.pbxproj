@@ -108,6 +108,7 @@
 		396862A317EE898300C84A6A /* VOIPSenderVoiceNodeBkgHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3968626D17EE898300C84A6A /* VOIPSenderVoiceNodeBkgHL@2x.png */; };
 		397642121814BA8200C3DD75 /* local_module.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1801377B17F3D1AA00261B66 /* local_module.plist */; };
 		397642131814BA8200C3DD75 /* local_module.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1801377B17F3D1AA00261B66 /* local_module.plist */; };
+		3976421618150D3E00C3DD75 /* Config-foss.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAE17E8BFB90067A023 /* Config-foss.m */; };
 		39C0B8211806503500668DED /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */; };
 		39C0B8221806503500668DED /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */; };
 		39C0B8231806503500668DED /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C0B81D1806503500668DED /* Default-Landscape@2x~ipad.png */; };
@@ -2649,7 +2650,6 @@
 		F54D83C817E8BFBC0067A023 /* XMPP_Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F54D829017E8BFBB0067A023 /* XMPP_Model.xcdatamodeld */; };
 		F54D83CB17E8BFBC0067A023 /* XMPPIMActor.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829A17E8BFBB0067A023 /* XMPPIMActor.m */; };
 		F54D83CD17E8BFBC0067A023 /* XMPPSqlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D829E17E8BFBB0067A023 /* XMPPSqlManager.m */; };
-		F54D83CE17E8C5840067A023 /* Config-foss-test.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAD17E8BFB90067A023 /* Config-foss-test.m */; };
 		F54D84A517E8C77E0067A023 /* add_friend_icon_clicked.png in Resources */ = {isa = PBXBuildFile; fileRef = F54D83CF17E8C77D0067A023 /* add_friend_icon_clicked.png */; };
 		F54D84A617E8C77E0067A023 /* add_friend_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F54D83D017E8C77D0067A023 /* add_friend_icon.png */; };
 		F54D84A717E8C77E0067A023 /* Add_Module_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F54D83D117E8C77D0067A023 /* Add_Module_Icon.png */; };
@@ -8109,6 +8109,7 @@
 				F54D82E517E8BFBB0067A023 /* MenuView.m in Sources */,
 				F54D82E917E8BFBB0067A023 /* ChatCell.m in Sources */,
 				F5A96C4A17F006B400F9CA68 /* CDVVibration.m in Sources */,
+				3976421618150D3E00C3DD75 /* Config-foss.m in Sources */,
 				F54D82EA17E8BFBB0067A023 /* ChatImageCell.m in Sources */,
 				F54D82EB17E8BFBB0067A023 /* ContactCell.m in Sources */,
 				F54D82EC17E8BFBB0067A023 /* ContactCheckBoxCell.m in Sources */,
@@ -8221,7 +8222,6 @@
 				F54D83CB17E8BFBC0067A023 /* XMPPIMActor.m in Sources */,
 				3968621A17EE7C8800C84A6A /* RoomService.m in Sources */,
 				F54D83CD17E8BFBC0067A023 /* XMPPSqlManager.m in Sources */,
-				F54D83CE17E8C5840067A023 /* Config-foss-test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9012,7 +9012,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = chameleon;
-				PROVISIONING_PROFILE = "9046E906-E339-42E4-B673-79920C018879";
+				PROVISIONING_PROFILE = "5C89342D-7C7E-4CBC-8F50-98F0EEFE4754";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -9044,7 +9044,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = chameleon;
-				PROVISIONING_PROFILE = "9046E906-E339-42E4-B673-79920C018879";
+				PROVISIONING_PROFILE = "5C89342D-7C7E-4CBC-8F50-98F0EEFE4754";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
