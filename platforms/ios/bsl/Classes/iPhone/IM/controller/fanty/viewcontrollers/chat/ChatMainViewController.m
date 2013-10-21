@@ -161,7 +161,7 @@
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
-    
+    [SVProgressHUD dismiss];
     [[GTGZImageDownloadedManager sharedInstance] removeAll];
     
     tableView=nil;
@@ -506,7 +506,7 @@
     if([[[[UIDevice currentDevice] model] lowercaseString] rangeOfString:@"ipod"].length>0 && buttonIndex==1)return;
     
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.videoQuality=UIImagePickerControllerQualityTypeHigh;
+    picker.videoQuality=UIImagePickerControllerQualityTypeMedium;
     picker.delegate = self;
     
     if(buttonIndex==1 || [[[[UIDevice currentDevice] model] lowercaseString] rangeOfString:@"ipod"].length>0){
