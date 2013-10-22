@@ -10,6 +10,9 @@ var cordovaExec = function(plugin, action, parameters, callback) {
 		//alert(err);
 	}, plugin, action, parameters === null || parameters === undefined ? [] : parameters);
 };
+var backToMain = function(){
+	$(".back_btn").trigger("click");
+};
 //首页接受到信息，刷新页面
 var receiveMessage = function(identifier, count, display) {
 	console.log("AAA进入index revceiveMessage count = " + count + identifier + display);
@@ -269,9 +272,10 @@ var activeModuleManageBarItem = function(type) {
 
 //点击模块的时候触发事件
 var module_all_click = function() {
+
 	/*$("li[identifier] .module_li_img , li[identifier] .module_push, li[identifier] .detail").bind('click', function() {*/
 	$("li[identifier]").bind('click', function() {
-
+		
 
 
 		console.log("模块父类点击");
@@ -284,6 +288,7 @@ var module_all_click = function() {
 		//var $moduleTips = $(".module_Tips[moduletype='main'][identifier='" + identifier + "']");
 		//$moduleTips.hide();
 		cordovaExec("CubeModuleOperator", "showModule", [identifier, type]);
+		
 
 	});
 };
@@ -968,7 +973,7 @@ var app = {
 	receivedEvent: function(id) {
 
 
-		//loadModuleList("CubeModuleList", "mainList", "main");
+		loadModuleList("CubeModuleList", "mainList", "main");
 		cordovaExec("CubeModuleOperator", "sync", [], function() {
 			//alert(result);
 			var osPlatform = device.platform;
