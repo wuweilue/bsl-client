@@ -725,7 +725,8 @@ var listLayout = function() {
 	$("li[identifier]").die("touchend");
 
 	$("li[identifier]").live("touchstart", function() {
-		$(this).css("background", "-webkit-gradient(linear, 10% 100%, 10% 100%, from(#d7d7d7), to(#c8c8c8))");
+		//$(this).css("background", "-webkit-gradient(linear, 10% 100%, 10% 100%, from(#d7d7d7), to(#c8c8c8))");
+		$(this).css("background", "#d7d7d7");
 	});
 
 
@@ -744,7 +745,8 @@ var listLayout = function() {
 	});
 	$(".module_li .curd_btn").live("touchstart", function() {
 		if ($('#listview_btn').hasClass("active")) {
-			$(this).css("background", "-webkit-gradient(linear, 0% 0%, 0% 100%, from(#767878), to(#A8A5A3)) !important");
+			//$(this).css("background", "-webkit-gradient(linear, 0% 0%, 0% 100%, from(#767878), to(#A8A5A3)) !important");
+			$(this).css("background","#767878");
 			$("li[identifier]:nth-of-type(odd)").css("background", "#ffffff");
 			$("li[identifier]:nth-of-type(even)").css("background", "#f5f5f5");
 		}
@@ -752,7 +754,8 @@ var listLayout = function() {
 
 	$(".module_li .curd_btn").live("touchend", function() {
 		if ($('#listview_btn').hasClass("active")) {
-			$(this).css("background", "-webkit-gradient(linear, 0% 80%, 0% 0%, from(#efefef), to(#dddddd)) !important");
+			//$(this).css("background", "-webkit-gradient(linear, 0% 80%, 0% 0%, from(#efefef), to(#dddddd)) !important");
+			$(this).css("background", "#efefef");
 			$("li[identifier]:nth-of-type(odd)").css("background", "#ffffff");
 			$("li[identifier]:nth-of-type(even)").css("background", "#f5f5f5");
 		}
