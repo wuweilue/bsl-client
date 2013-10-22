@@ -553,6 +553,36 @@
             endingLineNumber = "171"
             landmarkName = "+grouptAddMembers:roomId:roomName:addSelf:block:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[IMServerAPI grouptAddMembers:roomId:roomName:addSelf:block:]"
+                  moduleName = "&#21464;&#33394;&#40857;"
+                  urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/iPhone/IM/tool/IMServerAPI.m"
+                  timestampString = "404137839.064117"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "171"
+                  endingLineNumber = "171"
+                  offsetFromSymbolStart = "3282">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[IMServerAPI grouptAddMembers:roomId:roomName:addSelf:block:]"
+                  moduleName = "&#21464;&#33394;&#40857;"
+                  urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/iPhone/IM/tool/IMServerAPI.m"
+                  timestampString = "404137841.387681"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "171"
+                  endingLineNumber = "171"
+                  offsetFromSymbolStart = "3284">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
