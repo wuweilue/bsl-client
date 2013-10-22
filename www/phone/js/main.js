@@ -821,7 +821,7 @@ var gridLayout = function() {
 
 	});
 	$("li[identifier]").live("touchend", function() {
-		$(this).css("background", "#f5f5f5)");x
+		$(this).css("background", "#f5f5f5)");
 		//$("li[identifier]").live("touchstart", function());
 	});
 	$(".module_li .curd_btn").die("touchstart");
