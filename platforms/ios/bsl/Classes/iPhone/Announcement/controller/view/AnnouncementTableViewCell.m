@@ -145,7 +145,7 @@
     float __offset=0.0f;
     
     if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
-        __offset=20.0f;
+        __offset=15.0f;
     }
     
     if(self.editing){
@@ -153,7 +153,7 @@
     }
     
     
-    isReadLabel.frame=CGRectMake(w-35.0f-OFFSET, 10.0f, 35.0f, 25.0f);
+    isReadLabel.frame=CGRectMake(w-35.0f-OFFSET-__offset, 10.0f, 35.0f, 25.0f);
     titleLabel.frame=CGRectMake(__offset+offset, 10.0f, CGRectGetMinX(isReadLabel.frame)-offset*2.0f-__offset, 0.0f);
     [titleLabel sizeToFit];
     
