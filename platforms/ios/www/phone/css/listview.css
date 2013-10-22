@@ -240,7 +240,8 @@ detail
 
 
 .module_div ul li .curd_btn{
-	background:-webkit-gradient(linear, 0% 80%, 0% 0%, from(#efefef), to(#dddddd)) !important;
+//	background:-webkit-gradient(linear, 0% 80%, 0% 0%, from(#efefef), to(#dddddd)) !important;
+    background:#efefef;
 	position: relative;
 	display: none;
 	float: right;
