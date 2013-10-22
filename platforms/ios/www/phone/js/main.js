@@ -904,6 +904,7 @@ $('#manager_btn')
 				var type = "uninstall";
 				activeModuleManageBarItem(type);
 				listLayout();
+				cordovaExec("CubeModuleOperator", "manager");
 				if (myScroll) {
 					myScroll.refresh();
 				}
