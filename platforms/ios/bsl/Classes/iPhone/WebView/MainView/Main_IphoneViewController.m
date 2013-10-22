@@ -926,11 +926,25 @@
     
     statusToolbar.progressBar.progress = 1-(float)count/(float)allDownCount;
     [statusToolbar show:YES completion:^(BOOL finished) {
+        CGRect frame = self.view.frame ;
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            frame.origin.y=20.0f;
+            frame.size.height-=20.0f;
+        }
+        
+        frame.size.height -= 44;
+        aCubeWebViewController.view.frame = frame;
     }];
 }
     
 -(void)stopUILoading{
     [statusToolbar hide:YES completion:^(BOOL finished) {
+        CGRect frame = self.view.frame ;
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            frame.origin.y=20.0f;
+            frame.size.height-=20.0f;
+        }
+        aCubeWebViewController.view.frame = frame;
         [statusToolbar removeFromSuperview];
         statusToolbar = nil;
     }];

@@ -134,6 +134,7 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
 -(void)callApi:(int)index downUrl:(NSString*)downUrl{
     NSURL *destURL = [[[NSFileManager applicationDocumentsDirectory] URLByAppendingPathComponent:[self identifierWithBuild]] URLByAppendingPathExtension:@"zip"];
     
+    __block float downloadSize=0;
     NSString* path=[destURL path];
     HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:downUrl]];
     __block HTTPRequest*  __request=request;
@@ -184,6 +185,13 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
         [__request cancel];
 
     }];
+   
+    [request setBytesReceivedBlock:^(unsigned long long size, unsigned long long total) {
+
+        downloadSize+=(float)size;
+        [self setProgress:downloadSize/(float)total];
+    }];
+
     
     [request startAsynchronous];
     
