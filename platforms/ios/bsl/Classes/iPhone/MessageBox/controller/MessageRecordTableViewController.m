@@ -268,7 +268,7 @@
     
     MessageRecord *messageRecord = [[presentModulesDic objectForKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
 
-    return [MessageRecordCell cellHeight:messageRecord.content width:__tableView.frame.size.width];
+    return [MessageRecordCell cellHeight:messageRecord.alert content:messageRecord.content width:__tableView.frame.size.width];
     
 }
 
@@ -539,7 +539,6 @@
     
     
     //判断不是本地模块
-   
     if ( [messageRecord.allContent length]>0 && [messageRecord.allContent  boolValue] ) {
         @autoreleasepool {
             NSDictionary *missingModules = [module missingDependencies];

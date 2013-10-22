@@ -40,6 +40,8 @@
 -(void) keyboardWillShow:(NSNotification *)note;
 -(void) keyboardWillHide:(NSNotification *)note;
 
+-(void)iMOffLine;
+-(void)IMOnLine;
 @end
 
 @implementation ChatMainViewController
@@ -69,6 +71,9 @@
                                                          name:UIKeyboardWillHideNotification
                                                        object:nil];
 
+
+        [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(iMOffLine) name:@"XMPPSTREAMIMOFFLINE" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(IMOnLine) name:@"XMPPSTREAMIMONLINE" object:nil];
 
     }
     return self;
@@ -119,6 +124,7 @@
     rect.size.height-=[chatPanel panelHeight];
     
     tableView=[[TouchTableView alloc] initWithFrame:rect style:UITableViewStylePlain];
+    tableViewHeight=tableView.frame.size.height;
     tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     tableView.dataSource=self;
     tableView.delegate=self;
@@ -155,7 +161,7 @@
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
-    
+    [SVProgressHUD dismiss];
     [[GTGZImageDownloadedManager sharedInstance] removeAll];
     
     tableView=nil;
@@ -213,8 +219,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    id obj=[messageArray objectAtIndex:[indexPath row]];
-    if([[obj class] isSubclassOfClass:[MessageEntity class]]){
+    //id obj=[messageArray objectAtIndex:[indexPath row]];
+    //if([[obj class] isSubclassOfClass:[MessageEntity class]]){
         MessageEntity *messageEntity = (MessageEntity*)[messageArray objectAtIndex:[indexPath row]];
         
         if([messageEntity.type isEqualToString:@"voice"]){
@@ -226,17 +232,17 @@
         else{
             return [ChatCell cellHeight:messageEntity.content bubbleType:([messageEntity.sendUser isEqualToString:[[[[ShareAppDelegate xmpp]xmppStream] myJID]bare]]?BubbleTypeMine:BubbleTypeSomeoneElse) emoctionList:emoctionList]+10.0f;
         }
-    }
-    else{
-        return 30.0f;
-    }
+    //}
+    //else{
+    //    return 30.0f;
+    //}
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    id obj=[messageArray objectAtIndex:[indexPath row]];
+    //id obj=[messageArray objectAtIndex:[indexPath row]];
     
-    if([[obj class] isSubclassOfClass:[MessageEntity class]]){
+    //if([[obj class] isSubclassOfClass:[MessageEntity class]]){
         MessageEntity *messageEntity = (MessageEntity*)[messageArray objectAtIndex:[indexPath row]];
 
         if([messageEntity.type isEqualToString:@"voice"]){
@@ -302,7 +308,8 @@
             return cell;
 
         }
-    }
+    //}
+    /*
     else if([[obj class] isSubclassOfClass:[NSString class]]){
         UITableViewCell *cell = (UITableViewCell*)[_tableView dequeueReusableCellWithIdentifier:@"date_cell"];
         if(cell == nil){
@@ -316,6 +323,7 @@
         return cell;
     }
     return nil;
+     */
 }
 
 
@@ -498,7 +506,7 @@
     if([[[[UIDevice currentDevice] model] lowercaseString] rangeOfString:@"ipod"].length>0 && buttonIndex==1)return;
     
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.videoQuality=UIImagePickerControllerQualityTypeHigh;
+    picker.videoQuality=UIImagePickerControllerQualityTypeMedium;
     picker.delegate = self;
     
     if(buttonIndex==1 || [[[[UIDevice currentDevice] model] lowercaseString] rangeOfString:@"ipod"].length>0){
@@ -632,7 +640,7 @@
        
         NSMutableArray* indexPathArray=[NSMutableArray arrayWithCapacity:1];
         
-        
+        /*
         // 暂作保留
         if(messageEntity.receiveDate!=nil){
             BOOL addDate=YES;
@@ -659,6 +667,7 @@
 
             }
         }
+         */
         
         [messageArray addObject:messageEntity];
 
@@ -678,7 +687,9 @@
         [tableView scrollToRowAtIndexPath:[indexPathArray lastObject] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
         
         if([rectChat.isQuit boolValue]){
-            [chatPanel hideAllControlPanel];
+            self.isQuit=YES;
+            chatPanel.quitStatus=YES;
+            [chatPanel checkAllControlPanel];
             self.navigationItem.rightBarButtonItem=nil;
             //[self.navigationController popViewControllerAnimated:YES];
         }
@@ -726,7 +737,8 @@
 
 -(void)deleteMember:(GroupMemberManagerViewController *)controller{
     self.isQuit=YES;
-    [chatPanel hideAllControlPanel];
+    chatPanel.quitStatus=self.isQuit;
+    [chatPanel checkAllControlPanel];
     [self createRightNavBarButton];
 }
 
@@ -749,7 +761,7 @@
     [UIView setAnimationCurve:[curve intValue]];
     
     CGRect containerFrame = tableView.frame;
-    containerFrame.size.height-=keyboardBounds.size.height;
+    containerFrame.size.height=tableViewHeight-keyboardBounds.size.height;
     tableView.frame=containerFrame;
 	
     [UIView commitAnimations];
@@ -768,12 +780,27 @@
     [UIView setAnimationCurve:[curve intValue]];
 	
     CGRect containerFrame = tableView.frame;
-    containerFrame.size.height+=keyboardBounds.size.height;
+    containerFrame.size.height=tableViewHeight;
     tableView.frame=containerFrame;
 	
     [UIView commitAnimations];
 }
 
+-(void)iMOffLine{
+    AppDelegate* appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+    chatPanel.onlineStatus=[[appDelegate xmpp] isConnected];
+    
+    [chatPanel checkAllControlPanel];
+
+}
+
+-(void)IMOnLine{
+    AppDelegate* appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+    chatPanel.onlineStatus=[[appDelegate xmpp] isConnected];
+    
+    [chatPanel checkAllControlPanel];
+
+}
 
 
 #pragma mark method
@@ -918,10 +945,13 @@
     
     //把消息都保存在messageArray中
     NSArray *contentArray = [fetchController fetchedObjects];
-    messageArray = [[NSMutableArray alloc] initWithCapacity:3];
+    messageArray=nil;
+    messageArray = [[NSMutableArray alloc] initWithArray:contentArray];
     
+    /*
     for(MessageEntity* messageEntity in contentArray){
         // 暂作保留
+        
         if(messageEntity.receiveDate!=nil){
             BOOL addDate=YES;
             
@@ -947,6 +977,7 @@
         [messageArray addObject:messageEntity];
 
     }
+     */
     
     
     RectangleChat* rectChat=[appDelegate.xmpp fetchRectangleChatFromJid:self.messageId isGroup:self.isGroupChat];
@@ -973,15 +1004,12 @@
     chatPanel=[[ChatPanel alloc] initWithFrame:self.view.bounds];
     chatPanel.delegate=self;
     chatPanel.emoctionList=emoctionList;
-    if(self.isQuit)
-        [chatPanel hideAllControlPanel];
+    chatPanel.quitStatus=self.isQuit;
+    AppDelegate* appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+    chatPanel.onlineStatus=[[appDelegate xmpp] isConnected];
+
+    [chatPanel checkAllControlPanel];
     
-#ifdef MOBILE_BSL
-    //移动运行网暂不要群组发语音
-    if(self.isGroupChat){
-        [chatPanel disableChatButton];
-    }
-#endif
     
     CGRect rect=chatPanel.frame;
     rect.origin.y=self.view.bounds.size.height-[chatPanel panelHeight];

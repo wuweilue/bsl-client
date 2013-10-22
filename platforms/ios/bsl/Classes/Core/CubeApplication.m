@@ -510,6 +510,7 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
 
 -(void)syncWithString:(NSString*)aURL token:(NSString *)token{
    //判断网络是否可以使用
+    
     if (([Reachability reachabilityForInternetConnection].currentReachabilityStatus != NotReachable) &&
         ([Reachability reachabilityForLocalWiFi].currentReachabilityStatus != NotReachable)) {
             if(!syncing){
@@ -585,7 +586,7 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
         //获取网络版本CubeModule
         CubeModule *remote_module = [CubeModule moduleFromJSONObject:remote_module_json];
         //判断本地模块是否存在如果不存在就直接忽略
-        if(remote_module.local && ![remote_module.local isEqualToString:@""])
+        if([remote_module.local length]>0)
         {
             if(![[moduleDict allKeys] containsObject:remote_module.identifier])
             {
@@ -615,7 +616,8 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
                 
                 
             }else if(remote_module.build == local_module.build){
-                
+                remote_module.version=local_module.version;
+
                 [modules removeObject:local_module];
                 
                 [modules addObject:remote_module];
@@ -652,6 +654,7 @@ NSString *const CubeTokenTimeOutNotification = @"CubeTokenTimeOutNotification";
             }
         }
     }
+    moduleDict=nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:CubeSyncFinishedNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_DETIALPAGE_SYNSUCCESS object:nil];
     

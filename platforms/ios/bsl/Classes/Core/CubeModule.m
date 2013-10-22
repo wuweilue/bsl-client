@@ -131,6 +131,84 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
 }
 
 
+-(void)callApi:(int)index downUrl:(NSString*)downUrl{
+    NSURL *destURL = [[[NSFileManager applicationDocumentsDirectory] URLByAppendingPathComponent:[self identifierWithBuild]] URLByAppendingPathExtension:@"zip"];
+    
+    NSString* path=[destURL path];
+    HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:downUrl]];
+    __block HTTPRequest*  __request=request;
+    request.timeOutSeconds=20.0f;
+    request.persistentConnectionTimeoutSeconds=20.0f;
+    [request setDownloadDestinationPath:path];
+    [request setCompletionBlock:^{
+        
+        BOOL success=NO;
+        const char* __path =[path UTF8String];
+        
+        FILE* fp=fopen(__path, "rb");
+        if(fp!=nil){
+            fseek(fp, 0, SEEK_END);
+            long count=ftell(fp);
+            fclose(fp);
+            
+            if(count>2048){
+                success=YES;
+                [self downloadFinished:destURL];
+            }
+        }
+        if(!success){
+            if(index<3){
+                [self callApi:(index+1) downUrl:downUrl];
+            }
+            else{
+                [[CudeModuleDownDictionary shareModuleDownDictionary] removeObjectForKey:self.identifier];
+                self.isDownloading = NO;
+                [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_DETIALPAGE_INSTALLFAILED object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:CubeModuleDownloadDidFailNotification object:self];
+            }
+        }
+        [__request cancel];
+
+    }];
+    
+    [request setFailedBlock:^{
+        if(index<3){
+            [self callApi:(index+1) downUrl:downUrl];
+        }
+        else{
+            [[CudeModuleDownDictionary shareModuleDownDictionary] removeObjectForKey:self.identifier];
+            self.isDownloading = NO;
+            [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_DETIALPAGE_INSTALLFAILED object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:CubeModuleDownloadDidFailNotification object:self];
+        }
+        [__request cancel];
+
+    }];
+    
+    [request startAsynchronous];
+    
+    /*
+     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:downUrl]];
+     AFHTTPRequestOperation * httpConnection = [[AFHTTPRequestOperation alloc]initWithRequest:request];
+     
+     
+     
+     [httpConnection setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+     [self downloadFinished:responseObject];
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+     [[CudeModuleDownDictionary shareModuleDownDictionary] removeObjectForKey:self.identifier];
+     self.isDownloading = NO;
+     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_DETIALPAGE_INSTALLFAILED object:nil];
+     [[NSNotificationCenter defaultCenter] postNotificationName:CubeModuleDownloadDidFailNotification object:self];
+     }];
+     [httpConnection setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+     [self setProgress:totalBytesExpectedToRead/totalBytesRead];
+     }];
+     [httpConnection start];
+     */
+}
+
+
 -(void)install{
     if (bundle == nil) {
         self.installed = YES;
@@ -151,52 +229,7 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
             if(exitDownMoule ){
                 return;
             }
-            
-            
-            
-            NSURL *destURL = [[[NSFileManager applicationDocumentsDirectory] URLByAppendingPathComponent:[self identifierWithBuild]] URLByAppendingPathExtension:@"zip"];
-
-            NSString* path=[destURL path];
-            HTTPRequest* request=[HTTPRequest requestWithURL:[NSURL URLWithString:downUrl]];
-            __block HTTPRequest*  __request=request;
-            request.timeOutSeconds=10.0f;
-            request.persistentConnectionTimeoutSeconds=10.0f;
-            [request setDownloadDestinationPath:path];
-            [request setCompletionBlock:^{
-                [self downloadFinished:destURL];
-                [__request cancel];
-            }];
-            
-            [request setFailedBlock:^{
-                [[CudeModuleDownDictionary shareModuleDownDictionary] removeObjectForKey:self.identifier];
-                self.isDownloading = NO;
-                [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_DETIALPAGE_INSTALLFAILED object:nil];
-                [[NSNotificationCenter defaultCenter] postNotificationName:CubeModuleDownloadDidFailNotification object:self];
-                [__request cancel];
-
-            }];
-            
-            [request startAsynchronous];
-            
-            /*
-            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:downUrl]];
-            AFHTTPRequestOperation * httpConnection = [[AFHTTPRequestOperation alloc]initWithRequest:request];
-            
-            
-            
-            [httpConnection setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-                [self downloadFinished:responseObject];
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                [[CudeModuleDownDictionary shareModuleDownDictionary] removeObjectForKey:self.identifier];
-                self.isDownloading = NO;
-                [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_DETIALPAGE_INSTALLFAILED object:nil];
-                [[NSNotificationCenter defaultCenter] postNotificationName:CubeModuleDownloadDidFailNotification object:self];
-            }];
-           [httpConnection setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-               [self setProgress:totalBytesExpectedToRead/totalBytesRead];
-           }];
-            [httpConnection start]; 
-             */
+            [self callApi:0 downUrl:downUrl];
             [self downloadStarted];
         }
     }

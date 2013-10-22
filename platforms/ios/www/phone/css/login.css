@@ -1,11 +1,25 @@
 
-html,body {
+/*background:url(img/bottom.png);background-size:cover;
+background-repeat:no-repeat;background-position:bottom center;*/
+body {
 	color: #BEBEBE;
-	background-image: url(../img/login_background_all.png);
+	height: 100%;
+	position: relative;
+	background-image: url(../img/login_background_all2.ing);
 	background-repeat: no-repeat;
-	background-size：100%;
+	background-position:bottom center;
+	bottom: 0px;
+	background-size:cover;
+	/*overflow: hidden;*/
+	margin: 0px;
 }
-
+/*body{
+	position: relative;
+	height: 100%;
+	background-image: url(../img/login_background_all2.ing);
+	background-repeat: no-repeat;
+	background-size:100% 100%;
+}*/
 html,body,img,div,ul,li,a{
 	-webkit-touch-callout: none;
 
@@ -36,14 +50,14 @@ html,body,img,div,ul,li,a{
 	margin: 0px;
 	-webkit-appearance:none;
 	/*zoom:1.1;*/
-	background-image: url(../img/checkbox_empty.png);
+	background-image: url(../img/checkbox_empty.ing);
 	background-size:100% 100%;
 	outline: none;
 	border: 0px solid transparent;
 }
 input[type=checkbox]:checked{
 	background-color: none;
-	background-image: url(../img/checkbox_full.png);
+	background-image: url(../img/checkbox_full.ing);
 	background-size:100% 100%;
 	text-align: center;
 	outline: none;
