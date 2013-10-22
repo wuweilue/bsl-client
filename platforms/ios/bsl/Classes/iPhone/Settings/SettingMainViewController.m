@@ -338,7 +338,7 @@
 -(void)updateError:(NSError*)aError
 {
     if(aError==nil){
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"暂未发现有版本更新" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"版本更新" message:@"暂未发现有版本更新" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [av show];
         av=nil;
     }
