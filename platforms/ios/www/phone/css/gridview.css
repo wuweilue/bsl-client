@@ -47,7 +47,8 @@
 
 }
 .module_div ul .module_li:active{
-	background:-webkit-gradient(linear, 10% 100%, 10% 100%, from(#d7d7d7), to(#c8c8c8));
+//	background:-webkit-gradient(linear, 10% 100%, 10% 100%, from(#d7d7d7), to(#c8c8c8));
+    background:#d7d7d7;
 }
 
 /*listview*/
