@@ -141,6 +141,11 @@
     }
     
     float offset=OFFSET;
+    
+    if (UI_USER_INTERFACE_IDIOM() ==  UIUserInterfaceIdiomPad) {
+        offset+=15.0f;
+    }
+    
     if(self.editing){
         offset+=40.0f;
     }
