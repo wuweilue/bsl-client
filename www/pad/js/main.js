@@ -445,7 +445,9 @@ var loadModuleList = function(plugin, action, type, callback) {
 			//切换模块管理按钮状态
 			activeModuleManageBarItem(type);
 			triggerBodyClick();
-
+			if (myScroll) {
+				myScroll.refresh();
+			}
 			//如果回调方法不为空，则执行该回调方法
 			if (callback !== undefined) {
 				callback();
