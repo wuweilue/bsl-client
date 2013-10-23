@@ -436,16 +436,16 @@
         NSMutableArray *moduleRecords = [presentModulesDic objectForKey:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
         NSArray *newModuleRecords = [MessageRecord findForModuleIdentifier:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
         //删除的是本地模块
+        
+        NSString* identify=[[presentModulesDic allKeys] objectAtIndex:indexPath.section];
+        
         MessageRecord *record = [moduleRecords objectAtIndex:indexPath.row];
         [record remove];
         [MessageRecord save];
         
-        if(newModuleRecords.count <2 ){
+        if(moduleRecords.count <2 ){
             
-            CubeModule *module = [[CubeApplication currentApplication] moduleForIdentifier:[[presentModulesDic allKeys] objectAtIndex:indexPath.section]];
-            
-            
-            [self deleteModuleData:module.identifier];
+            [self deleteModuleData:identify];
             
             
         }else{

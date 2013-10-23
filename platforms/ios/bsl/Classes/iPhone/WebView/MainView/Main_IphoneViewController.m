@@ -225,12 +225,17 @@
 -(void)checkModules{
     //检测是否需要自动安装
     
-    if([[NSUserDefaults standardUserDefaults] valueForKey:@"notFirstLogin"]!=nil){
+    NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
+    NSString* username=[defaults valueForKey:@"username"];
+    
+    NSString* tip=[username stringByAppendingString:@"_notFirstLogin"];
+    
+    if([[NSUserDefaults standardUserDefaults] valueForKey:tip]!=nil){
         [self checkAutoUpdate];
         return;
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"notFirstLogin"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:tip];
 
     @autoreleasepool {
 #ifndef MOBILE_BSL
@@ -926,11 +931,25 @@
     
     statusToolbar.progressBar.progress = 1-(float)count/(float)allDownCount;
     [statusToolbar show:YES completion:^(BOOL finished) {
+        CGRect frame = self.view.frame ;
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            frame.origin.y=20.0f;
+            frame.size.height-=20.0f;
+        }
+        
+        frame.size.height -= 44;
+        aCubeWebViewController.view.frame = frame;
     }];
 }
     
 -(void)stopUILoading{
     [statusToolbar hide:YES completion:^(BOOL finished) {
+        CGRect frame = self.view.frame ;
+        if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
+            frame.origin.y=20.0f;
+            frame.size.height-=20.0f;
+        }
+        aCubeWebViewController.view.frame = frame;
         [statusToolbar removeFromSuperview];
         statusToolbar = nil;
     }];
