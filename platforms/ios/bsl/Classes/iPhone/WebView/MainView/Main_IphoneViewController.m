@@ -225,12 +225,17 @@
 -(void)checkModules{
     //检测是否需要自动安装
     
-    if([[NSUserDefaults standardUserDefaults] valueForKey:@"notFirstLogin"]!=nil){
+    NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
+    NSString* username=[defaults valueForKey:@"username"];
+    
+    NSString* tip=[username stringByAppendingString:@"_notFirstLogin"];
+    
+    if([[NSUserDefaults standardUserDefaults] valueForKey:tip]!=nil){
         [self checkAutoUpdate];
         return;
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"notFirstLogin"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:tip];
 
     @autoreleasepool {
 #ifndef MOBILE_BSL

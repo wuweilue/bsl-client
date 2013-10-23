@@ -269,7 +269,6 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
 
 - (void)setProgress:(float)newProgress{
     self.downloadProgress = newProgress;
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"queue_module_download_progressupdate" object:self userInfo:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithFloat:newProgress],self.identifier,nil] forKeys:[NSArray arrayWithObjects:@"newProgress",@"key",nil]]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"module_download_progressupdate" object:self userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:newProgress] forKey:@"newProgress"]];
@@ -326,7 +325,7 @@ NSString *const CubeModuleDeleteDidFailNotification = @"CubeModuleDeleteDidFailN
                 NSLog(@"删除模块安装包失败，%@", error);
             }
 
-            if(!zipSuccess){
+            if(!zipSuccess || error !=nil ){
                 NSLog(@"模块解压失败，%@", error);
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"queue_module_download_progressupdate" object:self userInfo:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithFloat:0.101],self.identifier,nil] forKeys:[NSArray arrayWithObjects:@"newProgress",@"key",nil]]];
                     
