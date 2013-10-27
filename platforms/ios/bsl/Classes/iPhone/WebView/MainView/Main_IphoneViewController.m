@@ -93,7 +93,7 @@
     aCubeWebViewController.showCloseButton=YES;
     aCubeWebViewController.title=@"登录";
     aCubeWebViewController.wwwFolderName = @"www";
-    NSURL* fileUrl = [[NSURL alloc]init];
+    NSURL* fileUrl = nil;
 #ifdef MOBILE_BSL
     aCubeWebViewController.startPage =   [[[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"home/index.html"] absoluteString];
     fileUrl = [[NSFileManager wwwRuntimeDirectory] URLByAppendingPathComponent:@"home/index.html"];
@@ -231,10 +231,10 @@
     NSString* tip=[username stringByAppendingString:@"_notFirstLogin"];
     
     if([[NSUserDefaults standardUserDefaults] valueForKey:tip]!=nil){
+
         [self checkAutoUpdate];
         return;
     }
-    
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:tip];
 
     @autoreleasepool {
@@ -330,7 +330,7 @@
                     while([result next])
                     {
                         NSString * showTimeTmp = [result objectForColumnName:@"showTime"];
-                        long showTime = [showTimeTmp longLongValue];
+                        long long showTime = [showTimeTmp longLongValue];
                         
                         if([module.timeUnit isEqualToString:@"H"])
                         {
@@ -647,7 +647,14 @@
 
 #pragma mark - 退出登陆
 -(void)logout{
+    //退出登录清空CubeApplication中的数组
+    CubeApplication *application = [CubeApplication currentApplication];
+    [[application modules] removeLastObject];
+    [[application availableModules] removeAllObjects];
+    [[application updatableModules] removeAllObjects];
+    [[application downloadingModules] removeAllObjects];
     [(AppDelegate *)[UIApplication sharedApplication].delegate showLoginView:NO];
+
 }
 
 

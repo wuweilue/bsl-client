@@ -131,7 +131,7 @@ static GTGZImageDownloadedManager* instance=nil;
             NSURL* nsUrl=[NSURL URLWithString:self.url];
             NSString* path=[GTGZImageDownloadModel pathByUrl:nsUrl];
             
-            NSData* data=[[NSData alloc] initWithContentsOfFile:path];
+            NSData* data=[[NSData alloc] initWithContentsOfFile:path options:NSDataReadingMappedIfSafe error:nil];
             UIImage* img=[[UIImage alloc] initWithData:data];
             data=nil;
             self.image=img;
@@ -261,6 +261,12 @@ static GTGZImageDownloadedManager* instance=nil;
     else{
         return [GTGZImageDownloadModel pathByUrl:[NSURL URLWithString:url]];
     }
+
+}
+
+-(NSString*)filePathByContentId:(NSString*)contentId{
+    //获取document 目录
+    return [self.saveImagePath stringByAppendingPathComponent: [NSString stringWithFormat:@"file_%@.png",contentId]];
 
 }
 

@@ -111,7 +111,7 @@
         
     }
     else if(tabView.selectedIndex==1){
-        [contactListView loadData];
+        [contactListView syncFriends];
     }
     else{
     }
@@ -211,7 +211,7 @@
             
         }
         contactListView.hidden=NO;
-        [contactListView loadData];
+        [contactListView syncFriends];
     }
     else if(tab==2){
         if(faviorContactView==nil){
@@ -270,7 +270,6 @@
     }
 
     ContactSelectedForGroupViewController* controller=[[ContactSelectedForGroupViewController alloc] init];
-    controller.dicts=[contactListView friendsList];
     controller.delegate=self;
     
     

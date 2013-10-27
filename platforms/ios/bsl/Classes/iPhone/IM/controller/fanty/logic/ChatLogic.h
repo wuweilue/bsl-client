@@ -17,20 +17,20 @@
 
 
 -(void)cancel;
--(BOOL)checkTheGroupIsConnect;
+-(BOOL)checkTheGroupIsConnect:(BOOL)isGroup;
 
 -(void)sendNotificationMessage:(NSString* )content messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name onlyUpdateChat:(BOOL)onlyUpdateChat;
 
 -(BOOL)sendMessage:(NSString* )content messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name;
 
--(BOOL)sendfile:(NSString* )content path:(NSString*)path messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name;
+-(BOOL)sendfile:(NSString* )content messageId:(NSString*)messageId isGroup:(BOOL)isGroup name:(NSString*)name;
 
 
 -(BOOL)sendRoomQuitAction:(NSString*)messageId isMyGroup:(BOOL)isMyGroup;
 
 -(BOOL)sendRoomQuitMemberAction:(NSString*)messageId userJid:(NSString*)userJid;
 
--(BOOL)uploadImageToServer:(UIImage*)image finish:(void (^)(NSString* id,NSString* path))finish;
+-(BOOL)uploadImageToServer:(UIImage*)image finish:(void (^)(NSString* fileId))finish;
 
 
 -(BOOL)isInFaviorContacts:(NSString*)chatWithUser;

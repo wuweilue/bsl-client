@@ -15,6 +15,7 @@
         <attribute name="reviceTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="EBArticleLogInfo" syncable="YES">
         <attribute name="filename" optional="YES" attributeType="String" syncable="YES"/>
@@ -48,6 +49,7 @@
         <attribute name="reviceTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="sound" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="store" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="warningId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="OperateLog" syncable="YES">
@@ -66,11 +68,11 @@
     </entity>
     <elements>
         <element name="Announcement" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="MessageRecord" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="OperateLog" positionX="0" positionY="0" width="0" height="0"/>
         <element name="EBArticleLogInfo" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Ebook" positionX="0" positionY="0" width="0" height="0"/>
         <element name="HealthyDeclareLocalInfo" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MessageRecord" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="OperateLog" positionX="0" positionY="0" width="0" height="0"/>
         <element name="User" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

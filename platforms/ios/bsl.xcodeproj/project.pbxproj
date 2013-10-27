@@ -434,7 +434,6 @@
 		39D9E9C117F27C03001ED6F5 /* CubeDownloadCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FA817E8BFB90067A023 /* CubeDownloadCommandHandler.m */; };
 		39D9E9C217F27C03001ED6F5 /* CubeMessageCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAA17E8BFB90067A023 /* CubeMessageCommandHandler.m */; };
 		39D9E9C317F27C03001ED6F5 /* CubeResetHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAC17E8BFB90067A023 /* CubeResetHandler.m */; };
-		39D9E9C417F27C03001ED6F5 /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FB317E8BFB90067A023 /* cube.xcdatamodeld */; };
 		39D9E9C517F27C03001ED6F5 /* CubeApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBC17E8BFBA0067A023 /* CubeApplication.m */; };
 		39D9E9C617F27C03001ED6F5 /* CubeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBE17E8BFBA0067A023 /* CubeModule.m */; };
 		39D9E9C717F27C03001ED6F5 /* CudeModuleDownDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FC017E8BFBA0067A023 /* CudeModuleDownDictionary.m */; };
@@ -909,7 +908,6 @@
 		39E0529B17F00AEA00BCF7F8 /* CubeDownloadCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FA817E8BFB90067A023 /* CubeDownloadCommandHandler.m */; };
 		39E0529C17F00AEA00BCF7F8 /* CubeMessageCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAA17E8BFB90067A023 /* CubeMessageCommandHandler.m */; };
 		39E0529D17F00AEA00BCF7F8 /* CubeResetHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAC17E8BFB90067A023 /* CubeResetHandler.m */; };
-		39E0529E17F00AEA00BCF7F8 /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FB317E8BFB90067A023 /* cube.xcdatamodeld */; };
 		39E0529F17F00AEA00BCF7F8 /* CubeApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBC17E8BFBA0067A023 /* CubeApplication.m */; };
 		39E052A017F00AEA00BCF7F8 /* CubeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBE17E8BFBA0067A023 /* CubeModule.m */; };
 		39E052A117F00AEA00BCF7F8 /* CudeModuleDownDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FC017E8BFBA0067A023 /* CudeModuleDownDictionary.m */; };
@@ -1404,7 +1402,6 @@
 		39E9C59C180EBAAA004CEF1D /* BaseNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394B98A318056BBA00F657D2 /* BaseNavViewController.m */; };
 		39E9C59D180EBAAA004CEF1D /* CubeMessageCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAA17E8BFB90067A023 /* CubeMessageCommandHandler.m */; };
 		39E9C59E180EBAAA004CEF1D /* CubeResetHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAC17E8BFB90067A023 /* CubeResetHandler.m */; };
-		39E9C59F180EBAAA004CEF1D /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FB317E8BFB90067A023 /* cube.xcdatamodeld */; };
 		39E9C5A0180EBAAA004CEF1D /* CubeApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBC17E8BFBA0067A023 /* CubeApplication.m */; };
 		39E9C5A1180EBAAA004CEF1D /* CubeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBE17E8BFBA0067A023 /* CubeModule.m */; };
 		39E9C5A2180EBAAA004CEF1D /* MainViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FE417E8BFBA0067A023 /* MainViewViewController.m */; };
@@ -1573,6 +1570,16 @@
 		39E9C64D180EBAAA004CEF1D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		39E9C64E180EBAAA004CEF1D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C023708B9AC24DB48757A8FC /* libPods.a */; };
 		39E9C655180EBC55004CEF1D /* Config-soc_alone.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E9C3F9180EB6B7004CEF1D /* Config-soc_alone.m */; };
+		39EF1D61181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EF1D60181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m */; };
+		39EF1D62181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EF1D60181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m */; };
+		39EF1D63181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EF1D60181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m */; };
+		39EF1D64181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EF1D60181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m */; };
+		39EF1D65181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EF1D60181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m */; };
+		39EF1D7F181BB9F300AB7F0C /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39EF1D74181BB9F300AB7F0C /* cube.xcdatamodeld */; };
+		39EF1D80181BB9F300AB7F0C /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39EF1D74181BB9F300AB7F0C /* cube.xcdatamodeld */; };
+		39EF1D81181BB9F300AB7F0C /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39EF1D74181BB9F300AB7F0C /* cube.xcdatamodeld */; };
+		39EF1D82181BB9F300AB7F0C /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39EF1D74181BB9F300AB7F0C /* cube.xcdatamodeld */; };
+		39EF1D83181BB9F300AB7F0C /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39EF1D74181BB9F300AB7F0C /* cube.xcdatamodeld */; };
 		39F029FC18078D3300051656 /* soc_home.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F029FB18078D3300051656 /* soc_home.png */; };
 		39F02A001807C24300051656 /* privacy_tick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F029FF1807C24300051656 /* privacy_tick@2x.png */; };
 		39F02A011807C24300051656 /* privacy_tick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39F029FF1807C24300051656 /* privacy_tick@2x.png */; };
@@ -1951,7 +1958,6 @@
 		39FF0B5517F13CBB0086B76C /* CubeDownloadCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FA817E8BFB90067A023 /* CubeDownloadCommandHandler.m */; };
 		39FF0B5617F13CBB0086B76C /* CubeMessageCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAA17E8BFB90067A023 /* CubeMessageCommandHandler.m */; };
 		39FF0B5717F13CBB0086B76C /* CubeResetHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAC17E8BFB90067A023 /* CubeResetHandler.m */; };
-		39FF0B5817F13CBB0086B76C /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FB317E8BFB90067A023 /* cube.xcdatamodeld */; };
 		39FF0B5917F13CBB0086B76C /* CubeApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBC17E8BFBA0067A023 /* CubeApplication.m */; };
 		39FF0B5A17F13CBB0086B76C /* CubeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBE17E8BFBA0067A023 /* CubeModule.m */; };
 		39FF0B5B17F13CBB0086B76C /* CudeModuleDownDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FC017E8BFBA0067A023 /* CudeModuleDownDictionary.m */; };
@@ -2126,7 +2132,6 @@
 		F54D82A517E8BFBB0067A023 /* CubeDownloadCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FA817E8BFB90067A023 /* CubeDownloadCommandHandler.m */; };
 		F54D82A617E8BFBB0067A023 /* CubeMessageCommandHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAA17E8BFB90067A023 /* CubeMessageCommandHandler.m */; };
 		F54D82A717E8BFBB0067A023 /* CubeResetHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FAC17E8BFB90067A023 /* CubeResetHandler.m */; };
-		F54D82AD17E8BFBB0067A023 /* cube.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FB317E8BFB90067A023 /* cube.xcdatamodeld */; };
 		F54D82AE17E8BFBB0067A023 /* CubeApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBC17E8BFBA0067A023 /* CubeApplication.m */; };
 		F54D82AF17E8BFBB0067A023 /* CubeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FBE17E8BFBA0067A023 /* CubeModule.m */; };
 		F54D82B017E8BFBB0067A023 /* CudeModuleDownDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = F54D7FC017E8BFBA0067A023 /* CudeModuleDownDictionary.m */; };
@@ -2669,6 +2674,18 @@
 		39E9C3F9180EB6B7004CEF1D /* Config-soc_alone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Config-soc_alone.m"; sourceTree = "<group>"; };
 		39E9C653180EBAAA004CEF1D /* 移动运行网.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "移动运行网.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E9C654180EBAAB004CEF1D /* 移动运行网 copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "移动运行网 copy-Info.plist"; path = "/Users/fanty/Documents/project/bsl-client/platforms/ios/移动运行网 copy-Info.plist"; sourceTree = "<absolute>"; };
+		39EF1D5F181BB7F100AB7F0C /* XMPPIMActorFriendQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPIMActorFriendQueue.h; sourceTree = "<group>"; };
+		39EF1D60181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPIMActorFriendQueue.m; sourceTree = "<group>"; };
+		39EF1D75181BB9F300AB7F0C /* cube.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube.xcdatamodel; sourceTree = "<group>"; };
+		39EF1D76181BB9F300AB7F0C /* cube0409.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0409.xcdatamodel; sourceTree = "<group>"; };
+		39EF1D77181BB9F300AB7F0C /* cube0505.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0505.xcdatamodel; sourceTree = "<group>"; };
+		39EF1D78181BB9F300AB7F0C /* cube0707.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0707.xcdatamodel; sourceTree = "<group>"; };
+		39EF1D79181BB9F300AB7F0C /* cube0808.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0808.xcdatamodel; sourceTree = "<group>"; };
+		39EF1D7A181BB9F300AB7F0C /* cube0827.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0827.xcdatamodel; sourceTree = "<group>"; };
+		39EF1D7B181BB9F300AB7F0C /* cube0911.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0911.xcdatamodel; sourceTree = "<group>"; };
+		39EF1D7C181BB9F300AB7F0C /* cube1015.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube1015.xcdatamodel; sourceTree = "<group>"; };
+		39EF1D7D181BB9F300AB7F0C /* cube1017.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube1017.xcdatamodel; sourceTree = "<group>"; };
+		39EF1D7E181BB9F300AB7F0C /* cube1022.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube1022.xcdatamodel; sourceTree = "<group>"; };
 		39F029FB18078D3300051656 /* soc_home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = soc_home.png; sourceTree = "<group>"; };
 		39F029FF1807C24300051656 /* privacy_tick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "privacy_tick@2x.png"; sourceTree = "<group>"; };
 		39F02A041807C24F00051656 /* warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning@2x.png"; sourceTree = "<group>"; };
@@ -2734,13 +2751,6 @@
 		F54D7FB017E8BFB90067A023 /* Config-impc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Config-impc.m"; sourceTree = "<group>"; };
 		F54D7FB117E8BFB90067A023 /* Config-soc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Config-soc.m"; sourceTree = "<group>"; };
 		F54D7FB217E8BFB90067A023 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
-		F54D7FB417E8BFBA0067A023 /* cube.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube.xcdatamodel; sourceTree = "<group>"; };
-		F54D7FB517E8BFBA0067A023 /* cube0409.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0409.xcdatamodel; sourceTree = "<group>"; };
-		F54D7FB617E8BFBA0067A023 /* cube0505.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0505.xcdatamodel; sourceTree = "<group>"; };
-		F54D7FB717E8BFBA0067A023 /* cube0707.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0707.xcdatamodel; sourceTree = "<group>"; };
-		F54D7FB817E8BFBA0067A023 /* cube0808.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0808.xcdatamodel; sourceTree = "<group>"; };
-		F54D7FB917E8BFBA0067A023 /* cube0827.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0827.xcdatamodel; sourceTree = "<group>"; };
-		F54D7FBA17E8BFBA0067A023 /* cube0911.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube0911.xcdatamodel; sourceTree = "<group>"; };
 		F54D7FBB17E8BFBA0067A023 /* CubeApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CubeApplication.h; sourceTree = "<group>"; };
 		F54D7FBC17E8BFBA0067A023 /* CubeApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CubeApplication.m; sourceTree = "<group>"; };
 		F54D7FBD17E8BFBA0067A023 /* CubeModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CubeModule.h; sourceTree = "<group>"; };
@@ -3024,7 +3034,6 @@
 		F54D81CF17E8BFBB0067A023 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
 		F54D81D017E8BFBB0067A023 /* WrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrapController.h; sourceTree = "<group>"; };
 		F54D81D117E8BFBB0067A023 /* WrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrapController.m; sourceTree = "<group>"; };
-		F54D828517E8BFBB0067A023 /* ChatDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatDelegate.h; sourceTree = "<group>"; };
 		F54D828617E8BFBB0067A023 /* CollectedFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectedFriend.h; sourceTree = "<group>"; };
 		F54D828717E8BFBB0067A023 /* CollectedFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectedFriend.m; sourceTree = "<group>"; };
 		F54D828817E8BFBB0067A023 /* GroupRoomUserEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupRoomUserEntity.h; sourceTree = "<group>"; };
@@ -3265,7 +3274,6 @@
 		F5A96CAA17F007FC00F9CA68 /* top_bar_bg@simple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "top_bar_bg@simple.png"; sourceTree = "<group>"; };
 		F5A96CAB17F007FC00F9CA68 /* top_bar_bg@simple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "top_bar_bg@simple@2x.png"; sourceTree = "<group>"; };
 		F5A96CAC17F007FC00F9CA68 /* voice_server_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = voice_server_btn.png; sourceTree = "<group>"; };
-		F5F9260418100A20004B3015 /* cube1017.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cube1017.xcdatamodel; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = bsl/config.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -3752,8 +3760,8 @@
 				F54D7FB017E8BFB90067A023 /* Config-impc.m */,
 				F54D7FB117E8BFB90067A023 /* Config-soc.m */,
 				39E9C3F9180EB6B7004CEF1D /* Config-soc_alone.m */,
+				39EF1D74181BB9F300AB7F0C /* cube.xcdatamodeld */,
 				F54D7FB217E8BFB90067A023 /* Config.h */,
-				F54D7FB317E8BFB90067A023 /* cube.xcdatamodeld */,
 				F54D7FBB17E8BFBA0067A023 /* CubeApplication.h */,
 				F54D7FBC17E8BFBA0067A023 /* CubeApplication.m */,
 				F54D7FBD17E8BFBA0067A023 /* CubeModule.h */,
@@ -4623,11 +4631,12 @@
 		F54D828417E8BFBB0067A023 /* XMPP */ = {
 			isa = PBXGroup;
 			children = (
-				F54D828517E8BFBB0067A023 /* ChatDelegate.h */,
 				F54D828617E8BFBB0067A023 /* CollectedFriend.h */,
 				F54D828717E8BFBB0067A023 /* CollectedFriend.m */,
 				F54D828817E8BFBB0067A023 /* GroupRoomUserEntity.h */,
 				F54D828917E8BFBB0067A023 /* GroupRoomUserEntity.m */,
+				39EF1D5F181BB7F100AB7F0C /* XMPPIMActorFriendQueue.h */,
+				39EF1D60181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m */,
 				3968621817EE7C8800C84A6A /* RoomService.h */,
 				3968621917EE7C8800C84A6A /* RoomService.m */,
 				F54D828A17E8BFBB0067A023 /* MessageEntity.h */,
@@ -6995,12 +7004,12 @@
 				F54D82A117E8BFBB0067A023 /* AutoDownLoadRecord.m in Sources */,
 				F54D82A217E8BFBB0067A023 /* FMDBManager.m in Sources */,
 				F54D82A317E8BFBB0067A023 /* AutoShowRecord.m in Sources */,
+				39EF1D61181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m in Sources */,
 				F54D82A417E8BFBB0067A023 /* CubeCommandDispatcher.m in Sources */,
 				F54D82A517E8BFBB0067A023 /* CubeDownloadCommandHandler.m in Sources */,
 				394B98A418056BBA00F657D2 /* BaseNavViewController.m in Sources */,
 				F54D82A617E8BFBB0067A023 /* CubeMessageCommandHandler.m in Sources */,
 				F54D82A717E8BFBB0067A023 /* CubeResetHandler.m in Sources */,
-				F54D82AD17E8BFBB0067A023 /* cube.xcdatamodeld in Sources */,
 				F54D82AE17E8BFBB0067A023 /* CubeApplication.m in Sources */,
 				F54D82AF17E8BFBB0067A023 /* CubeModule.m in Sources */,
 				F54D82B017E8BFBB0067A023 /* CudeModuleDownDictionary.m in Sources */,
@@ -7067,6 +7076,7 @@
 				F54D835117E8BFBB0067A023 /* SwipeView.m in Sources */,
 				F54D835417E8BFBB0067A023 /* iphoneLandingViewController.m in Sources */,
 				F54D835717E8BFBB0067A023 /* iphoneVoiceDetailViewController.m in Sources */,
+				39EF1D7F181BB9F300AB7F0C /* cube.xcdatamodeld in Sources */,
 				F54D835917E8BFBB0067A023 /* CubeWebViewController.m in Sources */,
 				F54D835A17E8BFBB0067A023 /* DetailViewController.m in Sources */,
 				F54D835C17E8BFBB0067A023 /* MessagesViewController.m in Sources */,
@@ -7162,12 +7172,12 @@
 				39D9E9BD17F27C03001ED6F5 /* AutoDownLoadRecord.m in Sources */,
 				39D9E9BE17F27C03001ED6F5 /* FMDBManager.m in Sources */,
 				39D9E9BF17F27C03001ED6F5 /* AutoShowRecord.m in Sources */,
+				39EF1D64181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m in Sources */,
 				39D9E9C017F27C03001ED6F5 /* CubeCommandDispatcher.m in Sources */,
 				39D9E9C117F27C03001ED6F5 /* CubeDownloadCommandHandler.m in Sources */,
 				394B98A718056BBA00F657D2 /* BaseNavViewController.m in Sources */,
 				39D9E9C217F27C03001ED6F5 /* CubeMessageCommandHandler.m in Sources */,
 				39D9E9C317F27C03001ED6F5 /* CubeResetHandler.m in Sources */,
-				39D9E9C417F27C03001ED6F5 /* cube.xcdatamodeld in Sources */,
 				39D9E9C517F27C03001ED6F5 /* CubeApplication.m in Sources */,
 				39D9E9C617F27C03001ED6F5 /* CubeModule.m in Sources */,
 				39D9E9C717F27C03001ED6F5 /* CudeModuleDownDictionary.m in Sources */,
@@ -7234,6 +7244,7 @@
 				39D9EA1117F27C03001ED6F5 /* iphoneLandingViewController.m in Sources */,
 				39D9EA1217F27C03001ED6F5 /* iphoneVoiceDetailViewController.m in Sources */,
 				39D9EA1317F27C03001ED6F5 /* CubeWebViewController.m in Sources */,
+				39EF1D82181BB9F300AB7F0C /* cube.xcdatamodeld in Sources */,
 				39D9EA1417F27C03001ED6F5 /* DetailViewController.m in Sources */,
 				39D9EA1517F27C03001ED6F5 /* MessagesViewController.m in Sources */,
 				39D9EA1617F27C03001ED6F5 /* UIViewController+SEViewController.m in Sources */,
@@ -7329,12 +7340,12 @@
 				39E0529717F00AEA00BCF7F8 /* AutoDownLoadRecord.m in Sources */,
 				39E0529817F00AEA00BCF7F8 /* FMDBManager.m in Sources */,
 				39E0529917F00AEA00BCF7F8 /* AutoShowRecord.m in Sources */,
+				39EF1D62181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m in Sources */,
 				39E0529A17F00AEA00BCF7F8 /* CubeCommandDispatcher.m in Sources */,
 				39E0529B17F00AEA00BCF7F8 /* CubeDownloadCommandHandler.m in Sources */,
 				394B98A518056BBA00F657D2 /* BaseNavViewController.m in Sources */,
 				39E0529C17F00AEA00BCF7F8 /* CubeMessageCommandHandler.m in Sources */,
 				39E0529D17F00AEA00BCF7F8 /* CubeResetHandler.m in Sources */,
-				39E0529E17F00AEA00BCF7F8 /* cube.xcdatamodeld in Sources */,
 				39E0529F17F00AEA00BCF7F8 /* CubeApplication.m in Sources */,
 				39E052A017F00AEA00BCF7F8 /* CubeModule.m in Sources */,
 				39E052A117F00AEA00BCF7F8 /* CudeModuleDownDictionary.m in Sources */,
@@ -7401,6 +7412,7 @@
 				39E052EF17F00AEA00BCF7F8 /* iphoneLandingViewController.m in Sources */,
 				39E052F017F00AEA00BCF7F8 /* iphoneVoiceDetailViewController.m in Sources */,
 				39E052F117F00AEA00BCF7F8 /* CubeWebViewController.m in Sources */,
+				39EF1D80181BB9F300AB7F0C /* cube.xcdatamodeld in Sources */,
 				39E052F217F00AEA00BCF7F8 /* DetailViewController.m in Sources */,
 				39E052F317F00AEA00BCF7F8 /* MessagesViewController.m in Sources */,
 				39E052F417F00AEA00BCF7F8 /* UIViewController+SEViewController.m in Sources */,
@@ -7496,12 +7508,12 @@
 				39E9C597180EBAAA004CEF1D /* AutoDownLoadRecord.m in Sources */,
 				39E9C598180EBAAA004CEF1D /* FMDBManager.m in Sources */,
 				39E9C599180EBAAA004CEF1D /* AutoShowRecord.m in Sources */,
+				39EF1D65181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m in Sources */,
 				39E9C59A180EBAAA004CEF1D /* CubeCommandDispatcher.m in Sources */,
 				39E9C59B180EBAAA004CEF1D /* CubeDownloadCommandHandler.m in Sources */,
 				39E9C59C180EBAAA004CEF1D /* BaseNavViewController.m in Sources */,
 				39E9C59D180EBAAA004CEF1D /* CubeMessageCommandHandler.m in Sources */,
 				39E9C59E180EBAAA004CEF1D /* CubeResetHandler.m in Sources */,
-				39E9C59F180EBAAA004CEF1D /* cube.xcdatamodeld in Sources */,
 				39E9C5A0180EBAAA004CEF1D /* CubeApplication.m in Sources */,
 				39E9C5A1180EBAAA004CEF1D /* CubeModule.m in Sources */,
 				39E9C5A2180EBAAA004CEF1D /* MainViewViewController.m in Sources */,
@@ -7568,6 +7580,7 @@
 				39E9C5E4180EBAAA004CEF1D /* iphoneLandingViewController.m in Sources */,
 				39E9C5E5180EBAAA004CEF1D /* iphoneVoiceDetailViewController.m in Sources */,
 				39E9C5E6180EBAAA004CEF1D /* CubeWebViewController.m in Sources */,
+				39EF1D83181BB9F300AB7F0C /* cube.xcdatamodeld in Sources */,
 				39E9C5E7180EBAAA004CEF1D /* DetailViewController.m in Sources */,
 				39E9C5E8180EBAAA004CEF1D /* MessagesViewController.m in Sources */,
 				39E9C5E9180EBAAA004CEF1D /* UIViewController+SEViewController.m in Sources */,
@@ -7663,12 +7676,12 @@
 				39FF0B5117F13CBB0086B76C /* AutoDownLoadRecord.m in Sources */,
 				39FF0B5217F13CBB0086B76C /* FMDBManager.m in Sources */,
 				39FF0B5317F13CBB0086B76C /* AutoShowRecord.m in Sources */,
+				39EF1D63181BB7F100AB7F0C /* XMPPIMActorFriendQueue.m in Sources */,
 				39FF0B5417F13CBB0086B76C /* CubeCommandDispatcher.m in Sources */,
 				39FF0B5517F13CBB0086B76C /* CubeDownloadCommandHandler.m in Sources */,
 				394B98A618056BBA00F657D2 /* BaseNavViewController.m in Sources */,
 				39FF0B5617F13CBB0086B76C /* CubeMessageCommandHandler.m in Sources */,
 				39FF0B5717F13CBB0086B76C /* CubeResetHandler.m in Sources */,
-				39FF0B5817F13CBB0086B76C /* cube.xcdatamodeld in Sources */,
 				39FF0B5917F13CBB0086B76C /* CubeApplication.m in Sources */,
 				39FF0B5A17F13CBB0086B76C /* CubeModule.m in Sources */,
 				390E10AB1809339800B2BC81 /* MainViewViewController.m in Sources */,
@@ -7735,6 +7748,7 @@
 				39FF0BA717F13CBB0086B76C /* iphoneLandingViewController.m in Sources */,
 				39FF0BA817F13CBB0086B76C /* iphoneVoiceDetailViewController.m in Sources */,
 				39FF0BA917F13CBB0086B76C /* CubeWebViewController.m in Sources */,
+				39EF1D81181BB9F300AB7F0C /* cube.xcdatamodeld in Sources */,
 				39FF0BAA17F13CBB0086B76C /* DetailViewController.m in Sources */,
 				39FF0BAB17F13CBB0086B76C /* MessagesViewController.m in Sources */,
 				39FF0BAC17F13CBB0086B76C /* UIViewController+SEViewController.m in Sources */,
@@ -8382,19 +8396,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		F54D7FB317E8BFB90067A023 /* cube.xcdatamodeld */ = {
+		39EF1D74181BB9F300AB7F0C /* cube.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				F54D7FB417E8BFBA0067A023 /* cube.xcdatamodel */,
-				F54D7FB517E8BFBA0067A023 /* cube0409.xcdatamodel */,
-				F54D7FB617E8BFBA0067A023 /* cube0505.xcdatamodel */,
-				F54D7FB717E8BFBA0067A023 /* cube0707.xcdatamodel */,
-				F54D7FB817E8BFBA0067A023 /* cube0808.xcdatamodel */,
-				F54D7FB917E8BFBA0067A023 /* cube0827.xcdatamodel */,
-				F54D7FBA17E8BFBA0067A023 /* cube0911.xcdatamodel */,
-				F5F9260418100A20004B3015 /* cube1017.xcdatamodel */,
+				39EF1D75181BB9F300AB7F0C /* cube.xcdatamodel */,
+				39EF1D76181BB9F300AB7F0C /* cube0409.xcdatamodel */,
+				39EF1D77181BB9F300AB7F0C /* cube0505.xcdatamodel */,
+				39EF1D78181BB9F300AB7F0C /* cube0707.xcdatamodel */,
+				39EF1D79181BB9F300AB7F0C /* cube0808.xcdatamodel */,
+				39EF1D7A181BB9F300AB7F0C /* cube0827.xcdatamodel */,
+				39EF1D7B181BB9F300AB7F0C /* cube0911.xcdatamodel */,
+				39EF1D7C181BB9F300AB7F0C /* cube1015.xcdatamodel */,
+				39EF1D7D181BB9F300AB7F0C /* cube1017.xcdatamodel */,
+				39EF1D7E181BB9F300AB7F0C /* cube1022.xcdatamodel */,
 			);
-			currentVersion = F5F9260418100A20004B3015 /* cube1017.xcdatamodel */;
+			currentVersion = 39EF1D7E181BB9F300AB7F0C /* cube1022.xcdatamodel */;
 			path = cube.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

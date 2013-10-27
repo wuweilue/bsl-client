@@ -36,7 +36,6 @@
     </entity>
     <entity name="MessageRecord" representedClassName="MessageRecord" syncable="YES">
         <attribute name="alert" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="allContent" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="badge" optional="YES" attributeType="Boolean" defaultValueString="0" syncable="YES"/>
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="faceBackId" optional="YES" attributeType="String" syncable="YES"/>

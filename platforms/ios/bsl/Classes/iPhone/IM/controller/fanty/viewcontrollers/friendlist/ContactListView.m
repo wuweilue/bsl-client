@@ -14,37 +14,22 @@
 #import "ContactCell.h"
 
 
-NSInteger contactListViewSort(id obj1, id obj2,void* context){
-    UserInfo* info=(UserInfo*)obj1;
-    if([info.userStatue length]>0)
-        return (NSComparisonResult)NSOrderedAscending;
-    else
-    return (NSComparisonResult)NSOrderedDescending;
-};
-
-
-@interface ContactListView()<UITableViewDataSource,UITableViewDelegate,ChatDelegate,NSFetchedResultsControllerDelegate,UISearchBarDelegate,TouchScrollerDelegate>{
-
-    BOOL isLoadingUserInfo;
-    BOOL isFirstLoadData;
-
-    NSManagedObjectContext *managedObjectContext;
+@interface ContactListView()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,UISearchBarDelegate,TouchScrollerDelegate>{
     
-    NSFetchedResultsController *fetchedResultsController;
-    
-    NSMutableDictionary *friendsListDict;
-    
-    NSArray*  headerArray;
+    UISearchBar* searchBar;
+    TouchTableView* tableView;
+    NSTimer* friendListTimeOut;
+
+    NSMutableArray* friendGroups;
     NSArray* friendList;
-
-    
-    int selectedIndex;
+    NSString* selectedGroup;
 }
-
--(void)getFriendsUserInfo;
+-(void)friendsUpdate;
+-(void)friendsUpdateProcess;
+-(void)friendsUpdateAlone;
+-(void)loadFriendsGroup;
+-(void)loadFriends;
 -(void)headerClick:(UIButton*)button;
--(void)showLoadData;
--(void)delayReloadTimeEvent;
 -(void)friendListTimeOutEvent;
 @end
 
@@ -54,36 +39,12 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        selectedIndex=0;
-        isFirstLoadData=YES;
         self.userInteractionEnabled=YES;
-        friendsListDict=[[NSMutableDictionary alloc] initWithCapacity:2];
-        managedObjectContext = [ShareAppDelegate xmpp].managedObjectContext;
-        
-        
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        // Edit the entity name as appropriate.
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"UserInfo" inManagedObjectContext:managedObjectContext];
-        [fetchRequest setEntity:entity];
-        [fetchRequest setFetchBatchSize:20];
-        //排序
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"userGroup" ascending:YES] ;
-        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"userStatue" ascending:NO];
-        NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"userName" ascending:NO];
-        
-        NSArray *sortDescriptors = @[sortDescriptor,sortDescriptor1,sortDescriptor2];
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        
-        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:@"userGroup" cacheName:nil];
-        fetchedResultsController.delegate = self;
-        
-        NSError *error = nil;
-        if (![fetchedResultsController performFetch:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-
+        friendGroups=[[NSMutableArray alloc] initWithCapacity:2];
         searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, frame.size.width, 44.0f)];
+        
+        [self loadFriendsGroup];
+        
         if([[[UIDevice currentDevice] systemVersion] floatValue]>=7){
             searchBar.tintColor=[UIColor grayColor];
         }
@@ -101,58 +62,41 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         tableView.touchDelegate=self;
         [self addSubview:tableView];
 
-        AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        del.xmpp.chatDelegate = self;
-        
-        [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(starRefresh) name:@"STARTRREFRESHTABLEVIEW" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(friendsUpdate) name:kNOTIFICATION_UPDATE_FRIENDSFINISH object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(friendsUpdateProcess) name:kNOTIFICATION_UPDATE_FRIENDSPROCESS object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(friendsUpdateAlone) name:kNOTIFICATION_UPDATE_FRIENDS object:nil];
 
-        [self delayReloadTimeEvent];
     }
     return self;
 }
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    del.xmpp.chatDelegate = nil;
-
     [friendListTimeOut invalidate];
-    managedObjectContext=nil;
-    fetchedResultsController.delegate=nil;
-    fetchedResultsController=nil;
-    [laterReloadTimer invalidate];
-    
     
 }
 
 -(void)clear{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    del.xmpp.chatDelegate = nil;
-    
     [friendListTimeOut invalidate];
     friendListTimeOut=nil;
 }
 
--(NSDictionary*)friendsList{
-    return  friendsListDict;
-}
-
--(void)loadData{
-    if(friendListTimeOut!=nil || isLoadingUserInfo || [ShareAppDelegate xmpp].friendListIsFinded)return;
-    if(isFirstLoadData || [[fetchedResultsController sections] count]== 0){
-        isFirstLoadData=NO;
+-(void)syncFriends{
+    if(friendListTimeOut!=nil || [ShareAppDelegate xmpp].friendListIsFinded!=XMPPFriendsStatusNone)return;
+//    if([friendGroups count]<1){
         if ([[ShareAppDelegate xmpp] isConnected]) {
             [[ShareAppDelegate xmpp] findFriendsList];
             [SVProgressHUD showWithStatus:@"正在获取好友列表..."];
             
-            friendListTimeOut=[NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(friendListTimeOutEvent) userInfo:nil repeats:NO];
+            [friendListTimeOut invalidate];
+            friendListTimeOut=[NSTimer scheduledTimerWithTimeInterval:8.0f target:self selector:@selector(friendListTimeOutEvent) userInfo:nil repeats:NO];
             
         }else{
             [SVProgressHUD showErrorWithStatus:@"即时通讯没有连接！"];
         }
         
-    }
+//    }
 }
 
 -(void)friendListTimeOutEvent{
@@ -160,138 +104,99 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
     friendListTimeOut=nil;
     if(self.superview!=nil)
         [SVProgressHUD showErrorWithStatus:@"即时通讯连接超时！"];
+}
+
+
+-(void)friendsUpdateProcess{
+    [friendListTimeOut invalidate];
+    friendListTimeOut=[NSTimer scheduledTimerWithTimeInterval:8.0f target:self selector:@selector(friendListTimeOutEvent) userInfo:nil repeats:NO];
 
 }
 
--(void)showLoadData{
-    NSLog(@"showLoadData 1");
+-(void)loadFriendsGroup{
     NSString* searchText=[searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    headerArray=nil;
-    friendList=nil;
+
+    [friendGroups removeAllObjects];
     if([searchText length]<1){
-        NSLog(@"showLoadData 2");
-
-        headerArray=[friendsListDict allKeys] ;
-        if(selectedIndex>-1 && selectedIndex<[headerArray count]){
-            NSString* key=[headerArray objectAtIndex:selectedIndex];
-            friendList=[friendsListDict objectForKey:key] ;
-        }
-        NSLog(@"showLoadData 3");
-
-    }
-    else{
-        NSLog(@"showLoadData 4");
-
-        headerArray=[NSArray arrayWithObjects:@"搜索结果", nil] ;
-        NSMutableArray* list=[[NSMutableArray alloc] initWithCapacity:2];
-        for(NSArray* array in [friendsListDict allValues]){
-            for(UserInfo* userInfo in array){
-                if([[[userInfo name] lowercaseString] rangeOfString:searchText].length>0 || [[userInfo.userJid lowercaseString] rangeOfString:searchText].length>0)
-                    [list addObject:userInfo];
+        NSPredicate *predicate = [NSPredicate predicateWithValue:YES];
+        NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"UserInfo"];
+        [fetchRequest setPredicate:predicate];
+        //排序
+        NSArray* friends = [[ShareAppDelegate xmpp].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+        
+        for(UserInfo* userInfo in friends){
+//            NSString* group=NSLocalizedString(userInfo.userGroup,nil);
+            NSString* group=userInfo.userGroup;
+            BOOL add=YES;
+            for(NSString* groupName in friendGroups){
+                if([groupName isEqualToString:group]){
+                    add=NO;
+                    break;
+                }
+            }
+            if(add){
+                [friendGroups addObject:group];
             }
         }
-        NSLog(@"showLoadData 5");
-
-        friendList=[list sortedArrayUsingFunction:contactListViewSort context:nil];
-        NSLog(@"showLoadData 6");
-
     }
-    [tableView reloadData];
+    else{
+        [friendGroups addObject:@"搜索结果"];
+    }
+}
+
+-(void)loadFriends{
+    NSString* searchText=[searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    NSLog(@"showLoadData 7");
+    friendList=nil;
+    if([searchText length]<1){
+        if([selectedGroup length]>0){
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userGroup==%@",selectedGroup];
+            NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"UserInfo"];
+            [fetchRequest setPredicate:predicate];
+            //排序
+            NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"userStatue" ascending:NO];
+            NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"userName" ascending:NO];
+            NSArray *sortDescriptors = @[sortDescriptor1,sortDescriptor2];
+            [fetchRequest setSortDescriptors:sortDescriptors];
+            friendList = [[ShareAppDelegate xmpp].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+
+        }
+    }
+    else{
+        searchText=[searchText lowercaseString];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userJid CONTAINS %@ or userName CONTAINS %@",searchText,searchText];
+        NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"UserInfo"];
+        [fetchRequest setPredicate:predicate];
+        //排序
+        NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"userStatue" ascending:NO];
+        NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"userName" ascending:NO];
+        NSArray *sortDescriptors = @[sortDescriptor1,sortDescriptor2];
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        friendList = [[ShareAppDelegate xmpp].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    }
 
 }
 
--(void)starRefresh{
-    
-    
+-(void)friendsUpdate{
     [friendListTimeOut invalidate];
     friendListTimeOut=nil;
-
-    if(isLoadingUserInfo)return;
     
     if([SVProgressHUD isVisible]){
         [SVProgressHUD dismiss];
     }
-    [self showLoadData];
-    [self getFriendsUserInfo];
+    
+    [self loadFriendsGroup];
+    [self loadFriends];
+    [tableView reloadData];
+
 }
 
--(void)getFriendsUserInfo{
-    if(isLoadingUserInfo)return;
-    isLoadingUserInfo=YES;
-    NSMutableArray* userIds = [[NSMutableArray alloc]init];
-    NSMutableArray* userSexs=[[NSMutableArray alloc] init];
+-(void)friendsUpdateAlone{
+    [self loadFriendsGroup];
+    [self loadFriends];
+    [tableView reloadData];
 
-    for(NSArray* array in [friendsListDict allValues]){
-        for (UserInfo* userInfo in array) {
-            if ([userInfo.userSex length]<1) {
-                [userIds addObject:userInfo.userJid];
-            }
-        }
-    }
-    
-    
-    
-    if([userIds count]>0){
-        AppDelegate *del = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-
-        if (!del.xmpp.xmppvCardTempModule) {
-            [del.xmpp newvCard];
-        }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            //开异步读取好友VCard
-            for (NSString* jid in userIds) {
-                if(self.superview==nil)break;
-                XMPPvCardTemp * xmppvCardTemp =[ del.xmpp.xmppvCardTempModule fetchvCardTempForJID:[XMPPJID jidWithString:jid]];
-                NSString*useSex =  [[[xmppvCardTemp elementForName:@"N"] elementForName:@"MIDDLE"] stringValue];
-                if([useSex length]>0)
-                    [userSexs addObject:useSex];
-                else
-                    [userSexs addObject:@""];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if(self.superview==nil)return;
-                for(NSArray* array in [friendsListDict allValues]){
-                    for (UserInfo* userInfo in array) {
-                        if ([userInfo.userSex length]<1) {
-                            [userIds enumerateObjectsUsingBlock:^(id obj,NSUInteger index,BOOL* stop){
-                                if(index<[userSexs count]){
-                                    NSString* jid=obj;
-                                    if([jid isEqualToString:userInfo.userJid]){
-                                        *stop=YES;
-                                        
-                                        userInfo.userSex=[userSexs objectAtIndex:index];
-                                        
-                                    }
-                                }
-                                else{
-                                    *stop=YES;
-                                }
-                            
-                            }];
-                        }
-                    }
-                }
-
-                
-                if([managedObjectContext hasChanges])
-                    [managedObjectContext save:nil];
-                [self delayReloadTimeEvent];
-                isLoadingUserInfo=NO;
-            });
-        });
-    }
-    else{
-        userIds=nil;
-        userSexs=nil;
-        isLoadingUserInfo=NO;
-    }
-    
-    
 }
-
 
 - (UIImage *)imageTransform:(UIImage *)image rotation:(UIImageOrientation)orientation{
     long double rotate = 0.0;
@@ -350,91 +255,16 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 }
 
 -(void)headerClick:(UIButton*)button{
-    if(selectedIndex==button.tag)
-        selectedIndex=-1;
-    else
-        selectedIndex=button.tag;
-    [self showLoadData];
-}
-
--(void)delayReloadTimeEvent{
-    [laterReloadTimer invalidate];
-    laterReloadTimer=nil;
-    [friendsListDict removeAllObjects];
-    
-    for(id<NSFetchedResultsSectionInfo> sectionInfo in [fetchedResultsController sections]){
-        
-        @autoreleasepool {
-            
-            NSString* key=NSLocalizedString([sectionInfo name],nil);
-            
-            NSMutableArray* array=[[NSMutableArray alloc] initWithCapacity:2];
-            for(UserInfo* info in [fetchedResultsController fetchedObjects]){
-                NSString* group=NSLocalizedString(info.userGroup,nil);
-                if([group isEqualToString:key]){
-                    [array addObject:info];
-                }
-            }
-            
-            NSArray* __array=[array sortedArrayUsingFunction:contactListViewSort context:nil];
-            [friendsListDict setObject:__array forKey:key];
-            
-        }
-        
+    NSString* groupName=[friendGroups objectAtIndex:button.tag];
+    if([groupName isEqualToString:selectedGroup]){
+        selectedGroup=nil;
     }
-    [self showLoadData];
-}
-
-#pragma mark  catdelegate
-
--(void)showFriends:(NSXMLElement*)element{
-    if(self.superview==nil)return;
-    NSArray *items = [element elementsForName:@"item"];
-    for (int textIndex=0 ; textIndex < [items count] ; textIndex ++){
-        NSXMLElement *item=(NSXMLElement *)[items objectAtIndex:textIndex];
-        NSString *group=[[item elementForName:@"group"] stringValue];
-        if (group == nil || [group isEqualToString:@""]) {
-            group = @"好友列表";
-        }
-        //先判断jid是否存在
-        NSManagedObjectContext *context = [fetchedResultsController managedObjectContext];
-        NSEntityDescription *entity = [[fetchedResultsController fetchRequest] entity];
-        
-        NSEntityDescription *entityDescription = [[fetchedResultsController fetchRequest] entity];
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:entityDescription];
-        NSPredicate *pred = [NSPredicate predicateWithFormat:@"(userJid = %@ )",[[item attributeForName:@"jid"] stringValue],[[item attributeForName:@"group"] stringValue]];
-        [request setPredicate:pred];
-        NSError *error = nil;
-        NSArray *objects = [context executeFetchRequest:request error:&error];
-        
-        if ([objects count] >0) {
-        
-        }else{
-            NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-            [newManagedObject setValue:group forKey:@"userGroup"];
-            [newManagedObject setValue:[[item attributeForName:@"name"] stringValue] forKey:@"userName"];
-            [newManagedObject setValue:[[item attributeForName:@"jid"] stringValue] forKey:@"userJid"];
-            [newManagedObject setValue:[[item attributeForName:@"subscription"] stringValue] forKey:@"userSubscription"];
-            // Save the context.
-            [context save:&error];
-        }
-        
+    else{
+        selectedGroup=groupName;
     }
+    [self loadFriends];
+    [tableView reloadData];
 }
-
-#pragma mark  fetchedresultscontroller  delegate
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
-       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath{
-    
-    if(self.superview!=nil){
-        [laterReloadTimer invalidate];
-        laterReloadTimer=[NSTimer scheduledTimerWithTimeInterval:0.7f target:self selector:@selector(delayReloadTimeEvent) userInfo:nil repeats:NO];
-    }
-}
-
 
 #pragma mark  tableview delegate
 
@@ -442,7 +272,6 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
      touchesBegan:(NSSet *)touches
         withEvent:(UIEvent *)event{
     [searchBar resignFirstResponder];
-    
     if([self.delegate respondsToSelector:@selector(contactListDidTouch:)])
         [self.delegate contactListDidTouch:self];
 }
@@ -455,7 +284,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return  [headerArray count];
+    return  [friendGroups count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -464,9 +293,9 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     NSString* searchText=[searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString* groupName=[friendGroups objectAtIndex:section];
 
     if([searchText length]<1){
-        NSString* key=[headerArray objectAtIndex:section];
         UIButton* button=[UIButton buttonWithType:UIButtonTypeCustom];
         button.frame=CGRectMake(0.0f, 0.0f, self.frame.size.width, 40.0f);
         button.tag=section;
@@ -481,7 +310,7 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         rect.origin.y=(button.frame.size.height-rect.size.height)*0.5f-6.0f;
         arrowImageView.frame= rect;
         [button addSubview:arrowImageView];
-        if (selectedIndex == section) {
+        if ([groupName isEqualToString:selectedGroup]) {
             arrowImageView.image  = [self imageTransform:arrowImageView.image rotation:UIImageOrientationRight];
         }
         
@@ -491,12 +320,12 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         titleLabel.shadowOffset=CGSizeMake(0.0f, 0.5f);
         titleLabel.font=[UIFont boldSystemFontOfSize:15.0f];
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.text=key;
+        titleLabel.text=NSLocalizedString(groupName,nil);
         [button addSubview:titleLabel];
+        titleLabel=nil;
         return button;
     }
     else{
-        NSString* key=[headerArray objectAtIndex:section];
         UIImageView* view =[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.frame.size.width, 40.0f)];
         view.image=[UIImage imageNamed:@"table_header.png"];
         
@@ -506,11 +335,10 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
         titleLabel.shadowOffset=CGSizeMake(0.0f, 0.5f);
         titleLabel.font=[UIFont boldSystemFontOfSize:15.0f];
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.text=key;
+        titleLabel.text=groupName;
         [view addSubview:titleLabel];
-        
+        titleLabel=nil;
         return view;
-
     }
 }
 
@@ -521,11 +349,13 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     NSString* searchText=[searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    NSString* groupName=[friendGroups objectAtIndex:section];
 
-    if([searchText length]<1 && section==selectedIndex)
+
+    if(([searchText length]<1 && [groupName isEqualToString:selectedGroup]) || [searchText length]>0)
         return [friendList count];
-    else if([searchText length]>0)
-        return [friendList count];
+    
     return 0.0f;
 }
 
@@ -570,7 +400,8 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 -(void)tableView:(UITableView *)__tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [__tableView deselectRowAtIndexPath:indexPath animated:YES];
     [searchBar resignFirstResponder];
-    if(laterReloadTimer!=nil)return;
+
+    
     UserInfo* user=[friendList objectAtIndex:[indexPath row]];
     if([self.delegate respondsToSelector:@selector(contactListDidSelected:userInfo:)])
         [self.delegate contactListDidSelected:self userInfo:user];
@@ -602,7 +433,11 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
     if([self.delegate respondsToSelector:@selector(contactListSearchBarTextChanged:searchBar:)])
         [self.delegate contactListSearchBarTextChanged:self searchBar:searchBar];
 
-    [self showLoadData];
+
+    [self loadFriendsGroup];
+    [self loadFriends];
+    [tableView reloadData];
+
     [searchBar becomeFirstResponder];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)_searchBar{
@@ -612,7 +447,12 @@ NSInteger contactListViewSort(id obj1, id obj2,void* context){
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)_searchBar{
     searchBar.text=nil;
-    [self showLoadData];
+
+    [self loadFriendsGroup];
+    [self loadFriends];
+    [tableView reloadData];
+
+    
     if([self.delegate respondsToSelector:@selector(contactListSearchBarCancelButtonClicked:searchBar:)])
         [self.delegate contactListSearchBarCancelButtonClicked:self searchBar:searchBar];
 }

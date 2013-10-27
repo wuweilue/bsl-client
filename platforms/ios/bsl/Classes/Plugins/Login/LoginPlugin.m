@@ -122,15 +122,29 @@
             NSDictionary* messageDictionary = [data objectFromJSONData];
             NSString* message = [messageDictionary objectForKey:@"message"];
             if (message !=nil) {
-
-                NSLog(@"%@",message);
-                UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"登录失败" message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                if([SVProgressHUD isVisible]){
+                    [SVProgressHUD dismiss];
+                }
+                UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"登录失败" message:@"用户名或密码不正确" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 [alert show];
                 alert=nil;
             }else{
             NSString* messageAlert =   [messageDictionary objectForKey:@"message"];
             NSNumber* number =  [messageDictionary objectForKey:@"result"];
             if ([number boolValue]) {
+                if([[messageDictionary valueForKey:@"hasOperation"] isEqualToString:@"false"])
+                {
+                    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"用户没有操作权限请联系管理员" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                    [alert show];
+                    alert=nil;
+                    return;
+                }
+//                NSMutableDictionary *json = [NSMutableDictionary dictionary];
+//                [json setValue:@"true" forKey:@"isSuccess"];
+//                
+//                CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK  messageAsString:json.JSONString];
+//                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+//                return;
                 NSString* token = [messageDictionary objectForKey:@"sessionKey"];
                                                 
                 NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
@@ -151,17 +165,26 @@
                 
                 [defaults setObject:token forKey:@"token"];
                 [defaults setObject:userName forKey:@"LoginUser"];
-                //[defaults setObject:[messageDictionary objectForKey:@"phone"] forKey:@"phone"];
-                //[defaults setObject:[messageDictionary objectForKey:@"sex"] forKey:@"sex"];
-                //[defaults setObject:[messageDictionary objectForKey:@"zhName"] forKey:@"zhName"];
-                //[defaults setObject:[messageDictionary objectForKey:@"privileges"] forKey:@"privileges"];
+                [defaults setObject:[messageDictionary objectForKey:@"phone"] forKey:@"phone"];
+                [defaults setObject:[messageDictionary objectForKey:@"sex"] forKey:@"sex"];
+                [defaults setObject:[messageDictionary objectForKey:@"zhName"] forKey:@"zhName"];
+                [defaults setObject:[messageDictionary objectForKey:@"privileges"] forKey:@"privileges"];
                 //end ================
                 
                 [defaults synchronize];
+                
+                
+                
                 AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
                 [appDelegate didLogin];
 
             }else{
+                if([[messageDictionary valueForKey:@"result"] isEqualToString:@"false"])
+                {
+                    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"登录失败" message:@"用户名或密码不正确" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                    [alert show];
+                    alert=nil;
+                }
                 if ([messageAlert length] <= 0) {
                     messageAlert = @"服务器出错，请联系管理员！";
                 }
