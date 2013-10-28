@@ -54,22 +54,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CordovaLib/Classes/CDVInvokedUrlCommand.m"
-            timestampString = "401773090.430568"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "-massageArguments"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -225,7 +209,7 @@
                   symbolName = "-[VoiceObj downloadVoiceFile:]"
                   moduleName = "&#31227;&#21160;&#36816;&#34892;&#32593;"
                   urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/iPhone/IM/controller/fanty/logic/VoiceUploadManager.m"
-                  timestampString = "404633541.817663"
+                  timestampString = "404644648.171914"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "149"
@@ -239,7 +223,7 @@
                   symbolName = "__30-[VoiceObj downloadVoiceFile:]_block_invoke159"
                   moduleName = "&#31227;&#21160;&#36816;&#34892;&#32593;"
                   urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/iPhone/IM/controller/fanty/logic/VoiceUploadManager.m"
-                  timestampString = "404633541.818105"
+                  timestampString = "404644648.172559"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "149"
@@ -470,6 +454,22 @@
             startingLineNumber = "123"
             endingLineNumber = "123"
             landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bsl/Classes/Plugins/Login/LoginPlugin.m"
+            timestampString = "404642443.261895"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "-login:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
