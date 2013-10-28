@@ -192,7 +192,7 @@
     [fetchController performFetch:NULL];
     
     for(id<NSFetchedResultsSectionInfo> sectionInfo in [fetchController sections]){
-        NSString* key=NSLocalizedString([sectionInfo name],nil);
+        NSString* key=[sectionInfo name];
         NSMutableArray* array=[[NSMutableArray alloc] initWithCapacity:2];
         for(UserInfo* info in [fetchController fetchedObjects]){
             if([info.userGroup isEqualToString:key]){
@@ -435,7 +435,7 @@
     titleLabel.shadowOffset=CGSizeMake(0.0f, 0.5f);
     titleLabel.font=[UIFont boldSystemFontOfSize:15.0f];
     titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.text=key;
+    titleLabel.text=NSLocalizedString(key,nil);
     [view addSubview:titleLabel];
     
     return view;

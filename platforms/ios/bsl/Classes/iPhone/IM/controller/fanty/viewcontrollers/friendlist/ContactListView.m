@@ -121,22 +121,20 @@
         NSPredicate *predicate = [NSPredicate predicateWithValue:YES];
         NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"UserInfo"];
         [fetchRequest setPredicate:predicate];
-        //排序
-        NSArray* friends = [[ShareAppDelegate xmpp].managedObjectContext executeFetchRequest:fetchRequest error:nil];
         
-        for(UserInfo* userInfo in friends){
+        NSEntityDescription *entity=[NSEntityDescription entityForName:@"UserInfo" inManagedObjectContext:[ShareAppDelegate xmpp].managedObjectContext];
+        NSDictionary *properties = [entity propertiesByName];
+        fetchRequest.entity=entity;
+        fetchRequest.propertiesToFetch = [NSArray arrayWithObject:[properties objectForKey:@"userGroup"]];
+        fetchRequest.returnsDistinctResults=YES;
+        fetchRequest.resultType = NSDictionaryResultType;
+        //排序
+        NSArray* groups = [[ShareAppDelegate xmpp].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+        
+        for(NSDictionary * dict in groups){
 //            NSString* group=NSLocalizedString(userInfo.userGroup,nil);
-            NSString* group=userInfo.userGroup;
-            BOOL add=YES;
-            for(NSString* groupName in friendGroups){
-                if([groupName isEqualToString:group]){
-                    add=NO;
-                    break;
-                }
-            }
-            if(add){
-                [friendGroups addObject:group];
-            }
+            NSString* group=[dict objectForKey:@"userGroup"];
+            [friendGroups addObject:group];
         }
     }
     else{

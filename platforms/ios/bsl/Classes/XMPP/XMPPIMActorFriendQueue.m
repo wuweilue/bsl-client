@@ -129,22 +129,56 @@ static XMPPIMActorFriendQueue* instance=nil;
     
     if([fetchedPersonArray count]>0){
         
+        NSMutableArray* ids=[[NSMutableArray alloc] initWithCapacity:2];
+        for(UserInfo* userInfo in fetchedPersonArray){
+            [ids addObject:userInfo.userJid];
+        }
+        
+        NSMutableArray* userSex=[[NSMutableArray alloc] initWithCapacity:2];
+        
+        fetchedPersonArray=nil;
+        
+        
         if (!delegate.xmpp.xmppvCardTempModule) {
             [delegate.xmpp newvCard];
         }
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             //开异步读取好友VCard
-            for (UserInfo* userInfo in fetchedPersonArray) {
+            
+            
+            
+            for (NSString* userJid in ids) {
                 if(isStop)break;
-                XMPPvCardTemp * xmppvCardTemp =[ delegate.xmpp.xmppvCardTempModule fetchvCardTempForJID:[XMPPJID jidWithString:userInfo.userJid]];
-                NSString*useSex =  [[[xmppvCardTemp elementForName:@"N"] elementForName:@"MIDDLE"] stringValue];
-                if([useSex length]>0){
-                    userInfo.userSex=useSex;
+                XMPPvCardTemp * xmppvCardTemp =[ delegate.xmpp.xmppvCardTempModule fetchvCardTempForJID:[XMPPJID jidWithString:userJid]];
+                NSString*sex =  [[[xmppvCardTemp elementForName:@"N"] elementForName:@"MIDDLE"] stringValue];
+                if([sex length]>0){
+                    [userSex addObject:sex];
+                }
+                else{
+                    [userSex addObject:@""];
                 }
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 if(isStop)return;
+                
+                NSPredicate *predicate = [NSPredicate predicateWithValue:YES];
+                NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"UserInfo"];
+                [fetchRequest setPredicate:predicate];
+                
+                NSArray *fetchedPersonArray = [delegate.xmpp.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+
+                for(UserInfo* userInfo in fetchedPersonArray){
+                    
+                    [ids enumerateObjectsUsingBlock:^(id userJid,NSUInteger index,BOOL*stop){
+                        if([userInfo.userJid isEqualToString:userJid]){
+                            userInfo.userSex=[userSex objectAtIndex:index];
+                            *stop=YES;
+                        }
+                    }];
+                }
+
+                
                 if([delegate.xmpp.managedObjectContext hasChanges])
                     [delegate.xmpp.managedObjectContext save:nil];
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNOTIFICATION_UPDATE_FRIENDS object:nil];
@@ -154,7 +188,6 @@ static XMPPIMActorFriendQueue* instance=nil;
     }
     else{
         fetchedPersonArray=nil;
-
     }
     
 }
