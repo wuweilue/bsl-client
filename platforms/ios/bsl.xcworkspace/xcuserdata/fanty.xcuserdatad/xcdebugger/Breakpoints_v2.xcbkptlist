@@ -210,52 +210,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "bsl/Classes/iPhone/IM/controller/fanty/logic/VoiceUploadManager.m"
-            timestampString = "403425592.688119"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
-            landmarkName = "-callApi"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[VoiceObj callApi]"
-                  moduleName = "&#21464;&#33394;&#40857;"
-                  urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/iPhone/IM/controller/fanty/logic/VoiceUploadManager.m"
-                  timestampString = "404560522.732562"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "110"
-                  endingLineNumber = "110"
-                  offsetFromSymbolStart = "1136">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__19-[VoiceObj callApi]_block_invoke131"
-                  moduleName = "&#21464;&#33394;&#40857;"
-                  urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/iPhone/IM/controller/fanty/logic/VoiceUploadManager.m"
-                  timestampString = "404560522.732798"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "110"
-                  endingLineNumber = "110"
-                  offsetFromSymbolStart = "18">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/iPhone/IM/controller/fanty/logic/VoiceUploadManager.m"
             timestampString = "403426189.655362"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -269,9 +223,9 @@
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[VoiceObj downloadVoiceFile:]"
-                  moduleName = "&#21464;&#33394;&#40857;"
+                  moduleName = "&#31227;&#21160;&#36816;&#34892;&#32593;"
                   urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/iPhone/IM/controller/fanty/logic/VoiceUploadManager.m"
-                  timestampString = "404560522.733061"
+                  timestampString = "404616076.406541"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "149"
@@ -282,10 +236,10 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__30-[VoiceObj downloadVoiceFile:]_block_invoke157"
-                  moduleName = "&#21464;&#33394;&#40857;"
+                  symbolName = "__30-[VoiceObj downloadVoiceFile:]_block_invoke159"
+                  moduleName = "&#31227;&#21160;&#36816;&#34892;&#32593;"
                   urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/iPhone/IM/controller/fanty/logic/VoiceUploadManager.m"
-                  timestampString = "404560522.733295"
+                  timestampString = "404616076.407115"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "149"
@@ -541,38 +495,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/XMPP/XMPPIMActorFriendQueue.m"
-            timestampString = "404560262.021825"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "-updateFriendUserInfo"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/XMPP/XMPPIMActor.m"
-            timestampString = "404560424.007763"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "755"
-            endingLineNumber = "755"
-            landmarkName = "-xmppStream:didReceiveIQ:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "bsl/Classes/XMPP/XMPPIMActor.m"
             timestampString = "404560426.388435"
             startingColumnNumber = "9223372036854775807"
@@ -580,38 +502,6 @@
             startingLineNumber = "54"
             endingLineNumber = "54"
             landmarkName = "-teardownStream"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/XMPP/XMPPIMActor.m"
-            timestampString = "404560428.803888"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "-setupXmppStream"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/iPhone/IM/controller/fanty/viewcontrollers/friendlist/ContactListView.m"
-            timestampString = "404560442.123627"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "-syncFriends"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

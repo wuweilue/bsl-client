@@ -92,7 +92,7 @@ static VoiceUploadManager* instance=nil;
     __block VoiceObj* objSelf=self;
     @autoreleasepool {
         
-        NSData* fileData = [[NSData alloc] initWithContentsOfFile:[Recorder downloadVoiceFile:self.urlVoiceFile] options:NSDataReadingMappedIfSafe error:nil];
+        NSData* fileData = [[NSData alloc] initWithContentsOfFile:[Recorder recordFile:self.urlVoiceFile] options:NSDataReadingMappedIfSafe error:nil];
         [requestT setData:fileData forKey:@"file"];
         fileData=nil;
     }
