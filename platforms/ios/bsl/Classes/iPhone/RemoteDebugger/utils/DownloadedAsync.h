@@ -31,8 +31,8 @@
 
 @property(nonatomic,strong) NSString* downloadUrl;
 @property(nonatomic,strong) NSString* downloadPath;
-@property(nonatomic,readonly) unsigned int downloadSize;
-@property(nonatomic,readonly) unsigned int totalsize;
+@property(nonatomic,assign) unsigned int downloadSize;
+@property(nonatomic,assign) unsigned int totalsize;
 @property(nonatomic,weak) id<DownloadedAsyncDelegate> delegate;
 
 -(void)start;

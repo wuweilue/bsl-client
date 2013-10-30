@@ -46,6 +46,22 @@
     
 }
 
+-(void)writeData:(NSData*)data{
+    if(fp!=nil){
+        fwrite([data bytes], 1, [data length], fp);
+    }
+
+}
+
+-(void)close{
+    if(fp!=nil){
+        fclose(fp);
+        fp=nil;
+    }
+    httpRequest=nil;
+
+}
+
 
 -(void)callHttp:(int)callIndex{
     if(fp!=nil){
@@ -66,48 +82,36 @@
     httpRequest.timeOutSeconds=30.0f;
     httpRequest.persistentConnectionTimeoutSeconds=15.0f;
     
+    __block DownloadedAsync* async=self;
     
     [httpRequest setHeadersReceivedBlock:^(NSDictionary* header){
-        totalsize=[[header objectForKey:@"Content-Length"] intValue];
+        async.totalsize=[[header objectForKey:@"Content-Length"] intValue];
     }];
     
     [httpRequest setDataReceivedBlock:^(NSData* data){
-    
-        if(fp!=nil){
-            fwrite([data bytes], 1, [data length], fp);
-        }
-        downloadSize+=[data length];
-        if([self.delegate respondsToSelector:@selector(process:now:)])
-            [self.delegate process:self now:YES];
+
+        [async writeData:data];
+        async.downloadSize+=[data length];
+        if([async.delegate respondsToSelector:@selector(process:now:)])
+            [async.delegate process:async now:YES];
 
     }];
     
     [httpRequest setCompletionBlock:^{
-        
-        if(fp!=nil){
-            fclose(fp);
-            fp=nil;
-        }
-        httpRequest=nil;
-        [self unZipOrFinish];
+        [async close];
+        [async unZipOrFinish];
         
     }];
     
     [httpRequest setFailedBlock:^{
-        if(fp!=nil){
-            fclose(fp);
-            fp=nil;
-        }
-        NSError* error=httpRequest.error;
-        httpRequest=nil;
+        [async close];
 
-        NSLog(@"%@",error);
         if(callIndex<3){
-            [self callHttp:(callIndex+1)];
+            [async callHttp:(callIndex+1)];
         }
         else{
-            if([self.delegate respondsToSelector:@selector(finish:success:)])
-                [self.delegate finish:self success:NO];
+            if([async.delegate respondsToSelector:@selector(finish:success:)])
+                [async.delegate finish:async success:NO];
         }
         
     }];
