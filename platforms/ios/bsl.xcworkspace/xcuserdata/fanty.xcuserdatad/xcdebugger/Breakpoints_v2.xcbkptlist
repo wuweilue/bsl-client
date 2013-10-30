@@ -38,22 +38,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "bsl/Classes/XMPP/XMPPIMActor.m"
-            timestampString = "403870667.211546"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "326"
-            endingLineNumber = "326"
-            landmarkName = "-xmppStreamWasToldToDisconnect:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -207,28 +191,28 @@
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[VoiceObj downloadVoiceFile:]"
-                  moduleName = "&#31227;&#21160;&#36816;&#34892;&#32593;"
+                  moduleName = "&#21464;&#33394;&#40857;"
                   urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/iPhone/IM/controller/fanty/logic/VoiceUploadManager.m"
-                  timestampString = "404725648.339044"
+                  timestampString = "404795115.04663"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "149"
                   endingLineNumber = "149"
-                  offsetFromSymbolStart = "860">
+                  offsetFromSymbolStart = "784">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "__30-[VoiceObj downloadVoiceFile:]_block_invoke159"
-                  moduleName = "&#31227;&#21160;&#36816;&#34892;&#32593;"
+                  moduleName = "&#21464;&#33394;&#40857;"
                   urlString = "file://localhost/Users/fanty/Documents/project/bsl-client/platforms/ios/bsl/Classes/iPhone/IM/controller/fanty/logic/VoiceUploadManager.m"
-                  timestampString = "404725648.339446"
+                  timestampString = "404795115.046891"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "149"
                   endingLineNumber = "149"
-                  offsetFromSymbolStart = "18">
+                  offsetFromSymbolStart = "30">
                </Location>
             </Locations>
          </BreakpointContent>
