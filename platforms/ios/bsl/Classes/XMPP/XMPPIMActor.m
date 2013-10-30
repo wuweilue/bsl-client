@@ -77,7 +77,7 @@
     xmppStream = nil;
 	xmppReconnect = nil;
     xmppRoster = nil;
-	xmppRosterStorage = nil;
+	//xmppRosterStorage = nil;
     xmppvCardTempModule = nil;
     xmppvCardStorage = nil;
     xmppMUC=nil;
